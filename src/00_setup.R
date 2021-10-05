@@ -27,11 +27,11 @@ library(grid)
 who_is_running<-'eap'
 #who_is_running<-'stp'
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
-  root_dir <- file.path("c:", "git", "b.affinis_probabilistic_crop_loading")
+  root_dir <- file.path("c:", "git", "pollinator_probabilistic_loading")
 }else if (Sys.info()[4]=="LZ26EPAULUKO"){
-  root_dir <- 'C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/GitHub/b.affinis_probabilistic_crop_loading'
+  root_dir <- 'C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/GitHub/"pollinator_probabilistic_loading"'
 }else{
-  root_dir <- file.path("/work", "HONEYBEE", who_is_running, "b.affinis_probabilistic_crop_loading")
+  root_dir <- file.path("/work", "HONEYBEE", who_is_running, "pollinator_probabilistic_loading")
 }
 print(root_dir)
 
