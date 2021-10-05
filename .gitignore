@@ -1,34 +1,40 @@
-data_in/
-data_out/
-data_in/CDL/*.tif 
-data_in/NLCD/*.tiff 
-data_in/CDL/*.tif 
-data_in/CDL/*.zip
-data_in/NLCD/*.zip
-data_in/*.zip
-*.RData
-*.Rhistory
-src/*.RData
-src/*.Rhistory
-data_in/CDL/*.txt
-data_in/NLCD/*.txt
-data_in/CoA/*.txt
-data_in/CAPS/*.txt
-data_in/PNSP/*.txt
-data_in/CDL/*.csv
-data_in/CAPS/*.csv
-data_in/NLCD/*.csv
-data_in/CoA/*.csv
-data_in/PNSP/*.csv
-data_in/CDL/*.dbf
-data_in/CAPS/*.dbf
-data_in/NLCD/*.dbf
-data_in/CoA/*.dbf
-data_in/PNSP/*.dbf
-data_in/CDL/*.xml
-data_in/CAPS/*.xml
-data_in/NLCD/*.xml
-data_in/CoA/*.xml
-data_in/PNSP/*.xml
+# History files
+.Rhistory
+.Rapp.history
 
+# Session Data files
+.RData
+
+# User-specific files
+.Ruserdata
+
+# Example code in package build process
+*-Ex.R
+
+# Output files from R CMD build
+/*.tar.gz
+
+# Output files from R CMD check
+/*.Rcheck/
+
+# RStudio files
+.Rproj.user/
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
+
+# knitr and R markdown default cache directories
+*_cache/
+/cache/
+
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+# R Environment Variables
+.Renviron
 
