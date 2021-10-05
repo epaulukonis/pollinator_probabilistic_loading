@@ -53,6 +53,7 @@ print(root_src)
 
 # nlcd
 nlcd_dir = file.path(root_data_in, "NLCD")
+print(nlcd_dir)
 print(list.files(path=nlcd_dir, all.files=TRUE, full.names=FALSE))
 # nlcd_zip<-list.files(path=nlcd_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
 # print(nlcd_zip)
@@ -63,6 +64,7 @@ print(list.files(path=nlcd_dir, all.files=TRUE, full.names=FALSE))
 #
 # cdl
 cdl_dir = file.path(root_data_in, "CDL")
+print(cdl_dir)
 print(list.files(path=cdl_dir, all.files=TRUE, full.names=FALSE))
 # cdl_zip<-list.files(path=cdl_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
 # print(cdl_zip)
@@ -74,6 +76,7 @@ print(list.files(path=cdl_dir, all.files=TRUE, full.names=FALSE))
 #
 #coa
 coa_dir = file.path(root_data_in, "CoA")
+print(coa_dir)
 print(list.files(path=coa_dir, all.files=TRUE, full.names=FALSE))
 # coa_zip<-list.files(path=coa_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
 # print(coa_zip)
@@ -85,6 +88,7 @@ print(list.files(path=coa_dir, all.files=TRUE, full.names=FALSE))
 #
 # caps
 caps_dir = file.path(root_data_in, "CAPS")
+print(caps_dir)
 print(list.files(path=caps_dir, all.files=TRUE, full.names=FALSE))
 # caps_zip<-list.files(path=caps_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
 # print(caps_zip)
@@ -96,6 +100,7 @@ print(list.files(path=caps_dir, all.files=TRUE, full.names=FALSE))
 #
 # pnsp
 pnsp_dir = file.path(root_data_in, "PNSP")
+print(pnsp_dir)
 print(list.files(path=pnsp_dir, all.files=TRUE, full.names=FALSE))
 # pnsp_zip<-list.files(path=pnsp_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
 # print(pnsp_zip)
@@ -107,6 +112,7 @@ print(list.files(path=pnsp_dir, all.files=TRUE, full.names=FALSE))
 #
 #
 bombus_dir = file.path(root_data_in, "bombus")
+print(bombus_dir)
 print(list.files(path=bombus_dir, all.files=TRUE, full.names=FALSE))
 # bombus_zip<-list.files(path=bombus_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
 # print(bombus_zip)
@@ -116,6 +122,7 @@ print(list.files(path=bombus_dir, all.files=TRUE, full.names=FALSE))
 # }
 #
 state_dir = file.path(root_data_in, "state")
+print(state_dir)
 print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 # state_zip<-list.files(path=state_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
 # print(state_zip)
@@ -129,5 +136,6 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 #source other files
 #source(file.path(root_src, "01a_nlcd_processing.R"))
 #source(file.path(root_src, "01b_cdl_processing.R"))
-
+source(file.path(root_src, "01_studyarea.R"))
+source(file.path(root_src, "02_formatting_cdl.R"))
 
