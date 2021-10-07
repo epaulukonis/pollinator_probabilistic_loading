@@ -42,27 +42,34 @@ cdl_out<-stack(out_1, out_2, cdl_base)
 
 
 writeRaster(cdl_out, filename = file.path(cdl_dir, "cdl_final.tif"), bylayer=TRUE, format="GTiff")
-# cdl_f<-file.path(cdl_dir, 
-#                    list.files(path=cdl_dir, pattern='_final.tif$', all.files=TRUE, full.names=FALSE))
-# cdl_f<-lapply(cdl_f, raster)#list new projected/fixed rasters
-# 
-# 
-# #Get accuracy and error data
-# cdl_acc<-file.path(cdl_acc_dir, 
-#                  list.files(path=cdl_acc_dir, pattern='.csv', all.files=TRUE, full.names=FALSE))
-# 
-# #make function mask and crop to county
-# mask_cdl<-function(y){
-#   CDL<-crop(y, county)
-#   CDL<-mask(y, county)
-# }
-# 
-# county_names<- state$COUNTY_NAM
-# for (county in county_names){
-#   
-# }
-# 
+cdl_f<-file.path(cdl_dir,
+                   list.files(path=cdl_dir, pattern='_final.tif$', all.files=TRUE, full.names=FALSE))
+cdl_f<-lapply(cdl_f, raster) #list new projected/fixed rasters
 
+
+#Get accuracy and error data
+#https://www.nass.usda.gov/Research_and_Science/Cropland/sarsfaqs2.php#Section3_22.0
+
+#note: users will need to format and organize CDL accuracy and error as specified in the demo data provided
+#if using code below
+cdl_acc<-file.path(cdl_acc_dir,
+                 list.files(path=cdl_acc_dir, pattern='.csv', all.files=TRUE, full.names=FALSE))
+cdl_acc<-list(cdl_acc)
+
+#make function mask and crop to county
+mask_cdl<-function(y){
+  CDL<-crop(y, county)
+  CDL<-mask(y, county)
+}
+
+county_names<- state$COUNTY_NAM
+for (county in county_names){
+
+}
+
+
+co<-"PEORIA" #set county
+county<-state[state$COUNTY_NAM == co,]
 
 #think about farming out the core processes to each state?
 #parrellel package

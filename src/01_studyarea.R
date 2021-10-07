@@ -30,8 +30,8 @@ state<-spTransform(state, crs(bomb_l)) #reproject
 # note that you may need to read out files to QGIS or other to look-up specific county
 
 # extract county
-co<-"PEORIA" #set county
-county<-state[state$COUNTY_NAM == co,]
+# co<-"PEORIA" #set county
+# county<-state[state$COUNTY_NAM == co,]
 # plot(county)
 # plot(bomb_l, add=T)
 
