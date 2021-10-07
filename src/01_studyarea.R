@@ -12,27 +12,27 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE)) #state
 print(list.files(path=bombus_dir, all.files=TRUE, full.names=FALSE)) #species
 
 state<-readOGR(state_dir, layer = "IL_BNDY_County_Py") #read in state
-plot(state)
-state #check crs of shapefile
+# plot(state)
+# state #check crs of shapefile
 
 # get species potential zones
 bomb_h <- readOGR(bombus_dir, layer = "RPBB_High_Potential_Zones_03172021")
 bomb_l <- readOGR(bombus_dir, layer = "RPBB_Low_Potential_Zones_03172021")
-plot(bomb_l)
-plot(bomb_h, add=T, col='red')
+# plot(bomb_l)
+# plot(bomb_h, add=T, col='red')
 
 state<-spTransform(state, crs(bomb_l)) #reproject 
 
-plot(state)
-plot(bomb_l, add=T, col='blue')
-plot(bomb_h, add=T, col='red')
+# plot(state)
+# plot(bomb_l, add=T, col='blue')
+# plot(bomb_h, add=T, col='red')
 
 # note that you may need to read out files to QGIS or other to look-up specific county
 
 # extract county
 co<-"PEORIA" #set county
 county<-state[state$COUNTY_NAM == co,]
-plot(county)
-plot(bomb_l, add=T)
+# plot(county)
+# plot(bomb_l, add=T)
 
 

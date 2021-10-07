@@ -38,19 +38,34 @@ out_2<-lapply(set_2, function(file){
   projectRaster(file, r1, method='ngb',crs(r1))
 })
 
-cdl_out_final<-stack(out_1, out_2, cdl_base)
-# pb<-progress_bar$new(total=560) #set up a progress bar
-# pb$tick(0) #start the progress bar at 0
+cdl_out<-stack(out_1, out_2, cdl_base)
 
 
 writeRaster(cdl_out, filename = file.path(cdl_dir, "cdl_final.tif"), bylayer=TRUE, format="GTiff")
+# cdl_f<-file.path(cdl_dir, 
+#                    list.files(path=cdl_dir, pattern='_final.tif$', all.files=TRUE, full.names=FALSE))
+# cdl_f<-lapply(cdl_f, raster)#list new projected/fixed rasters
+# 
+# 
+# #Get accuracy and error data
+# cdl_acc<-file.path(cdl_acc_dir, 
+#                  list.files(path=cdl_acc_dir, pattern='.csv', all.files=TRUE, full.names=FALSE))
+# 
+# #make function mask and crop to county
+# mask_cdl<-function(y){
+#   CDL<-crop(y, county)
+#   CDL<-mask(y, county)
+# }
+# 
+# county_names<- state$COUNTY_NAM
+# for (county in county_names){
+#   
+# }
+# 
 
-# cdl_stk<-file.path(cdl_dir, 
-#                    list.files(path=cdl_dir, pattern='final.tif$', all.files=TRUE, full.names=FALSE))
 
+#think about farming out the core processes to each state?
+#parrellel package
 
-#cdl_data[[1]]<-projectRaster(cdl_data[[1]], cdl_data[[22]], method='ngb', crs(cdl_data[[22]]))
-
-
-print("read in cdl rasters for all years into a list")
+print("CDL formatted, reconstructed, and corrected for accuracy/error")
 
