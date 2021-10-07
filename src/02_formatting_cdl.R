@@ -8,8 +8,8 @@ import_start_time <- Sys.time()
 print("stepping into 02_formatting_cdl.R")
 
 print(list.files(path=cdl_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-cdl_data <- file.path(cdl_dir, 
-                               list.files(path=cdl_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+print(cdl_dir)
+cdl_data <- file.path(cdl_dir, list.files(path=cdl_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 
 cdl_data<-lapply(cdl_data, raster) #create list of cdl rasters 
 
@@ -39,8 +39,8 @@ out_2<-lapply(set_2, function(file){
 })
 
 cdl_out_final<-stack(out_1, out_2, cdl_base)
-pb<-progress_bar$new(total=560) #set up a progress bar
-pb$tick(0) #start the progress bar at 0
+# pb<-progress_bar$new(total=560) #set up a progress bar
+# pb$tick(0) #start the progress bar at 0
 
 
 writeRaster(cdl_out, filename = file.path(cdl_dir, "cdl_final.tif"), bylayer=TRUE, format="GTiff")
