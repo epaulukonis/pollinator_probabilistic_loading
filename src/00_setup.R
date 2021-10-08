@@ -30,7 +30,7 @@ who_is_running<-'eap'
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
   root_dir <- file.path("c:", "git", "pollinator_probabilistic_loading")
 }else if (Sys.info()[4]=="LZ26EPAULUKO"){
-  root_dir <- 'C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/GitHub/"pollinator_probabilistic_loading"'
+  root_dir <- 'C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/GitHub/pollinator_probabilistic_loading'
 }else{
   root_dir <- file.path("/work", "HONEYBEE", who_is_running, "pollinator_probabilistic_loading")
 }
@@ -139,5 +139,5 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 #source other files
 #source(file.path(root_src, "01_studyarea.R"))
 source(file.path(root_src, "02_formatting_cdl.R"))
-source(file.path(root_src, "stepping into 01_studyarea.R"))
+
 
