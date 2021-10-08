@@ -30,10 +30,10 @@ set_2<-cdl_data[c(8:9)]
 cdl_base<-cdl_data[c(10:22)]
 
 r1<-cdl_data[[22]]
-out_1<-lapply(set_1, function(file){
-  projectRaster(file, r1, method='ngb',crs(r1))
-})
-writeRaster(out_1, filename = file.path(cdl_dir, "cdl_set1.tif"), bylayer=TRUE, format="GTiff")
+# out_1<-lapply(set_1, function(file){
+#   projectRaster(file, r1, method='ngb',crs(r1))
+# })
+# writeRaster(out_1, filename = file.path(cdl_dir, "cdl_set1.tif"), bylayer=TRUE, format="GTiff")
 
 out_2<-lapply(set_2, function(file){
   projectRaster(file, r1, method='ngb',crs(r1))
