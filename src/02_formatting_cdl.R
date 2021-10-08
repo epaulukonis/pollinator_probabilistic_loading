@@ -23,11 +23,11 @@ cdl_data<-lapply(cdl_data, function(x) setExtent(x, ext))
 rasterOptions(memfrac=.3)
 
 #sget 2005-1999
-set_1<-cdl_data[c(1:7)]
+# set_1<-cdl_data[c(1:7)]
 #get 2006-2007
 set_2<-cdl_data[c(8:9)]
 #get rest
-cdl_base<-cdl_data[c(10:22)]
+# cdl_base<-cdl_data[c(10:22)]
 
 r1<-cdl_data[[22]]
 # out_1<-lapply(set_1, function(file){
@@ -39,7 +39,7 @@ out_2<-lapply(set_2, function(file){
   projectRaster(file, r1, method='ngb',crs(r1))
 })
 
-writeRaster(out_2, filename = file.path(cdl_dir, "cdl_set2.tif"), bylayer=TRUE, format="GTiff")
+writeRaster(out_2, filename = file.path(cdl_dir, "cdl_final2.tif"), bylayer=TRUE, format="GTiff")
 
 
 # cdl_f1<-file.path(cdl_dir,
