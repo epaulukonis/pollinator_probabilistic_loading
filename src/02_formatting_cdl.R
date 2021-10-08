@@ -42,6 +42,9 @@ out_2<-lapply(set_2, function(file){
 writeRaster(out_2, filename = file.path(cdl_dir, "cdl_final2.tif"), bylayer=TRUE, format="GTiff")
 
 
+
+
+
 # cdl_f1<-file.path(cdl_dir,
 #                   list.files(path=cdl_dir, pattern='_set1.tif$', all.files=TRUE, full.names=FALSE))
 # cdl_f1<-lapply(cdl_f1, raster) #list new projected/fixed rasters
@@ -50,7 +53,7 @@ writeRaster(out_2, filename = file.path(cdl_dir, "cdl_final2.tif"), bylayer=TRUE
 #                    list.files(path=cdl_dir, pattern='_set2.tif$', all.files=TRUE, full.names=FALSE))
 # cdl_f2<-lapply(cdl_f2, raster) #list new projected/fixed rasters
 # 
-# cdl_f<-stack(cdl_f1, cdl_f2, cdl_base)
+# cdl_f<-list(cdl_f1, cdl_f2, cdl_base)
 
 
 #Get accuracy and error data
@@ -58,18 +61,17 @@ writeRaster(out_2, filename = file.path(cdl_dir, "cdl_final2.tif"), bylayer=TRUE
 
 #note: users will need to format and organize CDL accuracy and error as specified in the demo data provided
 #if using code below
-# cdl_acc<-file.path(cdl_acc_dir,
-#                  list.files(path=cdl_acc_dir, pattern='.csv', all.files=TRUE, full.names=FALSE))
-# cdl_acc<-list(cdl_acc)
-# 
-# #make function mask and crop to county
-# co<-"PEORIA" #set county
-# county<-state[state$COUNTY_NAM == co,]
-# mask_cdl<-function(c){
-#   county_m<-crop(c, county)
-#   cdl_f<-mask(county_m, county)
-# }
+cdl_acc<-file.path(cdl_acc_dir,
+                 list.files(path=cdl_acc_dir, pattern='.csv', all.files=TRUE, full.names=FALSE))
+cdl_acc<-list(cdl_acc)
 
+#make function mask and crop to county
+co<-"PEORIA" #set county
+county<-state[state$COUNTY_NAM == co,]
+mask_cdl<-function(c){
+  county_m<-crop(c, county)
+  cdl_f<-mask(county_m, county)
+}
 
 
 #when you get to the point where we'll do it for all counties, follow this:
@@ -83,10 +85,6 @@ writeRaster(out_2, filename = file.path(cdl_dir, "cdl_final2.tif"), bylayer=TRUE
 # }}
 # 
 
-
-
-#think about farming out the core processes to each state?
-#parrellel package
 
 print("CDL formatted, reconstructed, and corrected for accuracy/error")
 
