@@ -20,36 +20,34 @@ cdl_data<-lapply(cdl_data, function(x) setExtent(x, ext))
 
 #sget 2005-1999
 # set_1<-cdl_data[c(1:7)]
-#get 2006-2007
-set_2<-cdl_data[c(8:9)]
-#get rest
-# cdl_base<-cdl_data[c(10:22)]
 
-r1<-cdl_data[[22]]
+#get 2006-2007
+# set_2<-cdl_data[c(8:9)]
+
+#get rest
+cdl_base<-cdl_data[c(10:22)]
+
+# r1<-cdl_data[[22]]
 # out_1<-lapply(set_1, function(file){
 #   projectRaster(file, r1, method='ngb',crs(r1))
 # })
-# writeRaster(out_1, filename = file.path(cdl_dir, "cdl_final1.tif"), bylayer=TRUE, format="GTiff")
-
-dim(set2)
-out_2<-lapply(set_2, function(file){
-  projectRaster(file, r1, method='ngb',crs(r1))
-})
-
-writeRaster(out_2, filename = file.path(cdl_dir, "cdl_final2.tif"), bylayer=TRUE, format="GTiff")
-
-
+# for (i in 1:length(out_1)){
+#   writeRaster(out_2[[i]], filename = file.path(cdl_dir, "cdl_final1.tif"), by_layer=T, format="GTiff")
+# }
 # 
-# cdl_f1<-file.path(cdl_dir,
-#                   list.files(path=cdl_dir, pattern='_final.tif$', all.files=TRUE, full.names=FALSE))
-# cdl_f1<-lapply(cdl_f1, raster) #list new projected/fixed rasters
-# 
-# cdl_f2<-file.path(cdl_dir,
-#                    list.files(path=cdl_dir, pattern='_final2.tif$', all.files=TRUE, full.names=FALSE))
-# cdl_f2<-lapply(cdl_f2, raster) #list new projected/fixed rasters
-# 
-# cdl_f<-list(cdl_f1, cdl_f2, cdl_base)
+# out_2<-lapply(set_2, function(file){
+#   projectRaster(file, r1, method='ngb',crs(r1))
+# })
+# for (i in 1:length(out_2)){
+#   writeRaster(out_2[[i]], filename = file.path(cdl_dir, "cdl_final2.tif"), by_layer=T, format="GTiff")
+# }
 
+
+cdl_f<-file.path(cdl_dir_fin,
+                  list.files(path=cdl_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+cdl_f<-lapply(cdl_f, raster) #list new projected/fixed rasters
+cdl_f<-list(cdl_f, cdl_base)
+ 
 
 #Get accuracy and error data
 #https://www.nass.usda.gov/Research_and_Science/Cropland/sarsfaqs2.php#Section3_22.0
