@@ -13,14 +13,10 @@ cdl_data <- file.path(cdl_dir, list.files(path=cdl_dir, pattern='.tif$', all.fil
 
 cdl_data<-lapply(cdl_data, raster) #create list of cdl rasters 
 
-
 #there are 3 different extents; 2020-2008, 2007-2006, and 2005-1999
 # first expand extent 
 ext<-extent(cdl_data[[22]])
 cdl_data<-lapply(cdl_data, function(x) setExtent(x, ext))
-
-#set parameters for memory to lower value
-rasterOptions(memfrac=.3)
 
 #sget 2005-1999
 # set_1<-cdl_data[c(1:7)]
@@ -33,8 +29,9 @@ r1<-cdl_data[[22]]
 # out_1<-lapply(set_1, function(file){
 #   projectRaster(file, r1, method='ngb',crs(r1))
 # })
-# writeRaster(out_1, filename = file.path(cdl_dir, "cdl_set1.tif"), bylayer=TRUE, format="GTiff")
+# writeRaster(out_1, filename = file.path(cdl_dir, "cdl_final1.tif"), bylayer=TRUE, format="GTiff")
 
+dim(set2)
 out_2<-lapply(set_2, function(file){
   projectRaster(file, r1, method='ngb',crs(r1))
 })
@@ -42,15 +39,13 @@ out_2<-lapply(set_2, function(file){
 writeRaster(out_2, filename = file.path(cdl_dir, "cdl_final2.tif"), bylayer=TRUE, format="GTiff")
 
 
-
-
-
+# 
 # cdl_f1<-file.path(cdl_dir,
-#                   list.files(path=cdl_dir, pattern='_set1.tif$', all.files=TRUE, full.names=FALSE))
+#                   list.files(path=cdl_dir, pattern='_final.tif$', all.files=TRUE, full.names=FALSE))
 # cdl_f1<-lapply(cdl_f1, raster) #list new projected/fixed rasters
 # 
 # cdl_f2<-file.path(cdl_dir,
-#                    list.files(path=cdl_dir, pattern='_set2.tif$', all.files=TRUE, full.names=FALSE))
+#                    list.files(path=cdl_dir, pattern='_final2.tif$', all.files=TRUE, full.names=FALSE))
 # cdl_f2<-lapply(cdl_f2, raster) #list new projected/fixed rasters
 # 
 # cdl_f<-list(cdl_f1, cdl_f2, cdl_base)
@@ -61,18 +56,15 @@ writeRaster(out_2, filename = file.path(cdl_dir, "cdl_final2.tif"), bylayer=TRUE
 
 #note: users will need to format and organize CDL accuracy and error as specified in the demo data provided
 #if using code below
-cdl_acc<-file.path(cdl_acc_dir,
-                 list.files(path=cdl_acc_dir, pattern='.csv', all.files=TRUE, full.names=FALSE))
-cdl_acc<-list(cdl_acc)
-
-#make function mask and crop to county
-co<-"PEORIA" #set county
-county<-state[state$COUNTY_NAM == co,]
-mask_cdl<-function(c){
-  county_m<-crop(c, county)
-  cdl_f<-mask(county_m, county)
-}
-
+# cdl_acc<-read.csv(cdl_acc_dir, "CDL_Acc_il.csv")
+# 
+# #make function mask and crop to county
+# co<-"PEORIA" #set county
+# county<-state[state$COUNTY_NAM == co,]
+# mask_cdl<-function(c){
+#   county_m<-crop(c, county)
+#   cdl_f<-mask(county_m, county)
+# }
 
 #when you get to the point where we'll do it for all counties, follow this:
 # county_names<-state$COUNTY_NAM
@@ -84,6 +76,8 @@ mask_cdl<-function(c){
 #   cdl_f[c]<-mask(county_m, county)
 # }}
 # 
+
+
 
 
 print("CDL formatted, reconstructed, and corrected for accuracy/error")
