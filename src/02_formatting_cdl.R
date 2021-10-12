@@ -19,9 +19,8 @@ ext<-extent(cdl_data[[22]])
 cdl_data<-lapply(cdl_data, function(x) setExtent(x, ext))
 
 # now we'll resample to fix the number of rows and columns in several of the later years
-#get 2005-1999
+#get 1999-2005
 set_1<-cdl_data[c(1:7)]
-
 #get 2006-2007
 set_2<-cdl_data[c(8:9)]
 
@@ -48,7 +47,12 @@ cdl_base<-cdl_data[c(10:22)]
 cdl_f<-file.path(cdl_dir_fin,
                   list.files(path=cdl_dir_fin, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 cdl_f<-lapply(cdl_f, raster) #list new projected/fixed rasters
+list_names<-vector()
+for (n in 1:22){
+  list_names[n]<-names(cdl_data[[n]])
+}
 cdl_fin<-c(cdl_f, cdl_base)
+names(cdl_fin)<-list_names
 
 
 
@@ -57,8 +61,10 @@ co<-"PEORIA" #set county
 county<-state[state$COUNTY_NAM == co,]
 mask_cdl<-function(c){
   county_m<-crop(c, county)
-  cdl_f<-mask(county_m, county)
+  mask(county_m, county)
 }
+
+cdl_fin
 
 # when you get to the point where we'll do it for all counties, follow this:
 # county_names<-state$COUNTY_NAM
