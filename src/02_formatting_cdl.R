@@ -23,7 +23,6 @@ cdl_data<-lapply(cdl_data, function(x) setExtent(x, ext))
 set_1<-cdl_data[c(1:7)]
 #get 2006-2007
 set_2<-cdl_data[c(8:9)]
-
 #get rest
 cdl_base<-cdl_data[c(10:22)]
 
@@ -47,6 +46,7 @@ cdl_base<-cdl_data[c(10:22)]
 cdl_f<-file.path(cdl_dir_fin,
                   list.files(path=cdl_dir_fin, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 cdl_f<-lapply(cdl_f, raster) #list new projected/fixed rasters
+#assign original year names 
 list_names<-vector()
 for (n in 1:22){
   list_names[n]<-names(cdl_data[[n]])
@@ -55,27 +55,26 @@ cdl_fin<-c(cdl_f, cdl_base)
 names(cdl_fin)<-list_names
 
 
-
 #make function mask and crop to county
 co<-"PEORIA" #set county
 county<-state[state$COUNTY_NAM == co,]
-mask_cdl<-function(c){
-  county_m<-crop(c, county)
-  mask(county_m, county)
+mask_crop_cdl<-function(cdl){
+  cdl_list<-crop(cdl, county)
+  mask(cdl_list, county)
 }
+cdl_fin_co<-lapply(cdl_fin, mask_crop_cdl)
 
-cdl_fin
 
 # when you get to the point where we'll do it for all counties, follow this:
 # county_names<-state$COUNTY_NAM
-# cdl_f<-list()
-# mask_cdl<-function(y){
+# cdl_fin_co<-list()
+# mask_crop_cdl<-function(cdl){
 #   for (c in 1:length(county_names)){
-#     county<-state[state$COUNTY_NAM == county_names[c],]
-#   county_m<-crop(y, county)
-#   cdl_f[c]<-mask(county_m, county)
+#   county<-state[state$COUNTY_NAM == county_names[c],]
+#   county_c<-crop(cdl, county)
+#   cdl_fin_co[c]<-mask(county_c, county)
 # }}
-
+# you'll have a nested list of stacked rasters by county
 
  
 
