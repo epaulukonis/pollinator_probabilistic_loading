@@ -68,9 +68,10 @@ print(list.files(path=nlcd_dir, all.files=TRUE, full.names=FALSE))
 # cdl
 cdl_dir = file.path(root_data_in, "CDL")
 print(cdl_dir)
-
 print(list.files(path=cdl_dir, all.files=TRUE, full.names=FALSE))
+
 cdl_acc_dir = file.path(root_data_in, "CDL/cdl_acc")
+print(cdl_acc_dir)
 print(list.files(path=cdl_acc_dir, all.files=TRUE, full.names=FALSE))
 
 cdl_dir_fin = file.path(root_data_in, "CDL/fixed_cdl")
