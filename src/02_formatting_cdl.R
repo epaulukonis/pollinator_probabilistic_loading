@@ -38,10 +38,12 @@ cdl_base<-cdl_data[c(10:22)]
 #   writeRaster(out_2[[i]], filename = file.path(cdl_dir, "cdl_final2.tif"), by_layer=T, format="GTiff")
 # }
 
-
+print(list.files(path=cdl_dir_fin, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 cdl_f<-file.path(cdl_dir_fin,
                   list.files(path=cdl_dir_fin, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 cdl_f<-lapply(cdl_f, raster) #list new projected/fixed rasters
+
+
 #assign original year names 
 list_names<-vector()
 for (n in 1:22){
