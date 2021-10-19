@@ -16,8 +16,8 @@ state<-readOGR(state_dir, layer = "IL_BNDY_County_Py") #read in state
 # state #check crs of shapefile
 
 # get species potential zones
-bomb_h <- readOGR(bombus_dir, layer = "RPBB_High_Potential_Zones_03172021")
-bomb_l <- readOGR(bombus_dir, layer = "RPBB_Low_Potential_Zones_03172021")
+ bomb_h <- readOGR(bombus_dir, layer = "RPBB_High_Potential_Zones_03172021")
+# bomb_l <- readOGR(bombus_dir, layer = "RPBB_Low_Potential_Zones_03172021")
 # plot(bomb_l)
 # plot(bomb_h, add=T, col='red')
 

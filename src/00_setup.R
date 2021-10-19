@@ -145,7 +145,7 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 
 
 #source other files
-#source(file.path(root_src, "01_studyarea.R"))
+source(file.path(root_src, "01_studyarea.R"))
 source(file.path(root_src, "02_formatting_cdl.R"))
 
 
