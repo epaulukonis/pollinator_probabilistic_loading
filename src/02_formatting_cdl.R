@@ -59,7 +59,6 @@ mask_crop_cdl<-function(cdl){
 }
 cdl_fin_co<-lapply(cdl_fin, mask_crop_cdl)
 
-
 # when you get to the point where we'll do it for all counties, follow this:
 # county_names<-state$COUNTY_NAM
 # cdl_fin_co<-list()
@@ -85,11 +84,6 @@ names(cdl_err)[3:15]<-nnames
 
 #instead of setting all NAs to 0.5, as in Budreski et al., we'll use the average of years to backfill missing values
 correct_backfill<-function(data){
-#impute years of missing data
-# data[,16:26]<-NA
-# colnames(data)[16:26]<-1997:2007
-# data<-data[,c(1:2,16:26,3:15)]
-  #take average of rows by crop and year to fill in
 o<-data[,1:2]
 m<-as.matrix(data[,3:15])
 k <- which(is.na(m), arr.ind=TRUE)
