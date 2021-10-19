@@ -55,7 +55,7 @@ for(k in 2013:2017){
 
 #separate the CDL crops
 wd<-paste0("./", co, "/CDL_Acc/")
-pb<-progress_bar$new(total=560) #set up a progress bar
+pb<-progress_bar$new(total=NA) #set up a progress bar
 pb$tick(0) #start the progress bar at 0
 
 for(k in 2013:2017){
