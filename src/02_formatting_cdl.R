@@ -97,6 +97,8 @@ out<-cbind(o,m)
 
 cdl_acc<-correct_backfill(cdl_acc) 
 cdl_err<-correct_backfill(cdl_err) 
+print(head(cdl_acc))
+print(head(cdl_err))
 
 codes<-cdl_acc[,2] #pull out CDL crop codes
 pb<-progress_bar$new(total=1000) #set up a progress bar
