@@ -103,8 +103,8 @@ print(head(cdl_err))
 codes<-cdl_acc[,2] #pull out CDL crop codes
 pb<-progress_bar$new(total=1000) #set up a progress bar
 pb$tick(0) #start the progress bar at 0
-numCores <- detectCores()
-print(numCores)
+# numCores <- detectCores()
+# print(numCores)
 
 reclassify_cdl<-function(cdl_data){
   for(c in codes){ 
