@@ -128,26 +128,26 @@ reclassify_cdl<-function(cdl_data){
 
 mclapply(cdl_fin_co, reclassify_cdl, mc.cores=numCores)
 
-
-#### Reclassify the adjusted CDL crops ####
-#We need to combine double crops and adjust the codes for crops as needed
-#note that this may be dependent on location; look to the compiled Accuracy dataset to learn more
-rastlist<-c(3, 6, 10:14, 23, 25, 27, 29:36, 38, 39, 41:61, 66:69, 71, 72, 74:77, 204, 206:208,
-            210:214, 216:224, 229, 242:250) 
-old<-rastlist
-new<-c(3, 6:11, 14, 16, 17, 19:26, 28:61, 63:65, 67:81, 83:92)
-df<-as.data.frame(cbind(old, new))
-
-#First, adjust code for the rasters that do not need to be combined
-for(y in 2008:2020){
-  for(i in rastlist){
-    rast<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",2008,"_",215,"_stack.tif"))
-    val<-df$new[df$old==72]
-    fl<-paste0(co,"_",2008,"_",val,"_stack.tif")
-    writeRaster(rast, paste(cdl_dir_adj, fl, sep="/"), format="GTiff", overwrite=T)
-  }
-}
-
+# 
+# #### Reclassify the adjusted CDL crops ####
+# #We need to combine double crops and adjust the codes for crops as needed
+# #note that this may be dependent on location; look to the compiled Accuracy dataset to learn more
+# rastlist<-c(3, 6, 10:14, 23, 25, 27, 29:36, 38, 39, 41:61, 66:69, 71, 72, 74:77, 204, 206:208,
+#             210:214, 216:224, 229, 242:250) 
+# old<-rastlist
+# new<-c(3, 6:11, 14, 16, 17, 19:26, 28:61, 63:65, 67:81, 83:92)
+# df<-as.data.frame(cbind(old, new))
+# 
+# #First, adjust code for the rasters that do not need to be combined
+# for(y in 2008:2020){
+#   for(i in rastlist){
+#     rast<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",2008,"_",215,"_stack.tif"))
+#     val<-df$new[df$old==72]
+#     fl<-paste0(co,"_",2008,"_",val,"_stack.tif")
+#     writeRaster(rast, paste(cdl_dir_adj, fl, sep="/"), format="GTiff", overwrite=T)
+#   }
+# }
+# 
 
 print("CDL formatted, reconstructed, and corrected for accuracy/error")
 
