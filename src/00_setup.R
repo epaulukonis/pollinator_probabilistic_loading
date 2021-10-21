@@ -77,6 +77,11 @@ print(list.files(path=cdl_acc_dir, all.files=TRUE, full.names=FALSE))
 cdl_dir_fin = file.path(root_data_in, "CDL/fixed_cdl")
 print(cdl_dir_fin)
 print(list.files(path=cdl_dir_fin, all.files=TRUE, full.names=FALSE))
+
+cdl_dir_rec = file.path(root_data_in, "CDL/reclass_cdl/reclass_cdl")
+print(cdl_dir_rec)
+print(list.files(path=cdl_dir_rec, all.files=TRUE, full.names=FALSE))
+
 # cdl_zip<-list.files(path=cdl_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
 # print(cdl_zip)
 # zip_ex <- as.list(c(file.exists(file.path(cdl_dir, cdl_zip))))

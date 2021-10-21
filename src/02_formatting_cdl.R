@@ -117,7 +117,7 @@ reclassify_cdl<-function(cdl_data){
     file_e<-reclassify(cdl, err, right=NA) #reclassify the crop raster, so the cells are set to the crop's error value
     acc_stack<-stack(cdl, file_a, file_e) #make a stack
     fl<-paste0(co, "_",y,"_",c,"_stack.tif") #set up the new file name, based on y and c
-    writeRaster(acc_stack,  paste(cdl_dir, fl, sep=""), format="GTiff", overwrite=T) #save the raster stack
+    writeRaster(acc_stack,  paste(cdl_dir_rec, fl, sep=""), format="GTiff", overwrite=T) #save the raster stack
 }}}
 
 
