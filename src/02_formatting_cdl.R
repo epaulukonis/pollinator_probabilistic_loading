@@ -86,68 +86,82 @@ names(cdl_acc)[3:15]<-nnames
 names(cdl_err)[3:15]<-nnames
 
 #instead of setting all NAs to 0.5, as in Budreski et al., we'll use the average of years to backfill missing values
-correct_backfill<-function(data){
+# correct_backfill<-function(data){
+# o<-data[,1:2]
+# m<-as.matrix(data[,3:15])
+# k <- which(is.na(m), arr.ind=TRUE)
+# m[k] <- rowMeans(m, na.rm=TRUE)[k[,1]]
+# m<-as.data.frame(m)
+# m<-round(m, 2)
+# out<-cbind(o,m)
+# }
+
+
+data<-cdl_acc
 o<-data[,1:2]
 m<-as.matrix(data[,3:15])
+preint(head(m))
 k <- which(is.na(m), arr.ind=TRUE)
 m[k] <- rowMeans(m, na.rm=TRUE)[k[,1]]
 m<-as.data.frame(m)
 m<-round(m, 2)
 out<-cbind(o,m)
-}
+print(head(out))
 
-cdl_acc<-correct_backfill(cdl_acc) 
-cdl_err<-correct_backfill(cdl_err) 
-print(head(cdl_acc))
-print(head(cdl_err))
 
-codes<-cdl_acc[,2] #pull out CDL crop codes
-pb<-progress_bar$new(total=1000) #set up a progress bar
-pb$tick(0) #start the progress bar at 0
-numCores <- detectCores()
-print(numCores)
+# cdl_acc<-correct_backfill(cdl_acc) 
+# cdl_err<-correct_backfill(cdl_err) 
+# print(head(cdl_acc))
+# print(head(cdl_err))
 
-reclassify_cdl<-function(cdl_data){
-  for(c in codes){ 
-    for(y in 2008:2020){
-   cdl <- cdl_data #get the CDL raster by year
-    values(cdl)[values(cdl)!=c]<-0 #set any values that are not crop to 0
-    acc<-as.matrix(cdl_acc%>%select("Attribute_Code",paste0(y))) #get the accuracy data for year y
-    err<-as.matrix(cdl_err%>%select("Attribute_Code",paste0(y))) #get the error data for year y
-    file_a<-reclassify(cdl, acc, right=NA) #reclassify the crop raster, so the cells are set to the crop's accuracy value
-    file_e<-reclassify(cdl, err, right=NA) #reclassify the crop raster, so the cells are set to the crop's error value
-    acc_stack<-stack(cdl, file_a, file_e) #make a stack
-    fl<-paste0(co, "_",y,"_",c,"_stack.tif") #set up the new file name, based on y and c
-    writeRaster(acc_stack,  paste(cdl_dir_rec, fl, sep=""), format="GTiff", overwrite=T) #save the raster stack
-}}}
-
-#when time comes to test over counties, try this out:
-# foreach(county = length(cdl_fin_co)) %do% {
-#   mclapply(county, reclassify_cdl, mc.cores=numCores)
-# }
-
-mclapply(cdl_fin_co, reclassify_cdl, mc.cores=numCores)
-
+# codes<-cdl_acc[,2] #pull out CDL crop codes
+# pb<-progress_bar$new(total=1000) #set up a progress bar
+# pb$tick(0) #start the progress bar at 0
+# numCores <- detectCores()
+# print(numCores)
 # 
-# #### Reclassify the adjusted CDL crops ####
-# #We need to combine double crops and adjust the codes for crops as needed
-# #note that this may be dependent on location; look to the compiled Accuracy dataset to learn more
-# rastlist<-c(3, 6, 10:14, 23, 25, 27, 29:36, 38, 39, 41:61, 66:69, 71, 72, 74:77, 204, 206:208,
-#             210:214, 216:224, 229, 242:250) 
-# old<-rastlist
-# new<-c(3, 6:11, 14, 16, 17, 19:26, 28:61, 63:65, 67:81, 83:92)
-# df<-as.data.frame(cbind(old, new))
+# reclassify_cdl<-function(cdl_data){
+#   for(c in codes){ 
+#     for(y in 2008:2020){
+#    cdl <- cdl_data #get the CDL raster by year
+#     values(cdl)[values(cdl)!=c]<-0 #set any values that are not crop to 0
+#     acc<-as.matrix(cdl_acc%>%select("Attribute_Code",paste0(y))) #get the accuracy data for year y
+#     err<-as.matrix(cdl_err%>%select("Attribute_Code",paste0(y))) #get the error data for year y
+#     file_a<-reclassify(cdl, acc, right=NA) #reclassify the crop raster, so the cells are set to the crop's accuracy value
+#     file_e<-reclassify(cdl, err, right=NA) #reclassify the crop raster, so the cells are set to the crop's error value
+#     acc_stack<-stack(cdl, file_a, file_e) #make a stack
+#     fl<-paste0(co, "_",y,"_",c,"_stack.tif") #set up the new file name, based on y and c
+#     writeRaster(acc_stack,  paste(cdl_dir_rec,"/",fl, sep=""), format="GTiff", overwrite=T) #save the raster stack
+# }}}
 # 
-# #First, adjust code for the rasters that do not need to be combined
-# for(y in 2008:2020){
-#   for(i in rastlist){
-#     rast<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",2008,"_",215,"_stack.tif"))
-#     val<-df$new[df$old==72]
-#     fl<-paste0(co,"_",2008,"_",val,"_stack.tif")
-#     writeRaster(rast, paste(cdl_dir_adj, fl, sep="/"), format="GTiff", overwrite=T)
-#   }
-# }
+# #when time comes to test over counties, try this out:
+# # foreach(county = length(cdl_fin_co)) %do% {
+# #   mclapply(county, reclassify_cdl, mc.cores=numCores)
+# # }
 # 
+# mclapply(cdl_fin_co, reclassify_cdl, mc.cores=numCores)
+# 
+# # #### Reclassify the adjusted CDL crops ####
+# # #We need to combine double crops and adjust the codes for crops as needed
+# # #note that this may be dependent on location; look to the compiled Accuracy dataset to learn more
+# # rastlist<-c(3, 6, 10:14, 23, 25, 27, 29:36, 38, 39, 41:61, 66:69, 71, 72, 74:77, 204, 206:208,
+# #             210:214, 216:224, 229, 242:250) 
+# # old<-rastlist
+# # new<-c(3, 6:11, 14, 16, 17, 19:26, 28:61, 63:65, 67:81, 83:92)
+# # df<-as.data.frame(cbind(old, new))
+# # 
+# # #First, adjust code for the rasters that do not need to be combined
+# # for(y in 2008:2020){
+# #   for(i in rastlist){
+# #     rast<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",2008,"_",215,"_stack.tif"))
+# #     val<-df$new[df$old==72]
+# #     fl<-paste0(co,"_",2008,"_",val,"_stack.tif")
+# #     writeRaster(rast, paste(cdl_dir_adj, fl, sep="/"), format="GTiff", overwrite=T)
+# #   }
+# # }
+# # 
 
 print("CDL formatted, reconstructed, and corrected for accuracy/error")
 
+# test<-stack("C:\\Users\\epauluko\\OneDrive - Environmental Protection Agency (EPA)\\Profile\\Documents\\GitHub\\pollinator_probabilistic_loading\\data_in\\CDL\\reclass_cdl\\reclass_cdlPEORIA_2008_12_stack.tif")
+# plot(test)
