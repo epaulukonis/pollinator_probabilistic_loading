@@ -100,7 +100,7 @@ names(cdl_err)[3:15]<-nnames
 data<-cdl_acc
 o<-data[,1:2]
 m<-as.matrix(data[,3:15])
-preint(head(m))
+print(head(m))
 k <- which(is.na(m), arr.ind=TRUE)
 m[k] <- rowMeans(m, na.rm=TRUE)[k[,1]]
 m<-as.data.frame(m)
