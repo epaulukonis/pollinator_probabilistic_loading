@@ -85,6 +85,8 @@ nnames<-2008:2020
 names(cdl_acc)[3:15]<-nnames
 names(cdl_err)[3:15]<-nnames
 
+print(head(cdl_acc))
+
 #instead of setting all NAs to 0.5, as in Budreski et al., we'll use the average of years to backfill missing values
 # correct_backfill<-function(data){
 # o<-data[,1:2]
@@ -98,15 +100,15 @@ names(cdl_err)[3:15]<-nnames
 
 
 data<-cdl_acc
-o<-data[,1:2]
-m<-as.matrix(data[,3:15])
-print(head(m))
-k <- which(is.na(m), arr.ind=TRUE)
-m[k] <- rowMeans(m, na.rm=TRUE)[k[,1]]
-m<-as.data.frame(m)
-m<-round(m, 2)
-out<-cbind(o,m)
-print(head(out))
+# o<-data[,1:2]
+# m<-as.matrix(data[,3:15])
+# print(head(m))
+# k <- which(is.na(m), arr.ind=TRUE)
+# m[k] <- rowMeans(m, na.rm=TRUE)[k[,1]]
+# m<-as.data.frame(m)
+# m<-round(m, 2)
+# out<-cbind(o,m)
+# print(head(out))
 
 
 # cdl_acc<-correct_backfill(cdl_acc) 
