@@ -102,8 +102,6 @@ print(head(cdl_acc))
 print(head(cdl_err))
 
 codes<-cdl_acc[,2] #pull out CDL crop codes
-pb<-progress_bar$new(total=1000) #set up a progress bar
-pb$tick(0) #start the progress bar at 0
 numCores <- detectCores()
 print(numCores)
 
@@ -123,7 +121,6 @@ reclassify_cdl<-function(cdl_data){
 
 
 cdl_fin_co_y<-cdl_fin_co[10:22] #extract correct number of years to new list
-
 
 
 #when time comes to test over counties, try this out:
