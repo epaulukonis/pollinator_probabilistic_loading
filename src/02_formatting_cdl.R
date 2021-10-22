@@ -122,12 +122,16 @@ reclassify_cdl<-function(cdl_data){
 }}}
 
 
+cdl_fin_co_y<-cdl_fin_co[10:22] #extract correct number of years to new list
+
+
+
 #when time comes to test over counties, try this out:
 # foreach(county = length(cdl_fin_co)) %do% {
 #   mclapply(county, reclassify_cdl, mc.cores=numCores)
 # }
 
-mclapply(cdl_fin_co, reclassify_cdl, mc.cores=numCores)
+mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
 
 # #### Reclassify the adjusted CDL crops ####
 # #We need to combine double crops and adjust the codes for crops as needed
