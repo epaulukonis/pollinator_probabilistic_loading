@@ -123,12 +123,36 @@ reclassify_cdl<-function(cdl_data){
 cdl_fin_co_y<-cdl_fin_co[10:22] #extract correct number of years to new list
 
 
+
 #when time comes to test over counties, try this out:
 # foreach(county = length(cdl_fin_co)) %do% {
 #   mclapply(county, reclassify_cdl, mc.cores=numCores)
 # }
 
 mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
+
+
+##doesn't work locally
+
+#test out on a list of 2
+# cdl_fin_co_t<-cdl_fin_co[10:11]
+# reclassify_cdl<-function(cdl_data){
+#   for(c in codes){
+#     for(y in 2008:2009){
+#       cdl <- cdl_data #get the CDL raster by year
+#       values(cdl)[values(cdl)!=c]<-0 #set any values that are not crop to 0
+#       acc<-as.matrix(cdl_acc%>%select("Attribute_Code",paste0(y))) #get the accuracy data for year y
+#       err<-as.matrix(cdl_err%>%select("Attribute_Code",paste0(y))) #get the error data for year y
+#       file_a<-reclassify(cdl, acc, right=NA) #reclassify the crop raster, so the cells are set to the crop's accuracy value
+#       file_e<-reclassify(cdl, err, right=NA) #reclassify the crop raster, so the cells are set to the crop's error value
+#       acc_stack<-stack(cdl, file_a, file_e) #make a stack
+#       fl<-paste0(co, "_",y,"_",c,"_stack.tif") #set up the new file name, based on y and c
+#       writeRaster(acc_stack,  paste(cdl_dir_rec,"/",fl, sep=""), format="GTiff", overwrite=T) #save the raster stack
+#     }}}
+# 
+# 
+# mclapply(cdl_fin_co_t, reclassify_cdl, mc.cores=numCores)
+
 
 # #### Reclassify the adjusted CDL crops ####
 # #We need to combine double crops and adjust the codes for crops as needed
