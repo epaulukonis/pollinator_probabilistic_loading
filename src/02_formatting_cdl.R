@@ -103,11 +103,10 @@ print(head(cdl_err))
 
 #First, get list of actual crop codes from all attribute layers
 cdl_fin_co_y<-cdl_fin_co[10:22] #match number of years for accuracy, for now
-crop_list<-list()
+out<-list()
 for (i in 1:length(cdl_fin_co_y)){
-  crop_list[[i]]<-sort(unique(values(cdl_fin_co_y[[i]])))
+  out[[i]]<-sort(unique(values(cdl_fin_co_y[[i]])))
 }
-
 crop_list<- sort(unique(unlist(out, use.names=FALSE)))
 names(crop_list)<-'crop_code'
 crop_list_fin<-cdl_acc[cdl_acc$Attribute_Code %in% crop_list,1:2] #pull out the crops actually in our layer
