@@ -166,41 +166,41 @@ mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
 
 
 
-for(y in 2008:2020){
-  for(c in codes){
-    rast<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",y,"_",c,"_stack.tif"))
-    val<-df$new[df$old==c]
-    fl<-paste0(co,"_",2008,"_",val,"_stack.tif")
-    writeRaster(rast, paste(cdl_dir_adj, fl, sep="/"), format="GTiff", overwrite=T)
-  }
-}
+# for(y in 2008:2020){
+#   for(c in codes){
+#     rast<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",y,"_",c,"_stack.tif"))
+#     val<-df$new[df$old==c]
+#     fl<-paste0(co,"_",2008,"_",val,"_stack.tif")
+#     writeRaster(rast, paste(cdl_dir_adj, fl, sep="/"), format="GTiff", overwrite=T)
+#   }
+# }
 
 
-test_72<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",2008,"_",1,"_stack.tif"))
-plot(test_72)
-
-test_71<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",2008,"_",71,"_stack.tif"))
-plot(test_71)
+# test_72<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",2008,"_",1,"_stack.tif"))
+# plot(test_72)
+# 
+# test_71<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",2008,"_",71,"_stack.tif"))
+# plot(test_71)
 
 
 #Re-classify the rasters which needed recombination
 #Dbl crop rasters are NOT mutually exclusive (e.g. dbl crop lettuce/durum wht is included in both lettuce and durum wheat)
 
 #Corn: New=1, Old=1, 225, 226, 228, 237, 241
-for(k in 2013:2017){
-  layer1<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_1_stack.tif"))
-  layer2<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_225_stack.tif"))
-  layer3<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_226_stack.tif"))
-  layer4<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_228_stack.tif"))
-  layer5<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_237_stack.tif"))
-  layer6<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_241_stack.tif"))
-  pres<-max(layer1[[1]], layer2[[1]], layer3[[1]], layer4[[1]], layer5[[1]], layer6[[1]], na.rm=T)
-  acc<-max(layer1[[2]], layer2[[2]], layer3[[2]], layer4[[2]], layer5[[2]], layer6[[2]], na.rm=T)
-  err<-max(layer1[[3]], layer2[[3]], layer3[[3]], layer4[[3]], layer5[[3]], layer6[[3]], na.rm=T)
-  rast<-stack(pres, acc, err)
-  fl<-paste0(co,"_",k,"_1_stack.tif")
-  writeRaster(rast, paste(wd, fl, sep="/"), format="GTiff", overwrite=T)
-}
+# for(k in 2013:2017){
+#   layer1<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_1_stack.tif"))
+#   layer2<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_225_stack.tif"))
+#   layer3<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_226_stack.tif"))
+#   layer4<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_228_stack.tif"))
+#   layer5<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_237_stack.tif"))
+#   layer6<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_241_stack.tif"))
+#   pres<-max(layer1[[1]], layer2[[1]], layer3[[1]], layer4[[1]], layer5[[1]], layer6[[1]], na.rm=T)
+#   acc<-max(layer1[[2]], layer2[[2]], layer3[[2]], layer4[[2]], layer5[[2]], layer6[[2]], na.rm=T)
+#   err<-max(layer1[[3]], layer2[[3]], layer3[[3]], layer4[[3]], layer5[[3]], layer6[[3]], na.rm=T)
+#   rast<-stack(pres, acc, err)
+#   fl<-paste0(co,"_",k,"_1_stack.tif")
+#   writeRaster(rast, paste(wd, fl, sep="/"), format="GTiff", overwrite=T)
+# }
 
 
 
