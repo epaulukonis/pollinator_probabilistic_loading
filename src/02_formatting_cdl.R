@@ -53,12 +53,10 @@ for (n in 1:22){
 cdl_fin<-c(cdl_f, cdl_base)
 names(cdl_fin)<-list_names
 
-#make function mask and crop to county
-co<-"PEORIA" #set county
-county<-state[state$COUNTY_NAM == co,]
+#make function mask and crop to study area
 mask_crop_cdl<-function(cdl){
-  cdl_list<-crop(cdl, county)
-  mask(cdl_list, county)
+  cdl_list<-crop(cdl, study)
+  mask(cdl_list, study)
 }
 cdl_fin_co<-lapply(cdl_fin, mask_crop_cdl)
 

@@ -24,6 +24,8 @@ bomb_l <- readOGR(bombus_dir, layer = "RPBB_Low_Potential_Zones_03172021")
 
 state<-spTransform(state, crs(bomb_h)) #reproject 
 study<-spTransform(study, crs(bomb_h)) #reproject 
+study<-aggregate(study)
+
 
 plot(state)
 plot(study, add=T, col='blue')
