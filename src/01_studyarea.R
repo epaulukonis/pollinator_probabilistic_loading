@@ -12,6 +12,7 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE)) #state
 print(list.files(path=bombus_dir, all.files=TRUE, full.names=FALSE)) #species
 
 state<-readOGR(state_dir, layer = "IL_BNDY_County_Py") #read in state
+study<-readOGR(state_dir, layer = "Study_Counties") 
 # plot(state)
 # state #check crs of shapefile
 
@@ -22,9 +23,11 @@ bomb_l <- readOGR(bombus_dir, layer = "RPBB_Low_Potential_Zones_03172021")
 # plot(bomb_h, add=T, col='red')
 
 state<-spTransform(state, crs(bomb_h)) #reproject 
+study<-spTransform(study, crs(bomb_h)) #reproject 
 
+plot(state)
+plot(study, add=T, col='blue')
 
-# plot(state)
 # plot(bomb_l, add=T, col='blue')
 # plot(bomb_h, add=T, col='red')
 

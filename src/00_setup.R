@@ -97,9 +97,10 @@ print(list.files(path=cdl_dir_adj, all.files=TRUE, full.names=FALSE))
 #
 #
 #coa
-coa_dir = file.path(root_data_in, "CoA")
+coa_dir = file.path(root_data_in, "CoA/all_CoA")
 print(coa_dir)
 print(list.files(path=coa_dir, all.files=TRUE, full.names=FALSE))
+
 # coa_zip<-list.files(path=coa_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
 # print(coa_zip)
 # # zip_ex <- as.list(c(file.exists(file.path(coa_dir, coa_zip))))

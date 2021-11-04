@@ -62,6 +62,8 @@ mask_crop_cdl<-function(cdl){
 }
 cdl_fin_co<-lapply(cdl_fin, mask_crop_cdl)
 
+
+
 # when you get to the point where we'll do it for all counties, follow this:
 # county_names<-state$COUNTY_NAM
 # cdl_fin_co<-list()
@@ -101,7 +103,31 @@ cdl_err<-correct_backfill(cdl_err)
 print(head(cdl_acc))
 print(head(cdl_err))
 
-codes<-cdl_acc[,2] #pull out CDL crop codes
+#First, get list of actual crop codes from all attribute layers
+cdl_fin_co_y<-cdl_fin_co[10:22] #match number of years for accuracy, for now
+out<-list()
+for (i in 1:length(cdl_fin_co_y)){
+  out[[i]]<-sort(unique(values(cdl_fin_co_y[[i]])))
+}
+crop_list<- sort(unique(unlist(out, use.names=FALSE)))
+names(crop_list)<-'crop_code'
+crop_list_fin<-cdl_acc[cdl_acc$Attribute_Code %in% crop_list,1:2] #pull out the crops actually in our layer
+codes<-crop_list_fin$Attribute_Code
+
+#when it's time to loop this over counties, try this:
+# get_regional_crops<-function(county){
+# out<-list()
+# for (i in 1:length(county)){
+#   out[[i]]<-sort(unique(values(county[[i]])))
+# }}
+# 
+# values_by_county<-lapply(cdl_fin_co_y, get_regional_crops)
+# crop_list <-sort(unique(unlist(values_by_county, use.names=FALSE)))
+# names(crop_list)<-'crop_code'
+# crop_list_fin<-cdl_acc[cdl_acc$Attribute_Code %in% crop_list,1:2] #pull out the crops actually in our layer
+# codes<-crop_list_fin$Attribute_Code
+
+
 numCores <- detectCores()
 print(numCores)
 
@@ -120,20 +146,70 @@ reclassify_cdl<-function(cdl_data){
 }}}
 
 
-cdl_fin_co_y<-cdl_fin_co[10:22] #extract correct number of years to new list
-
-
-
-#when time comes to test over counties, try this out:
-# foreach(county = length(cdl_fin_co)) %do% {
-#   mclapply(county, reclassify_cdl, mc.cores=numCores)
-# }
-
 mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
 
+#when time comes to test over counties, try this out:
+# foreach(county = length(cdl_fin_co_y)) %do% {
+#   mclapply(cdl_fin_co_y[[county]], reclassify_cdl, mc.cores=numCores)
+# }
 
-##doesn't work locally
 
+
+# #### Reclassify the adjusted CDL crops ####
+#We need to combine double crops and adjust the codes for crops as needed
+#note that this may be dependent on location; look to the compiled Accuracy data-set to learn more
+
+#the new attribute codes for the CDL crops will depend on the region and county; therefore, we create code to semi-automatically reclassify
+#old_crops<-codes
+# new_code<-1:length(old_crops)
+# old_non_dbl <- crop_list_fin[!grepl("Dbl", crop_list_fin$Cover_Type), ]
+# dbl <- crop_list_fin[grepl("Dbl", crop_list_fin$Cover_Type), ]
+# 
+
+
+
+for(y in 2008:2020){
+  for(c in codes){
+    rast<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",y,"_",c,"_stack.tif"))
+    val<-df$new[df$old==c]
+    fl<-paste0(co,"_",2008,"_",val,"_stack.tif")
+    writeRaster(rast, paste(cdl_dir_adj, fl, sep="/"), format="GTiff", overwrite=T)
+  }
+}
+
+
+test_72<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",2008,"_",1,"_stack.tif"))
+plot(test_72)
+
+test_71<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",2008,"_",71,"_stack.tif"))
+plot(test_71)
+
+
+#Re-classify the rasters which needed recombination
+#Dbl crop rasters are NOT mutually exclusive (e.g. dbl crop lettuce/durum wht is included in both lettuce and durum wheat)
+
+#Corn: New=1, Old=1, 225, 226, 228, 237, 241
+for(k in 2013:2017){
+  layer1<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_1_stack.tif"))
+  layer2<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_225_stack.tif"))
+  layer3<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_226_stack.tif"))
+  layer4<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_228_stack.tif"))
+  layer5<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_237_stack.tif"))
+  layer6<-stack(paste0("./", co, "/CDL_Acc/", co, "_", k, "_241_stack.tif"))
+  pres<-max(layer1[[1]], layer2[[1]], layer3[[1]], layer4[[1]], layer5[[1]], layer6[[1]], na.rm=T)
+  acc<-max(layer1[[2]], layer2[[2]], layer3[[2]], layer4[[2]], layer5[[2]], layer6[[2]], na.rm=T)
+  err<-max(layer1[[3]], layer2[[3]], layer3[[3]], layer4[[3]], layer5[[3]], layer6[[3]], na.rm=T)
+  rast<-stack(pres, acc, err)
+  fl<-paste0(co,"_",k,"_1_stack.tif")
+  writeRaster(rast, paste(wd, fl, sep="/"), format="GTiff", overwrite=T)
+}
+
+
+
+
+print("CDL formatted, reconstructed, and corrected for accuracy/error")
+
+#test locally here: for Tom
 #test out on a list of 2
 # cdl_fin_co_t<-cdl_fin_co[10:11]
 # reclassify_cdl<-function(cdl_data){
@@ -154,27 +230,3 @@ mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
 # mclapply(cdl_fin_co_t, reclassify_cdl, mc.cores=numCores)
 
 
-# #### Reclassify the adjusted CDL crops ####
-# #We need to combine double crops and adjust the codes for crops as needed
-# #note that this may be dependent on location; look to the compiled Accuracy dataset to learn more
-# rastlist<-c(3, 6, 10:14, 23, 25, 27, 29:36, 38, 39, 41:61, 66:69, 71, 72, 74:77, 204, 206:208,
-#             210:214, 216:224, 229, 242:250)
-# old<-rastlist
-# new<-c(3, 6:11, 14, 16, 17, 19:26, 28:61, 63:65, 67:81, 83:92)
-# df<-as.data.frame(cbind(old, new))
-#
-# #First, adjust code for the rasters that do not need to be combined
-# for(y in 2008:2020){
-#   for(i in rastlist){
-#     rast<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",2008,"_",215,"_stack.tif"))
-#     val<-df$new[df$old==72]
-#     fl<-paste0(co,"_",2008,"_",val,"_stack.tif")
-#     writeRaster(rast, paste(cdl_dir_adj, fl, sep="/"), format="GTiff", overwrite=T)
-#   }
-# }
-#
-
-print("CDL formatted, reconstructed, and corrected for accuracy/error")
-
-# test<-stack("C:\\Users\\epauluko\\OneDrive - Environmental Protection Agency (EPA)\\Profile\\Documents\\GitHub\\pollinator_probabilistic_loading\\data_in\\CDL\\reclass_cdl\\reclass_cdlPEORIA_2008_12_stack.tif")
-# plot(test)
