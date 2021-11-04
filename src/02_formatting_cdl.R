@@ -54,8 +54,8 @@ cdl_fin<-c(cdl_f, cdl_base)
 names(cdl_fin)<-list_names
 
 #make function mask and crop to study area
-co <- "PEORIA"
-study<-state[state$COUNTY_NAM == co,]
+# co <- "PEORIA"
+# study<-state[state$COUNTY_NAM == co,]
 mask_crop_cdl<-function(cdl){
   cdl_list<-crop(cdl, study)
   mask(cdl_list, study)
@@ -130,7 +130,6 @@ print(codes)
 numCores <- detectCores()
 print(numCores)
 
-
 reclassify_cdl<-function(cdl_data){
     for(y in 2008:2020){
       for(c in codes){
@@ -141,7 +140,7 @@ reclassify_cdl<-function(cdl_data){
     file_a<-reclassify(cdl, acc, right=NA) #reclassify the crop raster, so the cells are set to the crop's accuracy value
     file_e<-reclassify(cdl, err, right=NA) #reclassify the crop raster, so the cells are set to the crop's error value
     acc_stack<-stack(cdl, file_a, file_e) #make a stack
-    fl<-paste0(co, "_",y,"_",c,"_stack.tif") #set up the new file name, based on y and c
+    fl<-paste0("cdl", "_",y,"_",c,"_stack.tif") #set up the new file name, based on y and c
     writeRaster(acc_stack,  paste(cdl_dir_rec,"/",fl, sep=""), format="GTiff", overwrite=T) #save the raster stack
       }}
 }
