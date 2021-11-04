@@ -103,14 +103,16 @@ print(head(cdl_err))
 
 #First, get list of actual crop codes from all attribute layers
 cdl_fin_co_y<-cdl_fin_co[10:22] #match number of years for accuracy, for now
-out<-list()
+crop_list<-list()
 for (i in 1:length(cdl_fin_co_y)){
-  out[[i]]<-sort(unique(values(cdl_fin_co_y[[i]])))
+  crop_list[[i]]<-sort(unique(values(cdl_fin_co_y[[i]])))
 }
+
 crop_list<- sort(unique(unlist(out, use.names=FALSE)))
 names(crop_list)<-'crop_code'
 crop_list_fin<-cdl_acc[cdl_acc$Attribute_Code %in% crop_list,1:2] #pull out the crops actually in our layer
 codes<-crop_list_fin$Attribute_Code
+print(codes)
 
 #when it's time to loop this over counties, try this:
 # get_regional_crops<-function(county){
@@ -124,14 +126,13 @@ codes<-crop_list_fin$Attribute_Code
 # names(crop_list)<-'crop_code'
 # crop_list_fin<-cdl_acc[cdl_acc$Attribute_Code %in% crop_list,1:2] #pull out the crops actually in our layer
 # codes<-crop_list_fin$Attribute_Code
-
-
 numCores <- detectCores()
 print(numCores)
 
+
 reclassify_cdl<-function(cdl_data){
-  for(c in codes){
     for(y in 2008:2020){
+      for(c in codes){
    cdl <- cdl_data #get the CDL raster by year
     values(cdl)[values(cdl)!=c]<-0 #set any values that are not crop to 0
     acc<-as.matrix(cdl_acc%>%select("Attribute_Code",paste0(y))) #get the accuracy data for year y
@@ -141,7 +142,8 @@ reclassify_cdl<-function(cdl_data){
     acc_stack<-stack(cdl, file_a, file_e) #make a stack
     fl<-paste0(co, "_",y,"_",c,"_stack.tif") #set up the new file name, based on y and c
     writeRaster(acc_stack,  paste(cdl_dir_rec,"/",fl, sep=""), format="GTiff", overwrite=T) #save the raster stack
-}}}
+      }}
+}
 
 
 mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
