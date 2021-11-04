@@ -149,9 +149,9 @@ reclassify_cdl<-function(cdl_data){
 mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
 
 #when time comes to test over counties, try this out:
-foreach(county = length(cdl_fin_co_y)) %do% {
-  lapply(cdl_fin_co_y[[county]], reclassify_cdl, mc.cores=numCores)
-}
+# foreach(county = length(cdl_fin_co_y)) %do% {
+#   lapply(cdl_fin_co_y[[county]], reclassify_cdl, mc.cores=numCores)
+# }
 
 
 
