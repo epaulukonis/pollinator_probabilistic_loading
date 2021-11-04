@@ -27,8 +27,8 @@ study<-spTransform(study, crs(bomb_h)) #reproject
 study<-aggregate(study)
 
 
-plot(state)
-plot(study, add=T, col='blue')
+# plot(state)
+# plot(study, add=T, col='blue')
 
 # plot(bomb_l, add=T, col='blue')
 # plot(bomb_h, add=T, col='red')
