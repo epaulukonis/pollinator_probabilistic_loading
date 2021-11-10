@@ -124,6 +124,7 @@ calculate_percent<-function(x){
 }
 
 out<-lapply(cdl_fin_co_y, calculate_percent)
+
 for (y in 1:length(out)){
   out[[y]]$Crop<-crop_list_fin[crop_list_fin$Attribute_Code %in% out[[y]]$Var1,1] 
 }
@@ -146,27 +147,16 @@ for(i in 1:length(out)){
   df<-out[[i]]
   plot_list[i]<-plot_data_column(df)
 }
-
-test<-lapply(plot_list, plot_data_column)
-test[13]
-
-
-n <- length(test)
-nCol <- floor(sqrt(n))
-do.call("grid.arrange", c(test, ncol=nCol))
+finished_plots<-lapply(plot_list, plot_data_column)
+years<-2008:2020
+for (i in 1:13){
+  plot_list[[i]]$Year <- years[i]
+}
 
 
-df<-out[[1]]
-ggplot(df, aes(x = Crop, y = Percent, fill=Crop)) + 
-  geom_bar(stat = "identity")+
-  coord_flip()+
-  scale_x_discrete(limits=rev)+
-  theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1), panel.background = element_blank(), 
-        axis.line = element_line(colour = "black"), 
-        axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
-        axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
-        legend.position = "none")
+final_list<-do.call("rbind", plot_list)
 
+final_rem<-final_list[!final_list$Percent < 1,]
 
 
 
