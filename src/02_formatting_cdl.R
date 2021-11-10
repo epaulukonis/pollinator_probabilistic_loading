@@ -62,8 +62,6 @@ mask_crop_cdl<-function(cdl){
 }
 cdl_fin_co<-lapply(cdl_fin, mask_crop_cdl)
 
-
-
 # when you get to the point where we'll do it for all counties, follow this:
 # county_names<-state$COUNTY_NAM
 # cdl_fin_co<-list()
@@ -115,6 +113,65 @@ crop_list_fin<-cdl_acc[cdl_acc$Attribute_Code %in% crop_list,1:2] #pull out the 
 codes<-crop_list_fin$Attribute_Code
 print(codes)
 
+#let's look at the percent of each crop's contribution to the study area for each year
+
+calculate_percent<-function(x){
+  x[!x == crop_list_fin$Attribute_Code]<-NA
+  x[x == 0]<-NA
+  df <- as.data.frame(table(as.matrix(x)))
+  df$Percent <- round(df$Freq / sum(df$Freq) * 100,3)
+  df
+}
+
+out<-lapply(cdl_fin_co_y, calculate_percent)
+for (y in 1:length(out)){
+  out[[y]]$Crop<-crop_list_fin[crop_list_fin$Attribute_Code %in% out[[y]]$Var1,1] 
+}
+
+#create function to make simple plot
+plot_data_column = function (data) {
+  ggplot(data, aes(x = Crop, y = Percent, fill=Crop)) + 
+    geom_bar(stat = "identity")+
+    coord_flip()+
+    scale_x_discrete(limits=rev)+
+    theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1), panel.background = element_blank(), 
+          axis.line = element_line(colour = "black"), 
+          axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
+          axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
+          legend.position = "none")
+}
+
+plot_list<-list()
+for(i in 1:length(out)){
+  df<-out[[i]]
+  plot_list[i]<-plot_data_column(df)
+}
+
+test<-lapply(plot_list, plot_data_column)
+test[13]
+
+
+n <- length(test)
+nCol <- floor(sqrt(n))
+do.call("grid.arrange", c(test, ncol=nCol))
+
+
+df<-out[[1]]
+ggplot(df, aes(x = Crop, y = Percent, fill=Crop)) + 
+  geom_bar(stat = "identity")+
+  coord_flip()+
+  scale_x_discrete(limits=rev)+
+  theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1), panel.background = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
+        axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
+        legend.position = "none")
+
+
+
+
+
+
 #when it's time to loop this over counties, try this:
 # get_regional_crops<-function(county){
 # out<-list()
@@ -129,24 +186,24 @@ print(codes)
 # codes<-crop_list_fin$Attribute_Code
 numCores <- detectCores()
 print(numCores)
-
-reclassify_cdl<-function(cdl_data){
-    for(y in 2008:2020){
-      for(c in codes){
-   cdl <- cdl_data #get the CDL raster by year
-    values(cdl)[values(cdl)!=c]<-0 #set any values that are not crop to 0
-    acc<-as.matrix(cdl_acc%>%select("Attribute_Code",paste0(y))) #get the accuracy data for year y
-    err<-as.matrix(cdl_err%>%select("Attribute_Code",paste0(y))) #get the error data for year y
-    file_a<-reclassify(cdl, acc, right=NA) #reclassify the crop raster, so the cells are set to the crop's accuracy value
-    file_e<-reclassify(cdl, err, right=NA) #reclassify the crop raster, so the cells are set to the crop's error value
-    acc_stack<-stack(cdl, file_a, file_e) #make a stack
-    fl<-paste0("cdl", "_",y,"_",c,"_stack.tif") #set up the new file name, based on y and c
-    writeRaster(acc_stack,  paste(cdl_dir_rec,"/",fl, sep=""), format="GTiff", overwrite=T) #save the raster stack
-      }}
-}
-
-
-mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
+# 
+# reclassify_cdl<-function(cdl_data){
+#     for(y in 2008:2020){
+#       for(c in codes){
+#    cdl <- cdl_data #get the CDL raster by year
+#     values(cdl)[values(cdl)!=c]<-0 #set any values that are not crop to 0
+#     acc<-as.matrix(cdl_acc%>%select("Attribute_Code",paste0(y))) #get the accuracy data for year y
+#     err<-as.matrix(cdl_err%>%select("Attribute_Code",paste0(y))) #get the error data for year y
+#     file_a<-reclassify(cdl, acc, right=NA) #reclassify the crop raster, so the cells are set to the crop's accuracy value
+#     file_e<-reclassify(cdl, err, right=NA) #reclassify the crop raster, so the cells are set to the crop's error value
+#     acc_stack<-stack(cdl, file_a, file_e) #make a stack
+#     fl<-paste0("cdl", "_",y,"_",c,"_stack.tif") #set up the new file name, based on y and c
+#     writeRaster(acc_stack,  paste(cdl_dir_rec,"/",fl, sep=""), format="GTiff", overwrite=T) #save the raster stack
+#       }}
+# }
+# 
+# 
+# mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
 
 #when time comes to test over counties, try this out:
 # foreach(county = length(cdl_fin_co_y)) %do% {
@@ -178,11 +235,11 @@ mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
 # }
 
 
-# test_72<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",2008,"_",1,"_stack.tif"))
-# plot(test_72)
-# 
-# test_71<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",2008,"_",71,"_stack.tif"))
-# plot(test_71)
+test_1<-stack(paste0(cdl_dir_rec, "/cdl", "_",2008,"_",1,"_stack.tif"))
+plot(test_1)
+
+test_30<-stack(paste0(cdl_dir_rec, "/cdl", "_",2017,"_",30,"_stack.tif"))
+plot(test_30)
 
 
 #Re-classify the rasters which needed recombination
