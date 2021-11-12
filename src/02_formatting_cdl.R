@@ -155,12 +155,23 @@ for (i in 1:13){
 
 
 final_list<-do.call("rbind", plot_list)
-
 final_rem<-final_list[!final_list$Percent < 1,]
 
+final_rem$Year<-as.factor(final_rem$Year)
 
 
+  ggplot(final_rem, aes(Year,Percent, group=factor(Crop), colour =  factor(Crop))) + 
+    geom_line()+
+    geom_point()+
+    # coord_flip()+
+    # scale_x_discrete(limits=rev)+
+    theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1), panel.background = element_blank(), 
+          axis.line = element_line(colour = "black"), 
+          axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
+          axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"))
 
+
+#create more indices on x axis
 
 #when it's time to loop this over counties, try this:
 # get_regional_crops<-function(county){
