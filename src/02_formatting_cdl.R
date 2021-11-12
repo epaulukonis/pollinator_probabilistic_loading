@@ -62,6 +62,7 @@ mask_crop_cdl<-function(cdl){
 }
 cdl_fin_co<-lapply(cdl_fin, mask_crop_cdl)
 
+
 # when you get to the point where we'll do it for all counties, follow this:
 # county_names<-state$COUNTY_NAM
 # cdl_fin_co<-list()
