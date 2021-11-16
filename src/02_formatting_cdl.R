@@ -158,6 +158,7 @@ for(i in 1:length(out)){
 final_list<-do.call("rbind", plot_list)
 final_rem<-final_list[!final_list$Percent < 1,]
 final_rem$Year<-as.factor(final_rem$Year)
+jpeg("/work/HONEYBEE/eap/pollinator_probabilistic_loading/crop_graph.jpg", width = 350, height = "350")
   ggplot(final_rem, aes(Year,Percent, group=factor(Crop), colour =  factor(Crop))) + 
     geom_line()+
     geom_point()+
@@ -167,7 +168,7 @@ final_rem$Year<-as.factor(final_rem$Year)
           axis.line = element_line(colour = "black"), 
           axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
           axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"))
-
+dev.off()
 
 #create more indices on x axis
 
@@ -222,8 +223,6 @@ print(numCores)
 # dbl <- crop_list_fin[grepl("Dbl", crop_list_fin$Cover_Type), ]
 # 
 
-
-
 # for(y in 2008:2020){
 #   for(c in codes){
 #     rast<-stack(paste0(cdl_dir_rec, "/CDL", co, "_",y,"_",c,"_stack.tif"))
@@ -234,11 +233,11 @@ print(numCores)
 # }
 
 
-test_1<-stack(paste0(cdl_dir_rec, "/cdl", "_",2008,"_",1,"_stack.tif"))
-plot(test_1)
-
-test_30<-stack(paste0(cdl_dir_rec, "/cdl", "_",2017,"_",30,"_stack.tif"))
-plot(test_30)
+# test_1<-stack(paste0(cdl_dir_rec, "/cdl", "_",2008,"_",1,"_stack.tif"))
+# plot(test_1)
+# 
+# test_30<-stack(paste0(cdl_dir_rec, "/cdl", "_",2017,"_",30,"_stack.tif"))
+# plot(test_30)
 
 
 #Re-classify the rasters which needed recombination
