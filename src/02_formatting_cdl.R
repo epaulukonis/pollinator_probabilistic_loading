@@ -161,7 +161,7 @@ final_rem$Year<-as.factor(final_rem$Year)
 
 
 #jpeg("/work/HONEYBEE/eap/pollinator_probabilistic_loading/crop_graph.jpg", width = 350, height = "350")
-png(paste0(root_figures, "/crop_plot_by_year.png"))
+png(paste0("/work/HONEYBEE/eap/pollinator_probabilistic_loading/figures/crop_plot_by_year.png"))
   ggplot(final_rem, aes(Year,Percent, group=Crop, colour =  Crop)) + 
     geom_line()+
     geom_point()+
