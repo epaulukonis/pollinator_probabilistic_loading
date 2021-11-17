@@ -148,12 +148,12 @@ for(i in 1:length(out)){
   df<-out[[i]]
   plot_list[i]<-plot_data_column(df)
 }
+
 # finished_plots<-lapply(plot_list, plot_data_column)
 # years<-2008:2020
 # for (i in 1:13){
 #   plot_list[[i]]$Year <- years[i]
 # }
-
 
 final_list<-do.call("rbind", plot_list)
 final_rem<-final_list[!final_list$Percent < 1,]
