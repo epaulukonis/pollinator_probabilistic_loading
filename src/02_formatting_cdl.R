@@ -56,7 +56,7 @@ names(cdl_fin)<-list_names
 #make function mask and crop to study area
 # co <- "PEORIA"
 # study<-state[state$COUNTY_NAM == co,]
-plot(study)
+#plot(study)
 mask_crop_cdl<-function(cdl){
   cdl_list<-crop(cdl, study)
   mask(cdl_list, study)
@@ -116,7 +116,6 @@ codes<-crop_list_fin$Attribute_Code
 print(codes)
 
 #let's look at the percent of each crop's contribution to the study area for each year
-
 calculate_percent<-function(x){
   x[!x == crop_list_fin$Attribute_Code]<-NA
   x[x == 0]<-NA
@@ -161,7 +160,7 @@ final_rem<-final_list[!final_list$Percent < 1,]
 final_rem$Year<-as.factor(final_rem$Year)
 
 
-jpeg("/work/HONEYBEE/eap/pollinator_probabilistic_loading/crop_graph.jpg", width = 350, height = "350")
+#jpeg("/work/HONEYBEE/eap/pollinator_probabilistic_loading/crop_graph.jpg", width = 350, height = "350")
   ggplot(final_rem, aes(Year,Percent, group=Crop, colour =  Crop)) + 
     geom_line()+
     geom_point()+
@@ -171,7 +170,7 @@ jpeg("/work/HONEYBEE/eap/pollinator_probabilistic_loading/crop_graph.jpg", width
           axis.line = element_line(colour = "black"), 
           axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
           axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"))
-dev.off()
+#dev.off()
 
 #create more indices on x axis
 
@@ -187,8 +186,8 @@ dev.off()
 # names(crop_list)<-'crop_code'
 # crop_list_fin<-cdl_acc[cdl_acc$Attribute_Code %in% crop_list,1:2] #pull out the crops actually in our layer
 # codes<-crop_list_fin$Attribute_Code
-numCores <- detectCores()
-print(numCores)
+# numCores <- detectCores()
+# print(numCores)
 # 
 # reclassify_cdl<-function(cdl_data){
 #     for(y in 2008:2020){
