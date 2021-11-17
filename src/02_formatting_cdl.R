@@ -161,16 +161,17 @@ final_rem$Year<-as.factor(final_rem$Year)
 
 
 #jpeg("/work/HONEYBEE/eap/pollinator_probabilistic_loading/crop_graph.jpg", width = 350, height = "350")
+png(paste0(root_figures, "/crop_plot_by_year.png"))
   ggplot(final_rem, aes(Year,Percent, group=Crop, colour =  Crop)) + 
     geom_line()+
     geom_point()+
     # coord_flip()+
     # scale_x_discrete(limits=rev)+
-    theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1), panel.background = element_blank(), 
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1), panel.background = element_blank(), 
           axis.line = element_line(colour = "black"), 
           axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
           axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"))
-#dev.off()
+dev.off()
 
 #create more indices on x axis
 
