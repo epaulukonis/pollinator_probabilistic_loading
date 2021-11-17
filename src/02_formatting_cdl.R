@@ -1,6 +1,6 @@
 ### Probabilistic Crop Loading 
 
-###01 Formatting CDL data
+###02 Formatting CDL data
 
 #Edited by E. Paulukonis Sept 2021
 import_start_time <- Sys.time()
