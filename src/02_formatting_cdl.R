@@ -56,6 +56,7 @@ names(cdl_fin)<-list_names
 #make function mask and crop to study area
 # co <- "PEORIA"
 # study<-state[state$COUNTY_NAM == co,]
+plot(study)
 mask_crop_cdl<-function(cdl){
   cdl_list<-crop(cdl, study)
   mask(cdl_list, study)
@@ -149,17 +150,19 @@ for(i in 1:length(out)){
   plot_list[i]<-plot_data_column(df)
 }
 
-# finished_plots<-lapply(plot_list, plot_data_column)
-# years<-2008:2020
-# for (i in 1:13){
-#   plot_list[[i]]$Year <- years[i]
-# }
+finished_plots<-lapply(plot_list, plot_data_column)
+years<-2008:2020
+for (i in 1:13){
+plot_list[[i]]$Year <- years[i]
+}
 
 final_list<-do.call("rbind", plot_list)
 final_rem<-final_list[!final_list$Percent < 1,]
 final_rem$Year<-as.factor(final_rem$Year)
+
+
 jpeg("/work/HONEYBEE/eap/pollinator_probabilistic_loading/crop_graph.jpg", width = 350, height = "350")
-  ggplot(final_rem, aes(Year,Percent, group=factor(Crop), colour =  factor(Crop))) + 
+  ggplot(final_rem, aes(Year,Percent, group=Crop, colour =  Crop)) + 
     geom_line()+
     geom_point()+
     # coord_flip()+
