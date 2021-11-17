@@ -131,17 +131,17 @@ for (y in 1:length(out)){
 }
 
 #create function to make simple plot
-# plot_data_column = function (data) {
-#   ggplot(data, aes(x = Crop, y = Percent, fill=Crop)) + 
-#     geom_bar(stat = "identity")+
-#     coord_flip()+
-#     scale_x_discrete(limits=rev)+
-#     theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1), panel.background = element_blank(), 
-#           axis.line = element_line(colour = "black"), 
-#           axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
-#           axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
-#           legend.position = "none")
-# }
+plot_data_column = function (data) {
+  ggplot(data, aes(x = Crop, y = Percent, fill=Crop)) +
+    geom_bar(stat = "identity")+
+    coord_flip()+
+    scale_x_discrete(limits=rev)+
+    theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1), panel.background = element_blank(),
+          axis.line = element_line(colour = "black"),
+          axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
+          axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
+          legend.position = "none")
+}
 
 plot_list<-list()
 for(i in 1:length(out)){
