@@ -27,9 +27,20 @@ plot(bomb_l, add=T)
 
 
 # scraps 02 for counties
+# line 65
+# when you get to the point where we'll do it for all counties, follow this:
+# county_names<-state$COUNTY_NAM
+# cdl_fin_co<-list()
+# mask_crop_cdl<-function(cdl){
+#   for (c in 1:length(county_names)){
+#   county<-state[state$COUNTY_NAM == county_names[c],]
+#   county_c<-crop(cdl, county)
+#   cdl_fin_co[c]<-mask(county_c, county)
+# }}
+# you'll have a nested list of stacked rasters by county
 
 
-
+# line 202
 #when it's time to loop this over counties, try this:
 # get_regional_crops<-function(county){
 # out<-list()
@@ -38,7 +49,7 @@ plot(bomb_l, add=T)
 # }}
 # values_by_county<-lapply(cdl_fin_co_y, get_regional_crops)
 
-
+#line 228 (function over all)
 #when time comes to test over counties, try this out:
 # foreach(county = length(cdl_fin_co_y)) %do% {
 #   lapply(cdl_fin_co_y[[county]], reclassify_cdl, mc.cores=numCores)

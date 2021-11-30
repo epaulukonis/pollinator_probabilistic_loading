@@ -63,18 +63,6 @@ mask_crop_cdl<-function(cdl){
 }
 cdl_fin_co<-lapply(cdl_fin, mask_crop_cdl)
 
-
-# when you get to the point where we'll do it for all counties, follow this:
-# county_names<-state$COUNTY_NAM
-# cdl_fin_co<-list()
-# mask_crop_cdl<-function(cdl){
-#   for (c in 1:length(county_names)){
-#   county<-state[state$COUNTY_NAM == county_names[c],]
-#   county_c<-crop(cdl, county)
-#   cdl_fin_co[c]<-mask(county_c, county)
-# }}
-# you'll have a nested list of stacked rasters by county
-
  
 #### Get accuracy and error data ####
 #https://www.nass.usda.gov/Research_and_Science/Cropland/sarsfaqs2.php#Section3_22.0
@@ -83,9 +71,9 @@ cdl_fin_co<-lapply(cdl_fin, mask_crop_cdl)
 #if using code below
 cdl_acc<-read.csv(paste0(cdl_acc_dir,"/CDL_Acc_il.csv"))
 cdl_err<-read.csv(paste0(cdl_acc_dir,"/CDL_Err_il.csv"))
-nnames<-2007:2020
-names(cdl_acc)[3:16]<-nnames
-names(cdl_err)[3:16]<-nnames
+nnames<-c(names(cdl_acc)[1:2], 2007:2020)
+names(cdl_acc)<-nnames
+names(cdl_err)<-nnames
 
 # round 
 cdl_acc[,3:16]<-round(cdl_acc[,3:16], 3)
@@ -201,15 +189,6 @@ final_rem$Year<-as.factor(final_rem$Year)
   ggsave(paste0("/work/HONEYBEE/eap/pollinator_probabilistic_loading/figures/crop_plot_by_year.png"))
 
 
-#when it's time to loop this over counties, try this:
-# get_regional_crops<-function(county){
-# out<-list()
-# for (i in 1:length(county)){
-#   out[[i]]<-sort(unique(values(county[[i]])))
-# }}
-# values_by_county<-lapply(cdl_fin_co_y, get_regional_crops)
-
-
 crop_list <-sort(unique(unlist(values_by_county, use.names=FALSE)))
 names(crop_list)<-'crop_code'
 crop_list_fin<-cdl_acc[cdl_acc$Attribute_Code %in% crop_list,1:2] #pull out the crops actually in our layer
@@ -235,17 +214,10 @@ reclassify_cdl<-function(cdl_data){
 
 mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
 
-#when time comes to test over counties, try this out:
-# foreach(county = length(cdl_fin_co_y)) %do% {
-#   lapply(cdl_fin_co_y[[county]], reclassify_cdl, mc.cores=numCores)
-# }
 
 
 
 # #### Pull out the crop layers we're interested in ####
-
-
-
 
 
 
