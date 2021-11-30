@@ -123,6 +123,7 @@ print(head(cdl_err))
 
 #First, get list of actual crop codes from all attribute layers
 #cdl_fin_co_y<-cdl_fin_co[10:22] #match number of years for accuracy, for now
+cdl_fin_co_y<-cdl_fin_co
 out<-list()
 for (i in 1:length(cdl_fin_co_y)){
   out[[i]]<-sort(unique(values(cdl_fin_co_y[[i]])))
