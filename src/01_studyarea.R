@@ -35,6 +35,7 @@ study<-aggregate(study)
 
 # note that you may need to read out files to QGIS or other to look-up specific county
 
+# if you're interested in a specific county, use code below:
 # extract county
 # co<-"PEORIA" #set county
 # county<-state[state$COUNTY_NAM == co,]

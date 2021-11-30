@@ -83,14 +83,41 @@ cdl_fin_co<-lapply(cdl_fin, mask_crop_cdl)
 #if using code below
 cdl_acc<-read.csv(paste0(cdl_acc_dir,"/CDL_Acc_il.csv"))
 cdl_err<-read.csv(paste0(cdl_acc_dir,"/CDL_Err_il.csv"))
-nnames<-2008:2020
-names(cdl_acc)[3:15]<-nnames
-names(cdl_err)[3:15]<-nnames
+nnames<-2007:2020
+names(cdl_acc)[3:16]<-nnames
+names(cdl_err)[3:16]<-nnames
+
+# round 
+cdl_acc[,3:16]<-round(cdl_acc[,3:16], 3)
+cdl_err[,3:16]<-round(cdl_err[,3:16], 3)
+
+#we also need to average the LANDSAT AD tiles for 1999-2006
+ad_data<-read.csv(paste0(cdl_acc_dir,"/cdl_19992006_IL.csv"))
+# group CE by CDL class, year, and average the output value across AD tiles
+ad_CE<-ad_data %>%  
+  group_by(CDL, Year) %>% summarize(CE_mean=mean(CE))
+# spead the dataframe to match
+ad_CE <- ad_CE %>% tidyr::spread(key = Year, value = CE_mean)
+ad_CE[,2:9]<-round((ad_CE[,2:9]/100),3)
+
+# do the same for UA
+ad_UA<-ad_data %>%  
+  group_by(CDL, Year) %>% summarize(UA_mean=mean(UA))
+ad_UA <- ad_UA %>% tidyr::spread(key = Year, value = UA_mean)
+ad_UA[,2:9]<-round((ad_UA[,2:9]/100),3)
+
+
+#rearrange in order of years
+cdl_acc<-merge(cdl_acc, ad_UA, by.x = "Attribute_Code", by.y = "CDL")
+cdl_acc<-cdl_acc[,c(1:2,17:24,3:16)]
+cdl_err<-merge(cdl_err, ad_CE, by.x = "Attribute_Code", by.y = "CDL")
+cdl_err<-cdl_err[,c(1:2,17:24,3:16)]
+
 
 #instead of setting all NAs to 0.5, as in Budreski et al., we'll use the average of years to backfill missing values
 correct_backfill<-function(data){
 o<-data[,1:2]
-m<-as.matrix(data[,3:15])
+m<-as.matrix(data[,3:24])
 k <- which(is.na(m), arr.ind=TRUE)
 m[k] <- rowMeans(m, na.rm=TRUE)[k[,1]]
 m<-as.data.frame(m)
@@ -104,7 +131,7 @@ print(head(cdl_acc))
 print(head(cdl_err))
 
 #First, get list of actual crop codes from all attribute layers
-cdl_fin_co_y<-cdl_fin_co[10:22] #match number of years for accuracy, for now
+#cdl_fin_co_y<-cdl_fin_co[10:22] #match number of years for accuracy, for now
 out<-list()
 for (i in 1:length(cdl_fin_co_y)){
   out[[i]]<-sort(unique(values(cdl_fin_co_y[[i]])))
@@ -150,7 +177,7 @@ for(i in 1:length(out)){
 }
 
 finished_plots<-lapply(plot_list, plot_data_column)
-years<-2008:2020
+years<-1999:2020
 for (i in 1:13){
 plot_list[[i]]$Year <- years[i]
 }
@@ -172,7 +199,7 @@ final_rem$Year<-as.factor(final_rem$Year)
           axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
           axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"))
   ggsave(paste0("/work/HONEYBEE/eap/pollinator_probabilistic_loading/figures/crop_plot_by_year.png"))
-#create more indices on x axis
+
 
 #when it's time to loop this over counties, try this:
 # get_regional_crops<-function(county){
@@ -181,31 +208,31 @@ final_rem$Year<-as.factor(final_rem$Year)
 #   out[[i]]<-sort(unique(values(county[[i]])))
 # }}
 # 
-# values_by_county<-lapply(cdl_fin_co_y, get_regional_crops)
-# crop_list <-sort(unique(unlist(values_by_county, use.names=FALSE)))
-# names(crop_list)<-'crop_code'
-# crop_list_fin<-cdl_acc[cdl_acc$Attribute_Code %in% crop_list,1:2] #pull out the crops actually in our layer
-# codes<-crop_list_fin$Attribute_Code
-# numCores <- detectCores()
-# print(numCores)
-# 
-# reclassify_cdl<-function(cdl_data){
-#     for(y in 2008:2020){
-#       for(c in codes){
-#    cdl <- cdl_data #get the CDL raster by year
-#     values(cdl)[values(cdl)!=c]<-0 #set any values that are not crop to 0
-#     acc<-as.matrix(cdl_acc%>%select("Attribute_Code",paste0(y))) #get the accuracy data for year y
-#     err<-as.matrix(cdl_err%>%select("Attribute_Code",paste0(y))) #get the error data for year y
-#     file_a<-reclassify(cdl, acc, right=NA) #reclassify the crop raster, so the cells are set to the crop's accuracy value
-#     file_e<-reclassify(cdl, err, right=NA) #reclassify the crop raster, so the cells are set to the crop's error value
-#     acc_stack<-stack(cdl, file_a, file_e) #make a stack
-#     fl<-paste0("cdl", "_",y,"_",c,"_stack.tif") #set up the new file name, based on y and c
-#     writeRaster(acc_stack,  paste(cdl_dir_rec,"/",fl, sep=""), format="GTiff", overwrite=T) #save the raster stack
-#       }}
-# }
-# 
-# 
-# mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
+values_by_county<-lapply(cdl_fin_co_y, get_regional_crops)
+crop_list <-sort(unique(unlist(values_by_county, use.names=FALSE)))
+names(crop_list)<-'crop_code'
+crop_list_fin<-cdl_acc[cdl_acc$Attribute_Code %in% crop_list,1:2] #pull out the crops actually in our layer
+codes<-crop_list_fin$Attribute_Code
+numCores <- detectCores()
+print(numCores)
+
+reclassify_cdl<-function(cdl_data){
+    for(y in 1999:2020){
+      for(c in codes){
+   cdl <- cdl_data #get the CDL raster by year
+    values(cdl)[values(cdl)!=c]<-0 #set any values that are not crop to 0
+    acc<-as.matrix(cdl_acc%>%select("Attribute_Code",paste0(y))) #get the accuracy data for year y
+    err<-as.matrix(cdl_err%>%select("Attribute_Code",paste0(y))) #get the error data for year y
+    file_a<-reclassify(cdl, acc, right=NA) #reclassify the crop raster, so the cells are set to the crop's accuracy value
+    file_e<-reclassify(cdl, err, right=NA) #reclassify the crop raster, so the cells are set to the crop's error value
+    acc_stack<-stack(cdl, file_a, file_e) #make a stack
+    fl<-paste0("cdl", "_",y,"_",c,"_stack.tif") #set up the new file name, based on y and c
+    writeRaster(acc_stack,  paste(cdl_dir_rec,"/",fl, sep=""), format="GTiff", overwrite=T) #save the raster stack
+      }}
+}
+
+
+mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
 
 #when time comes to test over counties, try this out:
 # foreach(county = length(cdl_fin_co_y)) %do% {
