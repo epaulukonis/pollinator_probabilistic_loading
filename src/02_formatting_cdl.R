@@ -87,7 +87,6 @@ nnames<-2007:2020
 names(cdl_acc)[3:16]<-nnames
 names(cdl_err)[3:16]<-nnames
 
-
 # round 
 cdl_acc[,3:16]<-round(cdl_acc[,3:16], 3)
 cdl_err[,3:16]<-round(cdl_err[,3:16], 3)
@@ -208,8 +207,9 @@ final_rem$Year<-as.factor(final_rem$Year)
 # for (i in 1:length(county)){
 #   out[[i]]<-sort(unique(values(county[[i]])))
 # }}
-# 
-values_by_county<-lapply(cdl_fin_co_y, get_regional_crops)
+# values_by_county<-lapply(cdl_fin_co_y, get_regional_crops)
+
+
 crop_list <-sort(unique(unlist(values_by_county, use.names=FALSE)))
 names(crop_list)<-'crop_code'
 crop_list_fin<-cdl_acc[cdl_acc$Attribute_Code %in% crop_list,1:2] #pull out the crops actually in our layer
