@@ -122,12 +122,14 @@ print(head(cdl_acc))
 print(head(cdl_err))
 
 #First, get list of actual crop codes from all attribute layers
-#cdl_fin_co_y<-cdl_fin_co[10:22] #match number of years for accuracy, for now
+#cdl_fin_co_y<-cdl_fin_co[10:22] #if you need a specific subset of years
 cdl_fin_co_y<-cdl_fin_co
 out<-list()
 for (i in 1:length(cdl_fin_co_y)){
   out[[i]]<-sort(unique(values(cdl_fin_co_y[[i]])))
 }
+
+#create list of crops, sort
 crop_list<- sort(unique(unlist(out, use.names=FALSE)))
 names(crop_list)<-'crop_code'
 crop_list_fin<-cdl_acc[cdl_acc$Attribute_Code %in% crop_list,1:2] #pull out the crops actually in our layer
@@ -142,9 +144,7 @@ calculate_percent<-function(x){
   df$Percent <- round(df$Freq / sum(df$Freq) * 100,3)
   df
 }
-
 out<-lapply(cdl_fin_co_y, calculate_percent)
-
 for (y in 1:length(out)){
   out[[y]]$Crop<-crop_list_fin[crop_list_fin$Attribute_Code %in% out[[y]]$Var1,1]
 }
@@ -162,6 +162,7 @@ plot_data_column = function (data) {
           legend.position = "none")
 }
 
+#create list of individual plots of crops for each year
 plot_list<-list()
 for(i in 1:length(out)){
   df<-out[[i]]
@@ -175,14 +176,11 @@ plot_list[[i]]$Year <- years[i]
 }
 
 print(plot_list)
-
 final_list<-do.call("rbind", plot_list)
 final_rem<-final_list[!final_list$Percent < 1,]
 final_rem$Year<-as.factor(final_rem$Year)
 
-
-#jpeg("/work/HONEYBEE/eap/pollinator_probabilistic_loading/crop_graph.jpg", width = 350, height = "350")
-#png(paste0("/work/HONEYBEE/eap/pollinator_probabilistic_loading/figures/crop_plot_by_year.png"))
+#save plot of crop proportion by year, combined into one
   ggplot(final_rem, aes(Year,Percent, group=Crop, colour =  Crop)) +
     geom_line()+
     geom_point()+
@@ -194,14 +192,9 @@ final_rem$Year<-as.factor(final_rem$Year)
           axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"))
   ggsave(paste0("/work/HONEYBEE/eap/pollinator_probabilistic_loading/figures/crop_plot_by_year.png"))
 
-
-crop_list <-sort(unique(unlist(values_by_county, use.names=FALSE)))
-names(crop_list)<-'crop_code'
-crop_list_fin<-cdl_acc[cdl_acc$Attribute_Code %in% crop_list,1:2] #pull out the crops actually in our layer
-codes<-crop_list_fin$Attribute_Code
+#run reclassification function over our area codes within all years
 numCores <- detectCores()
 print(numCores)
-
 reclassify_cdl<-function(cdl_data){
     for(y in 1999:2020){
       for(c in codes){
@@ -217,7 +210,7 @@ reclassify_cdl<-function(cdl_data){
       }}
 }
 
-
+#apply over all available cores
 mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
 
 

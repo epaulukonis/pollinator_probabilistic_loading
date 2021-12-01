@@ -48,6 +48,11 @@ plot(bomb_l, add=T)
 #   out[[i]]<-sort(unique(values(county[[i]])))
 # }}
 # values_by_county<-lapply(cdl_fin_co_y, get_regional_crops)
+#crop_list <-sort(unique(unlist(values_by_county, use.names=FALSE)))
+#names(crop_list)<-'crop_code'
+# crop_list_fin<-cdl_acc[cdl_acc$Attribute_Code %in% crop_list,1:2] #pull out the crops actually in our layer
+# codes<-crop_list_fin$Attribute_Code
+# print(codes)
 
 #line 228 (function over all)
 #when time comes to test over counties, try this out:
