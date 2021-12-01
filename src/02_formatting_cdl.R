@@ -181,7 +181,7 @@ final_rem<-final_list[!final_list$Percent < 1,]
 final_rem$Year<-as.factor(final_rem$Year)
 
 #save plot of crop proportion by year, combined into one
-  ggplot(final_rem, aes(Year,Percent, group=Crop, colour =  Crop)) +
+  ggplot(final_rem, aes(Year,Percent, group=factor(Crop), colour =  factor(Crop))) +
     geom_line()+
     geom_point()+
     # coord_flip()+
