@@ -179,6 +179,7 @@ print(plot_list)
 final_list<-do.call("rbind", plot_list)
 final_rem<-final_list[!final_list$Percent < 1,]
 final_rem$Year<-as.factor(final_rem$Year)
+final_rem$Year<-as.factor(final_rem$Year)
 
 #save plot of crop proportion by year, combined into one
   ggplot(final_rem, aes(Year,Percent, group=factor(Crop), colour =  factor(Crop))) +
@@ -195,9 +196,12 @@ final_rem$Year<-as.factor(final_rem$Year)
 #run reclassification function over our area codes within all years
 numCores <- detectCores()
 print(numCores)
+
+crop_final<-unique(final_rem$Crop) #pull out set of final crops we're interested in
+
 reclassify_cdl<-function(cdl_data){
     for(y in 1999:2020){
-      for(c in codes){
+      for(c in crop_final){
    cdl <- cdl_data #get the CDL raster by year
     values(cdl)[values(cdl)!=c]<-0 #set any values that are not crop to 0
     acc<-as.matrix(cdl_acc%>%select("Attribute_Code",paste0(y))) #get the accuracy data for year y
@@ -212,12 +216,6 @@ reclassify_cdl<-function(cdl_data){
 
 #apply over all available cores
 mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
-
-
-
-
-# #### Pull out the crop layers we're interested in ####
-
 
 
 print("CDL formatted, reconstructed, and corrected for accuracy/error")
