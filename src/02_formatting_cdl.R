@@ -1,8 +1,8 @@
 ### Probabilistic Crop Loading 
 
-###02 Formatting CDL data
+### 02 Formatting CDL data
 
-#Edited by E. Paulukonis Sept 2021
+# Edited by E. Paulukonis Sept 2021
 import_start_time <- Sys.time()
 print("stepping into 02_formatting_cdl.R")
 
@@ -24,6 +24,8 @@ set_1<-cdl_data[c(1:7)]
 set_2<-cdl_data[c(8:9)]
 #get rest
 cdl_base<-cdl_data[c(10:22)]
+
+#this section is for writing the new rasters out with a new projection and extent
 
 # r1<-cdl_data[[22]]
 # out_1<-lapply(set_1, function(file){
@@ -56,7 +58,7 @@ names(cdl_fin)<-list_names
 #make function mask and crop to study area
 # co <- "PEORIA"
 # study<-state[state$COUNTY_NAM == co,]
-#plot(study)
+# plot(study)
 mask_crop_cdl<-function(cdl){
   cdl_list<-crop(cdl, study)
   mask(cdl_list, study)

@@ -1,8 +1,8 @@
 ### Probabilistic Crop Loading 
 
-###01 Extracttion of counties/area of interest
+### 01 Extracttion of counties/area of interest
 
-#Edited by E. Paulukonis Sept 2021
+# Edited by E. Paulukonis Sept 2021
 
 import_start_time <- Sys.time()
 print("stepping into 01_studyarea.R")

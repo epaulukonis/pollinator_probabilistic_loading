@@ -1,8 +1,8 @@
 ### Probabilistic Crop Loading 
 
-###00 Setup of directories and file paths
+### 00 Setup of directories and file paths
 
-#Edited by E. Paulukonis Sept 2021
+# Edited by E. Paulukonis Sept 2021
 
 #Install and load supporting libraries.
 print("stepping into 00_setup.R")
