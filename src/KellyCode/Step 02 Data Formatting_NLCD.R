@@ -161,7 +161,7 @@ NLCD_past_acc<-stack(NLCD_past, NLCD_notpast)
 writeRaster(NLCD_crop_acc, paste0("./",co,"/NLCD_crop_acc_stack_", co,".tif"), format="GTiff", overwrite=T)
 writeRaster(NLCD_past_acc, paste0("./",co,"/NLCD_past_acc_stack_", co, ".tif"), format="GTiff", overwrite=T)
 
-###Finad the area of 81 and 82 by county
+###Find the area of 81 and 82 by county
 co<-"Madera"
 
 NLCD81<-raster(paste0("./", co, "/NLCD_81_", co, ".tif"))

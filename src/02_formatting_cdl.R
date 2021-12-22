@@ -6,6 +6,16 @@
 import_start_time <- Sys.time()
 print("stepping into 02_formatting_cdl.R")
 
+
+cdl_rec_filename<-paste0(cdl_dir_rec, "/cdl_1999_1_stack.tif")
+if(file.exists(nlcd_filename)){
+  
+  print(list.files(path=cdl_dir_rec, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  cdl_data_rec <- file.path(cdl_dir_rec, list.files(path=cdl_dir_rec, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  cdl_data_rec<-lapply(cdl_data_rec, stack) #create list of reclassed and stacked cdl rasters 
+  
+}else{
+
 #### Import and modify files ####
 print(list.files(path=cdl_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 print(cdl_dir)
@@ -59,12 +69,11 @@ names(cdl_fin)<-list_names
 # co <- "PEORIA"
 # study<-state[state$COUNTY_NAM == co,]
 # plot(study)
-mask_crop_cdl<-function(cdl){
-  cdl_list<-crop(cdl, study)
-  mask(cdl_list, study)
+mask_crop<-function(x){
+  r_list<-crop(x, study)
+  mask(r_list, study)
 }
-cdl_fin_co<-lapply(cdl_fin, mask_crop_cdl)
-
+cdl_fin_co<-lapply(cdl_fin, mask_crop)
  
 #### Get accuracy and error data ####
 #https://www.nass.usda.gov/Research_and_Science/Cropland/sarsfaqs2.php#Section3_22.0
@@ -218,7 +227,7 @@ reclassify_cdl<-function(cdl_data){
 
 #apply over all available cores
 mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
-
+}
 
 print("CDL formatted, reconstructed, and corrected for accuracy/error")
 

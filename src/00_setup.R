@@ -60,6 +60,9 @@ print(root_src)
 nlcd_dir = file.path(root_data_in, "NLCD")
 print(nlcd_dir)
 print(list.files(path=nlcd_dir, all.files=TRUE, full.names=FALSE))
+nlcd_dir_acc = file.path(root_data_in, "NLCD/accuracy")
+print(nlcd_dir_acc)
+print(list.files(path=nlcd_dir_acc, all.files=TRUE, full.names=FALSE))
 # nlcd_zip<-list.files(path=nlcd_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
 # print(nlcd_zip)
 # zip_ex<- as.list(c(file.exists(file.path(nlcd_dir, nlcd_zip))))
@@ -159,5 +162,6 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 #source other files
 source(file.path(root_src, "01_studyarea.R"))
 source(file.path(root_src, "02_formatting_cdl.R"))
+source(file.path(root_src, "02_formatting_nlcd.R"))
 
 
