@@ -4,6 +4,9 @@
 
 # Edited by E. Paulukonis Dec 2021
 
+import_start_time <- Sys.time()
+print("stepping into 03_formattintg_nlcd.R")
+
 
 #### read in or create reclassified NLCD files: ----
 #check that study area and state boundary plot properly
@@ -40,7 +43,7 @@ plot(nlcd_data_f[[1]]) #plot to make sure
 NLCD<-stack(nlcd_data_f)
 writeRaster(NLCD,paste0(nlcd_dir, "/nlcd_data_f.tif"), format="GTiff") # write masked and crop NLCD to raster stack
 
-#create function to reclass and write to raster file; takes a minute
+#create function to reclass and write to raster file
 reclass_nlcd<-function(x)
 {  
   name_x<-names(x)
@@ -60,13 +63,13 @@ lapply(nlcd_data, reclass_nlcd)
 print(list.files(path=nlcd_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 nlcd_data_rec <- file.path(nlcd_dir, list.files(path=nlcd_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 nlcd_data_rec<-lapply(nlcd_data_rec, raster) #create list of cdl rasters 
-nlcd_81<-nlcd_data_rec[1:8]
-nlcd_82<-nlcd_data_rec[9:16]
+nlcd_81<-nlcd_data_rec[1:8] # crop
+nlcd_82<-nlcd_data_rec[9:16] # pasture
 }
 
 #### Read in and reclassify with the accuracy data ----
-# split accuracy data to nlcd years as follows:
-# 2001: 2001, 2004, 
+# split accuracy data to NLCD years as follows:
+# 2001: 2001, 2004 
 # 2006: 2006, 2008
 # 2011: 2011, 2013
 # 2016: 2016, 2019
@@ -75,6 +78,7 @@ acc_data<-read.csv(paste0(nlcd_dir_acc, "/NLCD_Acc_Fin.csv")) #compiled accuracy
 acc_data_l<-split(acc_data, f = acc_data$Year)   #split by year
 
 #### create conditional probability raster function
+#function starts here
 reclass_set <-function(n,y) {
   
     accuracy<-as.data.frame(acc_data_l[y]) #y is 1 of the 4 years for which accuracy data exists
@@ -100,7 +104,8 @@ reclass_set <-function(n,y) {
     #write to stacked rasterfile
     writeRaster(NLCD_crop_acc, paste0(nlcd_dir,"/output/NLCD_crop_acc_stack_", y ,".tif"), format="GTiff", overwrite=T)
     writeRaster(NLCD_past_acc, paste0(nlcd_dir,"/output/NLCD_past_acc_stack_", y ,".tif"), format="GTiff", overwrite=T)
-}
+} #function ends here
+
 
 
 nlcd_acc_filename<-paste0(nlcd_dir,"/output/NLCD_crop_acc_stack_X2019.tif") #did we already run the analysis? 
@@ -112,15 +117,16 @@ if(file.exists(nlcd_acc_filename))
   nlcd_data_acc<-lapply(nlcd_data_acc, stack) #create stack of all reclassified accuracy NLCD
   
   }else{
-    print('files do not exist, run function')
+    print('files do not exist, run the function we created to reclassify them according to the NLCD accuracy data')
     for (i in 1:length(acc_data_l)){
       x = i*2
       reclass_set(NLCD[[x-1]], i)
       reclass_set(NLCD[[x]], i)
+      # this is set-up to work for groups of 2; i.e., we reclassify two NLCD years according to the accuracy data used for those years (see line 70)
     }
     print(list.files(path=paste0(nlcd_dir,"/output"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
     nlcd_data_acc <- file.path(paste0(nlcd_dir,"/output"), list.files(path=paste0(nlcd_dir,"/output"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
-    nlcd_data_acc<-lapply(nlcd_data_acc, stack) #create lstack of all reclassified accuracy NLCD
+    nlcd_data_acc<-lapply(nlcd_data_acc, stack) #create stack of all reclassified accuracy NLCD
 }
 
 
@@ -131,7 +137,6 @@ if(file.exists(nlcd_acc_filename))
 
 NLCD_Area <- data.frame(matrix(ncol = 2, nrow = 8))
 colnames(NLCD_Area)<-c("year","area_total")
-
 
 for (y in 1:length(nlcd_81)){
   
@@ -153,6 +158,6 @@ NLCD_Area[y,1] <- year
 NLCD_Area[y,2]<-area81+area82
 }
 
-write.csv(NLCD_Area,paste0(nlcd_dir,"/NLCD_Area.csv"))
+write.csv(NLCD_Area,paste0(nlcd_dir,"/NLCD_crop&past_Area.csv"))
 
 
