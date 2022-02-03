@@ -47,7 +47,7 @@ root_data_out <- file.path(root_dir, "data_out")
 print(root_data_out)
 root_figures <- file.path(root_dir, "figures")
 print(root_figures)
-root_src <- file.path(root_dir, "src")
+root_src <- file.path(root_dir, "src/AdjustedAnalysis")
 print(root_src)
 
 # set data directories, check to see what files are in each, and unzip if needed - uncomment if needed
@@ -58,7 +58,7 @@ print(root_src)
 # }
 
 # nlcd
-nlcd_dir = file.path(root_data_in, "NLCD")
+nlcd_dir = file.path(root_data_in, "MapData/NLCD")
 print(nlcd_dir)
 print(list.files(path=nlcd_dir, all.files=TRUE, full.names=FALSE))
 nlcd_dir_acc = file.path(root_data_in, "NLCD/accuracy")
@@ -72,7 +72,7 @@ print(list.files(path=nlcd_dir_acc, all.files=TRUE, full.names=FALSE))
 # }
 #
 # cdl
-cdl_dir = file.path(root_data_in, "CDL")
+cdl_dir = file.path(root_data_in, "MapData/CDL")
 print(cdl_dir)
 print(list.files(path=cdl_dir, all.files=TRUE, full.names=FALSE))
 
@@ -101,7 +101,7 @@ print(list.files(path=cdl_dir_adj, all.files=TRUE, full.names=FALSE))
 #
 #
 #coa
-coa_dir = file.path(root_data_in, "CoA/all_CoA")
+coa_dir = file.path(root_data_in, "CropData/CoA/all_CoA")
 print(coa_dir)
 print(list.files(path=coa_dir, all.files=TRUE, full.names=FALSE))
 
@@ -114,7 +114,7 @@ print(list.files(path=coa_dir, all.files=TRUE, full.names=FALSE))
 # #
 #
 # caps
-caps_dir = file.path(root_data_in, "CAPS")
+caps_dir = file.path(root_data_in, "CropData/CAPS")
 print(caps_dir)
 print(list.files(path=caps_dir, all.files=TRUE, full.names=FALSE))
 # caps_zip<-list.files(path=caps_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
@@ -126,7 +126,7 @@ print(list.files(path=caps_dir, all.files=TRUE, full.names=FALSE))
 #
 #
 # pnsp
-pnsp_dir = file.path(root_data_in, "PNSP")
+pnsp_dir = file.path(root_data_in, "PesticideData/PNSP")
 print(pnsp_dir)
 print(list.files(path=pnsp_dir, all.files=TRUE, full.names=FALSE))
 # pnsp_zip<-list.files(path=pnsp_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
@@ -148,7 +148,7 @@ print(list.files(path=bombus_dir, all.files=TRUE, full.names=FALSE))
 #   unzip_function(zip_ex[[l]], bombus_zip, bombus_dir)
 # }
 #
-state_dir = file.path(root_data_in, "state")
+state_dir = file.path(root_data_in, "MapData/state")
 print(state_dir)
 print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 # state_zip<-list.files(path=state_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
