@@ -6,15 +6,19 @@
 import_start_time <- Sys.time()
 print("stepping into 02_formatting_cdl.R")
 
+### Multistate-Specific
 
-cdl_rec_filename<-paste0(cdl_dir_rec, "/cdl_2019_5_stack.tif")
-if(file.exists(cdl_rec_filename)){
+
+
+### Illinois-Specific 
+cdl_rec_filename<-paste0(cdl_dir_rec, "some file")
+# if(file.exists(cdl_rec_filename)){
   
   print(list.files(path=cdl_dir_rec, pattern='.tif$', all.files=TRUE, full.names=FALSE))
   cdl_data_rec <- file.path(cdl_dir_rec, list.files(path=cdl_dir_rec, pattern='.tif$', all.files=TRUE, full.names=FALSE))
   cdl_data_rec<-lapply(cdl_data_rec, stack) #create list of reclassed and stacked cdl rasters 
   
-}else{
+# }else{
 
 #### Import and modify files ####
 print(list.files(path=cdl_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
@@ -56,6 +60,8 @@ cdl_f<-file.path(cdl_dir_fin,
                   list.files(path=cdl_dir_fin, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 cdl_f<-lapply(cdl_f, raster) #list new projected/fixed rasters
 
+#first 7 are 1999-2005
+#last 2 are 2006-2007
 
 #assign original year names 
 list_names<-vector()
@@ -75,45 +81,11 @@ mask_crop<-function(x){
 }
 cdl_fin_co<-lapply(cdl_fin, mask_crop)
  
-#### Get accuracy and error data, input into CDL stack ####
-#https://www.nass.usda.gov/Research_and_Science/Cropland/sarsfaqs2.php#Section3_22.0
-
-#note: users will need to format and organize CDL accuracy and error as specified in the demo data provided
-#if using code below
-cdl_acc<-read.csv(paste0(cdl_acc_dir,"/CDL_Acc_il.csv"))
-cdl_err<-read.csv(paste0(cdl_acc_dir,"/CDL_Err_il.csv"))
-nnames<-c(names(cdl_acc)[1:2], 2007:2020)
-print(nnames)
-print(names(cdl_acc))
-print(names(cdl_err))
-names(cdl_acc)<-nnames
-names(cdl_err)<-nnames
-
-# round 
-cdl_acc[,3:16]<-round(cdl_acc[,3:16], 3)
-cdl_err[,3:16]<-round(cdl_err[,3:16], 3)
-
-#we also need to average the LANDSAT AD tiles for 1999-2006
-ad_data<-read.csv(paste0(cdl_acc_dir,"/cdl_19992006_IL.csv"))
-# group CE by CDL class, year, and average the output value across AD tiles
-ad_CE<-ad_data %>%
-  group_by(CDL, Year) %>% summarize(CE_mean=mean(CE))
-# spead the dataframe to match
-ad_CE <- ad_CE %>% tidyr::spread(key = Year, value = CE_mean)
-ad_CE[,2:9]<-round((ad_CE[,2:9]/100),3)
-
-# do the same for UA
-ad_UA<-ad_data %>%
-  group_by(CDL, Year) %>% summarize(UA_mean=mean(UA))
-ad_UA <- ad_UA %>% tidyr::spread(key = Year, value = UA_mean)
-ad_UA[,2:9]<-round((ad_UA[,2:9]/100),3)
 
 
-#rearrange in order of years
-cdl_acc<-merge(cdl_acc, ad_UA, by.x = "Attribute_Code", by.y = "CDL")
-cdl_acc<-cdl_acc[,c(1:2,17:24,3:16)]
-cdl_err<-merge(cdl_err, ad_CE, by.x = "Attribute_Code", by.y = "CDL")
-cdl_err<-cdl_err[,c(1:2,17:24,3:16)]
+
+
+
 
 
 #instead of setting all NAs to 0.5, as in Budreski et al., we'll use the average of years to backfill missing values
@@ -229,7 +201,7 @@ reclassify_cdl<-function(cdl_data){
 #apply over all available cores
 mclapply(cdl_fin_co_y, reclassify_cdl, mc.cores=numCores)
 
-}
+# }
 
 print("each raster stack contains 3 layers, presence, CDL user's accuracy, and CDL commission error")
 print("we created rasters for all crops covering > 1 of the total crop area")

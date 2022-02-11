@@ -19,19 +19,21 @@ study<-readOGR(state_dir, layer = "Study_Counties")
 # get species potential zones
 bomb_h <- readOGR(bombus_dir, layer = "RPBB_High_Potential_Zones_03172021")
 bomb_l <- readOGR(bombus_dir, layer = "RPBB_Low_Potential_Zones_03172021")
-# plot(bomb_l)
-# plot(bomb_h, add=T, col='red')
+h_range <- readOGR(bombus_dir, layer = "RPBB_US_range") 
 
+h_range<-spTransform(h_range, crs(bomb_h)) #reproject 
 state<-spTransform(state, crs(bomb_h)) #reproject 
 study<-spTransform(study, crs(bomb_h)) #reproject 
 study<-aggregate(study)
 
-
- plot(state, add=T)
- plot(study, add=T, col='blue')
-
-# plot(bomb_l, add=T, col='blue')
+# plot(h_range)
+# plot(bomb_l, add=T)
 # plot(bomb_h, add=T, col='red')
+
+# plot(state, add=T)
+# plot(study, add=T, col='blue')
+
+
 
 # note that you may need to read out files to QGIS or other to look-up specific county
 

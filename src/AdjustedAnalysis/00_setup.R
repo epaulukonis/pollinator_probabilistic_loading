@@ -61,7 +61,7 @@ print(root_src)
 nlcd_dir = file.path(root_data_in, "MapData/NLCD")
 print(nlcd_dir)
 print(list.files(path=nlcd_dir, all.files=TRUE, full.names=FALSE))
-nlcd_dir_acc = file.path(root_data_in, "NLCD/accuracy")
+nlcd_dir_acc = file.path(nlcd_dir, "accuracy")
 print(nlcd_dir_acc)
 print(list.files(path=nlcd_dir_acc, all.files=TRUE, full.names=FALSE))
 # nlcd_zip<-list.files(path=nlcd_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
@@ -76,21 +76,31 @@ cdl_dir = file.path(root_data_in, "MapData/CDL")
 print(cdl_dir)
 print(list.files(path=cdl_dir, all.files=TRUE, full.names=FALSE))
 
-cdl_acc_dir = file.path(root_data_in, "CDL/cdl_acc")
+
+
+#Illinois specific
+cdl_acc_dir = file.path(cdl_dir, "Illinois/cdl_acc")
 print(cdl_acc_dir)
 print(list.files(path=cdl_acc_dir, all.files=TRUE, full.names=FALSE))
 
-cdl_dir_fin = file.path(root_data_in, "CDL/fixed_cdl")
+cdl_dir_fin = file.path(cdl_dir, "Illinois/fixed_cdl")
 print(cdl_dir_fin)
 print(list.files(path=cdl_dir_fin, all.files=TRUE, full.names=FALSE))
 
-cdl_dir_rec = file.path(root_data_in, "CDL/reclass_cdl/reclass_cdl")
+cdl_dir_rec = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_new_cdl")
 print(cdl_dir_rec)
 print(list.files(path=cdl_dir_rec, all.files=TRUE, full.names=FALSE))
 
-cdl_dir_adj = file.path(root_data_in, "CDL/reclass_cdl/reclass_cdl/adjusted")
+cdl_dir_adj = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_cdl/adjusted")
 print(cdl_dir_adj)
 print(list.files(path=cdl_dir_adj, all.files=TRUE, full.names=FALSE))
+
+
+#Multi-state specific
+cdl_ms_dir = file.path(cdl_dir, "Multi-State")
+print(cdl_ms_dir)
+print(list.files(path=cdl_ms_dir, all.files=TRUE, full.names=FALSE))
+
 
 # cdl_zip<-list.files(path=cdl_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
 # print(cdl_zip)
@@ -163,6 +173,6 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 #source other files
 source(file.path(root_src, "01_studyarea.R"))
 source(file.path(root_src, "02_formatting_cdl.R"))
-source(file.path(root_src, "03_formatting_nlcd.R"))
-source(file.path(root_src, "04_comission_adjustment.R"))
+
+
 
