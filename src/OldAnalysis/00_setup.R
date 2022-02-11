@@ -47,7 +47,7 @@ root_data_out <- file.path(root_dir, "data_out")
 print(root_data_out)
 root_figures <- file.path(root_dir, "figures")
 print(root_figures)
-root_src <- file.path(root_dir, "src")
+root_src <- file.path(root_dir, "src/AdjustedAnalysis")
 print(root_src)
 
 # set data directories, check to see what files are in each, and unzip if needed - uncomment if needed
@@ -61,7 +61,7 @@ print(root_src)
 nlcd_dir = file.path(root_data_in, "MapData/NLCD")
 print(nlcd_dir)
 print(list.files(path=nlcd_dir, all.files=TRUE, full.names=FALSE))
-nlcd_dir_acc = file.path(root_data_in, "NLCD/accuracy")
+nlcd_dir_acc = file.path(nlcd_dir, "accuracy")
 print(nlcd_dir_acc)
 print(list.files(path=nlcd_dir_acc, all.files=TRUE, full.names=FALSE))
 # nlcd_zip<-list.files(path=nlcd_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
@@ -76,19 +76,20 @@ cdl_dir = file.path(root_data_in, "MapData/CDL")
 print(cdl_dir)
 print(list.files(path=cdl_dir, all.files=TRUE, full.names=FALSE))
 
-cdl_acc_dir = file.path(root_data_in, "CDL/cdl_acc")
+#Illinois specific
+cdl_acc_dir = file.path(cdl_dir, "Illinois/cdl_acc")
 print(cdl_acc_dir)
 print(list.files(path=cdl_acc_dir, all.files=TRUE, full.names=FALSE))
 
-cdl_dir_fin = file.path(root_data_in, "CDL/fixed_cdl")
+cdl_dir_fin = file.path(cdl_dir, "Illinois/fixed_cdl")
 print(cdl_dir_fin)
 print(list.files(path=cdl_dir_fin, all.files=TRUE, full.names=FALSE))
 
-cdl_dir_rec = file.path(root_data_in, "CDL/reclass_cdl/reclass_cdl")
+cdl_dir_rec = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_old_cdl")
 print(cdl_dir_rec)
 print(list.files(path=cdl_dir_rec, all.files=TRUE, full.names=FALSE))
 
-cdl_dir_adj = file.path(root_data_in, "CDL/reclass_cdl/reclass_cdl/adjusted")
+cdl_dir_adj = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_cdl/adjusted")
 print(cdl_dir_adj)
 print(list.files(path=cdl_dir_adj, all.files=TRUE, full.names=FALSE))
 
@@ -157,7 +158,6 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 # for (l in length(zip_ex)){
 #   unzip_function(zip_ex[[l]], state_zip, state_dir)
 # }
-
 
 
 #source other files
