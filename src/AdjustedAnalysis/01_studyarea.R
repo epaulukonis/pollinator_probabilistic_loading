@@ -12,8 +12,8 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE)) #state
 print(list.files(path=bombus_dir, all.files=TRUE, full.names=FALSE)) #species
 
 
-US<-readOGR(state_dir, layer = 'cb_2018_us_state_500k') #read in US counties
-state<-readOGR(state_dir, layer = "IL_BNDY_County_Py") #read in state
+rpbb_states<-readOGR(state_dir, layer = 'RPBB_states') #read in US counties
+rpbb_study<-readOGR(state_dir, layer = "IL_BNDY_County_Py") #read in state
 # plot(state)
 # state #check crs of shapefile
 
@@ -23,21 +23,17 @@ bomb_l <- readOGR(bombus_dir, layer = "RPBB_Low_Potential_Zones_03172021")
 h_range <- readOGR(bombus_dir, layer = "RPBB_US_range") 
 
 h_range<-spTransform(h_range, crs(bomb_h)) #reproject 
-state<-spTransform(state, crs(bomb_h)) #reproject 
-us<-spTransform(US, crs(bomb_h)) #reproject 
+study<-spTransform(rpbb_study, crs(bomb_h)) #reproject 
+states<-spTransform(rpbb_states, crs(bomb_h)) #reproject 
 
 
 plot(h_range, col='red')
-plot(us, add=T)
+plot(states, add=T)
 plot(bomb_l, add=T)
 plot(bomb_h, add=T)
-plot(state, add=T)
+plot(study, add=T)
 
-us_s<-st_as_sf(us)
-h_range_s<-st_as_sf(h_range)
-study <- st_intersection(us_s, h_range_s)
-plot(study)
-study<-sf::as_Spatial(study)
+
 # plot(study, add=T, col='blue')
 
 
