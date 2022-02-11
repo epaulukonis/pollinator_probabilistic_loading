@@ -6,7 +6,7 @@
 import_start_time <- Sys.time()
 print("stepping into 02_formatting_cdl.R")
 
-### Multistate-Specific
+## Multistate-Specific
 
 
 
@@ -21,9 +21,9 @@ cdl_rec_filename<-paste0(cdl_dir_rec, "some file")
 # }else{
 
 #### Import and modify files ####
-print(list.files(path=cdl_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-print(cdl_dir)
-cdl_data <- file.path(cdl_dir, list.files(path=cdl_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+print(list.files(path=cdl_ill_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+print(cdl_ill_dir)
+cdl_data <- file.path(cdl_ill_dir, list.files(path=cdl_ill_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 cdl_data<-lapply(cdl_data, raster) #create list of cdl rasters 
 
 #there are 3 different extents; 2020-2008, 2007-2006, and 2005-1999
@@ -82,27 +82,9 @@ mask_crop<-function(x){
 cdl_fin_co<-lapply(cdl_fin, mask_crop)
  
 
+cdl_fin[[1]]
 
 
-
-
-
-
-#instead of setting all NAs to 0.5, as in Budreski et al., we'll use the average of years to backfill missing values
-correct_backfill<-function(data){
-o<-data[,1:2]
-m<-as.matrix(data[,3:24])
-k <- which(is.na(m), arr.ind=TRUE)
-m[k] <- rowMeans(m, na.rm=TRUE)[k[,1]]
-m<-as.data.frame(m)
-m<-round(m, 2)
-out<-cbind(o,m)
-}
-
-cdl_acc<-correct_backfill(cdl_acc)
-cdl_err<-correct_backfill(cdl_err)
-print(head(cdl_acc))
-print(head(cdl_err))
 
 #First, get list of actual crop codes from all attribute layers
 #cdl_fin_co_y<-cdl_fin_co[10:22] #if you need a specific subset of years

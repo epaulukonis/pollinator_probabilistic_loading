@@ -11,8 +11,9 @@ print("stepping into 01_studyarea.R")
 print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE)) #state
 print(list.files(path=bombus_dir, all.files=TRUE, full.names=FALSE)) #species
 
+
+US<-readOGR(state_dir, layer = 'cb_2018_us_state_500k') #read in US counties
 state<-readOGR(state_dir, layer = "IL_BNDY_County_Py") #read in state
-study<-readOGR(state_dir, layer = "Study_Counties") 
 # plot(state)
 # state #check crs of shapefile
 
@@ -23,14 +24,20 @@ h_range <- readOGR(bombus_dir, layer = "RPBB_US_range")
 
 h_range<-spTransform(h_range, crs(bomb_h)) #reproject 
 state<-spTransform(state, crs(bomb_h)) #reproject 
-study<-spTransform(study, crs(bomb_h)) #reproject 
-study<-aggregate(study)
+us<-spTransform(US, crs(bomb_h)) #reproject 
 
-# plot(h_range)
-# plot(bomb_l, add=T)
-# plot(bomb_h, add=T, col='red')
 
-# plot(state, add=T)
+plot(h_range, col='red')
+plot(us, add=T)
+plot(bomb_l, add=T)
+plot(bomb_h, add=T)
+plot(state, add=T)
+
+us_s<-st_as_sf(us)
+h_range_s<-st_as_sf(h_range)
+study <- st_intersection(us_s, h_range_s)
+plot(study)
+study<-sf::as_Spatial(study)
 # plot(study, add=T, col='blue')
 
 

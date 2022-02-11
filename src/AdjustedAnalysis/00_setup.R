@@ -10,6 +10,7 @@ print(Sys.info()[4])
 R.Version()$version.string
 
 library(sp)
+library(sf)
 library(rgeos)
 library(rgdal)
 library(raster)
@@ -77,8 +78,11 @@ print(cdl_dir)
 print(list.files(path=cdl_dir, all.files=TRUE, full.names=FALSE))
 
 
-
 #Illinois specific
+cdl_ill_dir= file.path(cdl_dir, "Illinois")
+print(cdl_ill_dir)
+print(list.files(path=cdl_ill_dir, all.files=TRUE, full.names=FALSE))
+
 cdl_acc_dir = file.path(cdl_dir, "Illinois/cdl_acc")
 print(cdl_acc_dir)
 print(list.files(path=cdl_acc_dir, all.files=TRUE, full.names=FALSE))
@@ -87,11 +91,15 @@ cdl_dir_fin = file.path(cdl_dir, "Illinois/fixed_cdl")
 print(cdl_dir_fin)
 print(list.files(path=cdl_dir_fin, all.files=TRUE, full.names=FALSE))
 
-cdl_dir_rec = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_new_cdl")
+cdl_dir_rec = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_old_cdl")
 print(cdl_dir_rec)
 print(list.files(path=cdl_dir_rec, all.files=TRUE, full.names=FALSE))
 
-cdl_dir_adj = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_cdl/adjusted")
+cdl_dir_rec_n = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_new_cdl")
+print(cdl_dir_rec_n)
+print(list.files(path=cdl_dir_rec_n, all.files=TRUE, full.names=FALSE))
+
+cdl_dir_adj = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_new_cdl/adjusted")
 print(cdl_dir_adj)
 print(list.files(path=cdl_dir_adj, all.files=TRUE, full.names=FALSE))
 
