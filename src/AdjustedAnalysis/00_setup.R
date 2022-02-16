@@ -42,6 +42,8 @@ if(Sys.info()[4]=="LZ2626UTPURUCKE"){
 }
 print(root_dir)
 
+memory.limit(size=56000)
+
 root_data_in <- file.path(root_dir, "data_in")
 print(root_data_in)
 root_data_out <- file.path(root_dir, "data_out")
@@ -179,8 +181,8 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 
 
 #source other files
-source(file.path(root_src, "01_studyarea.R"))
-source(file.path(root_src, "02_formatting_cdl.R"))
+# source(file.path(root_src, "01_studyarea.R"))
+# source(file.path(root_src, "02_formatting_cdl.R"))
 
 
 

@@ -23,18 +23,19 @@ bomb_l <- readOGR(bombus_dir, layer = "RPBB_Low_Potential_Zones_03172021")
 h_range <- readOGR(bombus_dir, layer = "RPBB_US_range") 
 
 h_range<-spTransform(h_range, crs(bomb_h)) #reproject 
-study<-spTransform(rpbb_study, crs(bomb_h)) #reproject 
+ill<-spTransform(rpbb_study, crs(bomb_h)) #reproject 
 states<-spTransform(rpbb_states, crs(bomb_h)) #reproject 
 
 
-plot(h_range, col='red')
-plot(states, add=T)
-plot(bomb_l, add=T)
-plot(bomb_h, add=T)
-plot(study, add=T)
+#plot(h_range, col='red')
+# plot(states, add=T)
+# plot(bomb_l, add=T)
+# plot(bomb_h, add=T)
+#plot(ill, add=T)
 
 
-# plot(study, add=T, col='blue')
+study<-gIntersection(ill, h_range, byid=T)
+plot(study)
 
 
 

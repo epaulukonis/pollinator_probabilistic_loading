@@ -1,0 +1,14 @@
+Species,Compound,ContactLD50 (ug/bee),OralLD50 (ug/bee),UnknownLD50,Link,Note
+Apis mellifera,malathion,0.16,0.4,,https://sitem.herts.ac.uk/aeru/ppdb/en/Reports/421.htm,
+Apis mellifera,parathion-ethyl,,0.21,0.175,https://sitem.herts.ac.uk/aeru/ppdb/en/Reports/506.htm,
+Apis mellifera,parathion-methyl,19.5,,,https://sitem.herts.ac.uk/aeru/ppdb/en/Reports/507.htm,
+Bombus terrestris,chlorpyrifos,0.158,0.23,,https://sitem.herts.ac.uk/aeru/ppdb/en/Reports/154.htm,contact >
+Apis mellifera,diazinon,0.13,0.09,,https://sitem.herts.ac.uk/aeru/ppdb/en/,
+Apis mellifera,dichlorvos,,0.29,,https://sitem.herts.ac.uk/aeru/ppdb/en/Reports/220.htm,
+Apis mellifera,phosmet,0.22,0.37,,https://sitem.herts.ac.uk/aeru/ppdb/en/Reports/521.htm,
+Bombus terrestris,fenitrothion,0.756,,,https://sitem.herts.ac.uk/aeru/ppdb/en/Reports/299.htm,
+Apis mellifera,fenitrothion,0.16,0.2,,https://sitem.herts.ac.uk/aeru/ppdb/en/Reports/299.htm,
+Apis mellifera,tetrachlorvinphos,,,0.137,https://sitem.herts.ac.uk/aeru/ppdb/en/Reports/625.htm,>
+Apis mellifera,azamethiphos,0.1,,,https://sitem.herts.ac.uk/aeru/ppdb/en/Reports/48.htm,>
+Apis mellifera,azinphos-methyl,0.42,,,https://sitem.herts.ac.uk/aeru/ppdb/en/Reports/51.htm,
+Apis mellifera,terbufos,4.1,,,https://sitem.herts.ac.uk/aeru/ppdb/en/Reports/621.htm,
