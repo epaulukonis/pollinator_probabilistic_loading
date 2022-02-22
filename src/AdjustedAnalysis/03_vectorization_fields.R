@@ -7,17 +7,12 @@ import_start_time <- Sys.time()
 print("stepping into 03_vectorization_fields.R")
 
 
-plot(cdl_data_ill_rec[[22]])
 
 
+#Break list into 1st 11 years and later 11 years
+set1<-cdl_data_ill_rec[[c(1:11)]]
 
-#Create two rasters
-xmn = 1; xmx = 5; ymn = 10; ymx = 20 
-rast1<- raster(matrix(1,3,4), xmx=xmx, xmn=xmn, ymx=ymx, ymn=ymn)
-rast2<- raster(matrix(2,3,4), xmx=xmx, xmn=xmn, ymx=ymx, ymn=ymn)
-
-plot(rast1)
-plot(rast2)
+#gotta partition
 
 
 #Stack the rasters and convert to data frame
