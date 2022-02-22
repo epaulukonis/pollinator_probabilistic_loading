@@ -16,7 +16,9 @@ if(file.exists(cdl_rec_filename)){
   
   print(list.files(path=cdl_dir_adj, pattern='.tif$', all.files=TRUE, full.names=FALSE))
   cdl_data_ill_rec <- file.path(cdl_dir_adj, list.files(path=cdl_dir_adj, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  cdl_data_ill_rec<-lapply(cdl_data_ill_rec, stack) #create list of reclassed and stacked cdl rasters 
+  cdl_data_ill_rec<-lapply(cdl_data_ill_rec, raster) #create list of reclassed and stacked cdl rasters 
+  
+  print('the Illinois CDL has already been processed, it can be read in')
   
 }else{
 
@@ -76,6 +78,7 @@ names(cdl_f[[x]])<-names_o[[x]]
 #join fixed and original extent rasters
 cdl_fin<-c(cdl_f, cdl_base) 
 
+
 #mask to the study area
 mask_crop<-function(x){
   r_list<-crop(x, study)
@@ -83,13 +86,17 @@ mask_crop<-function(x){
 }
 cdl_fin_co<-lapply(cdl_fin, mask_crop)
 
+# print(list.files(path=cdl_dir_rec_n, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+# cdl_fin_co <- file.path(cdl_dir_rec_n, list.files(path=cdl_dir_rec_n, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+# cdl_fin_co<-lapply(cdl_fin_co, stack) #create list of reclassed and stacked cdl rasters 
+
 noncrop<-80:200 # get non-crop variables
 f<-cdl_dir_adj
-for(layer in 19:22){
+for(layer in 1:22){
 values(cdl_fin_co[[layer]])[values(cdl_fin_co[[layer]])==noncrop]<-0 #set all values non-crop to NA
 writeRaster(cdl_fin_co[[layer]], file.path(f, names(cdl_fin_co[[layer]])), format="GTiff", overwrite = TRUE)
 }
 
 }
 
-print('the Illinois CDL is reclassified to remove non-crop codes, and read out to files')
+
