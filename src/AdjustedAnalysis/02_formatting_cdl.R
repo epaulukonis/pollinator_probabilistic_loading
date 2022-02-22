@@ -86,14 +86,20 @@ mask_crop<-function(x){
 }
 cdl_fin_co<-lapply(cdl_fin, mask_crop)
 
-# print(list.files(path=cdl_dir_rec_n, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-# cdl_fin_co <- file.path(cdl_dir_rec_n, list.files(path=cdl_dir_rec_n, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-# cdl_fin_co<-lapply(cdl_fin_co, stack) #create list of reclassed and stacked cdl rasters 
+print(list.files(path=cdl_dir_rec_n, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+cdl_fin_co <- file.path(cdl_dir_rec_n, list.files(path=cdl_dir_rec_n, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+cdl_fin_co<-lapply(cdl_fin_co, raster) #create list of reclassed and stacked cdl rasters
+
+
 
 noncrop<-80:200 # get non-crop variables
 f<-cdl_dir_adj
 for(layer in 1:22){
+  layer=1
+  
+  ##FIX THIS
 values(cdl_fin_co[[layer]])[values(cdl_fin_co[[layer]])==noncrop]<-0 #set all values non-crop to NA
+plot(cdl_fin_co[[1]])
 writeRaster(cdl_fin_co[[layer]], file.path(f, names(cdl_fin_co[[layer]])), format="GTiff", overwrite = TRUE)
 }
 
