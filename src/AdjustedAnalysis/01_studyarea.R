@@ -35,7 +35,7 @@ states<-spTransform(rpbb_states, crs(bomb_h)) #reproject
 
 
 study<-gIntersection(ill, h_range, byid=T)
-plot(study)
+#plot(study)
 
 
 
