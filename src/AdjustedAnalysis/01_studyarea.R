@@ -14,8 +14,7 @@ print(list.files(path=bombus_dir, all.files=TRUE, full.names=FALSE)) #species
 
 rpbb_states<-readOGR(state_dir, layer = 'RPBB_states') #read in US counties
 rpbb_study<-readOGR(state_dir, layer = "IL_BNDY_County_Py") #read in state
-# plot(state)
-# state #check crs of shapefile
+
 
 # get species potential zones
 bomb_h <- readOGR(bombus_dir, layer = "RPBB_High_Potential_Zones_03172021")
@@ -34,7 +33,8 @@ states<-spTransform(rpbb_states, crs(bomb_h)) #reproject
 #plot(ill, add=T)
 
 
-study<-gIntersection(ill, h_range, byid=T)
+study<-gIntersection(ill, h_range, byid=T, id=ill$COUNTY_NAM)
+
 #plot(study)
 
 

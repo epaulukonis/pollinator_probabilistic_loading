@@ -87,7 +87,7 @@ mask_crop<-function(x){
 cdl_fin_co<-lapply(cdl_fin, mask_crop)
 
 f<-cdl_dir_adj
-m <- cbind(from = c(80), to = c(200), becomes = c(NA)) #non-crop reclass tables
+m <- cbind(from = c(-Inf, 80), to = c(0, 200), becomes = c(NA)) #non-crop reclass tables
 cdl_fin_co_rec<-list()
 for(layer in 1:22){
 cdl_fin_co_rec[[layer]] <- reclassify(cdl_fin_co[[layer]], m)
