@@ -50,21 +50,23 @@ layer.3 <- data.frame(coords, layer.3)
 testdf<-layer.3
 
 testdf <- testdf[!grepl("NANANANANANANANANANANA", testdf$layer.3),] # remove pixels that have no crops in 11 years
-unique(testl$layer.3)
+unique(testdf$layer.3)
 
-testdf$f<-gsub("NA", "0", testdf$layer.3) #substitute 0 for NA; this will preserve order value, as 0s before integers collapse and zeros after stay
+testdf$f<-gsub("NA", "", testdf$layer.3) #substitute "" for NA; this will preserve order value, this bins pixels by # years cropped (no differentiation between when)
 testdf$field<-as.numeric(testdf$f)
 
-#test10<-testdf[testdf$field >= 10000000000,]
-# plot(test10)
+testdf$year6<-ifelse(testdf$field >= 111111, 2, 1) #tom wanted to see how many years were year 6
+
+
+
+ifelse(x >= 0, sqrt(x), NA)
 
 unique(testdf$layer.3) #look at unique values
 unique(testdf$field)
 
 #testl$layer.3 <- factor(testl$layer.3, levels = unique(testl$layer.3))
 
-
-testl<-test10 #or test10
+testl<-testdf #or test10
 testl<-testl[,c(1:2,5)]
 coordinates(testl) <- ~ x + y
 gridded(testl) <- TRUE
@@ -102,7 +104,7 @@ plot(testls)
 
 
 writeRaster(set1[[11]], file.path(cdl_dir, "/cdl2009"), format="GTiff", overwrite = TRUE)
-writeRaster(formaskSieve, file.path(cdl_dir, "/test_no_10"), format="GTiff", overwrite = TRUE)
+writeRaster(testl, file.path(cdl_dir, "/test_6"), format="GTiff", overwrite = TRUE)
 
 
 ##Issue: we have a lot of tiny pixels! How do we assign them to adjacent pixels?
