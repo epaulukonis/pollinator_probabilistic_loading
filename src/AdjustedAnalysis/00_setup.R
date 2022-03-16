@@ -24,12 +24,13 @@ library(parallel)
 library(foreach)
 library(gridExtra)
 library(stringr)
+#library(TraMineR)
+# library(GrpString)
 # library(geosphere)
 # library(ggridges)
 # library(ghibli)
 # library(tidyverse)
 # library(progress)
-
 
 who_is_running<-'eap'
 #who_is_running<-'stp'

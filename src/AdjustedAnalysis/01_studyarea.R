@@ -35,6 +35,7 @@ states<-spTransform(rpbb_states, crs(bomb_h)) #reproject
 
 study<-gIntersection(ill, h_range, byid=T, id=ill$COUNTY_NAM)
 
+#writeOGR(study, dsn=state_dir, layer="/study_area",driver="ESRI Shapefile") 
 #plot(study)
 
 

@@ -11,7 +11,7 @@ print("stepping into 02_formatting_cdl.R")
 
 
 ### Illinois-Specific 
-cdl_rec_filename<-paste0(cdl_dir_adj, "/CDL_2020_17.tif")
+cdl_rec_filename<-paste0(cdl_dir_adj, "/CDL_2021_17.tif")
 if(file.exists(cdl_rec_filename)){
   
   print(list.files(path=cdl_dir_adj, pattern='.tif$', all.files=TRUE, full.names=FALSE))
@@ -39,7 +39,7 @@ set_1<-cdl_data[c(1:7)]
 #get 2006-2007
 set_2<-cdl_data[c(8:9)]
 #get rest
-cdl_base<-cdl_data[c(10:22)]
+cdl_base<-cdl_data[c(10:23)]
 
 #this section is for writing the new rasters out with a new projection and extent; it is commented out because we've already done this section
 #and it takes a while 
@@ -96,3 +96,15 @@ writeRaster(cdl_fin_co_rec[[layer]], file.path(f, names(cdl_fin_co_rec[[layer]])
 }
 
 
+
+
+#for additional years that may need to be added: add in the index number in the CDL_data. 
+
+# x=23
+# 
+# CDL_2021_17<-crop(cdl_data[[x]], study)
+# CDL_2021_17<-mask(CDL_2021_17, study)
+# f<-cdl_dir_adj
+# m <- cbind(from = c(-Inf, 80), to = c(0, 200), becomes = c(NA)) #non-crop reclass tables
+# CDL_2021_17 <- reclassify(CDL_2021_17, m)
+# writeRaster(CDL_2021_17, file.path(f, names(CDL_2021_17)), format="GTiff", overwrite = TRUE)
