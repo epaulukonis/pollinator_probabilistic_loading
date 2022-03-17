@@ -9,6 +9,9 @@ print("stepping into 00_setup.R")
 print(Sys.info()[4])
 R.Version()$version.string
 
+install.packages(c("ggplot2", "rgeos"))
+
+
 library(sp)
 library(sf)
 library(rgeos)
