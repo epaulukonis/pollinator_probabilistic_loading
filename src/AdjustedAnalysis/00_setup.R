@@ -9,7 +9,8 @@ print("stepping into 00_setup.R")
 print(Sys.info()[4])
 R.Version()$version.string
 
-install.packages(c("ggplot2", "rgeos"))
+# install.packages(c("ggplot2", "rgeos","sf","raster","dplyr","ggplot2","cowplot",
+#                    "grid","foreign","progress","parallel","foreach", "gridExtra","stringr"))
 
 
 library(sp)
