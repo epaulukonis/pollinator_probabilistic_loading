@@ -68,3 +68,11 @@ formaskSieve[rc %in% excludeID] <- NA
 
 testls<-mask(testl, formaskSieve)
 plot(testls)
+
+
+
+#is this correct? total possible response is n total crop pixels
+#prob for 11 years 
+success<-0:total_n
+plot(success, dbinom(success, size=total_n, prob=.14),type='h')
+
