@@ -1,6 +1,6 @@
 ### Probabilistic Crop Loading 
 
-### 03 Vectorization of Fields
+### 03 Vectorization of Fields, and CAA delineation
 
 # Edited by E. Paulukonis Feb 2022
 import_start_time <- Sys.time()
@@ -8,6 +8,7 @@ print("stepping into 03_vectorization_fields.R")
 
 
 ##### COUNTY LAYER PREP ####
+options(scipen = 999) #remove exponent options, throws R off
 study$county_names<-names(study)  #add county names to the study area so we can run the crop function of the CDL to each county
 
 #function to mask and crop CDL to each county
@@ -22,29 +23,34 @@ for (co in 1:length(study)){
   county_set_list[[co]]<-stack(county_set) #represents single county stack
 }
 
+plot(county_set_list[[50]])
 
 ##### YEARLY AVERAGE LAYERS####
-#convert 1,5,24 (corn,soy,winter wheat) to 1,2,3, all other crop to 9
-is_m <- c(0,1,2:4,5,6:23,24,25:256)
-becomes <- c(NA,1,rep.int(9,3),2,rep.int(9,18),3,rep.int(9,232))
-m<-cbind(is_m,becomes)
+#convert the layers to binary; 1 is crops of pesticide interest, 0 is other crops, NA is non-crop
+is_n <- c(0,1,2:4,5,6:23,24,25:256)
+becomes_n <- c(NA,1,rep.int(0,3),1,rep.int(0,18),1,rep.int(0,232))
+n<-cbind(is_n,becomes_n)
 
+county_list<-list()
+layer_list<-list()
 for (county in 1:length(county_set_list)){
 county_r<-county_set_list[[county]]
-for(layer in 1:nlayers(county_r)){
-layer_list[[layer]] <- reclassify(county_r[[layer]], m)
-}
+  for(layer in 1:nlayers(county_r)){
+  layer_list[[layer]] <- reclassify(county_r[[layer]], n)
+  }
 county_list[[county]]<-layer_list
 }
 
 #county_r<-county_list[[1]]
 
 get_area_average<-function(county){
+  county<-county_list[[1]]
 list_freq<-list()
-for(f in 1:length(county)){
-  sq<-as.data.frame(freq(county[[f]]))
-  list_freq[[f]]<-sq
-}
+average_list<-list()
+  for(f in 1:length(county)){
+    sq<-as.data.frame(freq(county[[f]]))
+    list_freq[[f]]<-sq
+  }
 #this should unlist the frequency set and put it in a data-frame that we can then use to evaluate 'core' crop area
 df_crop_areas<-do.call(cbind, lapply(list_freq, as.data.frame))
 value<-df_crop_areas[,1]
@@ -57,30 +63,17 @@ df_crop_areas[,2:12]<-df_crop_areas[,2:12]*900 #get area in meters
 #row.names(df_crop_areas)[3]<-'sum'
 average_1<-rowMeans(df_crop_areas[2,2:12]) #average of 'pesticide' crops year by year
 average_0<-rowMeans(df_crop_areas[1,2:12]) #average of 'other' crops year by year
+average_list[[f]]<-average_1
 
 }
+
 
 output<-lapply(county_list,get_area_average)
 
-##### BINARY N YEAR LAYERS ####
-#convert the layers to binary; 1 is crops of pesticide interest, 0 is other crops, NA is non-crop
-is_n <- c(0,1,2:4,5,6:23,24,25:256)
-becomes_n <- c(NA,1,rep.int(0,3),1,rep.int(0,18),1,rep.int(0,232))
-n<-cbind(is_n,becomes_n)
-
-county_list<-list()
-layer_list<-list()
-for (county in 1:length(county_set_list)){
-  county_r<-county_set_list[[county]]
-  for(layer in 1:nlayers(county_r)){
-    layer_list[[layer]] <- reclassify(county_r[[layer]], n)
-  }
-  county_list[[county]]<-layer_list
-}
-
+##### CALCULATE THRESHOLD ####
 thresh_list<-list()
 for(i in 1:length(county_list)){
-
+i=1
 test_county<-county_list[[i]]
 y<-test_county
 s0 = brick(y)
@@ -105,91 +98,78 @@ n_pixels<-as.data.frame(table(testdf$bin))
 # p
 n_pixels$total<-NA
 for(i in nrow(n_pixels):2){
-  n_pixels[i,3]<-sum(n_pixels[i:12,2])
+  n_pixels[i,3]<-sum(n_pixels[i:12,2])*900
  # n_pixels[i,3]<-sum(n_pixels[1:i,2])
 }
 
 total_n<-sum(n_pixels$Freq)
 n_pixels$sample_p<-n_pixels$Freq/total_n
-
-thresh<-n_pixels[which.min(abs(average_1-n_pixels$total)),]
-
+thresh<-as.data.frame(n_pixels[which.min(abs(average_1-n_pixels$total)),]) #which threshold is closest to the average pesticide area?
+print(thresh)
 thresh_list[[i]]<-thresh
 
 }
 
-##### PLOT DATA ####
-#sample proportion; same thing as above, but with distribution means represented
-p<-ggplot(n_pixels, aes(x=Var1, y=sample_p)) +
-  geom_bar(stat="identity")
-p
+#get the bin numbers that coincide with the threshold or greater
+thresh_layers<-testdf[testdf$bin >= (as.numeric(thresh$Var1) - 1),] 
+unique(thresh_layers$bin) #double check that it looks good
+thresh_layers$bin_f<-1
 
-
-#let's map the combinations of years, starting with 11
-testl<-testdf
-testl<-testl[,c(1:2,7)]
-
-#pal_r = colorRampPalette(c("#ffffcc","#006837"))
-
-pal <-c("#a6cee3",
-    "#1f78b4",
-    "#b2df8a",
-    "#33a02c",
-    "#fb9a99",
-    "#e31a1c",
-    "#fdbf6f",
-    "#ff7f00",
-    "#cab2d6",
-    "#6a3d9a",
-    "#fed976") 
-
-# pal_all<-c(
-#   "#525252",
-#   "#f7fcf0",
-#   "#e0f3db",
-#   "#ccebc5",
-#   "#a8ddb5",
-#   "#7bccc4",
-#   "#4eb3d3",
-#   "#2b8cbe",
-#   "#0868ac",
-#   "#084081"
-#   )
-  
-scales::show_col(pal) #take a look at color palettes
-
-# this maps each individual set of N years
-df<-testl
+##### CONVERT BACK TO RASTER DATA ####
+df<-thresh_layers
+df<-df[,c(1:2,8)]
 plot_list<-list()
-for(n in 1:11){
-  df_n<-df[df$bin >=n,]
+for(n in unique(df$bin)){
+  df_n<-df[df$bin ==n,]
   coordinates(df_n)<-~ x + y
   gridded(df_n)<-TRUE
   df_n<- raster(df_n)
   crs(df_n) <- crs(cdl_data_ill_rec[[1]])
   plot(df_n)
+  plot_list[[n]]<-df_n
+  
+}
+plot_list<-plot_list[lengths(plot_list) != 0] #remove empty list elements
 
- plot_list[[n]]<-df_n
 
+
+##### VECTORIZE ####
+#first, let's remove small individual 'islands' of pixels
+cleaned_plots<-list()
+for (layer in 1:length(plot_list)){
+rc <- clump(plot_list[[layer]], directions = 8) #this evaluates clumps of pixels (nearest neighbor =  8)
+f<-freq(rc)
+# save frequency table as data frame
+f<-as.data.frame(f)
+# which rows of the data.frame are only represented by clumps = 1 pixels?
+excludeID <- f$value[which(f$count <= 1)]
+# make a new raster to be sieved
+formaskSieve <- rc
+# assign NA to all clumps whose IDs are found in excludeID
+formaskSieve[rc %in% excludeID] <- NA
+plot_l<-plot_list[[layer]]
+plot_l<-mask(plot_l, formaskSieve)
+cleaned_plots[[layer]]<-plot_l
 }
 
-#this corrects the colors for N years
-plot_maps<-function(raster){
-  n<-length(unique(values(raster)))
-  plot(raster, col=pal[(n-1):1])
-}
+plot(plot_list[[1]], col='blue')
+plot(cleaned_plots[[1]], col="blue")
 
-plots<-lapply(plot_list,plot_maps) #plot them with the right colors
+#let's try vectorizing with the sf package, which is quite fast
+r1<-cleaned_plots[[1]]
+r.to.poly <- sf::as_Spatial(sf::st_as_sf(stars::st_as_stars(r1), 
+                                         as_points = FALSE, merge = TRUE)) 
 
+#first, we'll fill in some of the holes; I used a larger buffer of 500 km2 here; this might be too big
+area_thresh <- units::set_units(200, km^2)
+p_dropped <- fill_holes(r.to.poly, threshold = area_thresh)
+plot(p_dropped)
+p_dropped<-aggregate(p_dropped)
 
-
-##look at the total crop areas and get average across all 11 years
-writeRaster(set1[[11]], file.path(cdl_dir, "/cdl2009"), format="GTiff", overwrite = TRUE)
-writeRaster(testl, file.path(cdl_dir, "/test_"), format="GTiff", overwrite = TRUE)
-
-
-
-
+#issue: this might fill too many gaps; for now it's ok but we should focus on sequencing within the original reclassified layers
 
 
+##write rasters and/or shapefiles
+writeRaster(r1, file.path(cdl_dir, "/r1_11"), format="GTiff", overwrite = TRUE)
+writeOGR(p_dropped, cdl_dir,  "/r_polyall_fin", driver = "ESRI Shapefile")
 

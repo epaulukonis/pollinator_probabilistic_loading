@@ -76,3 +76,59 @@ plot(testls)
 success<-0:total_n
 plot(success, dbinom(success, size=total_n, prob=.14),type='h')
 
+is_n <- c(0,1,2:4,5,6:23,24,25:256)
+becomes_n <- c(NA,1,rep.int(0,3),1,rep.int(0,18),1,rep.int(0,232))
+n<-cbind(is_n,becomes_n)
+
+county_list_b<-list()
+layer_list_b<-list()
+for (county in 1:length(county_set_list)){
+  county_r<-county_set_list[[county]]
+  for(layer in 1:nlayers(county_r)){
+    layer_list_b[[layer]] <- reclassify(county_r[[layer]], n)
+  }
+  county_list_b[[county]]<-layer_list_b
+}
+
+
+#convert 1,5,24 (corn,soy,winter wheat) to 1,2,3, all other crop to 9
+# is_m <- c(0,1,2:4,5,6:23,24,25:256)
+# becomes <- c(NA,1,rep.int(9,3),2,rep.int(9,18),3,rep.int(9,232))
+# m<-cbind(is_m,becomes)
+
+
+plot_list<-list()
+for(n in 1:length(unique(df$bin))){
+  df_n<-df[df$bin >=n,]
+  coordinates(df_n)<-~ x + y
+  gridded(df_n)<-TRUE
+  df_n<- raster(df_n)
+  crs(df_n) <- crs(cdl_data_ill_rec[[1]])
+  plot(df_n)
+  
+  plot_list[[n]]<-df_n
+  
+}
+
+##Don't need this for right now
+# pal <-c("#a6cee3",
+#         "#1f78b4",
+#         "#b2df8a",
+#         "#33a02c",
+#         "#fb9a99",
+#         "#e31a1c",
+#         "#fdbf6f",
+#         "#ff7f00",
+#         "#cab2d6",
+#         "#6a3d9a",
+#         "#fed976")
+# 
+# scales::show_col(pal) #take a look at color palettes
+# 
+# #this corrects the colors for N years
+# plot_maps<-function(raster){
+#   n<-length(unique(values(raster)))
+#   plot(raster, col=pal[(n-1):1])
+# }
+# 
+# plots<-lapply(plot_list,plot_maps) #plot them with the right colors

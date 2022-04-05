@@ -26,14 +26,15 @@ ill<-spTransform(rpbb_study, crs(bomb_h)) #reproject
 states<-spTransform(rpbb_states, crs(bomb_h)) #reproject 
 
 
-#plot(h_range, col='red')
+## you can take a look at some plots here: 
+# plot(h_range, col='red')
 # plot(states, add=T)
 # plot(bomb_l, add=T)
 # plot(bomb_h, add=T)
-#plot(ill, add=T)
+# plot(ill, add=T)
 
 
-study<-gIntersection(ill, h_range, byid=T, id=ill$COUNTY_NAM)
+study<-gIntersection(ill, h_range, byid=T, id=ill$COUNTY_NAM) #get intersection of counties and range here
 
 #writeOGR(study, dsn=state_dir, layer="/study_area",driver="ESRI Shapefile") 
 #plot(study)
