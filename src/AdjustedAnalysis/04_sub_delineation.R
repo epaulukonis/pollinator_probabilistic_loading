@@ -25,26 +25,6 @@ for (county in 1:length(county_set_list)){
 }
 
 
-##in this section, we need to buffer and get the larger CPAA
-cpaa <- raster(paste0(cdl_dir, "/cpaa_mask.tif")) #use expanded CPAA
-cpaa[cpaa == 0] <- NA
-ext<-extent(cpaa)
-plot(cpaa)
-
-
-#use 2008 NLCD to mask out non-crop
-# nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
-# nlcd<-setExtent(nlcd, ext)
-# nlcd<-crop(nlcd, cpaa)
-# nlcd<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
-# nlcd<-mask(nlcd, cpaa)
-# plot(nlcd)
-# nlcd[nlcd<=30]<-NA
-# plot(nlcd)
-# cpaa<-mask(cpaa, nlcd)
-# plot(cpaa)
-
-
 
 ##in this section: we take the county_list and turn it into a dataframe, and compile the sequence columns
 dataframe_list<-list()
@@ -113,7 +93,7 @@ county_fw_sets<-list()
     df_n<-setExtent(df_n, ext)
     df_n<-crop(df_n, cpaa)
     df_n<-projectRaster(df_n, cpaa, method='ngb',crs(cpaa))
-    df_n<-mask(df_n, cpaa)
+    df_n<-mask(df_n, cpaa) #mask out by CPAA here
     
     r<-terra::rast(df_n)
     fw<- terra::focal(r, w = 7, fun = "modal", na.policy='all')%>% 
@@ -144,12 +124,15 @@ county_fw_sets<-list()
 fw_poly<- sf::as_Spatial(sf::st_as_sf(stars::st_as_stars(fw), 
                                         as_points = FALSE, merge = TRUE)) 
 area_thresh <- units::set_units(2, km^2)
-fw_dropped <- fill_holes(fw, threshold = area_thresh)
+fw_dropped <- fill_holes(fw_poly, threshold = area_thresh)
+fw_smooth <- smooth(fw_dropped, method = "ksmooth")
 plot(fw_dropped)
 
 
 writeRaster(fw_clipped, file.path(cdl_dir, "/fw_clipped.tif"), format="GTiff", overwrite = TRUE)
-writeOGR(fw_poly, cdl_dir,  "/proportion_polygons", driver = "ESRI Shapefile")
+writeOGR(fw_poly, cdl_dir,  "/proportion_poly_raw", driver = "ESRI Shapefile")
+writeOGR(fw_dropped, cdl_dir,  "/proportion_poly_filled", driver = "ESRI Shapefile")
+writeOGR(fw_smooth, cdl_dir,  "/proportion_poly_smooth", driver = "ESRI Shapefile")
 
 
 #challenge:
