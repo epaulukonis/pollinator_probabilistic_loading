@@ -9,7 +9,9 @@ print("stepping into 04_sub_delineation.R")
 
 options(scipen = 999) #remove exponent options, throws R off
 
-#convert 1,5,24 (corn,soy,winter wheat) to 1,2,3, all other crop to NA (or 9 if needed to count)
+
+#### Reclassify ----
+#convert 1,5,24 (corn,soy,winter wheat) to 1,2,3, all other crop to 0 (or 9 if needed to count)
 is_m <- c(0,1,2:4,5,6:23,24,25:256)
 becomes <- c(NA,1,rep.int(0,3),2,rep.int(0,18),3,rep.int(0,232))
 m<-cbind(is_m,becomes)
@@ -25,6 +27,7 @@ for (county in 1:length(county_set_list)){
 }
 
 
+####Dataframe compilation ----
 
 ##in this section: we take the county_list and turn it into a dataframe, and compile the sequence columns
 dataframe_list<-list()
@@ -38,8 +41,6 @@ coords = coordinates(s0) #get the coordinates
 s1 = as.data.frame(getValues(s0)) #get the dataframe
 rec_layer = sapply(1:nrow(s1), function(x) paste0(s1[x, ], collapse = '')) #make it nicer looking
 rec_layer <- data.frame(coords, rec_layer) #finish as final organized frame
-
-
 
 #let's format the sequence data
 rec_f_layer<-rec_layer
@@ -59,15 +60,13 @@ dataframe_list[[county]]<-thresh_layers
 
 }
 
-####Options for delineation
+####Delinearion ----
 ##Just raw sequences; creates big swaths of fields (this is all sequences)
 df_n<-thresh_layers[,c(1:2,6)] 
-
 
 ##try proportions
 thresh_layers$prop<-thresh_layers$bin/11
 df_n<-thresh_layers[,c(1:2,8)] #prop
-
 
 ###get field delineations for single years and see if it matters when you clump it this way
 testy<-binned_prop[[6]] 
@@ -89,19 +88,19 @@ county_fw_sets<-list()
     df_n<- raster(df_n)
     crs(df_n) <- crs(cdl_data_ill_rec[[1]])
     
-    #mask out NA areas here
-    df_n<-setExtent(df_n, ext)
-    df_n<-crop(df_n, cpaa)
-    df_n<-projectRaster(df_n, cpaa, method='ngb',crs(cpaa))
-    df_n<-mask(df_n, cpaa) #mask out by CPAA here
-    
     r<-terra::rast(df_n)
     fw<- terra::focal(r, w = 7, fun = "modal", na.policy='all')%>% 
       terra::mask(mask = r) 
+    fw<-raster(fw) #convert back to raster object
+
+    #mask out NA areas here using NLCD
+    fw<-setExtent(fw, ext)
+    fw<-crop(fw, nlcd)
+    fw<-projectRaster(fw, nlcd, method='ngb',crs(nlcd))
+    fw<-mask(fw, nlcd) #mask out by NLCD NA here
     
-    fw<-raster(fw) #convert back
-    
-    rc <- clump(fw, directions = 8) #this evaluates clumps of pixels (nearest neighbor =  8)
+    #this evaluates clumps of pixels (nearest neighbor =  8)
+    rc <- clump(fw, directions = 8) 
     f<-freq(rc)
     f<-as.data.frame(f)
     excludeID <- f$value[which(f$count <= 7)] #remove pixel clump of 7 or fewer
@@ -119,25 +118,121 @@ county_fw_sets<-list()
 
   }
 
-
-
 fw_poly<- sf::as_Spatial(sf::st_as_sf(stars::st_as_stars(fw), 
                                         as_points = FALSE, merge = TRUE)) 
 area_thresh <- units::set_units(2, km^2)
 fw_dropped <- fill_holes(fw_poly, threshold = area_thresh)
-fw_smooth <- smooth(fw_dropped, method = "ksmooth")
-plot(fw_dropped)
+#fw_smooth <- smooth(fw_dropped, method = "ksmooth")
+#plot(fw_dropped)
 
 
-writeRaster(fw_clipped, file.path(cdl_dir, "/fw_clipped.tif"), format="GTiff", overwrite = TRUE)
-writeOGR(fw_poly, cdl_dir,  "/proportion_poly_raw", driver = "ESRI Shapefile")
-writeOGR(fw_dropped, cdl_dir,  "/proportion_poly_filled", driver = "ESRI Shapefile")
-writeOGR(fw_smooth, cdl_dir,  "/proportion_poly_smooth", driver = "ESRI Shapefile")
+writeRaster(fw, file.path(cdl_dir, "/fw_raw_FW.tif"), format="GTiff", overwrite = TRUE)
+writeOGR(fw_poly, cdl_dir,  "/proportion_poly_nlcd", driver = "ESRI Shapefile")
+writeOGR(fw_dropped, cdl_dir,  "/proportion_polyd_nlcd", driver = "ESRI Shapefile")
+#writeOGR(fw_smooth, cdl_dir,  "/proportion_polys_nlcd", driver = "ESRI Shapefile")
 
 
-#challenge:
-#this doesn't quite fill some of the data, and I think we should smooth this better
 
+
+#### Get original CDL crop areas ----
+filler<-cbind(3, NA)
+average_list<-list()
+for(layer in 1:length(county_list)){
+  layer=1
+  county<-county_list[[layer]]
+  list_freq<-list()
+  for(f in 1:length(county)){
+    county[[f]]<-setExtent(county[[f]],nlcd)
+    county[[f]]<-mask(county[[f]], nlcd) #mask by CPAA
+    sq<-as.data.frame(freq(county[[f]]))
+    
+    # ifelse(nrow(sq)<5,sq[5,]==filler,sq[5,]==sq[5,])
+    list_freq[[f]]<-sq
+  }
+  #this should unlist the frequency set and put it in a data-frame that we can then use to evaluate 'core' crop area
+  outliers<-Filter(function(x) nrow(x) <5, list_freq)
+  main<-Filter(function(x) nrow(x) >=5, list_freq)
+  cdl1<-do.call(cbind, lapply(outliers, as.data.frame))
+  cdl2<-do.call(cbind, lapply(main, as.data.frame))
+  cdl1[5,]<-filler
+  cdl1<-cdl1[c(1:3,5,4),]
+  
+  value<-cdl1[,1]
+  cdl_crop_areas<-cbind(cdl1,cdl2)
+  cdl_crop_areas = cdl_crop_areas[,!names(cdl_crop_areas) == 'value']
+  cdl_crop_areas$value<-value
+  cdl_crop_areas<-cdl_crop_areas[,c(12,3:4,1:2,5:11)]
+  names(cdl_crop_areas)<-c("Crop",1999:2009) #make sure names align
+  cdl_crop_areas[,2:12]<-(cdl_crop_areas[,2:12]*900) * 0.000247105#get area in acres
+  
+}
+
+
+
+####Analysis ----
+#field_vector_data<-fw_dropped@data
+field_areas<- as.data.frame(area(fw_dropped), na.rm=T) #get areas of each field from the vectorized field
+colnames(field_areas)[1]<-'area'
+#field_areas$area<-field_areas
+
+#for each layer in y (sets of 11 years for each county), extract the values to the created polygons
+crop_list<-list()
+for(layer in 1:length(y)){
+    output<-exact_extract(y[[layer]],fw_dropped, "mode")
+    output<-as.data.frame(output)
+    names(output)<-"crops"
+    output$area<-field_areas$area
+    output<- output %>% group_by(crops) %>%   summarise(area = sum(area)*0.000247105)
+    crop_list[[layer]]<-output
+}
+
+names(crop_list)<-1999:2009
+
+outliers<-Filter(function(x) nrow(x) <5, crop_list)
+main<-Filter(function(x) nrow(x) >=5, crop_list)
+field1<-do.call(cbind, lapply(outliers, as.data.frame))
+field2<-do.call(cbind, lapply(main, as.data.frame))
+field1[5,]<-filler
+field1<-field1[c(1:3,5,4),]
+
+value<-field1[,1]
+field_crop_areas<-cbind(field1,field2)
+field_crop_areas =  field_crop_areas %>% select(-contains(".crops"))
+field_crop_areas$value<-value
+field_crop_areas<-field_crop_areas[ ,order(names(field_crop_areas))]
+
+field_crop_areas<-field_crop_areas[,c(12,1:11)]
+names(field_crop_areas)<-c("crop",1999:2009) #make sure names align
+
+
+error<-((cdl_crop_areas[,c(2:12)] - field_crop_areas[,c(2:12)])/cdl_crop_areas[,c(2:12)])*100
+error$crop<-c("other","corn","soy","ww","NA")
+
+error_f<-tidyr::gather(error, key="year", value="residual", 1:11)
+ggplot(error_f, aes(x=year, y=residual, fill=crop) )+ 
+  geom_boxplot()+
+  facet_wrap(~crop)
+
+
+error_nona<-error_f[error_f$crop !="NA",]
+
+ggplot(error_nona, aes(x=year, y=residual, fill=crop) )+ 
+  geom_boxplot()+
+  facet_wrap(~crop)
+
+
+#greater values means original CDL is larger for that crop
+#lower values means vectorized fields are larger for that crop
+
+#new plan:
+#extract polygons less than x km2 to new layer
+#remove same polygons from original layer
+#join/merge polygons from new layer
+#and combine back with original
+
+####Sub-delineation ----
+
+#we'll use the new vectors to look at focal window of sequences in each field above a certain size
 
 
 

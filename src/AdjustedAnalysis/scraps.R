@@ -267,3 +267,50 @@ nlcd<-crop(nlcd, cpaa)
 nlcd<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
 nlcd<-mask(nlcd, cpaa)
 plot(nlcd)
+
+
+# #use 2008 NLCD to mask out non-crop
+# nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
+# nlcd<-setExtent(nlcd, ext)
+# nlcd<-crop(nlcd, cpaa)
+# nlcd<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
+# nlcd<-mask(nlcd, cpaa)
+# nlcd[nlcd==11]<-NA
+# nlcd[nlcd==22]<-NA
+# nlcd[nlcd==23]<-NA
+# nlcd[nlcd==24]<-NA
+# plot(nlcd)
+# cpaa<-mask(cpaa, nlcd)
+# plot(cpaa)
+
+
+
+#first, fix the cpaa_mask to the same extent (low er columns/rows)
+cpaa_mask<-setExtent(cpaa_mask, ext)
+cpaa_mask<-crop(cpaa_mask, cpaa)
+cpaa_mask<-projectRaster(cpaa_mask, cpaa, method='ngb',crs(cpaa))
+cpaa<-mask(cpaa, cpaa_mask) #re-mask with the original CDL crop/non-crop so that any NAs filled in get removed
+
+
+
+crop_list<-list()
+for(layer in 1:length(y)){
+  output<-extract(y[[layer]],fw_smooth)
+  crop_list[[layer]]<-output
+}
+
+
+#function for mode
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+#1 = corn, 2 = soy, 3= winter wheat, 0 = other, 100=NA
+#get mode of the extracted fields for each year of the CDL
+test_year_fix<-list()
+test_year_mode<-list()
+for(year in 1:length(crop_list)){
+  test_year_fix[[year]]<-lapply(test_year, function(d) { d[is.na(d)] <- 100; d }) #assign NA to 100 in order to run mode function
+  test_year_mode[[year]]<-lapply(test_year_fix[[year]], function(x) Mode(x)) 
+}

@@ -24,6 +24,7 @@ for (co in 1:length(study)){
 
 #county_set_list contains the clipped sets of CDLs for each set of years
 
+
 ##### YEARLY AVERAGE LAYERS####
 #convert the layers to binary; 1 is crops of pesticide interest, 0 is other crops, NA is non-crop
 is_n <- c(0,1,2:4,5,6:23,24,25:256)
@@ -113,23 +114,29 @@ thresh_list[[i]]<-thresh_layers
 
 }
 
-#####Get CPAA and mask
+#####Get CPAA and mask----
 ##in this section, we need to buffer and get the larger CPAA
-cpaa <- raster(paste0(cdl_dir, "/cpaa_mask.tif")) #use expanded CPAA
-cpaa[cpaa == 0] <- NA
-ext<-extent(cpaa)
-plot(cpaa)
+# cpaa <- raster(paste0(cdl_dir, "/cpaa_mask.tif")) #use expanded CPAA
+# cpaa[cpaa == 0] <- NA
+# ext<-extent(cpaa)
 
+cpaa<-county_set_list[[1]][[1]]
+ext<-extent(cpaa)
 
 #use 2008 NLCD to mask out non-crop
-# nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
-# nlcd<-setExtent(nlcd, ext)
-# nlcd<-crop(nlcd, cpaa)
-# nlcd<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
-# nlcd<-mask(nlcd, cpaa)
-# plot(nlcd)
-# nlcd[nlcd<=30]<-NA
-# plot(nlcd)
-# cpaa<-mask(cpaa, nlcd)
-# plot(cpaa)
+nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
+nlcd<-crop(nlcd, cpaa)
+nlcd<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
+nlcd<-mask(nlcd, cpaa)
+nlcd[nlcd==11]<-NA
+nlcd[nlcd==21]<-NA
+nlcd[nlcd==22]<-NA
+nlcd[nlcd==23]<-NA
+nlcd[nlcd==24]<-NA
+nlcd[nlcd==31]<-NA
+plot(nlcd)
+
+#writeRaster(nlcd, file.path(cdl_dir, "/nlcd_mask.tif"), format="GTiff", overwrite = TRUE)
+
+
 

@@ -40,6 +40,10 @@ study<-gIntersection(ill, h_range, byid=T, id=ill$COUNTY_NAM) #get intersection 
 #plot(study)
 
 
+##get the roads
+# roads<-readOGR(state_dir, layer = "tl_2011_17111_roads")
+# roads<-spTransform(roads, crs(bomb_h))
+
 
 # note that you may need to read out files to QGIS or other to look-up specific county
 
@@ -51,3 +55,4 @@ study<-gIntersection(ill, h_range, byid=T, id=ill$COUNTY_NAM) #get intersection 
 # plot(bomb_l, add=T)
 
 
+ 
