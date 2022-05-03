@@ -60,28 +60,13 @@ dataframe_list[[county]]<-thresh_layers
 
 }
 
-####Delinearion ----
-##Just raw sequences; creates big swaths of fields (this is all sequences)
-df_n<-thresh_layers[,c(1:2,6)] 
+####Delineation ----
 
-##try proportions
-thresh_layers$prop<-thresh_layers$bin/11
-df_n<-thresh_layers[,c(1:2,8)] #prop
-
-###get field delineations for single years and see if it matters when you clump it this way
-testy<-binned_prop[[6]] 
-testy$sing<-1
-df_n<-testy[,c(1:2,6)] #it doesn't, we can bin it this way
-
-
-
-####Once you decide, run through a function that 
-##seems like sets of threshold years is best
 county_fw_sets<-list()
   for (i in 1:length(dataframe_list)){
     
-  thresh_layers$prop<-thresh_layers$bin/11
-  df_n<-thresh_layers[,c(1:2,8)]
+  thresh_layers$binary<-1
+  df_n<-thresh_layers[,c(1:2,9)]
 
     coordinates(df_n)<-~ x + y
     gridded(df_n)<-TRUE
@@ -89,7 +74,7 @@ county_fw_sets<-list()
     crs(df_n) <- crs(cdl_data_ill_rec[[1]])
     
     r<-terra::rast(df_n)
-    fw<- terra::focal(r, w = 7, fun = "modal", na.policy='all')%>% 
+    fw<- terra::focal(r, w = 7, fun = "modal",  na.policy='omit', fillvalue=NA)%>% 
       terra::mask(mask = r) 
     fw<-raster(fw) #convert back to raster object
 
@@ -113,7 +98,7 @@ county_fw_sets<-list()
     #additional 'smoothing'
     # agg_fw <- terra::aggregate(fw, fact = 3, fun = modal, na.rm = TRUE)
     # fw_f<- disaggregate(agg_fw, 3) #bilinear resamples 
-    # 
+    
     county_fw_sets[[i]]<-fw
 
   }
@@ -122,15 +107,16 @@ fw_poly<- sf::as_Spatial(sf::st_as_sf(stars::st_as_stars(fw),
                                         as_points = FALSE, merge = TRUE)) 
 area_thresh <- units::set_units(2, km^2)
 fw_dropped <- fill_holes(fw_poly, threshold = area_thresh)
-#fw_smooth <- smooth(fw_dropped, method = "ksmooth")
+
+
 #plot(fw_dropped)
 
+plot(fw)
 
-writeRaster(fw, file.path(cdl_dir, "/fw_raw_FW.tif"), format="GTiff", overwrite = TRUE)
-writeOGR(fw_poly, cdl_dir,  "/proportion_poly_nlcd", driver = "ESRI Shapefile")
-writeOGR(fw_dropped, cdl_dir,  "/proportion_polyd_nlcd", driver = "ESRI Shapefile")
-#writeOGR(fw_smooth, cdl_dir,  "/proportion_polys_nlcd", driver = "ESRI Shapefile")
-
+writeRaster(fw, file.path(cdl_dir, "/fw_bin.tif"), format="GTiff", overwrite = TRUE)
+writeOGR(fw_poly, cdl_dir,  "/prop_poly_bin", driver = "ESRI Shapefile")
+writeOGR(fw_smooth, cdl_dir,  "/prop_bin_smooth", driver = "ESRI Shapefile")
+writeOGR(fw_dropped_f, cdl_dir,  "/bin_final", driver = "ESRI Shapefile")
 
 
 
@@ -139,12 +125,14 @@ filler<-cbind(3, NA)
 average_list<-list()
 for(layer in 1:length(county_list)){
   layer=1
-  county<-county_list[[layer]]
+  y<-county_list[[layer]]
   list_freq<-list()
-  for(f in 1:length(county)){
-    county[[f]]<-setExtent(county[[f]],nlcd)
-    county[[f]]<-mask(county[[f]], nlcd) #mask by CPAA
+  for(f in 1:length(y)){
+    county[[f]]<-setExtent(county[[f]],fw)
+    county[[f]]<-crop(county[[f]], fw)
+    county[[f]]<-mask(county[[f]], fw) #mask by the output raster
     sq<-as.data.frame(freq(county[[f]]))
+    #writeRaster(county[[1]], file.path(cdl_dir, "/cdl99_clipped.tif"), format="GTiff", overwrite = TRUE)
     
     # ifelse(nrow(sq)<5,sq[5,]==filler,sq[5,]==sq[5,])
     list_freq[[f]]<-sq
@@ -160,7 +148,8 @@ for(layer in 1:length(county_list)){
   value<-cdl1[,1]
   cdl_crop_areas<-cbind(cdl1,cdl2)
   cdl_crop_areas = cdl_crop_areas[,!names(cdl_crop_areas) == 'value']
-  cdl_crop_areas$value<-value
+  cdl_crop_areas[6,]<-colSums(cdl_crop_areas[1:4,1:11])
+  cdl_crop_areas$value<-c(value,"sum")
   cdl_crop_areas<-cdl_crop_areas[,c(12,3:4,1:2,5:11)]
   names(cdl_crop_areas)<-c("Crop",1999:2009) #make sure names align
   cdl_crop_areas[,2:12]<-(cdl_crop_areas[,2:12]*900) * 0.000247105#get area in acres
@@ -169,7 +158,7 @@ for(layer in 1:length(county_list)){
 
 
 
-####Analysis ----
+####First-Pass Analysis ----
 #field_vector_data<-fw_dropped@data
 field_areas<- as.data.frame(area(fw_dropped), na.rm=T) #get areas of each field from the vectorized field
 colnames(field_areas)[1]<-'area'
@@ -178,6 +167,7 @@ colnames(field_areas)[1]<-'area'
 #for each layer in y (sets of 11 years for each county), extract the values to the created polygons
 crop_list<-list()
 for(layer in 1:length(y)){
+    layer=1
     output<-exact_extract(y[[layer]],fw_dropped, "mode")
     output<-as.data.frame(output)
     names(output)<-"crops"
@@ -204,21 +194,24 @@ field_crop_areas<-field_crop_areas[ ,order(names(field_crop_areas))]
 field_crop_areas<-field_crop_areas[,c(12,1:11)]
 names(field_crop_areas)<-c("crop",1999:2009) #make sure names align
 
-
-error<-((cdl_crop_areas[,c(2:12)] - field_crop_areas[,c(2:12)])/cdl_crop_areas[,c(2:12)])*100
+error<-((field_crop_areas[,c(2:12)] - cdl_crop_areas[,c(2:12)])/cdl_crop_areas[,c(2:12)])*100
 error$crop<-c("other","corn","soy","ww","NA")
+print(error)
+
+colSums(field_crop_areas[,c(2:12)])
+colSums(cdl_crop_areas[,c(2:12)])
+
+
 
 error_f<-tidyr::gather(error, key="year", value="residual", 1:11)
 ggplot(error_f, aes(x=year, y=residual, fill=crop) )+ 
   geom_boxplot()+
   facet_wrap(~crop)
-
-
 error_nona<-error_f[error_f$crop !="NA",]
-
 ggplot(error_nona, aes(x=year, y=residual, fill=crop) )+ 
   geom_boxplot()+
   facet_wrap(~crop)
+
 
 
 #greater values means original CDL is larger for that crop
@@ -231,8 +224,105 @@ ggplot(error_nona, aes(x=year, y=residual, fill=crop) )+
 #and combine back with original
 
 ####Sub-delineation ----
+sub_fw_sets<-list()
+for (i in 1:length(dataframe_list)){
+  
+  df_n<-thresh_layers[,c(1:2,6)] 
+  
+  coordinates(df_n)<-~ x + y
+  gridded(df_n)<-TRUE
+  df_n<- raster(df_n)
+  crs(df_n) <- crs(cdl_data_ill_rec[[1]])
+  
+  #crop to the delineation polygons
+  fw_s<-df_n
+  fw_s<-setExtent(fw_s, fw)
+  fw_s<-crop(fw_s, fw)
+  fw_s<-projectRaster(fw_s, fw, method='ngb',crs(fw))
+  fw_s<-mask(fw_s, fw) #mask out by OG delineation
+  
+  
+  r<-terra::rast(fw_s)
+  fw_s<- terra::focal(r, w = 7, fun = "modal", na.policy='omit', fillvalue=NA)%>% 
+    terra::mask(mask = r) 
+  fw_s<-raster(fw_s) #convert back to raster object
+  
+
+  #this evaluates clumps of pixels (nearest neighbor =  8)
+  rc <- clump(fw_s, directions = 8) 
+  f<-freq(rc)
+  f<-as.data.frame(f)
+  excludeID <- f$value[which(f$count <= 7)] #remove pixel clump of 7 or fewer
+  formaskSieve <- rc
+  # assign NA to all clumps whose IDs are found in excludeID
+  formaskSieve[rc %in% excludeID] <- NA
+  fw_s<-mask(fw_s, formaskSieve)
+  
+  
+  #additional 'smoothing'
+  # agg_fw <- terra::aggregate(fw, fact = 3, fun = modal, na.rm = TRUE)
+  # fw_f<- disaggregate(agg_fw, 3) #bilinear resamples 
+  
+  county_fw_sets[[i]]<-fw
+  
+}
+
+fw_polys<- sf::as_Spatial(sf::st_as_sf(stars::st_as_stars(fw_s), 
+                                      as_points = FALSE, merge = TRUE)) 
+area_thresh <- units::set_units(2, km^2)
+fw_droppeds <- fill_holes(fw_polys, threshold = area_thresh)
+#fw_smooth <- smooth(fw_dropped, method = "ksmooth")
+#plot(fw_dropped)
+
+
+writeRaster(fw_s, file.path(cdl_dir, "/fw_all_test.tif"), format="GTiff", overwrite = TRUE)
+writeOGR(fw_polys, cdl_dir,  "/all_poly_raw_test", driver = "ESRI Shapefile")
+writeOGR(fw_droppeds, cdl_dir,  "/all_poly_drop_test", driver = "ESRI Shapefile")
+
 
 #we'll use the new vectors to look at focal window of sequences in each field above a certain size
 
 
+
+
+####Second-pass Analysis----
+field_areass<- as.data.frame(area(fw_droppeds), na.rm=T) #get areas of each field from the vectorized field
+colnames(field_areass)[1]<-'area'
+#field_areas$area<-field_areas
+
+#for each layer in y (sets of 11 years for each county), extract the values to the created polygons
+crop_list<-list()
+for(layer in 1:length(y)){
+  output<-exact_extract(y[[layer]],fw_droppeds, "mode")
+  output<-as.data.frame(output)
+  names(output)<-"crops"
+  output$area<-field_areass$area
+  output<- output %>% group_by(crops) %>%   summarise(area = sum(area)*0.000247105)
+  crop_list[[layer]]<-output
+}
+
+names(crop_list)<-1999:2009
+
+outliers<-Filter(function(x) nrow(x) <5, crop_list)
+main<-Filter(function(x) nrow(x) >=5, crop_list)
+field1<-do.call(cbind, lapply(outliers, as.data.frame))
+field2<-do.call(cbind, lapply(main, as.data.frame))
+field1[5,]<-filler
+field1<-field1[c(1:3,5,4),]
+
+value<-field1[,1]
+field_crop_areass<-cbind(field1,field2)
+field_crop_areass =  field_crop_areass %>% select(-contains(".crops"))
+field_crop_areass$value<-value
+field_crop_areass<-field_crop_areass[ ,order(names(field_crop_areass))]
+
+field_crop_areass<-field_crop_areass[,c(12,1:11)]
+names(field_crop_areass)<-c("crop",1999:2009) #make sure names align
+
+error<-((field_crop_areass[,c(2:12)] - cdl_crop_areas[,c(2:12)])/cdl_crop_areas[,c(2:12)])*100
+error$crop<-c("other","corn","soy","ww","NA")
+print(error)
+
+colSums(field_crop_areass[,c(2:12)])
+colSums(cdl_crop_areas[,c(2:12)])
 
