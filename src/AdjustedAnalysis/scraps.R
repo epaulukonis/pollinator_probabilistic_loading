@@ -314,3 +314,151 @@ for(year in 1:length(crop_list)){
   test_year_fix[[year]]<-lapply(test_year, function(d) { d[is.na(d)] <- 100; d }) #assign NA to 100 in order to run mode function
   test_year_mode[[year]]<-lapply(test_year_fix[[year]], function(x) Mode(x)) 
 }
+
+
+#fw_smooth <- smooth(fw_dropped, method = "ksmooth")
+
+#additional 'smoothing'
+# agg_fw <- terra::aggregate(fw, fact = 3, fun = modal, na.rm = TRUE)
+# fw_f<- disaggregate(agg_fw, 3) #bilinear resamples 
+
+# ifelse(nrow(sq)<5,sq[5,]==filler,sq[5,]==sq[5,])
+
+
+
+filler<-cbind(3, NA)
+outliers<-Filter(function(x) nrow(x) <5, list_freq)
+main<-Filter(function(x) nrow(x) >=5, list_freq)
+cdl1<-do.call(cbind, lapply(outliers, as.data.frame))
+cdl2<-do.call(cbind, lapply(main, as.data.frame))
+cdl1[5,]<-filler
+cdl1<-cdl1[c(1:3,5,4),]
+
+value<-cdl1[,1]
+cdl_crop_areas<-cbind(cdl1,cdl2)
+cdl_crop_areas = cdl_crop_areas[,!names(cdl_crop_areas) == 'value']
+cdl_crop_areas[6,]<-colSums(cdl_crop_areas[1:4,1:11])
+cdl_crop_areas$value<-c(value,"sum")
+cdl_crop_areas<-cdl_crop_areas[,c(12,3:4,1:2,5:11)]
+names(cdl_crop_areas)<-c("Crop",1999:2009) #make sure names align
+
+
+
+
+crop_list<-list()
+for(layer in 1:length(y)){
+  layer=1
+  extr<-exact_extract(y[[layer]],output, "mode")
+  extr<-as.data.frame(extr)
+  names(extr)<-"crops"
+  extr$area<-field_areas$area
+  extr<- extr %>% group_by(crops) %>%   summarise(area = sum(area)*0.000247105)
+  crop_list[[layer]]<-extr
+}
+
+names(crop_list)<-1999:2009
+
+outliers<-Filter(function(x) nrow(x) <5, crop_list)
+main<-Filter(function(x) nrow(x) >=5, crop_list)
+field1<-do.call(cbind, lapply(outliers, as.data.frame))
+field2<-do.call(cbind, lapply(main, as.data.frame))
+field1[5,]<-filler
+field1<-field1[c(1:3,5,4),]
+
+value<-field1[,1]
+field_crop_areas<-cbind(field1,field2)
+field_crop_areas =  field_crop_areas %>% select(-contains(".crops"))
+field_crop_areas$value<-value
+field_crop_areas<-field_crop_areas[ ,order(names(field_crop_areas))]
+
+field_crop_areas<-field_crop_areas[,c(12,1:11)]
+names(field_crop_areas)<-c("crop",1999:2009) #make sure names align
+
+error<-((field_crop_areas[,c(2:12)] - cdl_crop_areas[,c(2:12)])/cdl_crop_areas[,c(2:12)])*100
+error$crop<-c("other","corn","soy","ww","NA")
+print(error)
+
+colSums(field_crop_areas[,c(2:12)])
+colSums(cdl_crop_areas[,c(2:12)])
+
+error_f<-tidyr::gather(error, key="year", value="residual", 1:11)
+ggplot(error_f, aes(x=year, y=residual, fill=crop) )+ 
+  geom_boxplot()+
+  facet_wrap(~crop)
+error_nona<-error_f[error_f$crop !="NA",]
+ggplot(error_nona, aes(x=year, y=residual, fill=crop) )+ 
+  geom_boxplot()+
+  facet_wrap(~crop)
+
+
+
+##in this section, we need to buffer and get the larger CPAA
+# cpaa <- raster(paste0(cdl_dir, "/cpaa_mask.tif")) #use expanded CPAA
+# cpaa[cpaa == 0] <- NA
+# ext<-extent(cpaa)
+
+
+#### Reclassify ----
+#convert 1,5,24 (corn,soy,winter wheat) to 1,2,3, all other crop to 0 (or 9 if needed to count)
+# is_m <- c(0,1,2:4,5,6:23,24,25:256)
+# becomes <- c(NA,1,rep.int(0,3),2,rep.int(0,18),3,rep.int(0,232))
+# m<-cbind(is_m,becomes)
+# 
+# county_list<-list()
+# layer_list<-list()
+# for (county in 1:length(county_set_list)){
+#   county_r<-county_set_list[[county]]
+#   for(layer in 1:nlayers(county_r)){
+#     layer_list[[layer]] <- reclassify(county_r[[layer]], m)
+#   }
+#   county_list[[county]]<-layer_list
+# }
+
+
+# is_n <- c(0,1,2:4,5,6:23,24,25:256)
+# becomes_n <- c(NA,1,rep.int(0,3),1,rep.int(0,18),1,rep.int(0,232))
+# n<-cbind(is_n,becomes_n)
+# 
+# #this reclassifys the layers from county_set_list to be binary (crop and non-crop)
+# county_list_binary<-list()
+# layer_list<-list()
+# for (county in 1:length(county_set_list)){
+#   county_r<-county_set_list[[county]]
+#   for(layer in 1:nlayers(county_r)){
+#     layer_list[[layer]] <- reclassify(county_r[[layer]], n)
+#   }
+#   county_list_binary[[county]]<-layer_list
+# }
+# 
+# county_list<-county_list_binary
+
+####Dataframe compilation ----
+##in this section: we take the county_list and turn it into a dataframe, and compile the sequence columns
+# dataframe_list<-list()
+# for(county in 1:length(county_list)){
+# 
+# #convert to dataframe
+# y<-county_list[[i]] ##first county
+# s0 = brick(y) #brick the raster
+# coords = coordinates(s0) #get the coordinates
+# s1 = as.data.frame(getValues(s0)) #get the dataframe
+# rec_layer = sapply(1:nrow(s1), function(x) paste0(s1[x, ], collapse = '')) #make it nicer looking
+# rec_layer <- data.frame(coords, rec_layer) #finish as final organized frame
+# 
+# #let's format the sequence data
+# rec_f_layer<-rec_layer
+# any_layer <- rec_f_layer[!grepl("NANANANANANANANANANANA", rec_f_layer$rec_layer),] # remove pixels that have no crops in 11 years
+# any_layer$f<-gsub("NA", "", any_layer$rec_layer) #substitute "" for NA; this will preserve order value, this bins pixels by # years cropped (no differentiation between when)
+# any_layer$field<-as.numeric(any_layer$f) #turn f into fields as numeric integer
+# any_layer$n_years<-as.numeric(gsub(0, "", any_layer$field)) #sub 0s with empty slots
+# any_layer$bin<-floor(log10(any_layer$n_years)) + 1  #create column to count the number of years
+# 
+# 
+# thresh_layers<-any_layer[any_layer$bin >= 6,] #for now
+# #thresh_layers<-any_layer[tany_layer$bin >= (as.numeric(thresh$Var1) - 1),] 
+# 
+# thresh_layers<-na.omit(thresh_layers)
+# dataframe_list[[county]]<-thresh_layers
+# #binned_prop<-split(thresh_layers, f=thresh_layers$bin) #split if needed
+# 
+# }
