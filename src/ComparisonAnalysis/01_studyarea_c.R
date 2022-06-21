@@ -25,23 +25,20 @@ ill<-spTransform(rpbb_study, crs(bomb_h)) #reproject
 states<-spTransform(rpbb_states, crs(bomb_h)) #reproject 
 
 
-wisconsin<-readOGR(wi_dir, layer = "wisconsin") #read in wisconsin
-wisconsin<-spTransform(wisconsin, crs(bomb_h)) #reproject 
+all_states<-readOGR(state_dir, layer = "tl_2021_us_county") #read in states
+all_states<-spTransform(all_states, crs(bomb_h)) #reproject 
 
-michigan<-readOGR(mi_dir, layer = "michigan") #read in michigan
-michigan<-spTransform(michigan, crs(bomb_h)) #reproject 
+mi<-all_states[all_states$STATEFP == "26",]
+wi<-all_states[all_states$STATEFP == "55",]
 
-
-
-
-plot(wisconsin)
-plot(michigan)
 ## you can take a look at some plots here: 
 # plot(h_range, col='red')
 # plot(states, add=T)
 # plot(bomb_l, add=T)
 # plot(bomb_h, add=T)
 # plot(ill, add=T)
+# plot(wi)
+# plot(mi)
 
 
 study<-gIntersection(ill, h_range, byid=T, id=ill$COUNTY_NAM) #get intersection of counties and range here
@@ -52,7 +49,6 @@ study<-gIntersection(ill, h_range, byid=T, id=ill$COUNTY_NAM) #get intersection 
 
 
 #writeOGR(study, dsn=state_dir, layer="/study_area",driver="ESRI Shapefile") 
-#plot(study)
 
 
 ##get the roads

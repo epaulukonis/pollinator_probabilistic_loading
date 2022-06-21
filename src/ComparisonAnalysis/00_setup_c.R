@@ -154,13 +154,6 @@ state_dir = file.path(root_data_in, "MapData/state")
 print(state_dir)
 print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 
-wi_dir = file.path(state_dir, "wisconsinstate")
-print(wi_dir )
-print(list.files(path=wi_dir , all.files=TRUE, full.names=FALSE))
-
-mi_dir = file.path(state_dir, "michiganstate")
-print(mi_dir )
-print(list.files(path=mi_dir , all.files=TRUE, full.names=FALSE))
 
 
 
