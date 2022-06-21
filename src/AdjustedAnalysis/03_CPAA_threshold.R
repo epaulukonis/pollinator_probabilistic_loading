@@ -2,7 +2,7 @@
 
 ### 03 Getting CPAA Threshold and Masking by NLCD
 
-# Edited by E. Paulukonis Feb 2022
+# Edited by E. Paulukonis June 2022
 import_start_time <- Sys.time()
 print("stepping into 03_vectorization_fields.R")
 
@@ -18,7 +18,7 @@ for (co in 1:length(study)){
     r_list<-crop(x, co_r)
     mask(r_list, co_r)
   }
-  county_set<-lapply(cdl_data_ill_rec[c(1:11)], mask_crop) #crop and mask the fixed CDL to the counties, put in list
+  county_set<-lapply(cdl_data_ill_rec[c(12:23)], mask_crop) #crop and mask the fixed CDL to the counties, put in list
   county_set_list[[co]]<-stack(county_set) #represents single county stack
 }
 
@@ -33,6 +33,7 @@ for (co in 1:length(study)){
 is_n <- c(0,1,2:4,5,6:23,24,25:256)
 becomes_n <- c(NA,1,rep.int(0,3),1,rep.int(0,18),1,rep.int(0,232))
 n<-cbind(is_n,becomes_n)
+
 
 #this reclassifys the layers from county_set_list to be binary (crop and non-crop)
 county_list<-list()
@@ -120,6 +121,7 @@ county_list[[county]]<-layer_list
 three_county_list<-list(county_list[[50]], county_list[[1]],county_list[[14]])
 names(three_county_list)<-c("low50","medium1","high14")
 
+
 ##### YEARLY AVERAGE LAYERS#### 
 ##get average area for threshold here
 average_list_focus<-list()
@@ -151,7 +153,7 @@ for(layer in 1:length(three_county_list)){
 ##### CALCULATE THRESHOLD ####
 thresh_list<-list()
 thresh_list_raw<-list() #documents the exact year of the cutoff
-for(item in 1:3){
+for(item in 1:length(three_county_list)){
 county<-three_county_list[[item]]
 y<-county
 s0 = brick(y)
@@ -182,7 +184,7 @@ for(i in nrow(n_pixels):2){
 total_n<-sum(n_pixels$Freq)
 n_pixels$sample_p<-n_pixels$Freq/total_n
 
-average_1 = average_list_focus[[i]]
+average_1 = average_list_focus[[item]]
 thresh<-as.data.frame(n_pixels[which.min(abs(average_1-n_pixels$total)),]) #which threshold is closest to the average pesticide area?
 thresh_list_raw[[item]]<-thresh
 
@@ -203,7 +205,8 @@ thresh_list[[item]]<-thresh_layers
 
 
 #####Get NLCD mask for non-crop areas (roadS)----
-nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
+nlcd<-raster(paste0(nlcd_dir,"/NLCD_2019_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
+#nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
 
 list_of_nlcd_masks<-list()
 for (county in 1:3){

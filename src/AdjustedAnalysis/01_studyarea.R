@@ -2,7 +2,7 @@
 
 ### 01 Extracttion of counties/area of interest
 
-# Edited by E. Paulukonis Sept 2021
+# Edited by E. Paulukonis June 2022
 
 import_start_time <- Sys.time()
 print("stepping into 01_studyarea.R")
@@ -13,7 +13,7 @@ print(list.files(path=bombus_dir, all.files=TRUE, full.names=FALSE)) #species
 
 
 rpbb_states<-readOGR(state_dir, layer = 'RPBB_states') #read in US counties
-rpbb_study<-readOGR(state_dir, layer = "IL_BNDY_County_Py") #read in state
+rpbb_study<-readOGR(state_dir, layer = "IL_BNDY_County_Py") #read in states
 
 
 # get species potential zones

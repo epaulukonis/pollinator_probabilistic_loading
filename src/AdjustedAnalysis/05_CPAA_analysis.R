@@ -5,9 +5,9 @@
 # Edited by E. Paulukonis June 2022
 
 output_of_cleaning<-list()
-output_of_cleaning[[1]]<- readOGR(cdl_dir, layer = "low_clean")
-output_of_cleaning[[2]]<- readOGR(cdl_dir, layer = "med_clean")
-output_of_cleaning[[3]]<- readOGR(cdl_dir, layer = "high_clean")
+output_of_cleaning[1]<- readOGR(cdl_dir, layer = "_low_clean")
+output_of_cleaning[2]<- readOGR(cdl_dir, layer = "_med_clean")
+output_of_cleaning[3]<- readOGR(cdl_dir, layer = "_high_clean")
 
 
 ################# Non-crop vs. Crop Area Comparison ----

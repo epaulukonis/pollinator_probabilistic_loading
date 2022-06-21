@@ -2,7 +2,7 @@
 
 ### 00 Setup of directories and file paths
 
-# Edited by E. Paulukonis Sept 2021
+# Edited by E. Paulukonis June 2022
 
 #Install and load supporting libraries.
 print("stepping into 00_setup.R")
@@ -11,7 +11,6 @@ R.Version()$version.string
 
 # install.packages(c("ggplot2", "rgeos","sf","raster","dplyr","ggplot2","cowplot",
 #                    "grid","foreign","progress","parallel","foreach", "gridExtra","stringr"))
-
 
 library(sp)
 library(sf)
