@@ -13,7 +13,7 @@ R.Version()$version.string
 #                    "grid","foreign","progress","parallel","foreach", "gridExtra","stringr"))
 
 library(sp)
-#library(sf)
+library(sf)
 library(stars)
 library(rgeos)
 library(rgdal)
