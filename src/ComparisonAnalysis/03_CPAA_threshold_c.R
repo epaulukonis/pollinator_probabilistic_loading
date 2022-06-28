@@ -9,8 +9,6 @@ print("stepping into 03_CPAA_threshold_c.R")
 ##### COUNTY LAYER PREP ####
 options(scipen = 999) #remove exponent options, throws R off
 
-
-
 #### Michigan ----
 #function to mask and crop CDL to each county
 study<-mi
@@ -28,8 +26,7 @@ for (co in 1:length(study)){
 
 
 #county_set_list contains the clipped sets of CDLs for each set of years
-#### CROP DIVERSITY ####
-
+#### CROP DIVERSITY 
 #I chose these based on visual inspection; they have crop diversity > 1, and tree crops
 names(county_set_list)<-mi$NAME
 hu<-county_set_list$Huron #75% crop coverage
@@ -65,18 +62,15 @@ crop_list_hu<-lapply(prop_list,diversity_function)
 print(crop_list_hu) #what's the general trend in crops? 
 names(crop_list_hu)<-2008:2021
 
-
 chosen_count<-list(hu,ott,van)
 
 
-
-##### YEARLY AVERAGE LAYERS#### 
+##### YEARLY AVERAGE LAYERS
 ##get average area for threshold here
 #this reclassifys all of the non-major crops
 is_n <- c(0,1:256)
 becomes_n <- c(NA,rep.int(1,256))
 n<-cbind(is_n,becomes_n)
-
 
 #this reclassifys the layers from county_set_list to be binary (non-diverse crop and diverse crop)
 county_list<-list()
@@ -89,7 +83,6 @@ for (county in 1:length(chosen_count)){
   county_list[[county]]<-layer_list
 }
 #rm(county_r)
-
 
 
 average_list_focus<-list()
@@ -117,7 +110,7 @@ for(layer in 1:length(county_list)){
 }
 
 
-##### CALCULATE THRESHOLD ####
+##### CALCULATE THRESHOLD 
 thresh_list_mi<-list()
 thresh_list_raw_mi<-list() #documents the exact year of the cutoff
 for(item in 1:length(county_list)){
@@ -169,7 +162,7 @@ writeRaster(thresh_list_mi[[layer]], file.path(f, names(thresh_list_mi[[layer]])
 }
 
 
-#####Get NLCD mask for non-crop areas (roadS)----
+#####Get NLCD mask for non-crop areas (roadS)
 nlcd<-raster(paste0(nlcd_dir,"/NLCD_2019_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
 #nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
 names(county_list)<-2008:2021
@@ -207,6 +200,9 @@ writeRaster(list_of_nlcd_masks_mi[[layer]], file.path(f, names(list_of_nlcd_mask
 
 
 
+
+
+
 #### Wisconsin ----
 #function to mask and crop CDL to each county
 study<-wi
@@ -224,7 +220,7 @@ for (co in 1:length(study)){
 
 
 #county_set_list contains the clipped sets of CDLs for each set of years
-#### CROP DIVERSITY ####
+#### CROP DIVERSITY
 
 #I chose these based on visual inspection; they have crop diversity > 1, and tree crops
 names(county_set_list)<-wi$NAME
@@ -265,7 +261,7 @@ chosen_count<-list(hurock, wau, lang)
 
 
 
-##### YEARLY AVERAGE LAYERS#### 
+##### YEARLY AVERAGE LAYERS
 ##get average area for threshold here
 #this reclassifys all of the non-major crops
 is_n <- c(0,1:256)
@@ -273,7 +269,7 @@ becomes_n <- c(NA,rep.int(1,256))
 n<-cbind(is_n,becomes_n)
 
 
-#this reclassifys the layers from county_set_list to be binary (non-diverse crop and diverse crop)
+#this re-classifys the layers from county_set_list to be binary (non-diverse crop and diverse crop)
 county_list<-list()
 layer_list<-list()
 for (county in 1:length(chosen_count)){
@@ -311,8 +307,7 @@ for(layer in 1:length(county_list)){
   
 }
 
-
-##### CALCULATE THRESHOLD ####
+##### CALCULATE THRESHOLD 
 thresh_list_wi<-list()
 thresh_list_raw_wi<-list() #documents the exact year of the cutoff
 names(thresh_list_mi)<-2008:2021
@@ -365,8 +360,7 @@ for(item in 1:length(county_list)){
 }
 
 
-
-#####Get NLCD mask for non-crop areas (roadS)----
+#####Get NLCD mask for non-crop areas (roadS)
 nlcd<-raster(paste0(nlcd_dir,"/NLCD_2019_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
 #nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
 
