@@ -57,7 +57,7 @@ root_data_out <- file.path(root_dir, "data_out")
 print(root_data_out)
 root_figures <- file.path(root_dir, "figures")
 print(root_figures)
-root_src <- file.path(root_dir, "src/AdjustedAnalysis")
+root_src <- file.path(root_dir, "src/ComparisonAnalysis")
 print(root_src)
 
 # set data directories, check to see what files are in each, and unzip if needed - uncomment if needed
@@ -158,8 +158,8 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 
 
 #source other files
-# source(file.path(root_src, "01_studyarea.R"))
-# source(file.path(root_src, "02_formatting_cdl.R"))
-
+source(file.path(root_src, "01_studyarea_c.R"))
+source(file.path(root_src, "02_formatting_cdl_c.R"))
+source(file.path(root_src, "02_formatting_cdl_c.R"))
 
 

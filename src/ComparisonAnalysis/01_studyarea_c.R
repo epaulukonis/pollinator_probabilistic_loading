@@ -5,7 +5,7 @@
 # Edited by E. Paulukonis Sept 2021
 
 import_start_time <- Sys.time()
-print("stepping into 01_studyarea.R")
+print("stepping into 01_studyarea_c.R")
 
 # input state and species data
 print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE)) #state
