@@ -162,12 +162,17 @@ thresh_layers$bin_f<-1  #if you want binary layer
 
 thresh_list_mi[[item]]<-thresh_layers
 
+f<-paste0(cdl_mi_dir, "/thresh_layers")
+writeRaster(thresh_list_mi[[layer]], file.path(f, names(thresh_list_mi[[layer]])), format="GTiff", overwrite = TRUE)
+
+
 }
 
 
 #####Get NLCD mask for non-crop areas (roadS)----
 nlcd<-raster(paste0(nlcd_dir,"/NLCD_2019_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
 #nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
+names(county_list)<-2008:2021
 
 list_of_nlcd_masks_mi<-list()
 for (county in 1:3){
@@ -193,7 +198,8 @@ list_of_nlcd_masks_mi[[county]]<-nlcdc
 
 }
 
-#writeRaster(nlcd, file.path(cdl_dir, "/nlcd_mask.tif"), format="GTiff", overwrite = TRUE)
+f<-paste0(cdl_mi_dir, "/mask_output")
+writeRaster(list_of_nlcd_masks_mi[[layer]], file.path(f, names(list_of_nlcd_masks_mi[[layer]])), format="GTiff", overwrite = TRUE)
 
 
 
@@ -309,6 +315,7 @@ for(layer in 1:length(county_list)){
 ##### CALCULATE THRESHOLD ####
 thresh_list_wi<-list()
 thresh_list_raw_wi<-list() #documents the exact year of the cutoff
+names(thresh_list_mi)<-2008:2021
 for(item in 1:length(county_list)){
   county<-county_list[[item]]
   y<-county
@@ -351,6 +358,10 @@ for(item in 1:length(county_list)){
   
   thresh_list_wi[[item]]<-thresh_layers
   
+  f<-paste0(cdl_wi_dir, "/thresh_layers")
+  writeRaster(thresh_list_wi[[layer]], file.path(f, names(thresh_list_wi[[layer]])), format="GTiff", overwrite = TRUE)
+  
+  
 }
 
 
@@ -359,6 +370,7 @@ for(item in 1:length(county_list)){
 nlcd<-raster(paste0(nlcd_dir,"/NLCD_2019_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
 #nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
 
+names(county_list)<-2008:2021
 list_of_nlcd_masks_wi<-list()
 for (county in 1:3){
   cpaa<-county_list[[county]][[1]] ##get associated counties
@@ -366,7 +378,6 @@ for (county in 1:3){
   #plot(cpaa)
   
   #use 2008 NLCD to mask out non-crop
-  
   nlcdc<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
   nlcdc<-crop(nlcdc, cpaa)
   nlcdc<-mask(nlcdc, cpaa)
@@ -381,8 +392,12 @@ for (county in 1:3){
   
   list_of_nlcd_masks_wi[[county]]<-nlcdc
   
+  f<-paste0(cdl_wi_dir, "/mask_output")
+  writeRaster(list_of_nlcd_masks_wi[[layer]], file.path(f, names(list_of_nlcd_masks_wi[[layer]])), format="GTiff", overwrite = TRUE)
+  
+
 }
 
-#writeRaster(nlcd, file.path(cdl_dir, "/nlcd_mask.tif"), format="GTiff", overwrite = TRUE)
+
 
 
