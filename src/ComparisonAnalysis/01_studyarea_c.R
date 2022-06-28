@@ -41,7 +41,7 @@ wi<-all_states[all_states$STATEFP == "55",]
 # plot(mi)
 
 
-study<-gIntersection(ill, h_range, byid=T, id=ill$COUNTY_NAM) #get intersection of counties and range here
+#study<-gIntersection(ill, h_range, byid=T, id=ill$COUNTY_NAM) #get intersection of counties and range here
 
 
 
@@ -49,7 +49,6 @@ study<-gIntersection(ill, h_range, byid=T, id=ill$COUNTY_NAM) #get intersection 
 
 
 #writeOGR(study, dsn=state_dir, layer="/study_area",driver="ESRI Shapefile") 
-
 
 ##get the roads
 # roads<-readOGR(state_dir, layer = "tl_2011_17111_roads")
