@@ -8,7 +8,7 @@
 #SBATCH --mail-user=paulukonis.elizabeth@epa.gov
 #SBATCH --mail-type=BEGIN,END
 
-setenv TMPDIR /work/HONEYBEE/eap/run_affinis_load
+setenv TMPDIR /work/HONEYBEE/eap/pollinator_probabilistic_loading
 setenv OMP_NUM_THREADS 32
 
 module load intel/19.0.5      
