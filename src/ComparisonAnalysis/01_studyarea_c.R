@@ -17,7 +17,7 @@ rpbb_states<-readOGR(state_dir, layer = 'RPBB_states') #read in US counties
 # get species potential zones
 bomb_h <- readOGR(bombus_dir, layer = "RPBB_High_Potential_Zones_03172021")
 bomb_l <- readOGR(bombus_dir, layer = "RPBB_Low_Potential_Zones_03172021")
-h_range <- readOGR(bombus_dir, layer = "RPBB_US_range") 
+#h_range <- readOGR(bombus_dir, layer = "RPBB_US_range") 
 rpbb_study<-readOGR(state_dir, layer = "IL_BNDY_County_Py") #read in states
 
 h_range<-spTransform(h_range, crs(bomb_h)) #reproject 
