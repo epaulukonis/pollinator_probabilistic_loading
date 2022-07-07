@@ -153,10 +153,12 @@ unique(thresh_layers$bin) #double check that it looks good
 thresh_layers$bin_f<-1  #if you want binary layer
 
 thresh_list_mi[[item]]<-thresh_layers
+names(thresh_list_wi)<-names(chosen_count)
 
 f<-paste0(cdl_mi_dir, "/thresh_layers")
-writeRaster(thresh_list_mi[[layer]], file.path(f, names(thresh_list_mi[[layer]])), format="GTiff", overwrite = TRUE)
-
+for(i in names(thresh_list_mi)){
+  write.csv(thresh_list_mi[[i]], paste0(f,i,".csv"))
+}
 
 }
 
@@ -352,9 +354,12 @@ for(item in 1:length(county_list)){
   
   thresh_list_wi[[item]]<-thresh_layers
   
-  f<-paste0(cdl_wi_dir, "/thresh_layers")
-  writeRaster(thresh_list_wi[[layer]], file.path(f, names(thresh_list_wi[[layer]])), format="GTiff", overwrite = TRUE)
+  names(thresh_list_wi)<-names(chosen_count)
   
+  f<-paste0(cdl_wi_dir, "/thresh_layers")
+  for(i in names(thresh_list_wi)){
+    write.csv(thresh_list_wi[[i]], paste0(f,i,".csv"))
+  }
   
 }
 
