@@ -6,7 +6,7 @@
 import_start_time <- Sys.time()
 print("stepping into 03_CPAA_threshold_c.R")
 
-##### COUNTY LAYER PREP ####
+##### COUNTY LAYER PREP
 options(scipen = 999) #remove exponent options, throws R off
 
 #### Michigan ----
@@ -353,7 +353,6 @@ for(item in 1:length(county_list)){
   thresh_layers$bin_f<-1  #if you want binary layer
   
   thresh_list_wi[[item]]<-thresh_layers
-  
   names(thresh_list_wi)<-names(chosen_count)
   
   f<-paste0(cdl_wi_dir, "/thresh_layers")
