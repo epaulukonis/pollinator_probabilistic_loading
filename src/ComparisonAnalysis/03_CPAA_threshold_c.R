@@ -33,34 +33,33 @@ hu<-county_set_list$Huron #75% crop coverage
 van<-county_set_list$`Van Buren` #50%
 ott<-county_set_list$Ottawa #25%
 
-plot(chosen_count[[1]][[1]])
 
 #### you can use this section to look at which crops specifically have higher than 3% acreage in the states of interest
-out_van<-freq(van)
-out_hu<-freq(hu)
-out_ott<-freq(ott)
+# out_van<-freq(van)
+# out_hu<-freq(hu)
+# out_ott<-freq(ott)
 
-out<-out_hu
-prop_list<-list()
-for(i in 1:length(out)){
-  x<-out[[i]]
-  x<-na.omit(x)
-    prop<-as.data.frame(x[,2]/sum(x[,2]))
-    names(prop)<-'proportion'
-    prop$value<-x[,1]
-    prop_list[[i]]<-prop
-}
-  
-
-diversity_function<-function(x){
-  out<-which(x[,1] >= 0.03)
-  x$row<-as.numeric(row.names(x))
-  crops<-x[x$row %in% out,]
-}
-
-crop_list_hu<-lapply(prop_list,diversity_function)
-print(crop_list_hu) #what's the general trend in crops? 
-names(crop_list_hu)<-2008:2021
+# out<-out_hu
+# prop_list<-list()
+# for(i in 1:length(out)){
+#   x<-out[[i]]
+#   x<-na.omit(x)
+#     prop<-as.data.frame(x[,2]/sum(x[,2]))
+#     names(prop)<-'proportion'
+#     prop$value<-x[,1]
+#     prop_list[[i]]<-prop
+# }
+#   
+# 
+# diversity_function<-function(x){
+#   out<-which(x[,1] >= 0.03)
+#   x$row<-as.numeric(row.names(x))
+#   crops<-x[x$row %in% out,]
+# }
+# 
+# crop_list_hu<-lapply(prop_list,diversity_function)
+# print(crop_list_hu) #what's the general trend in crops? 
+# names(crop_list_hu)<-2008:2021
 
 chosen_count<-list(hu,ott,van)
 
@@ -163,7 +162,7 @@ writeRaster(thresh_list_mi[[layer]], file.path(f, names(thresh_list_mi[[layer]])
 
 
 #####Get NLCD mask for non-crop areas (roadS)
-nlcd<-raster(paste0(nlcd_dir,"/NLCD_2019_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
+nlcd<-raster(paste0(nlcd_dir,"/nlcd2019.tiff"))
 #nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
 names(county_list)<-2008:2021
 
@@ -230,31 +229,31 @@ lang<-county_set_list$Langdale #10-15%
 
 
 #### you can use this section to look at which crops specifically have higher than 3% acreage in the states of interest
-out_rock<-freq(rock)
-out_wau<-freq(wau)
-out_lang<-freq(lang)
-
-out<-out_rock
-prop_list<-list()
-for(i in 1:length(out)){
-  x<-out[[i]]
-  x<-na.omit(x)
-  prop<-as.data.frame(x[,2]/sum(x[,2]))
-  names(prop)<-'proportion'
-  prop$value<-x[,1]
-  prop_list[[i]]<-prop
-}
-
-
-diversity_function<-function(x){
-  out<-which(x[,1] >= 0.03)
-  x$row<-as.numeric(row.names(x))
-  crops<-x[x$row %in% out,]
-}
-
-crop_list_rock<-lapply(prop_list,diversity_function)
-print(crop_list_rock) #what's the general trend in crops? 
-names(crop_list_rock)<-2008:2021
+# out_rock<-freq(rock)
+# out_wau<-freq(wau)
+# out_lang<-freq(lang)
+# 
+# out<-out_rock
+# prop_list<-list()
+# for(i in 1:length(out)){
+#   x<-out[[i]]
+#   x<-na.omit(x)
+#   prop<-as.data.frame(x[,2]/sum(x[,2]))
+#   names(prop)<-'proportion'
+#   prop$value<-x[,1]
+#   prop_list[[i]]<-prop
+# }
+# 
+# 
+# diversity_function<-function(x){
+#   out<-which(x[,1] >= 0.03)
+#   x$row<-as.numeric(row.names(x))
+#   crops<-x[x$row %in% out,]
+# }
+# 
+# crop_list_rock<-lapply(prop_list,diversity_function)
+# print(crop_list_rock) #what's the general trend in crops? 
+# names(crop_list_rock)<-2008:2021
 
 
 chosen_count<-list(hurock, wau, lang)
@@ -361,7 +360,7 @@ for(item in 1:length(county_list)){
 
 
 #####Get NLCD mask for non-crop areas (roadS)
-nlcd<-raster(paste0(nlcd_dir,"/NLCD_2019_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
+nlcd<-raster(paste0(nlcd_dir,"/nlcd2019.tiff"))
 #nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
 
 names(county_list)<-2008:2021

@@ -1,0 +1,21 @@
+Class,Name
+11,Open water
+12,Ice/Snow
+21,"Developed, open space"
+22,"Developed, Low"
+23,"Developed, Medium"
+24,"Developed, High"
+31,Barren
+41,Deciduous Forest
+42,Evergreen Forest
+43,Mixed Forest
+51,Dwarf Scrub
+52,Shrub/Scrub
+71,Grassland
+72,Sedge
+73,Lichens
+74,Moss
+81,Pasture/Hay
+82,Cultivated Crops
+90,Woody Wetlands
+95,Emergent Herbaceous Wetlands
