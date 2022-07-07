@@ -83,7 +83,7 @@ for (county in 1:length(chosen_count)){
 }
 #rm(county_r)
 
-
+extracted_field_list<-list()
 average_list_focus<-list()
 for(layer in 1:length(county_list)){
   county<-county_list[[layer]]
@@ -281,7 +281,7 @@ for (county in 1:length(chosen_count)){
 #rm(county_r)
 
 
-
+extracted_field_list<-list()
 average_list_focus<-list()
 for(layer in 1:length(county_list)){
   county<-county_list[[layer]]
