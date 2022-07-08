@@ -153,7 +153,7 @@ unique(thresh_layers$bin) #double check that it looks good
 thresh_layers$bin_f<-1  #if you want binary layer
 
 thresh_list_mi[[item]]<-thresh_layers
-names(thresh_list_wi)<-names(chosen_count)
+names(thresh_list_mi)<-names(chosen_count)
 
 f<-paste0(cdl_mi_dir, "/thresh_layers")
 for(i in names(thresh_list_mi)){
