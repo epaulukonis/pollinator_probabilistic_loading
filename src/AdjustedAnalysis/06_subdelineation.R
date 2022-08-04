@@ -21,7 +21,7 @@ for (co in 1:length(output_of_cleaning)){
     output<-crop(x, co_r)
     fin_layer<-mask(output, co_r)
   }
-  county_set<-lapply(cdl_data_ill_rec[c(12:23)], mask_crop) #crop and mask the fixed CDL to the counties, put in list
+  county_set<-lapply(cdl_data_ill_rec[c(10:23)], mask_crop) #crop and mask the fixed CDL to the counties, put in list
   county_set_list[[co]]<-stack(county_set) #represents single county stack
 }
 names(county_set_list)<-names_of_counties
@@ -57,7 +57,7 @@ for(layer in 1:length(county_rec_list)){
   layer.3 <- data.frame(coords, layer.3)
   
   county_binned<-layer.3
-  county_binned <- county_binned[!grepl("NANANANANANANANANANANA", county_binned$layer.3),] # remove pixels that have no crops in 11 years
+  county_binned <- county_binned[!grepl("NANANANANANANANANANANANANANA", county_binned$layer.3),] # remove pixels that have no crops in 14 years
   county_binned$f<-gsub("NA", "", county_binned$layer.3) #substitute "" for NA; this will preserve order value, this bins pixels by # years cropped (no differentiation between when)
   county_binned$field<-as.numeric(county_binned$f) #turn f into fields as numeric integer
   county_binned$n_years<-as.numeric(gsub(0, "", county_binned$field))
@@ -73,8 +73,8 @@ for(layer in 1:length(county_rec_list)){
 sub_fw_sets<-list()
 for (county in 1:length(sub_list)){
   output<-sub_list[[county]]
-  output<-output[output$bin >= 11,]
-  df_n<-output[,c(1:2,6)] #6 is individual values, 7 is the #years cropped (11, 10, 9...)
+  output<-output[output$bin >= 14,]
+  df_n<-output[,c(1:2,6)] #6 is individual values, 7 is the #years cropped (14, 13, 12, 11, 10, 9...)
   df_n<-na.omit(df_n)
 
   coordinates(df_n)<-~ x + y
@@ -89,9 +89,10 @@ for (county in 1:length(sub_list)){
   # #fw_s<-projectRaster(fw_s, output, method='ngb',crs(f=output))
   #fw_s<-mask(fw_s, output) #mask out by first delineation
   
-
+#start with 7, then do 3; 7 is 10 acres  
+#focal window: 3 pixels (why? because 8100 m2 = 2 acres, lowest fw possible that allowed for small plots within the function
   r<-terra::rast(fw_s)
-  fw_s<- terra::focal(r, w = 3, fun = "modal", na.policy='omit', fillvalue=NA)%>% 
+  fw_s<- terra::focal(r, w = 7, fun = "modal", na.policy='omit', fillvalue=NA)%>% 
     terra::mask(mask = r) 
   fw_s<-raster(fw_s) #convert back to raster object
   #plot(fw_s)
@@ -111,7 +112,7 @@ for (county in 1:length(sub_list)){
   fw_polys<- sf::as_Spatial(sf::st_as_sf(stars::st_as_stars(fw_s), 
                                          as_points = FALSE, merge = TRUE)) 
   # fill holes 
-  area_thresh <- units::set_units(1, km^2)
+  area_thresh <- units::set_units(40468.6, m^2) #10 acres again
   fw_fills<- fill_holes(fw_polys, threshold = area_thresh)
   
   sub_fw_sets[[county]]<-fw_fills
@@ -120,15 +121,20 @@ for (county in 1:length(sub_list)){
 
 
 #buffered_layers<-lapply(county_fw_sets,expand_shrink_clean
-area_thresh <- units::set_units(900, m^2) #only 1 pixel; why? we've already eliminated most single pixels (remaining ones are due to FW on edges)
+area_thresh <- units::set_units(40468.6 , m^2) #10 acres here; we've already eliminated most single pixels (remaining ones are due to FW on edges)
 output_of_cleaning<-lapply(sub_fw_sets, expand_shrink_clean)
 
-#dropped crumbs < 1 pixel (900m2)
+#dropped crumbs =< 1 pixel (900m2), i.e. 2 acres
 
 
 #writeRaster(fw_s, file.path(cdl_dir, "/fw_6_test.tif"), format="GTiff", overwrite = TRUE)
-writeOGR(output_of_cleaning[[3]], cdl_dir,  "output_sd_high_newn", driver = "ESRI Shapefile")
+#writeOGR(output_of_cleaning[[3]], cdl_dir,  "output_sd_high_newn", driver = "ESRI Shapefile")
 #we'll use the new vectors to look at focal window of sequences in each field above a certain size
+
+writeOGR(output_of_cleaning[[1]], field_dir,  "low_sd_77", driver = "ESRI Shapefile")
+writeOGR(output_of_cleaning[[2]], field_dir,  "med_sd_77", driver = "ESRI Shapefile")
+writeOGR(output_of_cleaning[[3]], field_dir,  "high_sd_77", driver = "ESRI Shapefile")
+
 
 sub_del<- readOGR(cdl_dir, layer = "_output_sd_med")
 

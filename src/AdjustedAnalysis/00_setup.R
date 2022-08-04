@@ -30,6 +30,8 @@ library(gridExtra)
 library(stringr)
 library(smoothr)
 library(exactextractr)
+
+?freq
 #library(TraMineR)
 # library(GrpString)
 # library(geosphere)
@@ -85,6 +87,13 @@ print(list.files(path=nlcd_dir_acc, all.files=TRUE, full.names=FALSE))
 cdl_dir = file.path(root_data_in, "MapData/CDL")
 print(cdl_dir)
 print(list.files(path=cdl_dir, all.files=TRUE, full.names=FALSE))
+
+
+# field
+field_dir = file.path(root_data_in, "MapData/Fields")
+print(field_dir)
+print(list.files(path=field_dir, all.files=TRUE, full.names=FALSE))
+
 
 
 #Illinois specific
@@ -190,6 +199,5 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 #source other files
 # source(file.path(root_src, "01_studyarea.R"))
 # source(file.path(root_src, "02_formatting_cdl.R"))
-
 
 

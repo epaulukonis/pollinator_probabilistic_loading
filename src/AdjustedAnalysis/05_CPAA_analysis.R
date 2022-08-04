@@ -5,9 +5,9 @@
 # Edited by E. Paulukonis June 2022
 
 output_of_cleaning<-list()
-output_of_cleaning[1]<- readOGR(cdl_dir, layer = "_low_clean")
-output_of_cleaning[2]<- readOGR(cdl_dir, layer = "_med_clean")
-output_of_cleaning[3]<- readOGR(cdl_dir, layer = "_high_clean")
+output_of_cleaning[1]<- readOGR(field_dir, layer = "low_clean_13")
+output_of_cleaning[2]<- readOGR(field_dir, layer = "med_clean_13")
+output_of_cleaning[3]<- readOGR(field_dir, layer = "high_clean_13")
 
 
 ################# Non-crop vs. Crop Area Comparison ----
@@ -36,15 +36,15 @@ for(layer in 1:length(three_county_list)){
   value<-cdl_crop_areas[,1]
   cdl_crop_areas = cdl_crop_areas[,!names(cdl_crop_areas) == 'value']
   cdl_crop_areas$value<-value
-  cdl_crop_areas[,1:11]<-(cdl_crop_areas[,1:11]*900) * 0.000247105 #get area in acres
-  names(cdl_crop_areas)<-c(1999:2009,"crop") #make sure names align
+  cdl_crop_areas[,1:14]<-(cdl_crop_areas[,1:14]*900) * 0.000247105 #get area in acres
+  names(cdl_crop_areas)<-c(2008:2021,"crop") #make sure names align
   extracted_cdl_list[[layer]]<-cdl_crop_areas
   
 }
 
 
 ####First-Pass Analysis ----
-#for each layer in y (sets of 11 years for each county), extract the values to the created polygons
+#for each layer in y (sets of 14 years for each county), extract the values to the created polygons
 crop_list<-list()
 extracted_field_list<-list()
 for(layer in 1:length(three_county_list)){
@@ -81,7 +81,7 @@ for(layer in 1:length(three_county_list)){
   value<-field_crop_areas[,1]
   field_crop_areas = field_crop_areas[,!names(field_crop_areas) == 'crops']
   field_crop_areas$value<-value
-  names(field_crop_areas)<-c(1999:2009,"crop") #make sure names align
+  names(field_crop_areas)<-c(2008:2021,"crop") #make sure names align
   extracted_field_list[[layer]]<-field_crop_areas
   
 }
@@ -90,11 +90,11 @@ for(layer in 1:length(three_county_list)){
 ####Total CDL crop area vs total field crop area
 
 field_crop_areas<-extracted_field_list[[3]] # pull out individual counties here
-field_crop_total<-colSums(field_crop_areas[1:2,1:11])
+field_crop_total<-colSums(field_crop_areas[1:2,1:14])
 
 #get cdl areas
 cdl_crop_areas<-extracted_cdl_list[[3]]
-cdl_crop<-colSums(cdl_crop_areas[1:2,1:11])
+cdl_crop<-colSums(cdl_crop_areas[1:2,1:14])
 print(field_crop_total) #total area of all crops contained within estimated fields
 print(cdl_crop) #total area of all CDL crops by year
 

@@ -6,16 +6,13 @@
 import_start_time <- Sys.time()
 print("stepping into 02_formatting_cdl.R")
 
-## Multistate-Specific
-
-
 
 ### Illinois-Specific 
-cdl_rec_filename<-paste0(cdl_ill_dir_adj, "/CDL_2021_17.tif")
+cdl_rec_filename<-paste0(cdl_dir_adj, "/CDL_2021_17.tif")
 if(file.exists(cdl_rec_filename)){
   
-  print(list.files(path=cdl_ill_dir_adj, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  cdl_data_ill_rec <- file.path(cdl_ill_dir_adj, list.files(path=cdl_ill_dir_adj, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  print(list.files(path=cdl_dir_adj, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  cdl_data_ill_rec <- file.path(cdl_dir_adj, list.files(path=cdl_dir_adj, pattern='.tif$', all.files=TRUE, full.names=FALSE))
   cdl_data_ill_rec<-lapply(cdl_data_ill_rec, raster) #create list of reclassed and stacked cdl rasters 
   
   print('the Illinois CDL has already been processed, it can be read in')

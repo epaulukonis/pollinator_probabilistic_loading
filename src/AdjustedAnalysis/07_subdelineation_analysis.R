@@ -56,7 +56,6 @@ names(field_crop_areass)<-c("crop",1999:2009) #make sure names align
 average_list<-list()
 extracted_cdl_list<-list()
 for(layer in 1:length(county_rec_list)){
-  layer=2
   county<-county_rec_list[[layer]]
   output<-sub_del
   list_freq<-list()
