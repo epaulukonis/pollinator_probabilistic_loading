@@ -9,9 +9,11 @@ print("stepping into 03_CPAA_threshold_c.R")
 ##### COUNTY LAYER PREP
 options(scipen = 999) #remove exponent options, throws R off
 
+###NOTE: order of counties is very important; it's crucial to test that you have the correct county by visual aid now and again.
+
 #### Michigan ----
 
-thresh_mi_filename<-paste0(cdl_mi_dir, "/thresh_layers/thresh_layers1.csv")
+thresh_mi_filename<-paste0(cdl_mi_dir, "/thresh_layers/thresh_layersHuron75.csv")
 if(file.exists(thresh_mi_filename)){
   
   print(list.files(path=paste0(cdl_mi_dir,"/thresh_layers"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
@@ -19,21 +21,22 @@ if(file.exists(thresh_mi_filename)){
   thresh_list_mi<-lapply(thresh_mi, read.csv)
   thresh_list_mi<-lapply(thresh_list_mi, function(y) { y["X"] <- NULL; y })
   
-  print(list.files(path=cdl_mi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  thresh_rasters <- file.path(cdl_mi_dir, list.files(path=cdl_mi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  print(list.files(path=paste0(cdl_mi_dir,"/thresh_layers"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  thresh_rasters <- file.path(paste0(cdl_mi_dir,"/thresh_layers"), list.files(path=paste0(cdl_mi_dir,"/thresh_layers"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
   mi_county_list<-lapply(thresh_rasters, raster)
   
-  ##note, this needs to be organized according to the thresh list
-  #names(mi_county_list)<-c("high14","low50","medium1")
-  sub_group<-c("Huron","Van Buren","Ottawa")
-  mi_county_list <- mi_county_list[sub_group]
   
-  print('we have already done the threshold determination, read in the three county lists and dataframes')
+  f<-paste0(cdl_mi_dir, "/mask_output")
+  print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  nlcd_mi<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  nlcd_mi<-lapply(nlcd_mi, raster)
+  
+  print('we have already done the threshold determination, read in the three county lists, nlcds, and dataframes')
   
 }else{
 #function to mask and crop CDL to each county
 study<-mi
-sub_group<-c("Huron","Van Buren","Ottawa")
+sub_group<-c("Van Buren", "Oceana","Huron")
 sub<-study[study$NAME %in% sub_group,]
 
 county_set_list<-list()
@@ -47,19 +50,18 @@ for (co in 1:length(sub)){
   county_set_list[[co]]<-stack(county_set) #represents single county stack
  }
 
-
 #county_set_list contains the clipped sets of CDLs for each set of years
 #### CROP DIVERSITY 
 #I chose these based on visual inspection; they have crop diversity > 1, and tree crops
 names(county_set_list)<-sub_group
 hu75<-county_set_list$Huron #75% crop coverage
-van50<-county_set_list$`Van Buren` #50%
-ott25<-county_set_list$Ottawa #25%
+van35<-county_set_list$`Van Buren` #50%
+oc25<-county_set_list$Oceana #25%
 
 
 #### you can use this section to look at which crops specifically have higher than 3% acreage in the states of interest
-# out_van<-freq(van)
-# out_hu<-freq(hu)
+# out_van<-freq(van50)
+# out_hu<-freq(hu75)
 # out_ott<-freq(ott)
 
 # out<-out_hu
@@ -84,12 +86,10 @@ ott25<-county_set_list$Ottawa #25%
 # print(crop_list_hu) #what's the general trend in crops? 
 # names(crop_list_hu)<-2008:2021
 
-chosen_count<-list(ott25,van50,hu75)
-names_cc<-c("Ottawa25","VanBuren50","Huron75")
+chosen_count<-list(oc25,van35,hu75)
+names_cc<-c("Oceana25","VanBuren50","Huron75")
 names(chosen_count)<-names_cc
 
-
-#chosen_count<-list(hu,ott,van)
 
 ##### YEARLY AVERAGE LAYERS
 ##get average area for threshold here
@@ -108,7 +108,7 @@ for (county in 1:length(chosen_count)){
    }
   county_list[[county]]<-layer_list
  }
-rm(county_r)
+
 names(county_list)<-names_cc
 
 f<-cdl_mi_dir
@@ -116,7 +116,6 @@ for(layer in 1:length(county_list)){
   output<-stack(county_list[[layer]])
   writeRaster(output, file.path(f, names(county_list[layer])), format="GTiff", overwrite = TRUE)
  }
-rm(chosen_count)
 
 extracted_field_list<-list()
 average_list_focus<-list()
@@ -185,15 +184,17 @@ thresh_list_raw_mi[[item]]<-thresh
 thresh_layers<-county_binned[county_binned$bin >= (as.numeric(thresh$Var1)-1),] 
 unique(thresh_layers$bin) #double check that it looks good
 thresh_layers$bin_f<-1  #if you want binary layer
+thresh_layers$county<-names(county_list[item])
 thresh_list_mi[[item]]<-thresh_layers
 
 }
-names(thresh_list_mi)<-names(chosen_count)
+names(thresh_list_mi)<-names_cc
 f<-paste0(cdl_mi_dir,'/thresh_layers')
 for(i in names(thresh_list_mi)){
   write.csv(thresh_list_mi[[i]], paste0(f,i,".csv"))
 
 }
+
 
 
 #####Get NLCD mask for non-crop areas (roadS)
@@ -219,6 +220,7 @@ nlcdc[nlcdc==23]<-NA
 nlcdc[nlcdc==24]<-NA
 nlcdc[nlcdc==31]<-NA
 
+names(nlcdc)<-names(county_list)[[county]][[1]]
 list_of_nlcd_masks_mi[[county]]<-nlcdc
 
  }
@@ -239,7 +241,7 @@ writeRaster(list_of_nlcd_masks_mi[[layer]], file.path(f, names(list_of_nlcd_mask
 
 #### Wisconsin ----
 
-thresh_wi_filename<-paste0(cdl_wi_dir, "/thresh_layers/thresh_layers1.csv")
+thresh_wi_filename<-paste0(cdl_wi_dir, "/thresh_layers/thresh_layersWau35.csv")
 if(file.exists(thresh_wi_filename)){
   
   print(list.files(path=paste0(cdl_wi_dir,"/thresh_layers"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
@@ -247,25 +249,26 @@ if(file.exists(thresh_wi_filename)){
   thresh_list_wi<-lapply(thresh_wi, read.csv)
   thresh_list_wi<-lapply(thresh_list_wi, function(y) { y["X"] <- NULL; y })
   
-  print(list.files(path=cdl_wi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  thresh_rasters <- file.path(cdl_wi_dir, list.files(path=cdl_wi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  print(list.files(path=paste0(cdl_wi_dir,"/thresh_layers"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  thresh_rasters <- file.path(paste0(cdl_wi_dir,"/thresh_layers"), list.files(path=paste0(cdl_wi_dir,"/thresh_layers"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
   wi_county_list<-lapply(thresh_rasters, raster)
   
-  ##note, this needs to be organized according to the thresh list
-  #names(mi_county_list)<-c("high14","low50","medium1")
-  sub_group<-c("Langlade", "Waushara","Rock")
-  wi_county_list <- wi_county_list[sub_group]
+  f<-paste0(cdl_wi_dir, "/mask_output")
+  print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  nlcd_wi<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  nlcd_wi<-lapply(nlcd_wi, raster)
+  
   
   print('we have already done the threshold determination, read in the three county lists and dataframes')
   
 }else{
 study<-wi
-sub_group<-c("Langlade", "Waushara","Rock")
+sub_group<-c("Waushara","Langlade","Rock")
 sub<-study[study$NAME %in% sub_group,]
 
 county_set_list<-list()
-for (co in 1:length(study)){
-  co_r<-study[study$NAME == study$NAME[co],]
+for (co in 1:length(sub)){
+  co_r<-sub[sub$NAME == sub$NAME[co],]
   mask_crop<-function(x){
     r_list<-crop(x, co_r)
     mask(r_list, co_r)
@@ -279,7 +282,7 @@ for (co in 1:length(study)){
 #### CROP DIVERSITY
 
 #I chose these based on visual inspection; they have crop diversity > 1, and tree crops
-names(county_set_list)<-wi$NAME
+names(county_set_list)<-sub_group
 rock65<-county_set_list$Rock#65% crop coverage
 wau35<-county_set_list$Waushara #35%
 lang15<-county_set_list$Langlade #10-15%
@@ -335,9 +338,17 @@ for (county in 1:length(chosen_count)){
     layer_list[[layer]] <- reclassify(county_r[[layer]], n)
    }
   county_list[[county]]<-layer_list
- }
+}
 rm(county_r)
 names(county_list)<-names_cc
+
+f<-cdl_wi_dir
+for(layer in 1:length(county_list)){
+  output<-stack(county_list[[layer]])
+  writeRaster(output, file.path(f, names(county_list[layer])), format="GTiff", overwrite = TRUE)
+}
+rm(chosen_count)
+
 
 extracted_field_list<-list()
 average_list_focus<-list()
@@ -404,11 +415,11 @@ for(item in 1:length(county_list)){
   thresh_layers<-county_binned[county_binned$bin >= (as.numeric(thresh$Var1)-1),] 
   unique(thresh_layers$bin) #double check that it looks good
   thresh_layers$bin_f<-1  #if you want binary layer
-  
+  thresh_layers$county<-names(county_list[item])
   thresh_list_wi[[item]]<-thresh_layers
   
 }
-names(thresh_list_wi)<-names(chosen_count)
+names(thresh_list_wi)<-names_cc
 f<-paste0(cdl_wi_dir,'/thresh_layers')
 for(i in names(thresh_list_wi)){
   write.csv(thresh_list_wi[[i]], paste0(f,i,".csv"))
@@ -435,6 +446,9 @@ for (county in 1:3){
   nlcdc[nlcdc==23]<-NA
   nlcdc[nlcdc==24]<-NA
   nlcdc[nlcdc==31]<-NA
+  
+  names(nlcdc)<-names(county_list)[[county]][[1]]
+  
   list_of_nlcd_masks_wi[[county]]<-nlcdc
   
    }

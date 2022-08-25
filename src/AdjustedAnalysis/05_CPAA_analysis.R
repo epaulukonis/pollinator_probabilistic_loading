@@ -10,7 +10,6 @@ output_of_cleaning[2]<- readOGR(field_dir, layer = "med_clean_13")
 output_of_cleaning[3]<- readOGR(field_dir, layer = "high_clean_13")
 
 
-################# Non-crop vs. Crop Area Comparison ----
 
 #### Get original total crop area ----
 average_list<-list()
@@ -83,8 +82,9 @@ for(layer in 1:length(three_county_list)){
   field_crop_areas$value<-value
   names(field_crop_areas)<-c(2008:2021,"crop") #make sure names align
   extracted_field_list[[layer]]<-field_crop_areas
-  
 }
+
+
 
 
 ####Total CDL crop area vs total field crop area
