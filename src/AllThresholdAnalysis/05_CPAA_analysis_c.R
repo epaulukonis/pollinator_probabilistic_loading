@@ -115,14 +115,12 @@ names(list_of_mi_counties)<-names(mi_fields)
 
 list_of_ratio_by_county_and_year<-list()
 for(n in 1:length(list_of_mi_counties)){
-  n=2
   county<-list_of_mi_counties[[n]]
   county_name<-names(list_of_mi_counties[n])
   names(county)<-years
   
   list_of_ratios<-list()
   for(y in 1:length(county)){
-    y=1
     county_by_year<-county[[y]]
     county_by_year$year<-as.numeric(names(county[y]))
     county_by_year$Category<-  toupper(county_by_year$Category) 
@@ -153,18 +151,16 @@ for(n in 1:length(list_of_mi_counties)){
 names(list_of_ratio_by_county_and_year)<-names(list_of_mi_counties)
 
 
-list_plots<-list()
-for(county in 1:length(list_of_ratio_by_county_and_year)){
-  county=2
-  
-data<-list_of_ratio_by_county_and_year[[county]]
-data$Year<-as.character(data$Year)
-datay<-do.call(rbind,data)
-ratio_plot<-ggplot(datay, aes(x=Commodity, y=(ratio), group= Year, fill=Year, colour=Year)) + 
+test<-list_of_ratio_by_county_and_year[[1]]
+testy$Year<-as.character(testy$Year)
+testy<-do.call(rbind,test)
+
+
+ratio_plot<-ggplot(testy, aes(x=Commodity, y=(ratio), group= Year, fill=Year, colour=Year)) + 
   geom_point()+
   xlab("Crop") + 
-  ylab("Ratio")+
-  labs(title = mi)+
+  ylab("log(Ratio)")+
+  labs(title = "Ratio of Deterministic Crop Area to Simulated Field Probabilistic Crop Areas within 1km VP CH")+
   expand_limits(y=0)+
   theme(panel.background = element_blank(), 
         axis.line = element_line(colour = "black"), 
@@ -173,9 +169,7 @@ ratio_plot<-ggplot(datay, aes(x=Commodity, y=(ratio), group= Year, fill=Year, co
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ratio_plot
 
-list_plots[[county]]<-ratio_plot
 
-}
 
 
 
