@@ -4,10 +4,47 @@
 
 # Edited by E. Paulukonis June 2022
 
-output_of_cleaning<-list()
-output_of_cleaning[1]<- readOGR(field_dir, layer = "low_clean_13")
-output_of_cleaning[2]<- readOGR(field_dir, layer = "med_clean_13")
-output_of_cleaning[3]<- readOGR(field_dir, layer = "high_clean_13")
+mi_coa<-read.csv(paste0(coa_dir,"/CoA_ILL.csv"))
+
+#sub the years for 2008 to be 2007, the last census prior to CDL
+ill_coa$Year[ill_coa$Year ==2007 ] <- 2008
+ill_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_ILL.csv"))
+ill_caps<-ll_caps[!ll_caps$Year %in% unique(ll_coa$Year),]
+
+
+#combine caps and coa data
+ill_nass<-rbind(ill_coa,ill_caps)
+ill_nass<-ill_nass[order(ill_nass$Year),]
+
+
+
+cdlkey<-read.csv(paste0(cdl_dir,"/CDL_key.csv")) #cdl key
+
+print(list.files(path=cdl_mi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE)) #issue is I stuck those tif files in there
+print(cdl_mi_dir)
+cdl_data_mi <- file.path(cdl_mi_dir, list.files(path=cdl_mi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+cdl_data_mi<-lapply(cdl_data_mi, raster) #create list of cdl rasters 
+
+
+print(list.files(path=cdl_wi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+print(cdl_wi_dir)
+cdl_data_wi <- file.path(cdl_wi_dir, list.files(path=cdl_wi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+cdl_data_wi<-lapply(cdl_data_wi, raster) #create list of cdl rasters 
+
+years<-2008:2021
+
+
+print_thresholds_ill<-matrix(nrow=3,ncol=3,NA)
+colnames(print_thresholds_ill)<-c("threshold","county","state")
+for(n in 1:length(thresh_list)){
+  csv<-thresh_list[[n]]
+  n_thresh<-min(csv$bin)
+  countyname<-csv[1,9]
+  print_thresholds_ill[n,1]<-n_thresh
+  print_thresholds_ill[n,2]<-countyname
+  print_thresholds_ill[n,3]<-'ILL'
+}
+
 
 
 

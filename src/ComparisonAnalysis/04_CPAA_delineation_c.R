@@ -8,7 +8,29 @@ import_start_time <- Sys.time()
 print("stepping into 04_CPAA_delineation.R")
 options(scipen = 999) #remove exponent options, throws R off
 
+mi_cpaa<-paste0(cdl_mi_dir, "/CPAA/huron75.shp")
+wi_cpaa<-paste0(cdl_wi_dir, "/CPAA/lang15.shp")
 
+if(file.exists(mi_cpaa) && file.exists(wi_cpaa)){
+  mi_fields<-list() 
+  wi_fields<-list()
+  
+  mi_fields[1]<- readOGR(paste0(cdl_mi_dir,"/CPAA"), layer = "huron75")
+  mi_fields[2]<- readOGR(paste0(cdl_mi_dir,"/CPAA"), layer = "oceana25")
+  mi_fields[3]<- readOGR(paste0(cdl_mi_dir,"/CPAA"), layer = "vanburen50")
+  
+  names(mi_fields)<-c("HURON","OCEANA","VAN BUREN")
+  
+  wi_fields[1]<- readOGR(paste0(cdl_wi_dir,"/CPAA"), layer = "lang15")
+  wi_fields[2]<- readOGR(paste0(cdl_wi_dir,"/CPAA"), layer = "rock65")
+  wi_fields[3]<- readOGR(paste0(cdl_wi_dir,"/CPAA"), layer = "wau35")
+  
+  names(wi_fields)<-c("LANG","ROCK","WAU")
+  
+  #source(file.path(root_src, "05_CPAA_analysis_c.R"))
+
+}else{
+  
 #### Michigan Delineation ----
 county_fw_sets<-list()
 thresh_list<-thresh_list_mi
@@ -97,7 +119,7 @@ writeOGR(michigan_cpaa[[3]], paste0(cdl_mi_dir,"/CPAA"),"vanburen50", driver = "
 
 
 
-#### Wisconsin Delineation ----s
+#### Wisconsin Delineation ----
 county_fw_sets<-list()
 thresh_list<-thresh_list_wi
 list_of_nlcd_masks<-nlcd_wi
@@ -182,3 +204,4 @@ writeOGR(wisconsin_cpaa[[3]], paste0(cdl_wi_dir,"/CPAA"),"wau35", driver = "ESRI
 
 
 #writeOGR(county_fw_sets[[3]], field_dir,  "high_raw_13", driver = "ESRI Shapefile")
+}

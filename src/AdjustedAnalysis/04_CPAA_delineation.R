@@ -9,6 +9,28 @@ print("stepping into 04_CPAA_delineation.R")
 options(scipen = 999) #remove exponent options, throws R off
 
 
+ill_cpaa<-paste0(field_dir, "/low_clean_13.shp")
+
+#low = DUPAGE 
+#medium = McHENRY
+# high = CHAMPAIGN
+
+
+if(file.exists(ill_cpaa)){
+  ill_fields<-list() 
+  
+  ill_fields[1]<- readOGR(paste0(field_dir), layer = "low_clean_13")
+  ill_fields[2]<- readOGR(paste0(field_dir), layer = "med_clean_13")
+  ill_fields[3]<- readOGR(paste0(field_dir), layer = "high_clean_13")
+  
+  names(ill_fields)<-c("DUPAGE","MCHENRY","CHAMPAIGN")
+  
+  
+  #source(file.path(root_src, "05_CPAA_analysis_c.R"))
+  
+}else{
+
+
 ####Delineation ----
 county_fw_sets<-list()
   for (i in 1:length(thresh_list)){
@@ -92,3 +114,5 @@ writeOGR(output_of_cleaning[[3]], field_dir,  "high_clean_13", driver = "ESRI Sh
 
 
 #writeOGR(county_fw_sets[[3]], field_dir,  "high_raw_13", driver = "ESRI Shapefile")
+
+}
