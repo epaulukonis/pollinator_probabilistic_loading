@@ -58,7 +58,7 @@ root_data_out <- file.path(root_dir, "data_out")
 print(root_data_out)
 root_figures <- file.path(root_dir, "figures")
 print(root_figures)
-root_src <- file.path(root_dir, "src/ComparisonAnalysis")
+root_src <- file.path(root_dir, "src/AllThresholdAnalysis")
 print(root_src)
 
 # set data directories, check to see what files are in each, and unzip if needed - uncomment if needed
