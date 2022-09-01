@@ -12,7 +12,11 @@ options(scipen = 999) #remove exponent options, throws R off
 ###NOTE: order of counties is very important; it's crucial to test that you have the correct county by visual aid now and again.
 
 #### Illinois ----
+thresh_ill_filename<-paste0(root_data_out, "/all_thresh/Illinois/DuPage2008.csv")
+if(file.exists(thresh_mi_filename)){
 
+
+}else{
 study<-ill
 sub_group<-c("DuPage","McHenry","Champaign")
 sub<-study[study$NAME %in% sub_group,]
@@ -104,7 +108,7 @@ for(item in 1:length(county_list)){ #this loop pulls out the county in the three
   
   }
   
-  names(thresh_list_by_year_ill)<-2008
+  names(thresh_list_by_year_ill)<-2008:2021
   
   f<-paste0(root_data_out,'/all_thresh/Illinois/')
   for(i in names(thresh_list_by_year_ill)){
@@ -117,42 +121,77 @@ for(item in 1:length(county_list)){ #this loop pulls out the county in the three
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
+# #####Get NLCD mask for non-crop areas (roadS)
+# nlcd<-raster(paste0(nlcd_dir,"/nlcd2019.tif"))
+# #nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
 # 
+# list_of_nlcd_masks_ill<-list()
+# for (county in 1:3){
+#   cpaa<-county_list[[county]][[1]] ##get associated counties
+#   ext<-extent(cpaa)
+#   #plot(cpaa)
+#   
+#   #use 2008 NLCD to mask out non-crop
+#   
+#   nlcdc<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
+#   nlcdc<-crop(nlcdc, cpaa)
+#   nlcdc<-mask(nlcdc, cpaa)
+#   
+#   nlcdc[nlcdc==11]<-NA
+#   nlcdc[nlcdc==21]<-NA
+#   nlcdc[nlcdc==22]<-NA
+#   nlcdc[nlcdc==23]<-NA
+#   nlcdc[nlcdc==24]<-NA
+#   nlcdc[nlcdc==31]<-NA
+#   
+#   names(nlcdc)<-names(county_list)[[county]][[1]]
+#   list_of_nlcd_masks_ill[[county]]<-nlcdc
+#   
+# }
+# 
+# names(list_of_nlcd_masks_ill)<-names_cc
+# f<-paste0(root_data_out, "/all_NLCD/Illinois")
+# for(layer in 1:length(list_of_nlcd_masks_ill)){
+#   writeRaster(list_of_nlcd_masks_ill[[layer]], file.path(f, names(list_of_nlcd_masks_ill[[layer]])), format="GTiff", overwrite = TRUE)
+#   }
+# 
+# }
+
+
+
+
+
+
+
+
+
+
+
+
 # 
 # 
 # #### Michigan ----
 # 
 # thresh_mi_filename<-paste0(cdl_mi_dir, "/thresh_layers/thresh_layersHuron75.csv")
 # if(file.exists(thresh_mi_filename)){
-#   
+# 
 #   print(list.files(path=paste0(cdl_mi_dir,"/thresh_layers"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
 #   thresh_mi<- file.path(paste0(cdl_mi_dir,"/thresh_layers"), list.files(path=paste0(cdl_mi_dir,"/thresh_layers"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
 #   thresh_list_mi<-lapply(thresh_mi, read.csv)
 #   thresh_list_mi<-lapply(thresh_list_mi, function(y) { y["X"] <- NULL; y })
-#   
+# 
 #   print(list.files(path=paste0(cdl_mi_dir,"/thresh_layers"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
 #   thresh_rasters <- file.path(paste0(cdl_mi_dir,"/thresh_layers"), list.files(path=paste0(cdl_mi_dir,"/thresh_layers"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
 #   mi_county_list<-lapply(thresh_rasters, raster)
-#   
-#   
+# 
+# 
 #   f<-paste0(cdl_mi_dir, "/mask_output")
 #   print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 #   nlcd_mi<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 #   nlcd_mi<-lapply(nlcd_mi, raster)
-#   
+# 
 #   print('we have already done the threshold determination, read in the three county lists, nlcds, and dataframes')
-#   
+# 
 # }else{
 # #function to mask and crop CDL to each county
 # study<-mi
@@ -171,7 +210,7 @@ for(item in 1:length(county_list)){ #this loop pulls out the county in the three
 #  }
 # 
 # #county_set_list contains the clipped sets of CDLs for each set of years
-# #### CROP DIVERSITY 
+# #### CROP DIVERSITY
 # #I chose these based on visual inspection; they have crop diversity > 1, and tree crops
 # names(county_set_list)<-sub_group
 # hu75<-county_set_list$Huron #75% crop coverage
@@ -194,16 +233,16 @@ for(item in 1:length(county_list)){ #this loop pulls out the county in the three
 # #     prop$value<-x[,1]
 # #     prop_list[[i]]<-prop
 # # }
-# #   
-# # 
+# #
+# #
 # # diversity_function<-function(x){
 # #   out<-which(x[,1] >= 0.03)
 # #   x$row<-as.numeric(row.names(x))
 # #   crops<-x[x$row %in% out,]
 # # }
-# # 
+# #
 # # crop_list_hu<-lapply(prop_list,diversity_function)
-# # print(crop_list_hu) #what's the general trend in crops? 
+# # print(crop_list_hu) #what's the general trend in crops?
 # # names(crop_list_hu)<-2008:2021
 # 
 # chosen_count<-list(oc25,van35,hu75)
@@ -263,14 +302,14 @@ for(item in 1:length(county_list)){ #this loop pulls out the county in the three
 #  }
 # 
 # 
-# ##### CALCULATE THRESHOLD 
+# ##### CALCULATE THRESHOLD
 # thresh_list_mi<-list()
 # thresh_list_raw_mi<-list() #documents the exact year of the cutoff
 # for(item in 1:length(county_list)){
 # county<-county_list[[item]]
 # y<-county
 # s0 = brick(y)
-# coords = coordinates(s0) 
+# coords = coordinates(s0)
 # s1 = as.data.frame(getValues(s0))
 # layer.3 = sapply(1:nrow(s1), function(x) paste0(s1[x, ], collapse = ''))
 # layer.3 <- data.frame(coords, layer.3)
@@ -301,7 +340,7 @@ for(item in 1:length(county_list)){ #this loop pulls out the county in the three
 # thresh_list_raw_mi[[item]]<-thresh
 # 
 # #get the bin numbers that coincide with the threshold or greater
-# thresh_layers<-county_binned[county_binned$bin >= (as.numeric(thresh$Var1)-1),] 
+# thresh_layers<-county_binned[county_binned$bin >= (as.numeric(thresh$Var1)-1),]
 # unique(thresh_layers$bin) #double check that it looks good
 # thresh_layers$bin_f<-1  #if you want binary layer
 # thresh_layers$county<-names(county_list[item])
@@ -354,11 +393,11 @@ for(item in 1:length(county_list)){ #this loop pulls out the county in the three
 # }
 # 
 # 
-# 
-# 
-# 
-# 
-# 
+
+
+
+
+
 # #### Wisconsin ----
 # 
 # thresh_wi_filename<-paste0(cdl_wi_dir, "/thresh_layers/thresh_layersWau35.csv")
