@@ -29,6 +29,7 @@ rm(bomb_h)
 all_states<-readOGR(state_dir, layer = "tl_2021_us_county") #read in states
 all_states<-spTransform(all_states, crs_bh) #reproject 
 
+ill<-all_states[all_states$STATEFP == "17",]
 mi<-all_states[all_states$STATEFP == "26",]
 wi<-all_states[all_states$STATEFP == "55",]
 
@@ -39,7 +40,7 @@ rm(all_states)
 # plot(states, add=T)
 # plot(bomb_l, add=T)
 # plot(bomb_h, add=T)
-# plot(ill, add=T)
+# plot(ill)
 # plot(wi)
 # plot(mi)
 

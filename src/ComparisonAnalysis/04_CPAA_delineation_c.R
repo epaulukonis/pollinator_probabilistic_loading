@@ -25,7 +25,7 @@ if(file.exists(mi_cpaa) && file.exists(wi_cpaa)){
   wi_fields[2]<- readOGR(paste0(cdl_wi_dir,"/CPAA"), layer = "rock65")
   wi_fields[3]<- readOGR(paste0(cdl_wi_dir,"/CPAA"), layer = "wau35")
   
-  names(wi_fields)<-c("LANG","ROCK","WAU")
+  names(wi_fields)<-c("LANGLADE","ROCK","WAUSHARA")
   
   #source(file.path(root_src, "05_CPAA_analysis_c.R"))
 

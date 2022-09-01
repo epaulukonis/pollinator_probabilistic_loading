@@ -23,7 +23,7 @@ if(file.exists(ill_cpaa)){
   ill_fields[2]<- readOGR(paste0(field_dir), layer = "med_clean_13")
   ill_fields[3]<- readOGR(paste0(field_dir), layer = "high_clean_13")
   
-  names(ill_fields)<-c("DUPAGE","MCHENRY","CHAMPAIGN")
+  names(ill_fields)<-c("DU PAGE","MCHENRY","CHAMPAIGN")
   
   
   #source(file.path(root_src, "05_CPAA_analysis_c.R"))

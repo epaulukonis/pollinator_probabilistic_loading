@@ -2,7 +2,7 @@
 
 ### 00 Setup of directories and file paths
 
-# Edited by E. Paulukonis June 2022
+# Edited by E. Paulukonis August 2022
 
 #Install and load supporting libraries.
 print("stepping into 00_setup.R")

@@ -22,6 +22,13 @@ mi_caps<-mi_caps[!mi_caps$Year %in% unique(mi_coa$Year),]
 wi_caps<-mi_caps[!wi_caps$Year %in% unique(wi_coa$Year),]
 
 
+#you may need to double check some variables to specify what they are named in nass vs cdl
+
+mi_caps$Commodity[which(mi_caps$Commodity == "WHEAT")] = "WINTER WHEAT"
+mi_coa$Commodity[which(mi_coa$Commodity == "WHEAT")] = "WINTER WHEAT"
+
+wi_caps$Commodity[which(wi_caps$Commodity == "WHEAT")] = "WINTER WHEAT"
+wi_coa$Commodity[which(wi_coa$Commodity == "WHEAT")] = "WINTER WHEAT"
 
 
 
@@ -76,6 +83,7 @@ for(n in 1:length(thresh_list_mi)){
 }
 
 print_thresh<-as.data.frame(rbind(print_thresholds_mi,print_thresholds_wi))
+print(print_thresh)
 
 
 
@@ -115,14 +123,12 @@ names(list_of_mi_counties)<-names(mi_fields)
 
 list_of_ratio_by_county_and_year<-list()
 for(n in 1:length(list_of_mi_counties)){
-  n=2
   county<-list_of_mi_counties[[n]]
   county_name<-names(list_of_mi_counties[n])
   names(county)<-years
   
   list_of_ratios<-list()
   for(y in 1:length(county)){
-    y=1
     county_by_year<-county[[y]]
     county_by_year$year<-as.numeric(names(county[y]))
     county_by_year$Category<-  toupper(county_by_year$Category) 
@@ -155,17 +161,14 @@ names(list_of_ratio_by_county_and_year)<-names(list_of_mi_counties)
 
 list_plots<-list()
 for(county in 1:length(list_of_ratio_by_county_and_year)){
-  county=2
-  
 data<-list_of_ratio_by_county_and_year[[county]]
-data$Year<-as.character(data$Year)
 datay<-do.call(rbind,data)
-ratio_plot<-ggplot(datay, aes(x=Commodity, y=(ratio), group= Year, fill=Year, colour=Year)) + 
-  geom_point()+
+datay$Year<-as.character(datay$Year)
+ratio_plot<-ggplot(datay, aes(x=Commodity, y=(ratio), fill=Commodity)) + 
+  geom_boxplot()+
   xlab("Crop") + 
   ylab("Ratio")+
-  labs(title = mi)+
-  expand_limits(y=0)+
+  labs(title =names(list_of_mi_counties)[[county]])+
   theme(panel.background = element_blank(), 
         axis.line = element_line(colour = "black"), 
         axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
@@ -177,8 +180,7 @@ list_plots[[county]]<-ratio_plot
 
 }
 
-
-
+do.call("grid.arrange", c(list_plots, ncol = 3)) 
 
 
 #### Wisconsin ----
@@ -188,7 +190,7 @@ field_areas<-list()
 for(layer in 1:length(wi_fields)){
   county<-wi_fields[[layer]]
   for(f in 1:length(cdl_data_wi)){
-    cdl<-cdl_data_mi_rec[[f]]
+    cdl<-cdl_data_wi_rec[[f]]
     cdl<-exact_extract(cdl,county)
     names(cdl)<-1:length(cdl)
     
@@ -212,5 +214,66 @@ names(list_of_wi_counties)<-names(wi_fields)
 
 
 
+list_of_ratio_by_county_and_year<-list()
+for(n in 1:length(list_of_wi_counties)){
 
+  county<-list_of_wi_counties[[n]]
+  county_name<-names(list_of_wi_counties[n])
+  names(county)<-years
+  
+  list_of_ratios<-list()
+  for(y in 1:length(county)){
+
+    county_by_year<-county[[y]]
+    county_by_year$year<-as.numeric(names(county[y]))
+    county_by_year$Category<-  toupper(county_by_year$Category) 
+    
+    wi_nass<-wi_nass[!wi_nass$Value == " (D)",]
+    wi_nass$Value<-as.numeric(as.numeric(gsub(",", "", wi_nass$Value)))
+    
+    wi_nass_y<- wi_nass %>%
+      filter(County %in% county_name) %>%
+      filter(Year %in% c(county_by_year$year)) %>%
+      filter_at(vars(starts_with("Data.Item")), all_vars(grepl('- ACRES HARVESTED', .)))%>%
+      group_by(Commodity, Year) %>% summarise(sum = sum(as.numeric(Value))) 
+    
+    names(county_by_year)[3]<-"Commodity"
+    county_by_year_crops<-inner_join(county_by_year, wi_nass_y, by = "Commodity")
+    county_by_year_crops$ratio<-county_by_year_crops$sum/county_by_year_crops$x
+    colnames(county_by_year_crops)[2]<-"field acres"
+    colnames(county_by_year_crops)[7]<-"NASS acres"
+    #county_by_year_crops$County<-county_name
+    
+    list_of_ratios[[y]]<-county_by_year_crops
+    
+  }
+  names(list_of_ratios)<-years
+  list_of_ratio_by_county_and_year[[n]]<-list_of_ratios
+}
+
+names(list_of_ratio_by_county_and_year)<-names(list_of_wi_counties)
+
+
+list_plots<-list()
+for(county in 1:length(list_of_ratio_by_county_and_year)){
+  data<-list_of_ratio_by_county_and_year[[county]]
+  datay<-do.call(rbind,data)
+  datay$Year<-as.character(datay$Year)
+  ratio_plot<-ggplot(datay, aes(x=Commodity, y=(ratio), fill=Commodity)) + 
+    geom_boxplot()+
+    xlab("Crop") + 
+    ylab("Ratio")+
+    labs(title =names(list_of_wi_counties)[[county]])+
+    theme(panel.background = element_blank(), 
+          axis.line = element_line(colour = "black"), 
+          axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
+          axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+  ratio_plot
+  
+  list_plots[[county]]<-ratio_plot
+  
+}
+
+do.call("grid.arrange", c(list_plots, ncol = 3)) 
 

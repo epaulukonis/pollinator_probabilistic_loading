@@ -88,6 +88,12 @@ print(cdl_dir)
 print(list.files(path=cdl_dir, all.files=TRUE, full.names=FALSE))
 
 
+# field
+field_dir = file.path(root_data_in, "MapData/Fields")
+print(field_dir)
+print(list.files(path=field_dir, all.files=TRUE, full.names=FALSE))
+
+
 
 #Multi-state specific
 cdl_ms_dir = file.path(cdl_dir, "Multi-State")
@@ -105,16 +111,30 @@ print(cdl_wi_dir)
 print(list.files(path=cdl_wi_dir, all.files=TRUE, full.names=FALSE))
 
 
-# cdl_dir<-cdl_ill_dir
-# 
-# cdl_zip<-list.files(path=cdl_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
-# print(cdl_zip)
-# zip_ex <- as.list(c(file.exists(file.path(cdl_dir, cdl_zip))))
-# for (l in length(zip_ex)){
-#   unzip_function(zip_ex[[l]], cdl_zip, cdl_dir)
-# }
+#Illinois specific
+cdl_ill_dir= file.path(cdl_dir, "Illinois")
+print(cdl_ill_dir)
+print(list.files(path=cdl_ill_dir, all.files=TRUE, full.names=FALSE))
 
+cdl_acc_dir = file.path(cdl_dir, "Illinois/cdl_acc")
+print(cdl_acc_dir)
+print(list.files(path=cdl_acc_dir, all.files=TRUE, full.names=FALSE))
 
+cdl_dir_fin = file.path(cdl_dir, "Illinois/fixed_cdl")
+print(cdl_dir_fin)
+print(list.files(path=cdl_dir_fin, all.files=TRUE, full.names=FALSE))
+
+cdl_dir_rec = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_old_cdl")
+print(cdl_dir_rec)
+print(list.files(path=cdl_dir_rec, all.files=TRUE, full.names=FALSE))
+
+cdl_dir_rec_n = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_new_cdl")
+print(cdl_dir_rec_n)
+print(list.files(path=cdl_dir_rec_n, all.files=TRUE, full.names=FALSE))
+
+cdl_dir_adj = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_new_cdl/adjusted")
+print(cdl_dir_adj)
+print(list.files(path=cdl_dir_adj, all.files=TRUE, full.names=FALSE))
 
 #coa
 coa_dir = file.path(root_data_in, "CropData/CoA/all_CoA")
@@ -156,6 +176,10 @@ print(state_dir)
 print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 
 
+
+threshold_dir<-file.path(root_data_out,"all_thresh")
+print(threshold_dir)
+print(list.files(path=threshold_dir, all.files=TRUE, full.names=FALSE))
 
 
 #source other files
