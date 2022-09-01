@@ -67,7 +67,7 @@ for(item in 1:length(county_list)){ #this loop pulls out the county in the three
   county<-county_list[[item]]
   
   for(year in 1:14){ #this loop calculates the threshold data for each individual year, and sticks that in the list
-  y<-county
+    y<-county
   s0 = brick(y)
   coords = coordinates(s0) 
   s1 = as.data.frame(getValues(s0))
@@ -86,11 +86,11 @@ for(item in 1:length(county_list)){ #this loop pulls out the county in the three
   # p<-ggplot(n_pixels, aes(x=Var1, y=Freq)) +
   #   geom_bar(stat="identity")
   # p
-  n_pixels$total<-NA
-  for(i in nrow(n_pixels):2){
-    n_pixels[i,3]<-(sum(n_pixels[i:14,2])*900)*0.000247105
-    # n_pixels[i,3]<-sum(n_pixels[1:i,2])
-  }
+    n_pixels$total<-NA
+    for(i in nrow(n_pixels):2){
+      n_pixels[i,3]<-(sum(n_pixels[i:14,2])*900)*0.000247105
+      # n_pixels[i,3]<-sum(n_pixels[1:i,2])
+    }
   
   total_n<-sum(n_pixels$Freq)
   n_pixels$sample_p<-n_pixels$Freq/total_n
@@ -104,18 +104,21 @@ for(item in 1:length(county_list)){ #this loop pulls out the county in the three
   
   }
   
-  names(thresh_list_by_year_ill)<-2008:2021
+  names(thresh_list_by_year_ill)<-2008
+  
+  f<-paste0(root_data_out,'/all_thresh/Illinois/')
+  for(i in names(thresh_list_by_year_ill)){
+    write.csv(thresh_list_by_county_ill[[i]], paste0(f,names(county_list)[item],i,".csv"))
+    
+  }
+  
+  
  thresh_list_by_county_ill[[county]]<-thresh_list_by_year_ill #this sticks the list of 14 threshold datasets into a list by county
 }
 
 
 
-names(thresh_list_by_county_ill)<-names_cc
-f<-paste0(root_data_out,'/all_thresh/Illinois')
-  for(i in names(thresh_list_by_county_ill)){
-    write.csv(thresh_list_by_county_ill[[i]], paste0(f,i,".csv"))
-    
-  }
+
 
 
 
