@@ -12,11 +12,11 @@ options(scipen = 999) #remove exponent options, throws R off
 ###NOTE: order of counties is very important; it's crucial to test that you have the correct county by visual aid now and again.
 
 #### Illinois ----
-thresh_ill_filename<-paste0(root_data_out, "/all_thresh/Illinois/DuPage2008.csv")
-if(file.exists(thresh_mi_filename)){
-
-
-}else{
+# thresh_ill_filename<-paste0(root_data_out, "/all_thresh/Illinois/DuPage2008.csv")
+# if(file.exists(thresh_mi_filename)){
+# 
+# 
+# }else{
 study<-ill
 sub_group<-c("DuPage","McHenry","Champaign")
 sub<-study[study$NAME %in% sub_group,]
