@@ -183,9 +183,9 @@ print(list.files(path=threshold_dir, all.files=TRUE, full.names=FALSE))
 
 
 #source other files
-# source(file.path(root_src, "01_studyarea_c.R"))
-# source(file.path(root_src, "02_formatting_cdl_c.R"))
-# source(file.path(root_src, "03_CPAA_threshold_c.R"))
+source(file.path(root_src, "01_studyarea_t.R"))
+source(file.path(root_src, "02_formatting_cdl_t.R"))
+source(file.path(root_src, "03_CPAA_threshold_t.R"))
 
 
 
