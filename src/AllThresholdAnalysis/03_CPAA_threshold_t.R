@@ -37,15 +37,14 @@ sub_group<-c("DuPage","McHenry","Champaign")
 sub<-study[study$NAME %in% sub_group,]
 
 county_set_list<-list()
-for (co in 1:length(sub)){
-  co_r<-sub[sub$NAME == sub$NAME[co],]
-  mask_crop<-function(x){
-    r_list<-crop(x, co_r)
-    mask(r_list, co_r)
-  }
-  county_set<-lapply(cdl_data_ill_rec, mask_crop) #crop and mask the fixed CDL to the counties, put in list
-  county_set_list[[co]]<-stack(county_set) #represents single county stack
-}
+  for (co in 1:length(sub)){
+    co_r<-sub[sub$NAME == sub$NAME[co],]
+    mask_crop<-function(x){
+      r_list<-crop(x, co_r)
+      mask(r_list, co_r) }
+    county_set<-lapply(cdl_data_ill_rec, mask_crop) #crop and mask the fixed CDL to the counties, put in list
+    county_set_list[[co]]<-stack(county_set) #represents single county stack
+    }
 
 names(county_set_list)<-sub_group
 du<-county_set_list$DuPage #low
@@ -65,15 +64,15 @@ n<-cbind(is_n,becomes_n)
 #this reclassifys the layers from county_set_list to be binary (non-diverse crop and diverse crop)
 county_list<-list()
 layer_list<-list()
-for (county in 1:length(chosen_count)){
-  county_r<-chosen_count[[county]]
-  for(layer in 1:nlayers(county_r)){
-    layer_list[[layer]] <- reclassify(county_r[[layer]], n)
-  }
-  
-  layer_list<-layer_list[-c(1:9)]
-  county_list[[county]]<-layer_list
-}
+  for (county in 1:length(chosen_count)){
+    county_r<-chosen_count[[county]]
+    for(layer in 1:nlayers(county_r)){
+      layer_list[[layer]] <- reclassify(county_r[[layer]], n)
+      }
+    
+    layer_list<-layer_list[-c(1:9)]
+    county_list[[county]]<-layer_list
+    }
 
 names(county_list)<-names_cc
 years<-2008:2021
@@ -82,54 +81,54 @@ years<-2008:2021
 thresh_list_by_county_ill<-list() #contains all the datasets by county
 thresh_list_by_year_ill<-list() #contains all the datasets by yar
 
-for(item in 1:length(county_list)){ #this loop pulls out the county in the three county list
-  county<-county_list[[item]]
-  
-  for(year in 1:14){ #this loop calculates the threshold data for each individual year, and sticks that in the list
-    y<-county
-  s0 = brick(y)
-  coords = coordinates(s0) 
-  s1 = as.data.frame(getValues(s0))
-  layer.3 = sapply(1:nrow(s1), function(x) paste0(s1[x, ], collapse = ''))
-  layer.3 <- data.frame(coords, layer.3)
-  county_binned<-layer.3
-  county_binned <- county_binned[!grepl("NANANANANANANANANANANANANANA", county_binned$layer.3),] # remove pixels that have no crops in 14 years
-  county_binned$f<-gsub("NA", "", county_binned$layer.3) #substitute "" for NA; this will preserve order value, this bins pixels by # years cropped (no differentiation between when)
-  county_binned$field<-as.numeric(county_binned$f) #turn f into fields as numeric integer
-  county_binned$n_years<-as.numeric(gsub(0, "", county_binned$field))
-  county_binned$bin<-floor(log10(county_binned$n_years)) + 1  #create column to count the number of years
-  
-  #N pixels
-  county_binned$bin<-ifelse(county_binned$field == 0, 0, county_binned$bin)
-  n_pixels<-as.data.frame(table(county_binned$bin))
-  # p<-ggplot(n_pixels, aes(x=Var1, y=Freq)) +
-  #   geom_bar(stat="identity")
-  # p
-    n_pixels$total<-NA
-    for(i in nrow(n_pixels):2){
-      n_pixels[i,3]<-(sum(n_pixels[i:14,2])*900)*0.000247105
-      # n_pixels[i,3]<-sum(n_pixels[1:i,2])
+  for(item in 1:length(county_list)){ #this loop pulls out the county in the three county list
+    county<-county_list[[item]]
+    
+    for(year in 1:14){ #this loop calculates the threshold data for each individual year, and sticks that in the list
+      y<-county
+    s0 = brick(y)
+    coords = coordinates(s0) 
+    s1 = as.data.frame(getValues(s0))
+    layer.3 = sapply(1:nrow(s1), function(x) paste0(s1[x, ], collapse = ''))
+    layer.3 <- data.frame(coords, layer.3)
+    county_binned<-layer.3
+    county_binned <- county_binned[!grepl("NANANANANANANANANANANANANANA", county_binned$layer.3),] # remove pixels that have no crops in 14 years
+    county_binned$f<-gsub("NA", "", county_binned$layer.3) #substitute "" for NA; this will preserve order value, this bins pixels by # years cropped (no differentiation between when)
+    county_binned$field<-as.numeric(county_binned$f) #turn f into fields as numeric integer
+    county_binned$n_years<-as.numeric(gsub(0, "", county_binned$field))
+    county_binned$bin<-floor(log10(county_binned$n_years)) + 1  #create column to count the number of years
+    
+    #N pixels
+    county_binned$bin<-ifelse(county_binned$field == 0, 0, county_binned$bin)
+    n_pixels<-as.data.frame(table(county_binned$bin))
+    # p<-ggplot(n_pixels, aes(x=Var1, y=Freq)) +
+    #   geom_bar(stat="identity")
+    # p
+      n_pixels$total<-NA
+      for(i in nrow(n_pixels):2){
+        n_pixels[i,3]<-(sum(n_pixels[i:14,2])*900)*0.000247105
+        # n_pixels[i,3]<-sum(n_pixels[1:i,2])
+      }
+    
+    total_n<-sum(n_pixels$Freq)
+    n_pixels$sample_p<-n_pixels$Freq/total_n
+    
+    #get the bin numbers that coincide with the threshold or greater
+    thresh_layers<-county_binned[county_binned$bin >= (as.numeric(year)),] 
+    unique(thresh_layers$bin) #double check that it looks good
+    thresh_layers$bin_f<-1  #if you want binary layer
+    thresh_layers$county<-names(county_list)[item]
+    thresh_list_by_year_ill[[year]]<-thresh_layers
+    
+    year_name<-years[year]
+    
+    f<-paste0(root_data_out,'/all_thresh/Illinois/')
+    write.csv(thresh_layers, paste0(f,names(county_list)[item],year_name,".csv"))
+      }
+    
+   #thresh_list_by_county_ill[[county]]<-thresh_list_by_year_ill #this sticks the list of 14 threshold datasets into a list by county
     }
-  
-  total_n<-sum(n_pixels$Freq)
-  n_pixels$sample_p<-n_pixels$Freq/total_n
-  
-  #get the bin numbers that coincide with the threshold or greater
-  thresh_layers<-county_binned[county_binned$bin >= (as.numeric(year)),] 
-  unique(thresh_layers$bin) #double check that it looks good
-  thresh_layers$bin_f<-1  #if you want binary layer
-  thresh_layers$county<-names(county_list)[item]
-  thresh_list_by_year_ill[[year]]<-thresh_layers
-  
-  year_name<-years[year]
-  
-  f<-paste0(root_data_out,'/all_thresh/Illinois/')
-  write.csv(thresh_layers, paste0(f,names(county_list)[item],year_name,".csv"))
-    }
-  
- thresh_list_by_county_ill[[county]]<-thresh_list_by_year_ill #this sticks the list of 14 threshold datasets into a list by county
 }
-
 
 # #####Get NLCD mask for non-crop areas (roadS)
 # nlcd<-raster(paste0(nlcd_dir,"/nlcd2019.tif"))
@@ -165,7 +164,7 @@ for(item in 1:length(county_list)){ #this loop pulls out the county in the three
 #   writeRaster(list_of_nlcd_masks_ill[[layer]], file.path(f, names(list_of_nlcd_masks_ill[[layer]])), format="GTiff", overwrite = TRUE)
 #   }
 # 
- }
+ 
 
 
 
@@ -288,8 +287,7 @@ if(file.exists(thresh_mi_filename)){
       write.csv(thresh_layers, paste0(f,names(county_list)[item],year_name,".csv"))
     }
     
-    
-    thresh_list_by_county_mi[[county]]<-thresh_list_by_year_mi #this sticks the list of 14 threshold datasets into a list by county
+    # thresh_list_by_county_mi[[county]]<-thresh_list_by_year_mi #this sticks the list of 14 threshold datasets into a list by county
   }
   
   
@@ -449,7 +447,7 @@ if(file.exists(thresh_wi_filename)){
     }
     
     
-    thresh_list_by_county_wi[[county]]<-thresh_list_by_year_wi #this sticks the list of 14 threshold datasets into a list by county
+    #thresh_list_by_county_wi[[county]]<-thresh_list_by_year_wi #this sticks the list of 14 threshold datasets into a list by county
   }
   
   
@@ -487,4 +485,4 @@ if(file.exists(thresh_wi_filename)){
   #   writeRaster(list_of_nlcd_masks_ill[[layer]], file.path(f, names(list_of_nlcd_masks_ill[[layer]])), format="GTiff", overwrite = TRUE)
   #   }
   # 
-}
+  }
