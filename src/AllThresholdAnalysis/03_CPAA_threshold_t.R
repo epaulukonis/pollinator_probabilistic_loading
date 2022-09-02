@@ -76,7 +76,7 @@ for (county in 1:length(chosen_count)){
 }
 
 names(county_list)<-names_cc
-
+years<-2008:2021
 
 ##### CALCULATE THRESHOLD 
 thresh_list_by_county_ill<-list() #contains all the datasets by county
@@ -121,16 +121,11 @@ for(item in 1:length(county_list)){ #this loop pulls out the county in the three
   thresh_layers$county<-names(county_list)[item]
   thresh_list_by_year_ill[[year]]<-thresh_layers
   
-  }
-  
-  names(thresh_list_by_year_ill)<-2008:2021
+  year_name<-years[year]
   
   f<-paste0(root_data_out,'/all_thresh/Illinois/')
-  for(i in names(thresh_list_by_year_ill)){
-    write.csv(thresh_list_by_county_ill[[i]], paste0(f,names(county_list)[item],i,".csv"))
-    
-  }
-  
+  write.csv(thresh_layers, paste0(f,names(county_list)[item],year_name,".csv"))
+    }
   
  thresh_list_by_county_ill[[county]]<-thresh_list_by_year_ill #this sticks the list of 14 threshold datasets into a list by county
 }
@@ -242,7 +237,7 @@ if(file.exists(thresh_mi_filename)){
   }
   
   names(county_list)<-names_cc
-  
+  years<-2008:2021
   
   ##### CALCULATE THRESHOLD 
   thresh_list_by_county_mi<-list() #contains all the datasets by county
@@ -286,15 +281,11 @@ if(file.exists(thresh_mi_filename)){
       thresh_layers$bin_f<-1  #if you want binary layer
       thresh_layers$county<-names(county_list)[item]
       thresh_list_by_year_mi[[year]]<-thresh_layers
-      
-    }
     
-    names(thresh_list_by_year_mi)<-2008:2021
-    
-    f<-paste0(root_data_out,'/all_thresh/Michigan/')
-    for(i in names(thresh_list_by_year_mi)){
-      write.csv(thresh_list_by_county_mi[[i]], paste0(f,names(county_list)[item],i,".csv"))
+      year_name<-years[year]
       
+      f<-paste0(root_data_out,'/all_thresh/Michigan/')
+      write.csv(thresh_layers, paste0(f,names(county_list)[item],year_name,".csv"))
     }
     
     
@@ -405,7 +396,7 @@ if(file.exists(thresh_wi_filename)){
   }
   
   names(county_list)<-names_cc
-  
+  years<-2008:2021
   
   ##### CALCULATE THRESHOLD 
   thresh_list_by_county_wi<-list() #contains all the datasets by county
@@ -450,13 +441,10 @@ if(file.exists(thresh_wi_filename)){
       thresh_layers$county<-names(county_list)[item]
       thresh_list_by_year_wi[[year]]<-thresh_layers
       
-    }
-    
-    names(thresh_list_by_year_wi)<-2008:2021
-    
-    f<-paste0(root_data_out,'/all_thresh/Wisconsin/')
-    for(i in names(thresh_list_by_year_wi)){
-      write.csv(thresh_list_by_county_wi[[i]], paste0(f,names(county_list)[item],i,".csv"))
+      year_name<-years[year]
+      
+      f<-paste0(root_data_out,'/all_thresh/Wisconsin/')
+      write.csv(thresh_layers, paste0(f,names(county_list)[item],year_name,".csv"))
       
     }
     
