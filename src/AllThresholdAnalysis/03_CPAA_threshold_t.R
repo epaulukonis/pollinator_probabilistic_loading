@@ -12,11 +12,26 @@ options(scipen = 999) #remove exponent options, throws R off
 ###NOTE: order of counties is very important; it's crucial to test that you have the correct county by visual aid now and again.
 
 #### Illinois ----
-# thresh_ill_filename<-paste0(root_data_out, "/all_thresh/Illinois/DuPage2008.csv")
-# if(file.exists(thresh_mi_filename)){
-# 
-# 
-# }else{
+thresh_ill_filename<-paste0(root_data_out, "/all_thresh/Illinois/DuPage2008.csv")
+if(file.exists(thresh_mi_filename)){
+  
+    print(list.files(path=paste0(root_data_out,"/all_thresh/Illinois"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
+    thresh_ill<- file.path(paste0(root_data_out,"/all_thresh/Illinois"), list.files(path=paste0(root_data_out,"/all_thresh/Illinois"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
+    thresh_list_ill<-lapply(thresh_ill, read.csv)
+    thresh_list_ill<-lapply(thresh_list_ill, function(y) { y["X"] <- NULL; y })
+
+    # print(list.files(path=paste0(root_data_out,"/all_tif/Illinois"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+    # thresh_rasters <- file.path(paste0(root_data_out,"/all_tif/Illinois"), list.files(path=paste0(root_data_out,"/all_tif/Illinois"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+    # ill_county_list<-lapply(thresh_rasters, raster)
+
+
+    f<-paste0(root_data_out, "/all_NLCD/Illinois")
+    print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+    nlcd_ill<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+    nlcd_ill<-lapply(nlcd_ill, raster)
+
+
+}else{
 study<-ill
 sub_group<-c("DuPage","McHenry","Champaign")
 sub<-study[study$NAME %in% sub_group,]
@@ -155,7 +170,7 @@ for(item in 1:length(county_list)){ #this loop pulls out the county in the three
 #   writeRaster(list_of_nlcd_masks_ill[[layer]], file.path(f, names(list_of_nlcd_masks_ill[[layer]])), format="GTiff", overwrite = TRUE)
 #   }
 # 
-# }
+ }
 
 
 
