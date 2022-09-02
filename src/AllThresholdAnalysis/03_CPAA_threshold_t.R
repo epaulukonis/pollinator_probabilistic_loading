@@ -13,7 +13,7 @@ options(scipen = 999) #remove exponent options, throws R off
 
 #### Illinois ----
 thresh_ill_filename<-paste0(root_data_out, "/all_thresh/Illinois/DuPage2008.csv")
-if(file.exists(thresh_mi_filename)){
+if(file.exists(thresh_ill_filename)){
   
     print(list.files(path=paste0(root_data_out,"/all_thresh/Illinois"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
     thresh_ill<- file.path(paste0(root_data_out,"/all_thresh/Illinois"), list.files(path=paste0(root_data_out,"/all_thresh/Illinois"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
