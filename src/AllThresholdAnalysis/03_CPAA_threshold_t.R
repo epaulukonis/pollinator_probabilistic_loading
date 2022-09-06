@@ -193,7 +193,7 @@ if(file.exists(thresh_mi_filename)){
   
 }else{
   study<-mi
-  sub_group<-c("VanBuren", "Oceana","Huron")
+  sub_group<-c("Van Buren", "Oceana","Huron")
   sub<-study[study$NAME %in% sub_group,]
   
   county_set_list<-list()
