@@ -131,40 +131,40 @@ thresh_list_by_year_ill<-list() #contains all the datasets by yar
 }
 
 # #####Get NLCD mask for non-crop areas (roadS)
-# nlcd<-raster(paste0(nlcd_dir,"/nlcd2019.tif"))
-# #nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
-# 
-# list_of_nlcd_masks_ill<-list()
-# for (county in 1:3){
-#   cpaa<-county_list[[county]][[1]] ##get associated counties
-#   ext<-extent(cpaa)
-#   #plot(cpaa)
-#   
-#   #use 2008 NLCD to mask out non-crop
-#   
-#   nlcdc<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
-#   nlcdc<-crop(nlcdc, cpaa)
-#   nlcdc<-mask(nlcdc, cpaa)
-#   
-#   nlcdc[nlcdc==11]<-NA
-#   nlcdc[nlcdc==21]<-NA
-#   nlcdc[nlcdc==22]<-NA
-#   nlcdc[nlcdc==23]<-NA
-#   nlcdc[nlcdc==24]<-NA
-#   nlcdc[nlcdc==31]<-NA
-#   
-#   names(nlcdc)<-names(county_list)[[county]][[1]]
-#   list_of_nlcd_masks_ill[[county]]<-nlcdc
-#   
-# }
-# 
-# names(list_of_nlcd_masks_ill)<-names_cc
-# f<-paste0(root_data_out, "/all_NLCD/Illinois")
-# for(layer in 1:length(list_of_nlcd_masks_ill)){
-#   writeRaster(list_of_nlcd_masks_ill[[layer]], file.path(f, names(list_of_nlcd_masks_ill[[layer]])), format="GTiff", overwrite = TRUE)
-#   }
-# 
- 
+nlcd<-raster(paste0(nlcd_dir,"/nlcd2019.tif"))
+#nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
+
+list_of_nlcd_masks_ill<-list()
+for (county in 1:3){
+  cpaa<-county_list[[county]][[1]] ##get associated counties
+  ext<-extent(cpaa)
+  #plot(cpaa)
+
+  #use 2008 NLCD to mask out non-crop
+
+  nlcdc<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
+  nlcdc<-crop(nlcdc, cpaa)
+  nlcdc<-mask(nlcdc, cpaa)
+
+  nlcdc[nlcdc==11]<-NA
+  nlcdc[nlcdc==21]<-NA
+  nlcdc[nlcdc==22]<-NA
+  nlcdc[nlcdc==23]<-NA
+  nlcdc[nlcdc==24]<-NA
+  nlcdc[nlcdc==31]<-NA
+
+  names(nlcdc)<-names(county_list)[[county]][[1]]
+  list_of_nlcd_masks_ill[[county]]<-nlcdc
+
+}
+
+names(list_of_nlcd_masks_ill)<-names_cc
+f<-paste0(root_data_out, "/all_NLCD/Illinois")
+for(layer in 1:length(list_of_nlcd_masks_ill)){
+  writeRaster(list_of_nlcd_masks_ill[[layer]], file.path(f, names(list_of_nlcd_masks_ill[[layer]])), format="GTiff", overwrite = TRUE)
+  }
+
+
 
 
 
@@ -291,40 +291,40 @@ if(file.exists(thresh_mi_filename)){
   }
   
   
-  # #####Get NLCD mask for non-crop areas (roadS)
-  # nlcd<-raster(paste0(nlcd_dir,"/nlcd2019.tif"))
-  # #nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
-  # 
-  # list_of_nlcd_masks_ill<-list()
-  # for (county in 1:3){
-  #   cpaa<-county_list[[county]][[1]] ##get associated counties
-  #   ext<-extent(cpaa)
-  #   #plot(cpaa)
-  #   
-  #   #use 2008 NLCD to mask out non-crop
-  #   
-  #   nlcdc<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
-  #   nlcdc<-crop(nlcdc, cpaa)
-  #   nlcdc<-mask(nlcdc, cpaa)
-  #   
-  #   nlcdc[nlcdc==11]<-NA
-  #   nlcdc[nlcdc==21]<-NA
-  #   nlcdc[nlcdc==22]<-NA
-  #   nlcdc[nlcdc==23]<-NA
-  #   nlcdc[nlcdc==24]<-NA
-  #   nlcdc[nlcdc==31]<-NA
-  #   
-  #   names(nlcdc)<-names(county_list)[[county]][[1]]
-  #   list_of_nlcd_masks_ill[[county]]<-nlcdc
-  #   
-  # }
-  # 
-  # names(list_of_nlcd_masks_ill)<-names_cc
-  # f<-paste0(root_data_out, "/all_NLCD/Illinois")
-  # for(layer in 1:length(list_of_nlcd_masks_ill)){
-  #   writeRaster(list_of_nlcd_masks_ill[[layer]], file.path(f, names(list_of_nlcd_masks_ill[[layer]])), format="GTiff", overwrite = TRUE)
-  #   }
-  # 
+  #####Get NLCD mask for non-crop areas (roadS)
+  nlcd<-raster(paste0(nlcd_dir,"/nlcd2019.tif"))
+  #nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
+
+  list_of_nlcd_masks_mi<-list()
+  for (county in 1:3){
+    cpaa<-county_list[[county]][[1]] ##get associated counties
+    ext<-extent(cpaa)
+    #plot(cpaa)
+
+    #use 2008 NLCD to mask out non-crop
+
+    nlcdc<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
+    nlcdc<-crop(nlcdc, cpaa)
+    nlcdc<-mask(nlcdc, cpaa)
+
+    nlcdc[nlcdc==11]<-NA
+    nlcdc[nlcdc==21]<-NA
+    nlcdc[nlcdc==22]<-NA
+    nlcdc[nlcdc==23]<-NA
+    nlcdc[nlcdc==24]<-NA
+    nlcdc[nlcdc==31]<-NA
+
+    names(nlcdc)<-names(county_list)[[county]][[1]]
+    list_of_nlcd_masks_mi[[county]]<-nlcdc
+
+  }
+
+  names(list_of_nlcd_masks_mi)<-names_cc
+  f<-paste0(root_data_out, "/all_NLCD/Michigan")
+  for(layer in 1:length(list_of_nlcd_masks_mi)){
+    writeRaster(list_of_nlcd_masks_mi[[layer]], file.path(f, names(list_of_nlcd_masks_mi[[layer]])), format="GTiff", overwrite = TRUE)
+    }
+
 }
 
 
@@ -451,38 +451,38 @@ if(file.exists(thresh_wi_filename)){
   }
   
   
-  # #####Get NLCD mask for non-crop areas (roadS)
-  # nlcd<-raster(paste0(nlcd_dir,"/nlcd2019.tif"))
-  # #nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
-  # 
-  # list_of_nlcd_masks_ill<-list()
-  # for (county in 1:3){
-  #   cpaa<-county_list[[county]][[1]] ##get associated counties
-  #   ext<-extent(cpaa)
-  #   #plot(cpaa)
-  #   
-  #   #use 2008 NLCD to mask out non-crop
-  #   
-  #   nlcdc<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
-  #   nlcdc<-crop(nlcdc, cpaa)
-  #   nlcdc<-mask(nlcdc, cpaa)
-  #   
-  #   nlcdc[nlcdc==11]<-NA
-  #   nlcdc[nlcdc==21]<-NA
-  #   nlcdc[nlcdc==22]<-NA
-  #   nlcdc[nlcdc==23]<-NA
-  #   nlcdc[nlcdc==24]<-NA
-  #   nlcdc[nlcdc==31]<-NA
-  #   
-  #   names(nlcdc)<-names(county_list)[[county]][[1]]
-  #   list_of_nlcd_masks_ill[[county]]<-nlcdc
-  #   
-  # }
-  # 
-  # names(list_of_nlcd_masks_ill)<-names_cc
-  # f<-paste0(root_data_out, "/all_NLCD/Illinois")
-  # for(layer in 1:length(list_of_nlcd_masks_ill)){
-  #   writeRaster(list_of_nlcd_masks_ill[[layer]], file.path(f, names(list_of_nlcd_masks_ill[[layer]])), format="GTiff", overwrite = TRUE)
-  #   }
-  # 
+   #####Get NLCD mask for non-crop areas (roadS)
+  nlcd<-raster(paste0(nlcd_dir,"/nlcd2019.tif"))
+  #nlcd<-raster(paste0(nlcd_dir,"/NLCD_2008_Land_Cover_L48_20210604_8Jzq7uEvh4Wq2TtvZWFJ.tiff"))
+
+  list_of_nlcd_masks_wi<-list()
+  for (county in 1:3){
+    cpaa<-county_list[[county]][[1]] ##get associated counties
+    ext<-extent(cpaa)
+    #plot(cpaa)
+
+    #use 2008 NLCD to mask out non-crop
+
+    nlcdc<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
+    nlcdc<-crop(nlcdc, cpaa)
+    nlcdc<-mask(nlcdc, cpaa)
+
+    nlcdc[nlcdc==11]<-NA
+    nlcdc[nlcdc==21]<-NA
+    nlcdc[nlcdc==22]<-NA
+    nlcdc[nlcdc==23]<-NA
+    nlcdc[nlcdc==24]<-NA
+    nlcdc[nlcdc==31]<-NA
+
+    names(nlcdc)<-names(county_list)[[county]][[1]]
+    list_of_nlcd_masks_wi[[county]]<-nlcdc
+
+  }
+
+  names(list_of_nlcd_masks_wi)<-names_cc
+  f<-paste0(root_data_out, "/all_NLCD/Wisconsin")
+  for(layer in 1:length(list_of_nlcd_masks_wi)){
+    writeRaster(list_of_nlcd_masks_wi[[layer]], file.path(f, names(list_of_nlcd_masks_wi[[layer]])), format="GTiff", overwrite = TRUE)
+    }
+
   }
