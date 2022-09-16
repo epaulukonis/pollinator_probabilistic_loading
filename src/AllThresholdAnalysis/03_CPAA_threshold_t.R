@@ -12,41 +12,55 @@ options(scipen = 999) #remove exponent options, throws R off
 ###NOTE: order of counties is very important; it's crucial to test that you have the correct county by visual aid now and again.
 
 #### Illinois ----
-thresh_ill_filename<-paste0(root_data_out, "/all_thresh/Illinois/McHenry2008.csv")
+thresh_ill_filename<-paste0(root_data_out, "/all_thresh/Illinois/DuPage2008.csv")
 if(file.exists(thresh_ill_filename)){
   
     print(list.files(path=paste0(root_data_out,"/all_thresh/Illinois"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
     thresh_ill<- file.path(paste0(root_data_out,"/all_thresh/Illinois"), list.files(path=paste0(root_data_out,"/all_thresh/Illinois"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
-    thresh_list_ill<-lapply(thresh_ill, read.csv)
+    thresh_list_ill<-setNames(lapply(thresh_ill, read.csv), tools::file_path_sans_ext(basename(thresh_ill)))
     thresh_list_ill<-lapply(thresh_list_ill, function(y) { y["X"] <- NULL; y })
-
+    
     # print(list.files(path=paste0(root_data_out,"/all_tif/Illinois"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
     # thresh_rasters <- file.path(paste0(root_data_out,"/all_tif/Illinois"), list.files(path=paste0(root_data_out,"/all_tif/Illinois"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
     # ill_county_list<-lapply(thresh_rasters, raster)
-
-
-    # f<-paste0(root_data_out, "/all_NLCD/Illinois")
-    # print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-    # nlcd_ill<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-    # nlcd_ill<-lapply(nlcd_ill, raster)
-
-
+  
+   # thresh_list_ill<-thresh_list_ill[order(names(thresh_list_ill))]
+    
+    thresh_list_ill_f<-list()
+    thresh_list_ill_f[[1]]<-thresh_list_ill[1:14]
+    thresh_list_ill_f[[2]]<-thresh_list_ill[15:28]
+    thresh_list_ill_f[[3]]<-thresh_list_ill[29:42]
+    
+    
+    f<-paste0(root_data_out, "/all_NLCD/Illinois")
+    print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+    nlcd_ill<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+    nlcd_ill<-setNames(lapply(nlcd_ill, raster), tools::file_path_sans_ext(basename(nlcd_ill)))
+    
 }else{
 study<-ill
 sub_group<-c("DuPage","McHenry","Champaign")
 sub<-study[study$NAME %in% sub_group,]
 
+names_county<-list()
 county_set_list<-list()
   for (co in 1:length(sub)){
     co_r<-sub[sub$NAME == sub$NAME[co],]
     mask_crop<-function(x){
       r_list<-crop(x, co_r)
-      mask(r_list, co_r) }
+      mask(r_list, co_r) 
+      }
+    
     county_set<-lapply(cdl_data_ill_rec, mask_crop) #crop and mask the fixed CDL to the counties, put in list
     county_set_list[[co]]<-stack(county_set) #represents single county stack
+    names_county[co]<-co_r$NAME
+    
     }
 
-names(county_set_list)<-sub_group
+names(county_set_list)<-unlist(names_county)
+
+
+
 du<-county_set_list$DuPage #low
 mch<-county_set_list$McHenry #medium
 chp<-county_set_list$Champaign #high
@@ -54,6 +68,7 @@ chp<-county_set_list$Champaign #high
 chosen_count<-list(du,mch,chp)
 names_cc<-c("DuPage","McHenry","Champaign")
 names(chosen_count)<-names_cc
+
 
 
 #Let's reclassify to count the n years for all thresholds
@@ -195,6 +210,7 @@ if(file.exists(thresh_mi_filename)){
   sub_group<-c("Van Buren", "Oceana","Huron")
   sub<-study[study$NAME %in% sub_group,]
   
+  names_county<-list()
   county_set_list<-list()
   for (co in 1:length(sub)){
     co_r<-sub[sub$NAME == sub$NAME[co],]
@@ -204,9 +220,10 @@ if(file.exists(thresh_mi_filename)){
     }
     county_set<-lapply(cdl_data_mi_rec, mask_crop) #crop and mask the fixed CDL to the counties, put in list
     county_set_list[[co]]<-stack(county_set) #represents single county stack
+    names_county[co]<-co_r$NAME
   }
   
-  names(county_set_list)<-sub_group
+  names(county_set_list)<-unlist(names_county)
   hu75<-county_set_list$Huron #75% crop coverage
   van35<-county_set_list$`Van Buren` #50%
   oc25<-county_set_list$Oceana #25%
@@ -353,6 +370,7 @@ if(file.exists(thresh_wi_filename)){
   sub_group<-c("Waushara","Langlade","Rock")
   sub<-study[study$NAME %in% sub_group,]
   
+  names_county<-list()
   county_set_list<-list()
   for (co in 1:length(sub)){
     co_r<-sub[sub$NAME == sub$NAME[co],]
@@ -362,9 +380,10 @@ if(file.exists(thresh_wi_filename)){
     }
     county_set<-lapply(cdl_data_wi_rec, mask_crop) #crop and mask the fixed CDL to the counties, put in list
     county_set_list[[co]]<-stack(county_set) #represents single county stack
+    names_county[co]<-co_r$NAME
   }
   
-  names(county_set_list)<-sub_group
+  names(county_set_list)<-unlist(names_county)
   rock65<-county_set_list$Rock#65% crop coverage
   wau35<-county_set_list$Waushara #35%
   lang15<-county_set_list$Langlade #10-15%

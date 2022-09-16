@@ -17,17 +17,7 @@ if(file.exists(mi_cpaa) && file.exists(wi_cpaa) && file.exists(ill_cpaa)){
   wi_fields<-list()
   ill_fields<-list()
   
-  mi_fields[1]<- readOGR(paste0(cdl_mi_dir,"/CPAA"), layer = "huron75")
-  mi_fields[2]<- readOGR(paste0(cdl_mi_dir,"/CPAA"), layer = "oceana25")
-  mi_fields[3]<- readOGR(paste0(cdl_mi_dir,"/CPAA"), layer = "vanburen50")
   
-  names(mi_fields)<-c("HURON","OCEANA","VAN BUREN")
-  
-  wi_fields[1]<- readOGR(paste0(cdl_wi_dir,"/CPAA"), layer = "lang15")
-  wi_fields[2]<- readOGR(paste0(cdl_wi_dir,"/CPAA"), layer = "rock65")
-  wi_fields[3]<- readOGR(paste0(cdl_wi_dir,"/CPAA"), layer = "wau35")
-  
-  names(wi_fields)<-c("LANG","ROCK","WAU")
   
   #source(file.path(root_src, "05_CPAA_analysis_c.R"))
 
@@ -35,18 +25,27 @@ if(file.exists(mi_cpaa) && file.exists(wi_cpaa) && file.exists(ill_cpaa)){
   
   
 #### Illinois Delineation ----
-county_fw_sets<-list()
-  thresh_list<-thresh_list_ill
+  
+  
+  thresh_fw_sets<-list()
+  county_field_set<-list()
   list_of_nlcd_masks<-nlcd_ill
   
+for (c in 1:length(thresh_list_ill_f)){
+  c=1
+  
+  thresh_list<-thresh_list_ill_f[[c]]
+  
   for (i in 1:length(thresh_list)){
+    i=1
+    
     thresh_layers<-thresh_list[[i]]
     df_n<-thresh_layers[,c(1:2,8)]
     
     coordinates(df_n)<-~ x + y
     gridded(df_n)<-TRUE
     df_n<- raster(df_n)
-    crs(df_n) <- crs(cdl_data_mi_rec[[1]])
+    crs(df_n) <- crs(cdl_data_ill_rec[[1]])
     #plot(df_n)
     
     
@@ -56,11 +55,13 @@ county_fw_sets<-list()
       terra::mask(mask = r) 
     fw<-raster(fw) #convert back to raster object
     
+    plot(fw)
+    plot(nlcd)
     
     #test 7 and 13, which is the minimum field size from the LACIE paper, and the minimum field size from Yan and Roy 2016
     
     # mask out NA areas here using NLCD
-    nlcd<-list_of_nlcd_masks[[i]]
+    nlcd<-list_of_nlcd_masks[[c]]
     ext<-extent(nlcd)
     fw<-setExtent(fw, ext)
     fw<-crop(fw, nlcd)
@@ -85,9 +86,16 @@ county_fw_sets<-list()
     area_thresh <- units::set_units(40460, m^2) #Fill holes, 10 acres (rounded down to nearest 5th decimal )
     fw_fill<- fill_holes(fw_poly, threshold = area_thresh)
     
-    county_fw_sets[[i]]<-fw_fill
+    thresh_fw_sets[[i]]<-fw_fill
     
   }
+  
+  county_field_set[[c]]<-thresh_fw_sets
+  
+}
+  
+  
+  
   
   #add separate function for buffering and cleaning 
   area_thresh <- units::set_units(40460, m^2) #drop crumbs below 10 acres
@@ -102,7 +110,7 @@ county_fw_sets<-list()
   
   #buffered_layers<-lapply(county_fw_sets,expand_shrink_clean
   
-  michigan_cpaa<-lapply(county_fw_sets, expand_shrink_clean)
+ illinois_cpaa<-lapply(county_fw_sets, expand_shrink_clean)
   
   
   
