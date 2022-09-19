@@ -37,8 +37,7 @@ for (c in 1:length(thresh_list_ill_f)){
   thresh_list<-thresh_list_ill_f[[c]]
   
   for (i in 1:length(thresh_list)){
-    i=1
-    
+    i=2
     thresh_layers<-thresh_list[[i]]
     df_n<-thresh_layers[,c(1:2,8)]
     
@@ -47,6 +46,8 @@ for (c in 1:length(thresh_list_ill_f)){
     df_n<- raster(df_n)
     crs(df_n) <- crs(cdl_data_ill_rec[[1]])
     #plot(df_n)
+    plot(df_n)
+    
     
     
     # focal window of 3x3 pixels, or 7x7 (13)
@@ -55,11 +56,8 @@ for (c in 1:length(thresh_list_ill_f)){
       terra::mask(mask = r) 
     fw<-raster(fw) #convert back to raster object
     
-    plot(fw)
-    plot(nlcd)
     
     #test 7 and 13, which is the minimum field size from the LACIE paper, and the minimum field size from Yan and Roy 2016
-    
     # mask out NA areas here using NLCD
     nlcd<-list_of_nlcd_masks[[c]]
     ext<-extent(nlcd)
@@ -67,6 +65,8 @@ for (c in 1:length(thresh_list_ill_f)){
     fw<-crop(fw, nlcd)
     fw<-projectRaster(fw, nlcd, method='ngb',crs(nlcd))
     fw<-mask(fw, nlcd) #mask out by NLCD NA here
+    
+    plot(nlcd)
     
     
     # this evaluates and removes clumps of pixels (nearest neighbor =  8)
@@ -85,6 +85,7 @@ for (c in 1:length(thresh_list_ill_f)){
     # fill holes 
     area_thresh <- units::set_units(40460, m^2) #Fill holes, 10 acres (rounded down to nearest 5th decimal )
     fw_fill<- fill_holes(fw_poly, threshold = area_thresh)
+    plot(fw_fill)
     
     thresh_fw_sets[[i]]<-fw_fill
     

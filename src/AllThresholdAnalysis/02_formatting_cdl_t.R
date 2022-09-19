@@ -167,9 +167,7 @@ if(file.exists(cdl_rec_filename)){
     mask(r_list, study)
   }
   cdl_wi_co<-lapply(cdl_data, mask_crop)
-  
-  plot(cdl_wi_co[[1]][[1]])
-  
+
   f<-paste0(cdl_wi_dir, "/rec_cdl")
   
   m <- cbind(from = c(-Inf, 80), to = c(0, 200), becomes = c(NA)) #non-crop reclass tables; i.e., reclassify crop and non-crop

@@ -35,6 +35,16 @@ wi<-all_states[all_states$STATEFP == "55",]
 
 rm(all_states)
 
+
+#read in NLCD
+# print(list.files(path=paste0(nlcd_dir,"/NLCD"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+# nlcd_all<- file.path(paste0(nlcd_dir,"/NLCD"), list.files(path=paste0(nlcd_dir,"/NLCD"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+# nlcd_all<-setNames(lapply(nlcd_all, raster), tools::file_path_sans_ext(basename(nlcd_all)))
+# 
+
+
+#### various scraps ----
+
 ## you can take a look at some plots here: 
 # plot(h_range, col='red')
 # plot(states, add=T)
@@ -48,10 +58,6 @@ rm(all_states)
 #study<-gIntersection(ill, h_range, byid=T, id=ill$COUNTY_NAM) #get intersection of counties and range here
 
 
-
-
-
-
 #writeOGR(study, dsn=state_dir, layer="/study_area",driver="ESRI Shapefile") 
 
 ##get the roads
@@ -60,7 +66,6 @@ rm(all_states)
 
 
 # note that you may need to read out files to QGIS or other to look-up specific county
-
 # if you're interested in a specific county, use code below:
 # extract county
 # co<-"PEORIA" #set county
