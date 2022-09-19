@@ -70,6 +70,7 @@ names_cc<-c("DuPage","McHenry","Champaign")
 names(chosen_count)<-names_cc
 
 
+plot(chosen_count[[1]][[1]])
 
 #Let's reclassify to count the n years for all thresholds
 is_n <- c(0,1:256)
