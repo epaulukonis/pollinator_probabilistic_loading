@@ -28,16 +28,16 @@ if(file.exists(thresh_ill_filename)){
     # 
     # 
     # #test block
-    # thresh_list_ill_f<-list()
-    # thresh_list_ill_f[[1]]<-thresh_list_ill[1:2]
-    # thresh_list_ill_f[[2]]<-thresh_list_ill[3:4]
-    # thresh_list_ill_f[[3]]<-thresh_list_ill[5:6]
+    thresh_list_ill_f<-list()
+    thresh_list_ill_f[[1]]<-thresh_list_ill[1:2]
+    thresh_list_ill_f[[2]]<-thresh_list_ill[3:4]
+    thresh_list_ill_f[[3]]<-thresh_list_ill[5:6]
     # 
     # 
-    # f<-paste0(root_data_out, "/all_NLCD/Illinois")
-    # print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-    # nlcd_ill<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-    # nlcd_ill<-setNames(lapply(nlcd_ill, raster), tools::file_path_sans_ext(basename(nlcd_ill)))
+    f<-paste0(root_data_out, "/all_NLCD/Illinois")
+    print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+    nlcd_ill<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+    nlcd_ill<-setNames(lapply(nlcd_ill, raster), tools::file_path_sans_ext(basename(nlcd_ill)))
     
 }else{
 study<-ill
@@ -58,6 +58,7 @@ county_set_list<-list()
     names_county[co]<-co_r$NAME
     
     }
+
 
 names(county_set_list)<-unlist(names_county)
 
@@ -143,35 +144,36 @@ thresh_list_by_year_ill<-list() #contains all the datasets by yar
     }
 
 
-# #####Get NLCD mask for non-crop areas (roadS)
-  # for(county_layer in 1:length(county_list)){
-  #   cpaa<-county_list[[county_layer]][[1]] ##get associated counties
-  #   ext<-extent(cpaa)
-  # 
-  #   list_of_nlcds<-list()
-  #   for(nlcd_layer in 1:length(nlcd_all)){
-  #   nlcd<-nlcd_all[nlcd_layer]
-  #   nlcdc<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
-  #   nlcdc<-crop(nlcdc, cpaa)
-  #   nlcdc<-mask(nlcdc, cpaa)
-  # 
-  #   nlcdc[nlcdc==11]<-NA
-  #   nlcdc[nlcdc==21]<-NA
-  #   nlcdc[nlcdc==22]<-NA
-  #   nlcdc[nlcdc==23]<-NA
-  #   nlcdc[nlcdc==24]<-NA
-  #   nlcdc[nlcdc==31]<-NA
-  # 
-  #   names(nlcdc)<-names(nlcd_all[nlcd_layer])
-  #   f<-paste0(root_data_out, "/all_NLCD/Illinois")
-  #   writeRaster(nlcdc, file.path(f, paste0(names_cc[[county_layer]],"_",names(nlcdc))), format="GTiff", overwrite = TRUE)
-  # 
-  #   }
-  # 
-  # }
+# # #####Get NLCD mask for non-crop areas (roadS)
+#   for(county_layer in 1:length(county_list)){
+#     county_layer=3
+#     cpaa<-county_list[[county_layer]][[1]] ##get associated counties
+#     ext<-extent(cpaa)
+# 
+#     list_of_nlcds<-list()
+#     for(nlcd_layer in 1:length(nlcd_all)){
+#     nlcd<-nlcd_all[[nlcd_layer]]
+#     nlcdc<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
+#     nlcdc<-crop(nlcdc, cpaa)
+#     nlcdc<-mask(nlcdc, cpaa)
+# 
+#     nlcdc[nlcdc==11]<-NA
+#     nlcdc[nlcdc==21]<-NA
+#     nlcdc[nlcdc==22]<-NA
+#     nlcdc[nlcdc==23]<-NA
+#     nlcdc[nlcdc==24]<-NA
+#     nlcdc[nlcdc==31]<-NA
+# 
+#     names(nlcdc)<-names(nlcd_all[nlcd_layer])
+#     f<-paste0(root_data_out, "/all_NLCD/Illinois")
+#     writeRaster(nlcdc, file.path(f, paste0(names_cc[[county_layer]],"_",names(nlcdc))), format="GTiff", overwrite = TRUE)
+# 
+#     }
+# 
+#   }
+# 
 
 
-  
 
 }
 
@@ -183,21 +185,22 @@ thresh_list_by_year_ill<-list() #contains all the datasets by yar
 thresh_mi_filename<-paste0(root_data_out, "/all_thresh/Michigan/VanBuren2008.csv")
 if(file.exists(thresh_mi_filename)){
   
+  
   print(list.files(path=paste0(root_data_out,"/all_thresh/Michigan"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
   thresh_mi<- file.path(paste0(root_data_out,"/all_thresh/Michigan"), list.files(path=paste0(root_data_out,"/all_thresh/Michigan"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
-  thresh_list_mi<-lapply(thresh_mi, read.csv)
-  thresh_list_mi<-lapply(thresh_list_mi, function(y) { y["X"] <- NULL; y })
+  thresh_list_mi<-setNames(lapply(thresh_mi, read.csv), tools::file_path_sans_ext(basename(thresh_mi)))
+  thresh_list_mi<-lapply(thresh_list_ill, function(y) { y["X"] <- NULL; y })
   
-  # print(list.files(path=paste0(root_data_out,"/all_tif/Illinois"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  # thresh_rasters <- file.path(paste0(root_data_out,"/all_tif/Illinois"), list.files(path=paste0(root_data_out,"/all_tif/Illinois"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  # ill_county_list<-lapply(thresh_rasters, raster)
-  
-  
-  # f<-paste0(root_data_out, "/all_NLCD/Michigan")
-  # print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  # nlcd_ill<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  # nlcd_ill<-lapply(nlcd_ill, raster)
-  # 
+  thresh_list_mi_f<-list()
+  thresh_list_mi_f[[1]]<-thresh_list_mi[1:14]
+  thresh_list_mi_f[[2]]<-thresh_list_mi[15:28]
+  thresh_list_mi_f[[3]]<-thresh_list_mi[29:42]
+
+
+  f<-paste0(root_data_out, "/all_NLCD/Michigan")
+  print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  nlcd_mi<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  nlcd_mi<-setNames(lapply(nlcd_mi, raster), tools::file_path_sans_ext(basename(nlcd_mi)))
   
 }else{
   study<-mi
@@ -301,14 +304,14 @@ if(file.exists(thresh_mi_filename)){
   }
   
   
-  #####Get NLCD mask for non-crop areas (roadS)
+  # #####Get NLCD mask for non-crop areas (roadS)
   # for(county_layer in 1:length(county_list)){
   #   cpaa<-county_list[[county_layer]][[1]] ##get associated counties
   #   ext<-extent(cpaa)
   # 
   #   list_of_nlcds<-list()
   #   for(nlcd_layer in 1:length(nlcd_all)){
-  #     nlcd<-nlcd_all[nlcd_layer]
+  #     nlcd<-nlcd_all[[nlcd_layer]]
   #     nlcdc<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
   #     nlcdc<-crop(nlcdc, cpaa)
   #     nlcdc<-mask(nlcdc, cpaa)
@@ -457,14 +460,14 @@ if(file.exists(thresh_wi_filename)){
   }
   
   
-   #####Get NLCD mask for non-crop areas (roadS)
+  # ####Get NLCD mask for non-crop areas (roadS)
   # for(county_layer in 1:length(county_list)){
   #   cpaa<-county_list[[county_layer]][[1]] ##get associated counties
   #   ext<-extent(cpaa)
   # 
   #   list_of_nlcds<-list()
   #   for(nlcd_layer in 1:length(nlcd_all)){
-  #     nlcd<-nlcd_all[nlcd_layer]
+  #     nlcd<-nlcd_all[[nlcd_layer]]
   #     nlcdc<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa))
   #     nlcdc<-crop(nlcdc, cpaa)
   #     nlcdc<-mask(nlcdc, cpaa)

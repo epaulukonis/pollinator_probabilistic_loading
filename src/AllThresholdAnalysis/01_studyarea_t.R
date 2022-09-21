@@ -37,8 +37,8 @@ rm(all_states)
 
 
 #read in NLCD
-# print(list.files(path=paste0(nlcd_dir,"/NLCD"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
-# nlcd_all<- file.path(paste0(nlcd_dir,"/NLCD"), list.files(path=paste0(nlcd_dir,"/NLCD"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+# print(list.files(path=paste0(nlcd_dir,"/NLCD/NLCD_F"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+# nlcd_all<- file.path(paste0(nlcd_dir,"/NLCD/NLCD_F"), list.files(path=paste0(nlcd_dir,"/NLCD/NLCD_F"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
 # nlcd_all<-setNames(lapply(nlcd_all, raster), tools::file_path_sans_ext(basename(nlcd_all)))
 # 
 
