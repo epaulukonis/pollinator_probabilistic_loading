@@ -51,6 +51,7 @@ for (c in 1:length(thresh_list_ill_f)){
     crs(df_n) <- crs(cdl_data_ill_rec[[1]])
     #plot(df_n)
     
+    df_n
     
     #test 7 and 13, which is the minimum field size from the LACIE paper, and the minimum field size from Yan and Roy 2016
     # mask out NA areas here using NLCD
@@ -102,9 +103,13 @@ for (c in 1:length(thresh_list_ill_f)){
     formaskSieve[rc %in% excludeID] <- NA
     fw<-mask(fw, formaskSieve)
     
+    fw
+    
     # convert to a vector
     fw_poly<- sf::as_Spatial(sf::st_as_sf(stars::st_as_stars(fw), 
                                           as_points = FALSE, merge = TRUE)) 
+    
+
     # fill holes 
     area_thresh <- units::set_units(40460, m^2) #Fill holes, 10 acres (rounded down to nearest 5th decimal )
     fw_fill<- fill_holes(fw_poly, threshold = area_thresh)
