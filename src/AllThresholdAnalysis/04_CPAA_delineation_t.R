@@ -129,9 +129,6 @@ names(cpaa_field_set)<-names(thresh_list_ill_f)
     drop_polygons<-drop_crumbs(shrink, area_thresh, drop_empty = TRUE) }
     
 
-  
-
-  
 cpaa_final_batch<-list()
 for(layer in 1:length(cpaa_field_set)){
  fw_analysis<-cpaa_field_set[[layer]]
@@ -145,10 +142,6 @@ for(layer in 1:length(cpaa_field_set)){
   
 
 
-  
- 
-  
- 
 #### Michigan Delineation ----
 # county_fw_sets<-list()
 # thresh_list<-thresh_list_mi
