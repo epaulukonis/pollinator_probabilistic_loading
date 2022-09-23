@@ -29,9 +29,11 @@ wi_caps<-mi_caps[!wi_caps$Year %in% unique(wi_coa$Year),]
 
 
 #combine caps and coa data
+ill_nass<-rbind(ill_coa,ill_caps)
 mi_nass<-rbind(mi_coa,mi_caps)
 wi_nass<-rbind(wi_coa,wi_caps)
 
+ill_nass<-ill_nass[order(ill_nass$Year),]
 mi_nass<-mi_nass[order(mi_nass$Year),]
 wi_nass<-wi_nass[order(wi_nass$Year),]
 
@@ -40,19 +42,45 @@ wi_nass<-wi_nass[order(wi_nass$Year),]
 
 cdlkey<-read.csv(paste0(cdl_dir,"/CDL_key.csv")) #cdl key
 
-print(list.files(path=cdl_mi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE)) #issue is I stuck those tif files in there
-print(cdl_mi_dir)
-cdl_data_mi <- file.path(cdl_mi_dir, list.files(path=cdl_mi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-cdl_data_mi<-lapply(cdl_data_mi, raster) #create list of cdl rasters 
 
 
-print(list.files(path=cdl_wi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-print(cdl_wi_dir)
-cdl_data_wi <- file.path(cdl_wi_dir, list.files(path=cdl_wi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-cdl_data_wi<-lapply(cdl_data_wi, raster) #create list of cdl rasters 
+
+print(list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+ill_cpaa<- file.path(paste0(root_data_out, "/all_tif/ILLINOIS"), list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+ill_cpaa<-setNames(lapply(ill_cpaa, raster), tools::file_path_sans_ext(basename(ill_cpaa)))
+
+print(list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+mi_cpaa<- file.path(paste0(root_data_out, "/all_tif/MICHIGAN"), list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+mi_cpaa<-setNames(lapply(mi_cpaa, raster), tools::file_path_sans_ext(basename(mi_cpaa)))
+
+print(list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+wi_cpaa<- file.path(paste0(root_data_out, "/all_tif/WISCONSIN"), list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+wi_cpaa<-setNames(lapply(wi_cpaa, raster), tools::file_path_sans_ext(basename(wi_cpaa)))
+
+
+
+# print(list.files(path=cdl_mi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE)) #issue is I stuck those tif files in there
+# print(cdl_mi_dir)
+# cdl_data_mi <- file.path(cdl_mi_dir, list.files(path=cdl_mi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+# cdl_data_mi<-lapply(cdl_data_mi, raster) #create list of cdl rasters 
+# 
+# 
+# print(list.files(path=cdl_mi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE)) #issue is I stuck those tif files in there
+# print(cdl_mi_dir)
+# cdl_data_mi <- file.path(cdl_mi_dir, list.files(path=cdl_mi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+# cdl_data_mi<-lapply(cdl_data_mi, raster) #create list of cdl rasters 
+# 
+# 
+# print(list.files(path=cdl_wi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+# print(cdl_wi_dir)
+# cdl_data_wi <- file.path(cdl_wi_dir, list.files(path=cdl_wi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+# cdl_data_wi<-lapply(cdl_data_wi, raster) #create list of cdl rasters 
 
 years<-2008:2021
 
+avg_thresh_ill
+avg_thresh_mi
+avg_thresh_w
 
 
 #### first, let's get the actual threshold cutoffs for each year in the singular year data
@@ -65,8 +93,8 @@ colnames(print_thresholds_mi)<-c("threshold","county","state")
 print_thresholds_mi<-matrix(nrow=3,ncol=3,NA)
 colnames(print_thresholds_mi)<-c("threshold","county","state")
 
-for(n in 1:length(thresh_list_ill)){
-  csv<-thresh_list_mi[[n]]
+for(n in 1:length(avg_thresh_ill)){
+  csv<-avg_thresh_ill[[n]]
   n_thresh<-min(csv$bin)
   countyname<-csv[1,9]
   print_thresholds_mi[n,1]<-n_thresh
@@ -74,8 +102,8 @@ for(n in 1:length(thresh_list_ill)){
   print_thresholds_mi[n,3]<-'ILL'
 }
 
-for(n in 1:length(thresh_list_mi)){
-  csv<-thresh_list_mi[[n]]
+for(n in 1:length(avg_thresh_mi)){
+  csv<-avg_thresh_mi[[n]]
   n_thresh<-min(csv$bin)
   countyname<-csv[1,9]
   print_thresholds_mi[n,1]<-n_thresh
@@ -83,10 +111,9 @@ for(n in 1:length(thresh_list_mi)){
   print_thresholds_mi[n,3]<-'MI'
 }
 
-print_thresholds_wi<-matrix(nrow=3,ncol=3,NA)
-colnames(print_thresholds_wi)<-c("threshold","county","state")
-for(n in 1:length(thresh_list_mi)){
-  csv<-thresh_list_wi[[n]]
+
+for(n in 1:length(avg_thresh_wi)){
+  csv<-avg_thresh_wi[[n]]
   n_thresh<-min(csv$bin)
   countyname<-csv[1,9]
   print_thresholds_wi[n,1]<-n_thresh

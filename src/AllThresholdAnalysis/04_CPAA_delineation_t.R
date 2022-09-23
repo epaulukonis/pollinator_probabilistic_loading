@@ -121,7 +121,7 @@ for (c in 1:length(thresh_list_ill_f)){
   
 }
   
-names(cpaa_field_set)[1]<-names(thresh_list_ill_f)[1]
+#names(cpaa_field_set)[1]<-names(thresh_list_ill_f)[1]
 
   #add separate function for buffering and cleaning, drop crumbs < 10 acres, do buffer to smooth of 8 acres
   area_thresh <- units::set_units(40460, m^2) #drop crumbs below 10 acres
@@ -133,7 +133,6 @@ names(cpaa_field_set)[1]<-names(thresh_list_ill_f)[1]
 
 cpaa_final_batch<-list()
 for(layer in 1:length(cpaa_field_set)){
-  layer=1
  fw_analysis<-cpaa_field_set[[layer]]
  illinois_cpaa<-lapply(fw_analysis, expand_shrink_clean)
  cpaa_final_batch[[layer]]<-illinois_cpaa
