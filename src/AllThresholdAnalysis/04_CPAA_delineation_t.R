@@ -39,11 +39,9 @@ cpaa_field_set<-list()
 names(thresh_list_ill_f)<-c("Champaign","DuPage","McHenry")
 
 for (c in 1:length(thresh_list_ill_f)){
-  c<-1
   thresh_list<-thresh_list_ill_f[[c]]
   
   for (i in 1:length(thresh_list)){
-    i=1
     thresh_layers<-thresh_list[[i]]
     df_n<-thresh_layers[,c(1:2,8)]
 
@@ -123,7 +121,7 @@ for (c in 1:length(thresh_list_ill_f)){
   
 }
   
-names(cpaa_field_set)<-names(thresh_list_ill_f)
+names(cpaa_field_set)[1]<-names(thresh_list_ill_f)[1]
 
   #add separate function for buffering and cleaning, drop crumbs < 10 acres, do buffer to smooth of 8 acres
   area_thresh <- units::set_units(40460, m^2) #drop crumbs below 10 acres
@@ -135,11 +133,12 @@ names(cpaa_field_set)<-names(thresh_list_ill_f)
 
 cpaa_final_batch<-list()
 for(layer in 1:length(cpaa_field_set)){
+  layer=1
  fw_analysis<-cpaa_field_set[[layer]]
  illinois_cpaa<-lapply(fw_analysis, expand_shrink_clean)
  cpaa_final_batch[[layer]]<-illinois_cpaa
  for(cpaa in 1:length(illinois_cpaa)){
- writeOGR(illinois_cpaa[[cpaa]], paste0(root_data_out, "/all_tif/ILLINOIS/CPAA)"), paste0(names(cpaa_field_set[[layer]]),"_threshold",cpaa), driver = "ESRI Shapefile")
+ writeOGR(illinois_cpaa[[cpaa]], paste0(root_data_out, "/all_tif/ILLINOIS/CPAA"), paste0(names(cpaa_field_set[layer]),"_threshold",cpaa), driver = "ESRI Shapefile")
 
  }
 }
