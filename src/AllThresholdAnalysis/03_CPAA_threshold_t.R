@@ -96,10 +96,12 @@ thresh_list_by_county_ill<-list() #contains all the datasets by county
 thresh_list_by_year_ill<-list() #contains all the datasets by yar
 
   for(item in 1:length(county_list)){ #this loop pulls out the county in the three county list
+    item=3
     county<-county_list[[item]]
-    
+
     for(year in 1:14){ #this loop calculates the threshold data for each individual year, and sticks that in the list
-      y<-county
+     year=13
+       y<-county
     s0 = brick(y)
     coords = coordinates(s0) 
     s1 = as.data.frame(getValues(s0))
@@ -138,6 +140,8 @@ thresh_list_by_year_ill<-list() #contains all the datasets by yar
     
     f<-paste0(root_data_out,'/all_thresh/Illinois/')
     write.csv(thresh_layers, paste0(f,names(county_list)[item],year_name,".csv"))
+    
+    write.csv(thresh_layers, paste0(f,names(county_list)[item],year_name,"test.csv"))
       }
     
    #thresh_list_by_county_ill[[county]]<-thresh_list_by_year_ill #this sticks the list of 14 threshold datasets into a list by county

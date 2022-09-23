@@ -27,7 +27,7 @@ if(file.exists(mi_cpaa_t) && file.exists(wi_cpaa_t) && file.exists(ill_cpaa_t)){
   
   print(list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
   wi_cpaa<- file.path(paste0(root_data_out, "/all_tif/WISCONSIN"), list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  wii_cpaa<-setNames(lapply(wi_cpaa, raster), tools::file_path_sans_ext(basename(wi_cpaa)))
+  wi_cpaa<-setNames(lapply(wi_cpaa, raster), tools::file_path_sans_ext(basename(wi_cpaa)))
 
 }else{
   
@@ -39,20 +39,19 @@ cpaa_field_set<-list()
 names(thresh_list_ill_f)<-c("Champaign","DuPage","McHenry")
 
 for (c in 1:length(thresh_list_ill_f)){
+  c<-1
   thresh_list<-thresh_list_ill_f[[c]]
   
-  for (y in 1:length(thresh_list)){
-    thresh_layers<-thresh_list[[y]]
+  for (i in 1:length(thresh_list)){
+    i=1
+    thresh_layers<-thresh_list[[i]]
     df_n<-thresh_layers[,c(1:2,8)]
 
     coordinates(df_n)<-~ x + y
     gridded(df_n)<-TRUE
     df_n<- raster(df_n)
     crs(df_n) <- crs(cdl_data_ill_rec[[1]])
-    #plot(df_n)
-    
-    df_n
-    
+
     #test 7 and 13, which is the minimum field size from the LACIE paper, and the minimum field size from Yan and Roy 2016
     # mask out NA areas here using NLCD
     # focal window of 3x3 pixels, or 7x7 (13)
@@ -60,31 +59,32 @@ for (c in 1:length(thresh_list_ill_f)){
     fw<- terra::focal(r, w = 13, fun = "modal",  na.policy='omit', fillvalue=NA)%>% 
       terra::mask(mask = r) 
     fw<-raster(fw) #convert back to raster object
+
     
     
   ##this part is somewhat complicated; here we need to match the nlcd with the year and county
     Ch<-'Champaign'
     Du<-'DuPage'
     Mc<-'McHenry'
+    
       
-    if(i <= 2 && grepl(Ch, names(thresh_list_ill_f[[1]]), fixed = TRUE)){nlcd<-nlcd_ill[[1]]} 
-    if(i >2 && i <=4 && grepl(Ch, names(thresh_list_ill_f[[1]]), fixed = TRUE)){nlcd<-nlcd_ill[[2]]} 
-    if(i >4 && i <=7 && grepl(Ch, names(thresh_list_ill_f[[1]]), fixed = TRUE)){nlcd<-nlcd_ill[[3]]} 
-    if(i >7 && i <=10 && grepl(Ch, names(thresh_list_ill_f[[1]]), fixed = TRUE)){nlcd<-nlcd_ill[[4]]} 
-    if(i >10 && grepl(Ch, names(thresh_list_ill_f[[1]]), fixed = TRUE)){nlcd<-nlcd_ill[[5]]}
+    if(i <= 2 && grepl(Ch, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[1]]} 
+    if(i >2 && i <=4 && grepl(Ch, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[2]]} 
+    if(i >4 && i <=7 && grepl(Ch, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[3]]} 
+    if(i >7 && i <=10 && grepl(Ch, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[4]]} 
+    if(i >10 && grepl(Ch, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[5]]}
     
-    if(i <= 2 && grepl(Du, names(thresh_list_ill_f[[2]]), fixed = TRUE)){nlcd<-nlcd_ill[[6]]} 
-    if(i >2 && i <=4 && grepl(Du, names(thresh_list_ill_f[[2]]), fixed = TRUE)){nlcd<-nlcd_ill[[7]]} 
-    if(i >4 && i <=7 && grepl(Du, names(thresh_list_ill_f[[2]]), fixed = TRUE)){nlcd<-nlcd_ill[[8]]} 
-    if(i >7 && i <=10 && grepl(Du, names(thresh_list_ill_f[[2]]), fixed = TRUE)){nlcd<-nlcd_ill[[9]]} 
-    if(i >10 && grepl(Du, names(thresh_list_ill_f[[2]]), fixed = TRUE)){nlcd<-nlcd_ill[[10]]}
-    
-    
-    if(i <= 2 && grepl(Mc, names(thresh_list_ill_f[[3]]), fixed = TRUE)){nlcd<-nlcd_ill[[11]]} 
-    if(i >2 && i <=4 && grepl(Mc, names(thresh_list_ill_f[[3]]), fixed = TRUE)){nlcd<-nlcd_ill[[12]]} 
-    if(i >4 && i <=7 && grepl(Mc, names(thresh_list_ill_f[[3]]), fixed = TRUE)){nlcd<-nlcd_ill[[13]]} 
-    if(i >7 && i <=10 && grepl(Mc, names(thresh_list_ill_f[[3]]), fixed = TRUE)){nlcd<-nlcd_ill[[14]]} 
-    if(i >10 && grepl(Mc, names(thresh_list_ill_f[[3]]), fixed = TRUE)){nlcd<-nlcd_ill[[15]]}
+    if(i <= 2 && grepl(Du, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[6]]} 
+    if(i >2 && i <=4 && grepl(Du, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[7]]} 
+    if(i >4 && i <=7 && grepl(Du, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[8]]} 
+    if(i >7 && i <=10 && grepl(Du, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[9]]} 
+    if(i >10 && grepl(Du, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[10]]}
+
+    if(i <= 2 && grepl(Mc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[11]]} 
+    if(i >2 && i <=4 && grepl(Mc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[12]]} 
+    if(i >4 && i <=7 && grepl(Mc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[13]]} 
+    if(i >7 && i <=10 && grepl(Mc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[14]]} 
+    if(i >10 && grepl(Mc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[15]]}
     
     ext<-extent(nlcd)
     fw<-setExtent(fw, ext)
@@ -102,9 +102,7 @@ for (c in 1:length(thresh_list_ill_f)){
     # assign NA to all clumps whose IDs are found in excludeID
     formaskSieve[rc %in% excludeID] <- NA
     fw<-mask(fw, formaskSieve)
-    
-    fw
-    
+
     # convert to a vector
     fw_poly<- sf::as_Spatial(sf::st_as_sf(stars::st_as_stars(fw), 
                                           as_points = FALSE, merge = TRUE)) 
@@ -115,7 +113,8 @@ for (c in 1:length(thresh_list_ill_f)){
     fw_fill<- fill_holes(fw_poly, threshold = area_thresh)
     #plot(fw_fill)
     
-    fw_sets[[y]]<-fw_fill
+    
+    fw_sets[[i]]<-fw_fill
     names(fw_sets)<-names(thresh_list_ill_f[c])
     
   }
