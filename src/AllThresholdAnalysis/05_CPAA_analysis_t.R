@@ -6,18 +6,21 @@
 
 
 #### Read in CoA and OG CDL
-
+ill_coa<-read.csv(paste0(coa_dir,"/CoA_ILL.csv"))
 mi_coa<-read.csv(paste0(coa_dir,"/CoA_MI.csv"))
 wi_coa<-read.csv(paste0(coa_dir,"/CoA_WIS.csv"))
 
-#sub the years for 2008 to be 2007, the last census prior to CDL
 
+#sub the years for 2008 to be 2007, the last census prior to CDL
+ill_coa$Year[ill_coa$Year ==2007 ] <- 2008
 mi_coa$Year[mi_coa$Year ==2007 ] <- 2008
 wi_coa$Year[wi_coa$Year ==2007 ] <- 2008
 
+ill_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_ill.csv"))
 mi_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_MI.csv"))
 wi_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_WIS.csv"))
 
+ill_caps<-ill_caps[!ill_caps$Year %in% unique(ill_coa$Year),]
 mi_caps<-mi_caps[!mi_caps$Year %in% unique(mi_coa$Year),]
 wi_caps<-mi_caps[!wi_caps$Year %in% unique(wi_coa$Year),]
 
@@ -52,9 +55,25 @@ years<-2008:2021
 
 
 
-#### first, let's get the actual threshold cutoffs for each year 
+#### first, let's get the actual threshold cutoffs for each year in the singular year data
 print_thresholds_mi<-matrix(nrow=3,ncol=3,NA)
 colnames(print_thresholds_mi)<-c("threshold","county","state")
+
+print_thresholds_mi<-matrix(nrow=3,ncol=3,NA)
+colnames(print_thresholds_mi)<-c("threshold","county","state")
+
+print_thresholds_mi<-matrix(nrow=3,ncol=3,NA)
+colnames(print_thresholds_mi)<-c("threshold","county","state")
+
+for(n in 1:length(thresh_list_ill)){
+  csv<-thresh_list_mi[[n]]
+  n_thresh<-min(csv$bin)
+  countyname<-csv[1,9]
+  print_thresholds_mi[n,1]<-n_thresh
+  print_thresholds_mi[n,2]<-countyname
+  print_thresholds_mi[n,3]<-'ILL'
+}
+
 for(n in 1:length(thresh_list_mi)){
   csv<-thresh_list_mi[[n]]
   n_thresh<-min(csv$bin)
@@ -75,7 +94,7 @@ for(n in 1:length(thresh_list_mi)){
   print_thresholds_wi[n,3]<-'WI'
 }
 
-print_thresh<-as.data.frame(rbind(print_thresholds_mi,print_thresholds_wi))
+print_thresh<-as.data.frame(rbind(print_thresholds_ill, print_thresholds_mi,print_thresholds_wi))
 
 
 
