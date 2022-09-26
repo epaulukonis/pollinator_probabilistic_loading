@@ -21,17 +21,17 @@ if(file.exists(thresh_ill_filename)){
     thresh_list_ill<-lapply(thresh_list_ill, function(y) { y["X"] <- NULL; y })
     
     # 
-    # thresh_list_ill_f<-list()
-    # thresh_list_ill_f[[1]]<-thresh_list_ill[1:14]
-    # thresh_list_ill_f[[2]]<-thresh_list_ill[15:28]
-    # thresh_list_ill_f[[3]]<-thresh_list_ill[29:42]
+    thresh_list_ill_f<-list()
+    thresh_list_ill_f[[1]]<-thresh_list_ill[1:14]
+    thresh_list_ill_f[[2]]<-thresh_list_ill[15:28]
+    thresh_list_ill_f[[3]]<-thresh_list_ill[29:42]
     # 
     # 
     # #test block
-    thresh_list_ill_f<-list()
-    thresh_list_ill_f[[1]]<-thresh_list_ill[1:2]
-    thresh_list_ill_f[[2]]<-thresh_list_ill[3:4]
-    thresh_list_ill_f[[3]]<-thresh_list_ill[5:6]
+    # thresh_list_ill_f<-list()
+    # thresh_list_ill_f[[1]]<-thresh_list_ill[1:2]
+    # thresh_list_ill_f[[2]]<-thresh_list_ill[3:4]
+    # thresh_list_ill_f[[3]]<-thresh_list_ill[5:6]
     # 
     # 
     f<-paste0(root_data_out, "/all_NLCD/Illinois")
@@ -96,11 +96,9 @@ thresh_list_by_county_ill<-list() #contains all the datasets by county
 thresh_list_by_year_ill<-list() #contains all the datasets by yar
 
   for(item in 1:length(county_list)){ #this loop pulls out the county in the three county list
-    item=3
     county<-county_list[[item]]
 
     for(year in 1:14){ #this loop calculates the threshold data for each individual year, and sticks that in the list
-     year=13
        y<-county
     s0 = brick(y)
     coords = coordinates(s0) 
