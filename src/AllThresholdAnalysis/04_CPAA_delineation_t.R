@@ -104,8 +104,6 @@ for (c in 1:length(thresh_list_ill_f)){
     # convert to a vector
     fw_poly<- sf::as_Spatial(sf::st_as_sf(stars::st_as_stars(fw), 
                                           as_points = FALSE, merge = TRUE)) 
-    
-
     # fill holes 
     area_thresh <- units::set_units(40460, m^2) #Fill holes, 10 acres (rounded down to nearest 5th decimal )
     fw_fill<- fill_holes(fw_poly, threshold = area_thresh)
@@ -135,9 +133,9 @@ cpaa_final_batch<-list()
 for(layer in 1:length(cpaa_field_set)){
  fw_analysis<-cpaa_field_set[[layer]]
  illinois_cpaa<-lapply(fw_analysis, expand_shrink_clean)
- cpaa_final_batch[[layer]]<-illinois_cpaa
+ #cpaa_final_batch[[layer]]<-illinois_cpaa
  for(cpaa in 1:length(illinois_cpaa)){
- writeOGR(illinois_cpaa[[cpaa]], paste0(root_data_out, "/all_tif/ILLINOIS/CPAA"), paste0(names(cpaa_field_set[layer]),"_threshold",cpaa), driver = "ESRI Shapefile")
+ writeOGR(illinois_cpaa[[cpaa]], paste0(root_data_out, "/all_tif/ILLINOIS/CPAA"), paste0(names(cpaa_field_set[[layer]]),"_threshold",cpaa), driver = "ESRI Shapefile")
 
  }
 }
