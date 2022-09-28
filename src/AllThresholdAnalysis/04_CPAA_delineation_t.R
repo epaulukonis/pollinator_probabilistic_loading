@@ -146,7 +146,7 @@ if(file.exists(mi_cpaa_t) && file.exists(wi_cpaa_t) && file.exists(ill_cpaa_t)){
 fw_sets<-list()
 cpaa_field_set<-list()
 
-names(thresh_list_mi_f)<-c("Huron", "Oceana", "Van Buren") 
+names(thresh_list_mi_f)<-c("Huron", "Oceana", "VanBuren") 
 
 for (c in 1:length(thresh_list_mi_f)){
   thresh_list<-thresh_list_mi_f[[c]]
@@ -173,7 +173,7 @@ for (c in 1:length(thresh_list_mi_f)){
     ##this part is somewhat complicated; here we need to match the nlcd with the year and county
     hu<-'Huron'
     oc<-'Oceana'
-    vb<-'Van Buren'
+    vb<-'VanBuren'
     
     
     if(i <= 2 && grepl(hu, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[1]]} 

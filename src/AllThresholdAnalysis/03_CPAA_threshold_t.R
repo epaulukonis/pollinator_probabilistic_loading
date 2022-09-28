@@ -190,7 +190,7 @@ if(file.exists(thresh_mi_filename)){
   print(list.files(path=paste0(root_data_out,"/all_thresh/Michigan"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
   thresh_mi<- file.path(paste0(root_data_out,"/all_thresh/Michigan"), list.files(path=paste0(root_data_out,"/all_thresh/Michigan"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
   thresh_list_mi<-setNames(lapply(thresh_mi, read.csv), tools::file_path_sans_ext(basename(thresh_mi)))
-  thresh_list_mi<-lapply(thresh_list_ill, function(y) { y["X"] <- NULL; y })
+  thresh_list_mi<-lapply(thresh_list_mi, function(y) { y["X"] <- NULL; y })
   
   thresh_list_mi_f<-list()
   thresh_list_mi_f[[1]]<-thresh_list_mi[1:14]
@@ -202,6 +202,8 @@ if(file.exists(thresh_mi_filename)){
   print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
   nlcd_mi<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
   nlcd_mi<-setNames(lapply(nlcd_mi, raster), tools::file_path_sans_ext(basename(nlcd_mi)))
+  
+  nlcd_mi
   
 }else{
   study<-mi
