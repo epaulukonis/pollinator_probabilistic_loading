@@ -186,8 +186,7 @@ thresh_list_by_year_ill<-list() #contains all the datasets by yar
 ##### Michigan ----
 thresh_mi_filename<-paste0(root_data_out, "/all_thresh/Michigan/VanBuren2008.csv")
 if(file.exists(thresh_mi_filename)){
-  
-  
+
   print(list.files(path=paste0(root_data_out,"/all_thresh/Michigan"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
   thresh_mi<- file.path(paste0(root_data_out,"/all_thresh/Michigan"), list.files(path=paste0(root_data_out,"/all_thresh/Michigan"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
   thresh_list_mi<-setNames(lapply(thresh_mi, read.csv), tools::file_path_sans_ext(basename(thresh_mi)))
@@ -348,16 +347,16 @@ if(file.exists(thresh_wi_filename)){
   thresh_list_wi<-lapply(thresh_wi, read.csv)
   thresh_list_wi<-lapply(thresh_list_wi, function(y) { y["X"] <- NULL; y })
   
-  # print(list.files(path=paste0(root_data_out,"/all_tif/Illinois"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  # thresh_rasters <- file.path(paste0(root_data_out,"/all_tif/Illinois"), list.files(path=paste0(root_data_out,"/all_tif/Illinois"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  # ill_county_list<-lapply(thresh_rasters, raster)
+  thresh_list_wi_f<-list()
+  thresh_list_wi_f[[1]]<-thresh_list_wi[1:14]
+  thresh_list_wi_f[[2]]<-thresh_list_wi[15:28]
+  thresh_list_wi_f[[3]]<-thresh_list_wi[29:42]
   
-  
-  # f<-paste0(root_data_out, "/all_NLCD/Michigan")
-  # print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  # nlcd_ill<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  # nlcd_ill<-lapply(nlcd_ill, raster)
-  # 
+  f<-paste0(root_data_out, "/all_NLCD/Wisconsin")
+  print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  nlcd_wi<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  nlcd_wi<-lapply(nlcd_wi, raster)
+
   
 }else{
   study<-wi
