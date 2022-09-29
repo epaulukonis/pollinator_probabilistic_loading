@@ -143,112 +143,112 @@ if(file.exists(mi_cpaa_t) && file.exists(wi_cpaa_t) && file.exists(ill_cpaa_t)){
 
 
 #### Michigan Delineation ----
-fw_sets<-list()
-cpaa_field_set<-list()
-
-names(thresh_list_mi_f)<-c("Huron", "Oceana", "VanBuren") 
-
-for (c in 1:length(thresh_list_mi_f)){
-  thresh_list<-thresh_list_mi_f[[c]]
-  
-  for (i in 1:length(thresh_list)){
-    thresh_layers<-thresh_list[[i]]
-    df_n<-thresh_layers[,c(1:2,8)]
-    
-    coordinates(df_n)<-~ x + y
-    gridded(df_n)<-TRUE
-    df_n<- raster(df_n)
-    crs(df_n) <- crs(cdl_data_mi_rec[[1]])
-    
-    #test 7 and 13, which is the minimum field size from the LACIE paper, and the minimum field size from Yan and Roy 2016
-    # mask out NA areas here using NLCD
-    # focal window of 3x3 pixels, or 7x7 (13)
-    r<-terra::rast(df_n)
-    fw<- terra::focal(r, w = 13, fun = "modal",  na.policy='omit', fillvalue=NA)%>% 
-      terra::mask(mask = r) 
-    fw<-raster(fw) #convert back to raster object
-    
-    
-    
-    ##this part is somewhat complicated; here we need to match the nlcd with the year and county
-    hu<-'Huron'
-    oc<-'Oceana'
-    vb<-'VanBuren'
-    
-    
-    if(i <= 2 && grepl(hu, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[1]]} 
-    if(i >2 && i <=4 && grepl(hu, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[2]]} 
-    if(i >4 && i <=7 && grepl(hu, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[3]]} 
-    if(i >7 && i <=10 && grepl(hu, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[4]]} 
-    if(i >10 && grepl(hu, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[5]]}
-    
-    if(i <= 2 && grepl(oc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[6]]} 
-    if(i >2 && i <=4 && grepl(oc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[7]]} 
-    if(i >4 && i <=7 && grepl(oc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[8]]} 
-    if(i >7 && i <=10 && grepl(oc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[9]]} 
-    if(i >10 && grepl(oc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[10]]}
-    
-    if(i <= 2 && grepl(vb, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[11]]} 
-    if(i >2 && i <=4 && grepl(vb, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[12]]} 
-    if(i >4 && i <=7 && grepl(vb, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[13]]} 
-    if(i >7 && i <=10 && grepl(vb, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[14]]} 
-    if(i >10 && grepl(vb, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[15]]}
-    
-    ext<-extent(nlcd)
-    fw<-setExtent(fw, ext)
-    fw<-crop(fw, nlcd)
-    fw<-projectRaster(fw, nlcd, method='ngb',crs(nlcd))
-    fw<-mask(fw, nlcd) #mask out by NLCD NA here
-    
-    
-    # this evaluates and removes clumps of pixels (nearest neighbor =  8)
-    rc <- clump(fw, directions = 8) 
-    f<-freq(rc)
-    f<-as.data.frame(f)
-    excludeID <- f$value[which(f$count <= 9)] #remove pixel clump of 9 or fewer (this was visual inspection based)
-    formaskSieve <- rc
-    # assign NA to all clumps whose IDs are found in excludeID
-    formaskSieve[rc %in% excludeID] <- NA
-    fw<-mask(fw, formaskSieve)
-    
-    # convert to a vector
-    fw_poly<- sf::as_Spatial(sf::st_as_sf(stars::st_as_stars(fw), 
-                                          as_points = FALSE, merge = TRUE)) 
-    # fill holes 
-    area_thresh <- units::set_units(40460, m^2) #Fill holes, 10 acres (rounded down to nearest 5th decimal )
-    fw_fill<- fill_holes(fw_poly, threshold = area_thresh)
-    #plot(fw_fill)
-
-    fw_sets[[i]]<-fw_fill
-    names(fw_sets)<-names(thresh_list_mi_f[c])
-    
-  }
-  
-  cpaa_field_set[[c]]<-fw_sets
-  
-}
+# fw_sets<-list()
+# cpaa_field_set<-list()
+# 
+# names(thresh_list_mi_f)<-c("Huron", "Oceana", "VanBuren") 
+# 
+# for (c in 1:length(thresh_list_mi_f)){
+#   thresh_list<-thresh_list_mi_f[[c]]
+#   
+#   for (i in 1:length(thresh_list)){
+#     thresh_layers<-thresh_list[[i]]
+#     df_n<-thresh_layers[,c(1:2,8)]
+#     
+#     coordinates(df_n)<-~ x + y
+#     gridded(df_n)<-TRUE
+#     df_n<- raster(df_n)
+#     crs(df_n) <- crs(cdl_data_mi_rec[[1]])
+#     
+#     #test 7 and 13, which is the minimum field size from the LACIE paper, and the minimum field size from Yan and Roy 2016
+#     # mask out NA areas here using NLCD
+#     # focal window of 3x3 pixels, or 7x7 (13)
+#     r<-terra::rast(df_n)
+#     fw<- terra::focal(r, w = 13, fun = "modal",  na.policy='omit', fillvalue=NA)%>% 
+#       terra::mask(mask = r) 
+#     fw<-raster(fw) #convert back to raster object
+#     
+#     
+#     
+#     ##this part is somewhat complicated; here we need to match the nlcd with the year and county
+#     hu<-'Huron'
+#     oc<-'Oceana'
+#     vb<-'VanBuren'
+#     
+#     
+#     if(i <= 2 && grepl(hu, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[1]]} 
+#     if(i >2 && i <=4 && grepl(hu, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[2]]} 
+#     if(i >4 && i <=7 && grepl(hu, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[3]]} 
+#     if(i >7 && i <=10 && grepl(hu, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[4]]} 
+#     if(i >10 && grepl(hu, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[5]]}
+#     
+#     if(i <= 2 && grepl(oc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[6]]} 
+#     if(i >2 && i <=4 && grepl(oc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[7]]} 
+#     if(i >4 && i <=7 && grepl(oc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[8]]} 
+#     if(i >7 && i <=10 && grepl(oc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[9]]} 
+#     if(i >10 && grepl(oc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[10]]}
+#     
+#     if(i <= 2 && grepl(vb, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[11]]} 
+#     if(i >2 && i <=4 && grepl(vb, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[12]]} 
+#     if(i >4 && i <=7 && grepl(vb, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[13]]} 
+#     if(i >7 && i <=10 && grepl(vb, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[14]]} 
+#     if(i >10 && grepl(vb, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_mi[[15]]}
+#     
+#     ext<-extent(nlcd)
+#     fw<-setExtent(fw, ext)
+#     fw<-crop(fw, nlcd)
+#     fw<-projectRaster(fw, nlcd, method='ngb',crs(nlcd))
+#     fw<-mask(fw, nlcd) #mask out by NLCD NA here
+#     
+#     
+#     # this evaluates and removes clumps of pixels (nearest neighbor =  8)
+#     rc <- clump(fw, directions = 8) 
+#     f<-freq(rc)
+#     f<-as.data.frame(f)
+#     excludeID <- f$value[which(f$count <= 9)] #remove pixel clump of 9 or fewer (this was visual inspection based)
+#     formaskSieve <- rc
+#     # assign NA to all clumps whose IDs are found in excludeID
+#     formaskSieve[rc %in% excludeID] <- NA
+#     fw<-mask(fw, formaskSieve)
+#     
+#     # convert to a vector
+#     fw_poly<- sf::as_Spatial(sf::st_as_sf(stars::st_as_stars(fw), 
+#                                           as_points = FALSE, merge = TRUE)) 
+#     # fill holes 
+#     area_thresh <- units::set_units(40460, m^2) #Fill holes, 10 acres (rounded down to nearest 5th decimal )
+#     fw_fill<- fill_holes(fw_poly, threshold = area_thresh)
+#     #plot(fw_fill)
+# 
+#     fw_sets[[i]]<-fw_fill
+#     names(fw_sets)<-names(thresh_list_mi_f[c])
+#     
+#   }
+#   
+#   cpaa_field_set[[c]]<-fw_sets
+#   
+# }
 
 #names(cpaa_field_set)[1]<-names(thresh_list_ill_f)[1]
 
 #add separate function for buffering and cleaning, drop crumbs < 10 acres, do buffer to smooth of 8 acres
-area_thresh <- units::set_units(40460, m^2) #drop crumbs below 10 acres
-expand_shrink_clean<-function(x){
-  expand<-gBuffer(x, width=180, byid=T) # 6 pixel expand to smooth (~8 acres)
-  shrink<-gBuffer(expand, width=-180, byid=T) #6 pixel shrink to smooth (~8 acres)
-  drop_polygons<-drop_crumbs(shrink, area_thresh, drop_empty = TRUE) }
-
-
-cpaa_final_batch<-list()
-for(layer in 1:length(cpaa_field_set)){
-  fw_analysis<-cpaa_field_set[[layer]]
-  michigan_cpaa<-lapply(fw_analysis, expand_shrink_clean)
-  #cpaa_final_batch[[layer]]<-illinois_cpaa
-  for(cpaa in 1:length(michigan_cpaa)){
-    writeOGR(michigan_cpaa[[cpaa]], paste0(root_data_out, "/all_tif/MICHIGAN/CPAA"), paste0(names(cpaa_field_set[[layer]]),"_threshold",cpaa), driver = "ESRI Shapefile")
-    
-  }
-}
-
+# area_thresh <- units::set_units(40460, m^2) #drop crumbs below 10 acres
+# expand_shrink_clean<-function(x){
+#   expand<-gBuffer(x, width=180, byid=T) # 6 pixel expand to smooth (~8 acres)
+#   shrink<-gBuffer(expand, width=-180, byid=T) #6 pixel shrink to smooth (~8 acres)
+#   drop_polygons<-drop_crumbs(shrink, area_thresh, drop_empty = TRUE) }
+# 
+# 
+# cpaa_final_batch<-list()
+# for(layer in 1:length(cpaa_field_set)){
+#   fw_analysis<-cpaa_field_set[[layer]]
+#   michigan_cpaa<-lapply(fw_analysis, expand_shrink_clean)
+#   #cpaa_final_batch[[layer]]<-illinois_cpaa
+#   for(cpaa in 1:length(michigan_cpaa)){
+#     writeOGR(michigan_cpaa[[cpaa]], paste0(root_data_out, "/all_tif/MICHIGAN/CPAA"), paste0(names(cpaa_field_set[[layer]]),"_threshold",cpaa), driver = "ESRI Shapefile")
+#     
+#   }
+# }
+# 
 
 
 

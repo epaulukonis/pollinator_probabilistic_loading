@@ -184,7 +184,7 @@ thresh_list_by_year_ill<-list() #contains all the datasets by yar
 
 
 ##### Michigan ----
-thresh_mi_filename<-paste0(root_data_out, "/all_thresh/Michigan/VanBuren2008.csv")
+thresh_mi_filename<-paste0(root_data_out, "/all_thresh/Michigan/VanBuren2020.csv")
 if(file.exists(thresh_mi_filename)){
 
   print(list.files(path=paste0(root_data_out,"/all_thresh/Michigan"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
@@ -192,18 +192,23 @@ if(file.exists(thresh_mi_filename)){
   thresh_list_mi<-setNames(lapply(thresh_mi, read.csv), tools::file_path_sans_ext(basename(thresh_mi)))
   thresh_list_mi<-lapply(thresh_list_mi, function(y) { y["X"] <- NULL; y })
   
-  thresh_list_mi_f<-list()
-  thresh_list_mi_f[[1]]<-thresh_list_mi[1:14]
-  thresh_list_mi_f[[2]]<-thresh_list_mi[15:28]
-  thresh_list_mi_f[[3]]<-thresh_list_mi[29:42]
-
+  # #test block
+  # thresh_list_mi_f<-list()
+  # thresh_list_mi_f[[1]]<-thresh_list_mi[1:2]
+  # thresh_list_mi_f[[2]]<-thresh_list_mi[3:4]
+  # thresh_list_mi_f[[3]]<-thresh_list_mi[5:6]
+  
+  
+  # thresh_list_mi_f<-list()
+  # thresh_list_mi_f[[1]]<-thresh_list_mi[1:14]
+  # thresh_list_mi_f[[2]]<-thresh_list_mi[15:28]
+  # thresh_list_mi_f[[3]]<-thresh_list_mi[29:42]
 
   f<-paste0(root_data_out, "/all_NLCD/Michigan")
   print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
   nlcd_mi<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
   nlcd_mi<-setNames(lapply(nlcd_mi, raster), tools::file_path_sans_ext(basename(nlcd_mi)))
   
-  nlcd_mi
   
 }else{
   study<-mi
@@ -357,7 +362,7 @@ if(file.exists(thresh_wi_filename)){
   f<-paste0(root_data_out, "/all_NLCD/Wisconsin")
   print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
   nlcd_wi<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  nlcd_wi<-lapply(nlcd_wi, raster)
+  nlcd_wi<- setNames(lapply(nlcd_wi, raster), tools::file_path_sans_ext(basename(nlcd_wi)))
 
   
 }else{
