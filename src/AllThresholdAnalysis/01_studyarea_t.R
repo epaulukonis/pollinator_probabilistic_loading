@@ -7,33 +7,33 @@
 import_start_time <- Sys.time()
 print("stepping into 01_studyarea_c.R")
 
-# input state and species data
-print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE)) #state
-print(list.files(path=bombus_dir, all.files=TRUE, full.names=FALSE)) #species
-
-
-#rpbb_states<-readOGR(state_dir, layer = 'RPBB_states') #read in US counties
-
-# get species potential zones
-bomb_h <- readOGR(bombus_dir, layer = "RPBB_High_Potential_Zones_03172021")
-# bomb_l <- readOGR(bombus_dir, layer = "RPBB_Low_Potential_Zones_03172021")
-#h_range <- readOGR(bombus_dir, layer = "RPBB_US_range") 
-#rpbb_study<-readOGR(state_dir, layer = "IL_BNDY_County_Py") #read in states
-
-#h_range<-spTransform(h_range, crs(bomb_h)) #reproject 
-#ill<-spTransform(rpbb_study, crs(bomb_h)) #reproject 
-
-crs_bh<-crs(bomb_h)
-rm(bomb_h)
-
-all_states<-readOGR(state_dir, layer = "tl_2021_us_county") #read in states
-all_states<-spTransform(all_states, crs_bh) #reproject 
-
-ill<-all_states[all_states$STATEFP == "17",]
-mi<-all_states[all_states$STATEFP == "26",]
-wi<-all_states[all_states$STATEFP == "55",]
-
-rm(all_states)
+# # input state and species data
+# print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE)) #state
+# print(list.files(path=bombus_dir, all.files=TRUE, full.names=FALSE)) #species
+# 
+# 
+# #rpbb_states<-readOGR(state_dir, layer = 'RPBB_states') #read in US counties
+# 
+# # get species potential zones
+# bomb_h <- readOGR(bombus_dir, layer = "RPBB_High_Potential_Zones_03172021")
+# # bomb_l <- readOGR(bombus_dir, layer = "RPBB_Low_Potential_Zones_03172021")
+# #h_range <- readOGR(bombus_dir, layer = "RPBB_US_range") 
+# #rpbb_study<-readOGR(state_dir, layer = "IL_BNDY_County_Py") #read in states
+# 
+# #h_range<-spTransform(h_range, crs(bomb_h)) #reproject 
+# #ill<-spTransform(rpbb_study, crs(bomb_h)) #reproject 
+# 
+# crs_bh<-crs(bomb_h)
+# rm(bomb_h)
+# 
+# all_states<-readOGR(state_dir, layer = "tl_2021_us_county") #read in states
+# all_states<-spTransform(all_states, crs_bh) #reproject 
+# 
+# ill<-all_states[all_states$STATEFP == "17",]
+# mi<-all_states[all_states$STATEFP == "26",]
+# wi<-all_states[all_states$STATEFP == "55",]
+# 
+# rm(all_states)
 
 
 #read in NLCD

@@ -199,10 +199,10 @@ if(file.exists(thresh_mi_filename)){
   # thresh_list_mi_f[[3]]<-thresh_list_mi[5:6]
   
   
-  # thresh_list_mi_f<-list()
-  # thresh_list_mi_f[[1]]<-thresh_list_mi[1:14]
-  # thresh_list_mi_f[[2]]<-thresh_list_mi[15:28]
-  # thresh_list_mi_f[[3]]<-thresh_list_mi[29:42]
+  thresh_list_mi_f<-list()
+  thresh_list_mi_f[[1]]<-thresh_list_mi[1:14]
+  thresh_list_mi_f[[2]]<-thresh_list_mi[15:28]
+  thresh_list_mi_f[[3]]<-thresh_list_mi[29:42]
 
   f<-paste0(root_data_out, "/all_NLCD/Michigan")
   print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
@@ -346,13 +346,21 @@ if(file.exists(thresh_mi_filename)){
 
 
 ##### Wisconsin ----
-thresh_wi_filename<-paste0(root_data_out, "/all_thresh/Wisconsin/Waushara2008.csv")
+thresh_wi_filename<-paste0(root_data_out, "/all_thresh/Wisconsin/Waushara2020.csv")
 if(file.exists(thresh_wi_filename)){
   
   print(list.files(path=paste0(root_data_out,"/all_thresh/Wisconsin"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
   thresh_wi<- file.path(paste0(root_data_out,"/all_thresh/Wisconsin"), list.files(path=paste0(root_data_out,"/all_thresh/Wisconsin"), pattern='.csv$', all.files=TRUE, full.names=FALSE))
-  thresh_list_wi<-lapply(thresh_wi, read.csv)
+  thresh_list_wi<-setNames(lapply(thresh_wi, read.csv), tools::file_path_sans_ext(basename(thresh_wi)))
   thresh_list_wi<-lapply(thresh_list_wi, function(y) { y["X"] <- NULL; y })
+  
+  
+  # #test block
+  # thresh_list_wi_f<-list()
+  # thresh_list_wi_f[[1]]<-thresh_list_wi[1:2]
+  # thresh_list_wi_f[[2]]<-thresh_list_wi[3:4]
+  # thresh_list_wi_f[[3]]<-thresh_list_wi[5:6]
+  
   
   thresh_list_wi_f<-list()
   thresh_list_wi_f[[1]]<-thresh_list_wi[1:14]
