@@ -28,10 +28,10 @@ if(file.exists(thresh_ill_filename)){
     # 
     # 
     # #test block
-    # thresh_list_ill_f<-list()
-    # thresh_list_ill_f[[1]]<-thresh_list_ill[1:2]
-    # thresh_list_ill_f[[2]]<-thresh_list_ill[3:4]
-    # thresh_list_ill_f[[3]]<-thresh_list_ill[5:6]
+    thresh_list_ill_f<-list()
+    thresh_list_ill_f[[1]]<-thresh_list_ill[1:2]
+    thresh_list_ill_f[[2]]<-thresh_list_ill[3:4]
+    thresh_list_ill_f[[3]]<-thresh_list_ill[5:6]
     # 
     # 
     f<-paste0(root_data_out, "/all_NLCD/Illinois")
@@ -91,6 +91,7 @@ layer_list<-list()
 names(county_list)<-names_cc
 years<-2008:2021
 
+
 ##### CALCULATE THRESHOLD 
 thresh_list_by_county_ill<-list() #contains all the datasets by county
 thresh_list_by_year_ill<-list() #contains all the datasets by yar
@@ -139,7 +140,7 @@ thresh_list_by_year_ill<-list() #contains all the datasets by yar
     f<-paste0(root_data_out,'/all_thresh/Illinois/')
     write.csv(thresh_layers, paste0(f,names(county_list)[item],year_name,".csv"))
     
-    write.csv(thresh_layers, paste0(f,names(county_list)[item],year_name,"test.csv"))
+   # write.csv(thresh_layers, paste0(f,names(county_list)[item],year_name,"test.csv"))
       }
     
    #thresh_list_by_county_ill[[county]]<-thresh_list_by_year_ill #this sticks the list of 14 threshold datasets into a list by county

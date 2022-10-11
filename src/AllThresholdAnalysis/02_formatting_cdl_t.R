@@ -12,8 +12,8 @@ if(file.exists(cdl_rec_filename)){
   
   print(list.files(path=cdl_dir_adj, pattern='.tif$', all.files=TRUE, full.names=FALSE))
   cdl_data_ill_rec <- file.path(cdl_dir_adj, list.files(path=cdl_dir_adj, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  cdl_data_ill_rec<-lapply(cdl_data_ill_rec, raster) #create list of reclassed and stacked cdl rasters 
-  
+  cdl_data_ill_rec<-setNames(lapply(cdl_data_ill_rec, raster), tools::file_path_sans_ext(basename(cdl_data_ill_rec)))
+  cdl_data_ill_rec<-cdl_data_ill_rec[-c(1:9)] 
   print('the Illinois CDL has already been processed, it can be read in')
   
 }else{
@@ -97,7 +97,7 @@ if(file.exists(cdl_rec_filename)){
   
   print(list.files(path=paste0(cdl_mi_dir,"/rec_cdl"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
   cdl_data_mi_rec <- file.path(paste0(cdl_mi_dir,"/rec_cdl"), list.files(path=paste0(cdl_mi_dir,"/rec_cdl"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  cdl_data_mi_rec<-lapply(cdl_data_mi_rec, raster) #create list of reclassed and stacked cdl rasters 
+  cdl_data_mi_rec<-setNames(lapply(cdl_data_mi_rec, raster), tools::file_path_sans_ext(basename(cdl_data_mi_rec)))#create list of reclassed and stacked cdl rasters 
   
   print('the Michigan CDL has already been processed, it can be read in')
   
@@ -135,14 +135,13 @@ writeRaster(cdl_mi_rec[[layer]], file.path(f, names(cdl_mi_rec[[layer]])), forma
 
 
 
-
 ### Wisconsin-Specific ----
 cdl_rec_filename<-paste0(cdl_wi_dir, "/rec_cdl/CDL_2021_55.tif")
 if(file.exists(cdl_rec_filename)){
   
   print(list.files(path=paste0(cdl_wi_dir,"/rec_cdl"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
   cdl_data_wi_rec <- file.path(paste0(cdl_wi_dir,"/rec_cdl"), list.files(path=paste0(cdl_wi_dir,"/rec_cdl"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
-  cdl_data_wi_rec<-lapply(cdl_data_wi_rec, raster) #create list of reclassed and stacked cdl rasters 
+  cdl_data_wi_rec<-setNames(lapply(cdl_data_wi_rec, raster), tools::file_path_sans_ext(basename(cdl_data_wi_rec)))#create list of reclassed and stacked cdl rasters 
   
   print('the Wisconsin CDL has already been processed, it can be read in')
   

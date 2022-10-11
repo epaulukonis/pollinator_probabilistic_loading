@@ -31,3 +31,32 @@ f<-paste0(root_data_out, "/all_NLCD/Wisconsin")
 for(layer in 1:length(list_of_nlcd_masks_wi)){
   writeRaster(list_of_nlcd_masks_wi[[layer]], file.path(f, names(list_of_nlcd_masks_wi[[layer]])), format="GTiff", overwrite = TRUE)
 }
+
+
+
+# 
+# #code for trying to get intersection to work...another way?
+# cpaa<-cpaa_list_ill_f[[1]]
+# final_layer<-st_intersection(sf::st_as_sf(output_of_cleaning[[1]]),sf::st_as_sf(cpaa[[1]])) #let's get the areas in Illinois where they have high probability of distribution
+# 
+# area_thresh <- units::set_units(8100 , m^2) #2 acres for dropping polygons
+# drop_polygons<-drop_crumbs(shrink, area_thresh, drop_empty = TRUE)
+# 
+# setwd(root_data_out)
+# final_layer<-st_collection_extract(final_layer, "POLYGON")
+# st_write(final_layer,"test2.shp")
+# 
+# #writeRaster(fw_s, file.path(cdl_dir, "/fw_6_test.tif"), format="GTiff", overwrite = TRUE)
+# #writeOGR(output_of_cleaning[[3]], cdl_dir,  "output_sd_high_newn", driver = "ESRI Shapefile")
+# #we'll use the new vectors to look at focal window of sequences in each field above a certain size
+# 
+# 
+# 
+# writeOGR(output_of_cleaning[[1]], root_data_out,  "test_champaignesub3", driver = "ESRI Shapefile")
+# 
+# st_write(final_layer, paste0(root_data_out,"/test_inst.shp"))
+# 
+# 
+# 
+# 
+# writeOGR(output_of_cleaning[[3]], field_dir,  "high_sd_77", driver = "ESRI Shapefile")
