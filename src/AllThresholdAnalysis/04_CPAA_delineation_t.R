@@ -11,9 +11,9 @@ import_start_time <- Sys.time()
 print("stepping into 04_CPAA_delineation.R")
 options(scipen = 999) #remove exponent options, throws R off
 
-ill_cpaa_t<-paste0(root_data_out, "/all_tif/ILLINOIS/CPAA/Champaign_thresh1.shp")
-mi_cpaa_t<-paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Huron_thresh1.shp")
-wi_cpaa_t<-paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Langlade_thresh1.shp")
+ill_cpaa_t<-paste0(root_data_out, "/all_tif/ILLINOIS/CPAA/Champaign_threshold1.shp.shp")
+mi_cpaa_t<-paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Huron_threshhold1.shp")
+wi_cpaa_t<-paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Langlade_threshhold1.shp")
 
 if(file.exists(mi_cpaa_t) && file.exists(wi_cpaa_t) && file.exists(ill_cpaa_t)){
 
