@@ -12,12 +12,12 @@ print("stepping into 04_CPAA_delineation.R")
 options(scipen = 999) #remove exponent options, throws R off
 
 ill_cpaa_t<-paste0(root_data_out, "/all_tif/ILLINOIS/CPAA/Champaign_threshold1.shp")
-mi_cpaa_t<-paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Huron_threshold1.shp")
-wi_cpaa_t<-paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Langlade_threshhold1.shp")
+# mi_cpaa_t<-paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Huron_threshold1.shp")
+# wi_cpaa_t<-paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Langlade_threshhold1.shp")
 
 #file.exists(mi_cpaa_t) && file.exists(wi_cpaa_t) &&
 
-if(file.exists(ill_cpaa_t) && file.exists(mi_cpaa_t) && file.exists(wi_cpaa_t)){
+if(file.exists(ill_cpaa_t)){
 
   print(list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/CPAA"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
   ill_cpaa<- file.path(paste0(root_data_out, "/all_tif/ILLINOIS/CPAA"), list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/CPAA"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
