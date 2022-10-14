@@ -39,7 +39,7 @@ if(file.exists(ill_cpaa_t)){
 
   print(list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/CPAA"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
   mi_cpaa<- file.path(paste0(root_data_out, "/all_tif/MICHIGAN/CPAA"), list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/CPAA"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-  mi_cpaa<-setNames(lapply(mi_cpaa, raster), tools::file_path_sans_ext(basename(mi_cpaa)))
+  mi_cpaa<-setNames(lapply(mi_cpaa, readOGR), tools::file_path_sans_ext(basename(mi_cpaa)))
   mi_cpaa<-mi_cpaa[order(mixedsort(names(mi_cpaa)))]
 
   cpaa_list_mi_f<-list()
@@ -52,7 +52,7 @@ if(file.exists(ill_cpaa_t)){
 
   print(list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/CPAA"), pattern='.shp', all.files=TRUE, full.names=FALSE))
   wi_cpaa<- file.path(paste0(root_data_out, "/all_tif/WISCONSIN/CPAA"), list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/CPAA"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-  wi_cpaa<-setNames(lapply(wi_cpaa, raster), tools::file_path_sans_ext(basename(wi_cpaa)))
+  wi_cpaa<-setNames(lapply(wi_cpaa, readOGR), tools::file_path_sans_ext(basename(wi_cpaa)))
   wi_cpaa<-wi_cpaa[order(mixedsort(names(wi_cpaa)))]
 
   cpaa_list_wi_f<-list()
