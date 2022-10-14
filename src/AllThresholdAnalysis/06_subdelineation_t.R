@@ -47,16 +47,27 @@ for (county in 1:length(cdl_mask_list)){
   county_rec_list[[county]]<-layer_list
 }
 
+county_rec_list<-list()
+layer_list<-list()
+for (county in 1:length(cdl_mask_list)){
+  county_r<-cdl_mask_list[[county]]
+  for(layer in 1:length(county_r)){
+    layer_list[[layer]] <- reclassify(county_r[[layer]], m)
+  }
+  county_rec_list[[county]]<-layer_list
+}
+
+
+
 names(county_rec_list)<-c("Champaign","DuPage","McHenry")
 
 
 ####Stacking and getting sequence values within the fields
 sub_by_county_list<-list()
+sub_list<-list()
 for(county_layer in 1:length(county_rec_list)){
  county<-county_rec_list[[county_layer]]
- plot(county[[1]][[1]])
-
- sub_list<-list()
+ #plot(county[[1]][[1]])
  for (i in 1:length(county)){
   sub_layer<-county[[i]]
   y<-sub_layer
@@ -80,8 +91,7 @@ for(county_layer in 1:length(county_rec_list)){
 names(sub_by_county_list)<-c("Champaign","DuPage","McHenry")
 
 ####Sub-delineation
-sub_fw_sets<-list()
-sub_fw_by_county<-list()
+
 expand_shrink_clean<-function(x){
   expand<-gBuffer(x, width=90, byid=T) # 3 pixel smooth
   shrink<-gBuffer(expand, width=-90, byid=T) #3 pixel smooth
@@ -90,8 +100,11 @@ expand_shrink_clean<-function(x){
 
 area_thresh <- units::set_units(44100 , m^2) #10 acres for dropping polygons
 
+sub_fw_sets<-list()
+sub_fw_by_county<-list()
 for (county in 1:length(sub_by_county_list)){
   sub_list<-sub_by_county_list[[county]]
+
 
   for (year in 1:length(sub_list)){
   output<-sub_list[[year]]
@@ -115,7 +128,7 @@ for (county in 1:length(sub_by_county_list)){
   #focal window: 10 pixels (why? bc that's the minimum average field size from the LACIE paper)
   r<-terra::rast(fw_s)
   fw_s<- terra::focal(r, w = 7, fun = "modal", na.policy='omit', fillvalue=NA)%>%
-    terra::mask(mask = r)
+    terra::mask(mask = r) 
   fw_s<-raster(fw_s) #convert back to raster object
   #plot(fw_s)
 
@@ -137,7 +150,7 @@ for (county in 1:length(sub_by_county_list)){
   area_thresh <- units::set_units(44100, m^2) #10 acres
   fw_fills<- fill_holes(fw_polys, threshold = area_thresh)
 
-  sub_fw_sets[[county]]<-fw_fills
+  sub_fw_sets[[year]]<-fw_fills
 
   }
 
