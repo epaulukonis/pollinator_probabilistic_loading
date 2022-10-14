@@ -15,7 +15,6 @@ cdl_mask_list<-list()
 year_mask_list<-list()
 for (county_layer in 1:length(cpaa_list_ill_f)){
   cpaa<-cpaa_list_ill_f[[county_layer]]
-
   for (year in 1:length(cpaa)){
     cpaa_y<-cpaa[[year]]
     mask_crop<-function(x){
@@ -186,7 +185,6 @@ cdl_mask_list<-list()
 year_mask_list<-list()
 for (county_layer in 1:length(cpaa_list_mi_f)){
   cpaa<-cpaa_list_mi_f[[county_layer]]
-  
   for (year in 1:length(cpaa)){
     cpaa_y<-cpaa[[year]]
     mask_crop<-function(x){
@@ -307,7 +305,7 @@ for (county in 1:length(sub_by_county_list)){
     area_thresh <- units::set_units(44100, m^2) #10 acres
     fw_fills<- fill_holes(fw_polys, threshold = area_thresh)
     
-    sub_fw_sets[[county]]<-fw_fills
+    sub_fw_sets[[year]]<-fw_fills
     
   }
   
@@ -344,7 +342,6 @@ cdl_mask_list<-list()
 year_mask_list<-list()
 for (county_layer in 1:length(cpaa_list_wi_f)){
   cpaa<-cpaa_list_wi_f[[county_layer]]
-  
   for (year in 1:length(cpaa)){
     cpaa_y<-cpaa[[year]]
     mask_crop<-function(x){
@@ -465,7 +462,7 @@ for (county in 1:length(sub_by_county_list)){
     area_thresh <- units::set_units(44100, m^2) #10 acres
     fw_fills<- fill_holes(fw_polys, threshold = area_thresh)
     
-    sub_fw_sets[[county]]<-fw_fills
+    sub_fw_sets[[year]]<-fw_fills
     
   }
   
