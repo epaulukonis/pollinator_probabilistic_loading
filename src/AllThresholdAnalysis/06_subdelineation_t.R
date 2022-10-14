@@ -202,20 +202,21 @@ for (county_layer in 1:length(cpaa_list_mi_f)){
 
 #writeRaster(year_mask_list[[1]][[1]], file.path(root_data_out, "/raw_mask_test.tif"), format="GTiff", overwrite = TRUE)
 #convert 1,5,24 (corn,soy,winter wheat) to 1,2,3, all other crop to 0 (or 9 if needed to count)
-is_m <- c(0,1,2:4,5,6:23,24,25:256)
-becomes <- c(NA,1,rep.int(0,3),2,rep.int(0,18),3,rep.int(0,232))
-m<-cbind(is_m,becomes)
+# is_m <- c(0,1,2:4,5,6:23,24,25:256)
+# becomes <- c(NA,1,rep.int(0,3),2,rep.int(0,18),3,rep.int(0,232))
+# m<-cbind(is_m,becomes)
+# 
+# county_rec_list<-list()
+# layer_list<-list()
+# for (county in 1:length(cdl_mask_list)){
+#   county_r<-cdl_mask_list[[county]]
+#   for(layer in 1:length(county_r)){
+#     layer_list[[layer]] <- reclassify(county_r[[layer]], m)
+#   }
+#   county_rec_list[[county]]<-layer_list
+# }
 
-county_rec_list<-list()
-layer_list<-list()
-for (county in 1:length(cdl_mask_list)){
-  county_r<-cdl_mask_list[[county]]
-  for(layer in 1:length(county_r)){
-    layer_list[[layer]] <- reclassify(county_r[[layer]], m)
-  }
-  county_rec_list[[county]]<-layer_list
-}
-
+county_rec_list<-cdl_mask_list
 names(county_rec_list)<-c("Huron", "Oceana", "VanBuren")
 
 
@@ -359,20 +360,21 @@ for (county_layer in 1:length(cpaa_list_wi_f)){
 
 #writeRaster(year_mask_list[[1]][[1]], file.path(root_data_out, "/raw_mask_test.tif"), format="GTiff", overwrite = TRUE)
 #convert 1,5,24 (corn,soy,winter wheat) to 1,2,3, all other crop to 0 (or 9 if needed to count)
-is_m <- c(0,1,2:4,5,6:23,24,25:256)
-becomes <- c(NA,1,rep.int(0,3),2,rep.int(0,18),3,rep.int(0,232))
-m<-cbind(is_m,becomes)
+# is_m <- c(0,1,2:4,5,6:23,24,25:256)
+# becomes <- c(NA,1,rep.int(0,3),2,rep.int(0,18),3,rep.int(0,232))
+# m<-cbind(is_m,becomes)
+# 
+# county_rec_list<-list()
+# layer_list<-list()
+# for (county in 1:length(cdl_mask_list)){
+#   county_r<-cdl_mask_list[[county]]
+#   for(layer in 1:length(county_r)){
+#     layer_list[[layer]] <- reclassify(county_r[[layer]], m)
+#   }
+#   county_rec_list[[county]]<-layer_list
+# }
 
-county_rec_list<-list()
-layer_list<-list()
-for (county in 1:length(cdl_mask_list)){
-  county_r<-cdl_mask_list[[county]]
-  for(layer in 1:length(county_r)){
-    layer_list[[layer]] <- reclassify(county_r[[layer]], m)
-  }
-  county_rec_list[[county]]<-layer_list
-}
-
+county_rec_list<-cdl_mask_list
 names(county_rec_list)<-c("Langlade","Rock","Waushara")
 
 
