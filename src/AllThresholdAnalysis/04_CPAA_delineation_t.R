@@ -24,10 +24,10 @@ if(file.exists(ill_cpaa_t)){
   ill_cpaa<-setNames(lapply(ill_cpaa, readOGR), tools::file_path_sans_ext(basename(ill_cpaa)))
   ill_cpaa<-ill_cpaa[order(mixedsort(names(ill_cpaa)))]
 
-  # cpaa_list_ill_f<-list()
-  # cpaa_list_ill_f[[1]]<-ill_cpaa[1:2]
-  # cpaa_list_ill_f[[2]]<-ill_cpaa[4:5]
-  # cpaa_list_ill_f[[3]]<-ill_cpaa[6:7]
+  cpaa_list_ill_f<-list()
+  cpaa_list_ill_f[[1]]<-ill_cpaa[1:2]
+  cpaa_list_ill_f[[2]]<-ill_cpaa[4:5]
+  cpaa_list_ill_f[[3]]<-ill_cpaa[6:7]
 
 
   cpaa_list_ill_f<-list()

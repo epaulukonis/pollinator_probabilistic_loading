@@ -1,8 +1,9 @@
-### Probabilistic Crop Loading 
+### B. affinis analysis
 
 ### 00 Setup of directories and file paths
 
-# Edited by E. Paulukonis June 2022
+# Edited by E. Paulukonis October 2022
+
 
 #Install and load supporting libraries.
 print("stepping into 00_setup.R")
@@ -17,7 +18,10 @@ library(sf)
 library(stars)
 library(rgeos)
 library(rgdal)
+library(terra)
 library(raster)
+library(stars)
+library(abind)
 library(dplyr)
 library(ggplot2)
 library(cowplot)
@@ -31,14 +35,14 @@ library(stringr)
 library(smoothr)
 library(exactextractr)
 library(data.table)
-library(janitor)
-library(TraMineR)
-library(GrpString)
-library(geosphere)
-library(ggridges)
-library(ghibli)
-library(tidyverse)
-library(progress)
+library(gtools)
+# library(janitor)
+# library(TraMineR)
+# library(geosphere)
+# library(ggridges)
+# library(ghibli)
+# library(tidyverse)
+# library(progress)
 
 who_is_running<-'eap'
 #who_is_running<-'stp'
@@ -59,7 +63,7 @@ root_data_out <- file.path(root_dir, "data_out")
 print(root_data_out)
 root_figures <- file.path(root_dir, "figures")
 print(root_figures)
-root_src <- file.path(root_dir, "src/BombussAnalysis")
+root_src <- file.path(root_dir, "src/AllThresholdAnalysis")
 print(root_src)
 
 # set data directories, check to see what files are in each, and unzip if needed - uncomment if needed
@@ -73,6 +77,9 @@ print(root_src)
 nlcd_dir = file.path(root_data_in, "MapData/NLCD")
 print(nlcd_dir)
 print(list.files(path=nlcd_dir, all.files=TRUE, full.names=FALSE))
+nlcd_dir_acc = file.path(nlcd_dir, "accuracy")
+print(nlcd_dir_acc)
+print(list.files(path=nlcd_dir_acc, all.files=TRUE, full.names=FALSE))
 # nlcd_zip<-list.files(path=nlcd_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
 # print(nlcd_zip)
 # zip_ex<- as.list(c(file.exists(file.path(nlcd_dir, nlcd_zip))))
@@ -92,6 +99,21 @@ print(field_dir)
 print(list.files(path=field_dir, all.files=TRUE, full.names=FALSE))
 
 
+
+#Multi-state specific
+cdl_ms_dir = file.path(cdl_dir, "Multi-State")
+print(cdl_ms_dir)
+print(list.files(path=cdl_ms_dir, all.files=TRUE, full.names=FALSE))
+
+#Micghigan specific
+cdl_mi_dir= file.path(cdl_ms_dir, "Michigan")
+print(cdl_mi_dir)
+print(list.files(path=cdl_mi_dir, all.files=TRUE, full.names=FALSE))
+
+#Wisconsin specific
+cdl_wi_dir= file.path(cdl_ms_dir, "Wisconsin")
+print(cdl_wi_dir)
+print(list.files(path=cdl_wi_dir, all.files=TRUE, full.names=FALSE))
 
 
 #Illinois specific
@@ -163,7 +185,3 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 threshold_dir<-file.path(root_data_out,"all_thresh")
 print(threshold_dir)
 print(list.files(path=threshold_dir, all.files=TRUE, full.names=FALSE))
-
-nlcd_mask_dir<-file.path(root_data_out,"all_NLCD")
-print(nlcd_mask_dir)
-print(list.files(path=nlcd_mask_dir, all.files=TRUE, full.names=FALSE))
