@@ -273,7 +273,7 @@ for(layer in 1:length(cpaa_field_set)){
   michigan_cpaa<-lapply(fw_analysis, expand_shrink_clean)
   #cpaa_final_batch[[layer]]<-illinois_cpaa
   for(cpaa in 1:length(michigan_cpaa)){
-    writeOGR(michigan_cpaa[[cpaa]], paste0(root_data_out, "/all_tif/MICHIGAN/CPAA"), paste0(names(cpaa_field_set[[layer]]),"_threshold",cpaa), driver = "ESRI Shapefile")
+    writeOGR(michigan_cpaa[[cpaa]], paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Final"), paste0(names(cpaa_field_set[[layer]]),"_threshold",cpaa), driver = "ESRI Shapefile")
 
   }
 }
@@ -383,7 +383,7 @@ for(layer in 1:length(cpaa_field_set)){
   wisconsin_cpaa<-lapply(fw_analysis, expand_shrink_clean)
   #cpaa_final_batch[[layer]]<-illinois_cpaa
   for(cpaa in 1:length(wisconsin_cpaa)){
-    writeOGR(wisconsin_cpaa[[cpaa]], paste0(root_data_out, "/all_tif/WISCONSIN/CPAA"), paste0(names(cpaa_field_set[[layer]]),"_threshold",cpaa), driver = "ESRI Shapefile")
+    writeOGR(wisconsin_cpaa[[cpaa]], paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Final"), paste0(names(cpaa_field_set[[layer]]),"_threshold",cpaa), driver = "ESRI Shapefile")
     
   }
 }
