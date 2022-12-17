@@ -16,6 +16,8 @@ if(file.exists(cdl_rec_filename)){
   cdl_data_ill_rec<-cdl_data_ill_rec[-c(1:9)] 
   print('the Illinois CDL has already been processed, it can be read in')
   
+
+  
 }else{
   
   #### Import and modify files ####
@@ -83,7 +85,7 @@ if(file.exists(cdl_rec_filename)){
   cdl_fin_co<-lapply(cdl_fin, mask_crop)
   
   f<-cdl_dir_adj
-  m <- cbind(from = c(-Inf, 80), to = c(0, 200), becomes = c(NA)) #non-crop reclass tables; i.e., reclassify crop and non-crop
+  #m <- cbind(from = c(-Inf, 80), to = c(0, 200), becomes = c(NA)) #non-crop reclass tables; i.e., reclassify crop and non-crop
   cdl_fin_co_rec<-list()
   for(layer in 1:22){
     cdl_fin_co_rec[[layer]] <- reclassify(cdl_fin_co[[layer]], m)
@@ -125,7 +127,12 @@ cdl_mi_co<-lapply(cdl_data, mask_crop)
 
 f<-paste0(cdl_mi_dir, "/rec_cdl")
 
-m <- cbind(from = c(-Inf, 80), to = c(0, 200), becomes = c(NA)) #non-crop reclass tables; i.e., reclassify crop and non-crop
+
+is_n <- c(0,1:256)
+becomes_n <- c(NA,rep.int(1,256))
+
+n<-cbind(is_n,becomes_n)
+#m <- cbind(from = c(-Inf, 80), to = c(0, 200), becomes = c(NA)) #non-crop reclass tables; i.e., reclassify crop and non-crop
 cdl_mi_rec<-list()
 for(layer in 1:14){
 cdl_mi_rec[[layer]] <- reclassify(cdl_mi_co[[layer]], m)
@@ -169,7 +176,7 @@ if(file.exists(cdl_rec_filename)){
 
   f<-paste0(cdl_wi_dir, "/rec_cdl")
   
-  m <- cbind(from = c(-Inf, 80), to = c(0, 200), becomes = c(NA)) #non-crop reclass tables; i.e., reclassify crop and non-crop
+ # m <- cbind(from = c(-Inf, 80), to = c(0, 200), becomes = c(NA)) #non-crop reclass tables; i.e., reclassify crop and non-crop
   cdl_wi_rec<-list()
   for(layer in 1:14){
     cdl_wi_rec[[layer]] <- reclassify(cdl_wi_co[[layer]], m)
