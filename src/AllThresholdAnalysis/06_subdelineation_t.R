@@ -2,13 +2,11 @@
 
 ### 06 Sub-delineation of fields
 
-# Edited by E. Paulukonis October'22
-
-#### Prepare the CDL layers and the 3 county CPAA layers----
+# Edited by E. Paulukonis December'22
 
 
-########## NEEDS TO BE CORRECTED FOR NAMING!!! IT STILL WORKS BUT NAMES ARE WRONG!! ######
 #### Illinois ----
+########## NEEDS TO BE CORRECTED FOR NAMING!!! IT STILL WORKS BUT NAMES ARE WRONG!! 
 # #function to mask and crop CDL to the three CPAAs #figure out how to properly stack/list the cdl by the individual thresholds
 # cdl_mask_list<-list()
 # year_mask_list<-list()
@@ -310,7 +308,7 @@ for(cpaal in 1:length(cpaa_list_mi_f)){
     cropped<-st_intersection(sf::st_as_sf(output[[i]]),sf::st_as_sf(cpaa[[i]])) #intersect the CPAA and the sub delineation
     poly<-st_collection_extract(cropped, "POLYGON")
     final_layer<-drop_crumbs(poly, area_thresh, drop_empty = TRUE)
-    setwd(paste0(root_data_out, "/all_tif/MICHIGAN/SUB"))
+    setwd(paste0(root_data_out, "/all_tif/MICHIGAN/SUB/Final"))
     st_write(final_layer,paste0(names(sub_fw_by_county[cpaal]),i,"_fin.shp"))
   }
   
@@ -451,7 +449,7 @@ for(cpaal in 1:length(cpaa_list_wi_f)){
     cropped<-st_intersection(sf::st_as_sf(output[[i]]),sf::st_as_sf(cpaa[[i]])) #intersect the CPAA and the sub delineation
     poly<-st_collection_extract(cropped, "POLYGON")
     final_layer<-drop_crumbs(poly, area_thresh, drop_empty = TRUE)
-    setwd(paste0(root_data_out, "/all_tif/WISCONSIN/SUB"))
+    setwd(paste0(root_data_out, "/all_tif/WISCONSIN/SUB/Final"))
     st_write(final_layer,paste0(names(sub_fw_by_county[cpaal]),i,"_fin.shp"))
   }
   
