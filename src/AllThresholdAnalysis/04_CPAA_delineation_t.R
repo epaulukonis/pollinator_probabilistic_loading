@@ -11,7 +11,7 @@ import_start_time <- Sys.time()
 print("stepping into 04_CPAA_delineation.R")
 options(scipen = 999) #remove exponent options, throws R off
 
-mi_cpaa_t<-paste0(root_data_out, "/all_tif/Michigan/CPAA/Huron_threshold1.shp")
+mi_cpaa_t<-paste0(root_data_out, "/all_tif/Michigan/CPAA/Final/Huron_threshold1.shp")
 # mi_cpaa_t<-paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Huron_threshold1.shp")
 # wi_cpaa_t<-paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Langlade_threshhold1.shp")
 
@@ -37,8 +37,8 @@ if(file.exists(mi_cpaa_t)){
   # names(cpaa_list_ill_f)<-c("Champaign","DuPage","McHenry")
   # 
 
-  print(list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/CPAA"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-  mi_cpaa<- file.path(paste0(root_data_out, "/all_tif/MICHIGAN/CPAA"), list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/CPAA"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  print(list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Final"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  mi_cpaa<- file.path(paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Final"), list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Final"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
   mi_cpaa<-setNames(lapply(mi_cpaa, readOGR), tools::file_path_sans_ext(basename(mi_cpaa)))
   mi_cpaa<-mi_cpaa[order(mixedsort(names(mi_cpaa)))]
 
@@ -49,8 +49,8 @@ if(file.exists(mi_cpaa_t)){
   names(cpaa_list_mi_f)<-c("Huron", "Oceana", "VanBuren") 
   
 
-  print(list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/CPAA"), pattern='.shp', all.files=TRUE, full.names=FALSE))
-  wi_cpaa<- file.path(paste0(root_data_out, "/all_tif/WISCONSIN/CPAA"), list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/CPAA"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  print(list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Final"), pattern='.shp', all.files=TRUE, full.names=FALSE))
+  wi_cpaa<- file.path(paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Final"), list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Final"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
   wi_cpaa<-setNames(lapply(wi_cpaa, readOGR), tools::file_path_sans_ext(basename(wi_cpaa)))
   wi_cpaa<-wi_cpaa[order(mixedsort(names(wi_cpaa)))]
 

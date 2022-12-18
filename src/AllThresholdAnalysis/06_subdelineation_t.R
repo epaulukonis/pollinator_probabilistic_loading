@@ -197,7 +197,6 @@ for (county_layer in 1:length(cpaa_list_mi_f)){
     year_mask_list[[year]]<-stack(county_set)
   }
   
-  
   cdl_mask_list[[county_layer]]<-year_mask_list
 }
 
@@ -303,7 +302,7 @@ for (county in 1:length(sub_by_county_list)){
 
 names(sub_fw_by_county)<-c("Huron", "Oceana", "VanBuren")
 #finally, clip the output by the original CPAA layer
-area_thresh <- units::set_units(4046.86 , m^2) #2 acres for dropping polygons
+area_thresh <- units::set_units(8100 , m^2) #2 acres for dropping polygons
 for(cpaal in 1:length(cpaa_list_mi_f)){
   cpaa<-cpaa_list_mi_f[[cpaal]]
   output<-sub_fw_by_county[[cpaal]]

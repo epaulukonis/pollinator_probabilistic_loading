@@ -4,7 +4,7 @@
 
 # Edited by E. Paulukonis June 2022
 import_start_time <- Sys.time()
-print("stepping into 03_CPAA_threshold_c.R")
+print("stepping into 03_CPAA_threshold_t.R")
 
 ##### COUNTY LAYER PREP
 options(scipen = 999) #remove exponent options, throws R off
