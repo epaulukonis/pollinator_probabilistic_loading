@@ -12,6 +12,8 @@ print("stepping into 04_CPAA_delineation.R")
 options(scipen = 999) #remove exponent options, throws R off
 
 mi_cpaa_t<-paste0(root_data_out, "/all_tif/Michigan/CPAA/Final/Huron_threshold1.shp")
+print(root_data_out)
+print(paste0(root_data_out, "/all_tif/Michigan/CPAA/Final/Huron_threshold1.shp"))
 print(file.exists(mi_cpaa_t))
 # mi_cpaa_t<-paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Huron_threshold1.shp")
 # wi_cpaa_t<-paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Langlade_threshhold1.shp")
