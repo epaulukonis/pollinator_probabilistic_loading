@@ -191,7 +191,14 @@ cdlkey<-read.csv(paste0(cdl_dir,"/CDL_key.csv")) #cdl key
 
 
 ### Get CDL acreage ----
-#remember to activate and reporject the county areas in 01_studyarea_t.R
+#remember to activate and reproject the county areas
+
+all_states<-readOGR(state_dir, layer = "tl_2021_us_county") #read in states
+all_states<-spTransform(all_states, crs_bh) #reproject
+
+ill<-all_states[all_states$STATEFP == "17",]
+mi<-all_states[all_states$STATEFP == "26",]
+wi<-all_states[all_states$STATEFP == "55",]
 
 ##Illinois
 extracted_cdl_dataI<-readRDS(paste0(root_data_out,"/extracted_cdl_dataI.RData"))
@@ -234,6 +241,11 @@ extracted_cdl_dataM<-readRDS(paste0(root_data_out,"/extracted_cdl_dataM.RData"))
 # study<-mi
 # sub_group<-c("Van Buren", "Oceana","Huron")
 # sub<-study[study$NAME %in% sub_group,]
+# crs_cdl<-crs(cdl_data_mi_rec[[1]])
+# sub<-spTransform(sub, crs_cdl)
+# 
+# # plot(cdl_data_mi_rec[[1]])
+# # plot(sub[1],add=T)
 # 
 # names_county<-list()
 # county_set_list<-list()
@@ -241,18 +253,19 @@ extracted_cdl_dataM<-readRDS(paste0(root_data_out,"/extracted_cdl_dataM.RData"))
 #   co_r<-sub[sub$NAME == sub$NAME[co],]
 #   mask_crop<-function(x){
 #     r_list<-crop(x, co_r)
-#     mask(r_list, co_r) 
+#     mask(r_list, co_r)
 #   }
-#   
+# 
 #   county_set<-lapply(cdl_data_mi_rec, mask_crop) #crop and mask the fixed CDL to the counties, put in list
 #   county_set_list[[co]]<-stack(county_set) #represents single county stack
-#   
+# 
 # }
+# 
 # 
 # 
 # years <- list(2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021)
 # extracted_cdl_data<-list()
-# names(county_set_list)<-c("VAN BUREN", "OCEANA","HURON") 
+# names(county_set_list)<-c("VAN BUREN", "OCEANA","HURON")
 # for(county in 1:length(county_set_list)){
 #   county_layers<-county_set_list[[county]]
 #   cdl_extract<-freq(county_layers)
@@ -271,6 +284,8 @@ extracted_cdl_dataW<-readRDS(paste0(root_data_out,"/extracted_cdl_dataW.RData"))
 # study<-wi
 # sub_group<-c("Waushara","Langlade","Rock")
 # sub<-study[study$NAME %in% sub_group,]
+# crs_cdl<-crs(cdl_data_wi_rec[[1]])
+# sub<-spTransform(sub, crs_cdl)
 # 
 # names_county<-list()
 # county_set_list<-list()
@@ -278,12 +293,12 @@ extracted_cdl_dataW<-readRDS(paste0(root_data_out,"/extracted_cdl_dataW.RData"))
 #   co_r<-sub[sub$NAME == sub$NAME[co],]
 #   mask_crop<-function(x){
 #     r_list<-crop(x, co_r)
-#     mask(r_list, co_r) 
+#     mask(r_list, co_r)
 #   }
-#   
+# 
 #   county_set<-lapply(cdl_data_wi_rec, mask_crop) #crop and mask the fixed CDL to the counties, put in list
 #   county_set_list[[co]]<-stack(county_set) #represents single county stack
-#   
+# 
 # }
 # 
 # 
@@ -553,18 +568,18 @@ acreages_by_countyM<-readRDS(paste0(root_data_out,"/acreages_by_countyM.RData"))
 # cdl_extract_data<-list()
 # for(county in 1:length(field_list_mi_f)){
 #   county_layers<-field_list_mi_f[[county]]
-#   
+# 
 #   for(f in 1:length(cdl_data_mi_rec)){
 #     cdl<-cdl_data_mi_rec[[f]]
 #     cdl_extract<-lapply(county_layers, function(x) exact_extract(cdl, x, "mode"))
 #     cdl_extract<-lapply(cdl_extract, function(x) as.data.frame(x))
-#     
+# 
 #     field_area<- function(x){as.data.frame(terra::area(x), na.rm=T) }
 #     field_extract<-lapply(county_layers, field_area)
-#     
+# 
 #     cdl_extract<-mapply(c, cdl_extract, field_extract, SIMPLIFY=FALSE)
 #     cdl_extract_df<-lapply(cdl_extract, function(x) as.data.frame(do.call("cbind", x)))
-#     
+# 
 #     get_acreages<-function(y){
 #       y$polygon<-row.names(y)
 #       colnames(y)[1]<-"Class"
@@ -572,19 +587,19 @@ acreages_by_countyM<-readRDS(paste0(root_data_out,"/acreages_by_countyM.RData"))
 #       y$area<-(y$area)*0.000247105 #convert to acres
 #       crop_total<-aggregate(y$area, by=list(Class=y$Class), FUN=sum)
 #       crop_final<-left_join(crop_total, cdlkey, by="Class")
-#       crop_final$Category<-  toupper(crop_final$Category) 
+#       crop_final$Category<-  toupper(crop_final$Category)
 #       crop_final$Year<-years[[f]]
 #       crop_final
 #     }
-#     
+# 
 #     get_acreages_by_cdl<-lapply(cdl_extract_df, get_acreages)
 #     acreages_by_cdl[[f]]<-get_acreages_by_cdl
 #   }
-#   
+# 
 #   names(acreages_by_cdl)<-2008:2021
 #   acreages_by_county[[county]]<-acreages_by_cdl
 #   cdl_extract_data[[county]]<-cdl_extract_df
-#   
+# 
 # }
 # 
 # acreages_by_countyM<-acreages_by_county

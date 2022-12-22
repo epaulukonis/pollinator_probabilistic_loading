@@ -234,7 +234,7 @@ names(sub_by_county_list)<-c("Huron", "Oceana", "VanBuren")
 ####Sub-delineation
 sub_fw_sets<-list()
 sub_fw_by_county<-list()
-area_thresh <- units::set_units(8100 , m^2) #2 acres for dropping polygons
+area_thresh <- units::set_units(44100 , m^2) #10 acres for dropping polygons
 expand_shrink_clean<-function(x){
   expand<-gBuffer(x, width=90, byid=T) # 3 pixel smooth
   shrink<-gBuffer(expand, width=-90, byid=T) #3 pixel smooth
@@ -275,7 +275,7 @@ for (county in 1:length(sub_by_county_list)){
     rc <- clump(fw_s, directions = 8)
     f<-freq(rc)
     f<-as.data.frame(f)
-    excludeID <- f$value[which(f$count <= 3)] #remove pixel clumps (visual inspection)
+    excludeID <- f$value[which(f$count <= 7)] #remove pixel clumps (visual inspection)
     formaskSieve <- rc
     # assign NA to all clumps whose IDs are found in excludeID
     formaskSieve[rc %in% excludeID] <- NA
@@ -285,7 +285,7 @@ for (county in 1:length(sub_by_county_list)){
     fw_polys<- sf::as_Spatial(sf::st_as_sf(stars::st_as_stars(fw_s),
                                            as_points = FALSE, merge = TRUE))
     # fill holes
-    area_threshf <- units::set_units(22050, m^2) #5 acres
+    area_threshf <- units::set_units(44100, m^2) #5 acres
     fw_fills<- fill_holes(fw_polys, threshold = area_threshf)
     
     sub_fw_sets[[year]]<-fw_fills
@@ -375,7 +375,7 @@ names(sub_by_county_list)<-c("Langlade","Rock","Waushara")
 sub_fw_sets<-list()
 sub_fw_by_county<-list()
 
-area_thresh <- units::set_units(8100 , m^2) #2 acres for dropping polygons
+area_thresh <- units::set_units(44100 , m^2) #10 acres for dropping polygons
 expand_shrink_clean<-function(x){
   expand<-gBuffer(x, width=90, byid=T) # 3 pixel smooth
   shrink<-gBuffer(expand, width=-90, byid=T) #3 pixel smooth
@@ -416,7 +416,7 @@ for (county in 1:length(sub_by_county_list)){
     rc <- clump(fw_s, directions = 8)
     f<-freq(rc)
     f<-as.data.frame(f)
-    excludeID <- f$value[which(f$count <= 3)] #remove pixel clumps < 3 (visual inspection)
+    excludeID <- f$value[which(f$count <= 7)] #remove pixel clumps < 7 (visual inspection)
     formaskSieve <- rc
     # assign NA to all clumps whose IDs are found in excludeID
     formaskSieve[rc %in% excludeID] <- NA
@@ -426,7 +426,7 @@ for (county in 1:length(sub_by_county_list)){
     fw_polys<- sf::as_Spatial(sf::st_as_sf(stars::st_as_stars(fw_s),
                                            as_points = FALSE, merge = TRUE))
     # fill holes
-    area_threshf <- units::set_units(22050, m^2) #5 acres
+    area_threshf <- units::set_units(44100, m^2) #5 acres
     fw_fills<- fill_holes(fw_polys, threshold = area_threshf)
     
     sub_fw_sets[[year]]<-fw_fills
