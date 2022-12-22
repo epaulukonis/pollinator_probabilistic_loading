@@ -285,7 +285,7 @@ for (county in 1:length(sub_by_county_list)){
     fw_polys<- sf::as_Spatial(sf::st_as_sf(stars::st_as_stars(fw_s),
                                            as_points = FALSE, merge = TRUE))
     # fill holes
-    area_threshf <- units::set_units(44100, m^2) #5 acres
+    area_threshf <- units::set_units(44100, m^2) #10 acres
     fw_fills<- fill_holes(fw_polys, threshold = area_threshf)
     
     sub_fw_sets[[year]]<-fw_fills
@@ -426,7 +426,7 @@ for (county in 1:length(sub_by_county_list)){
     fw_polys<- sf::as_Spatial(sf::st_as_sf(stars::st_as_stars(fw_s),
                                            as_points = FALSE, merge = TRUE))
     # fill holes
-    area_threshf <- units::set_units(44100, m^2) #5 acres
+    area_threshf <- units::set_units(44100, m^2) #10 acres
     fw_fills<- fill_holes(fw_polys, threshold = area_threshf)
     
     sub_fw_sets[[year]]<-fw_fills
