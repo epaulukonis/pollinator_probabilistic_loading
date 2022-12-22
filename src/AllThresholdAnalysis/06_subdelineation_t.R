@@ -308,7 +308,7 @@ for(cpaal in 1:length(cpaa_list_mi_f)){
     cropped<-st_intersection(sf::st_as_sf(output[[i]]),sf::st_as_sf(cpaa[[i]])) #intersect the CPAA and the sub delineation
     poly<-st_collection_extract(cropped, "POLYGON")
     final_layer<-drop_crumbs(poly, area_thresh, drop_empty = TRUE)
-    setwd(paste0(root_data_out, "/all_tif/MICHIGAN/SUB/Final"))
+    setwd(paste0(root_data_out, "/all_tif/MICHIGAN/SUB"))
     st_write(final_layer,paste0(names(sub_fw_by_county[cpaal]),i,"_fin.shp"))
   }
   
@@ -449,7 +449,7 @@ for(cpaal in 1:length(cpaa_list_wi_f)){
     cropped<-st_intersection(sf::st_as_sf(output[[i]]),sf::st_as_sf(cpaa[[i]])) #intersect the CPAA and the sub delineation
     poly<-st_collection_extract(cropped, "POLYGON")
     final_layer<-drop_crumbs(poly, area_thresh, drop_empty = TRUE)
-    setwd(paste0(root_data_out, "/all_tif/WISCONSIN/SUB/Final"))
+    setwd(paste0(root_data_out, "/all_tif/WISCONSIN/SUB"))
     st_write(final_layer,paste0(names(sub_fw_by_county[cpaal]),i,"_fin.shp"))
   }
   
