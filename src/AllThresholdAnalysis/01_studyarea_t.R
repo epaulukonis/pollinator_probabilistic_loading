@@ -23,8 +23,8 @@ bomb_h <- readOGR(bombus_dir, layer = "RPBB_High_Potential_Zones_03172021")
 #h_range<-spTransform(h_range, crs(bomb_h)) #reproject
 #ill<-spTransform(rpbb_study, crs(bomb_h)) #reproject
 
-crs_bh<-crs(bomb_h)
-rm(bomb_h)
+# crs_bh<-crs(bomb_h)
+# rm(bomb_h)
 
 all_states<-readOGR(state_dir, layer = "tl_2021_us_county") #read in states
 #all_states<-spTransform(all_states, crs_bh) #reproject

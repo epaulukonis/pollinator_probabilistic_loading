@@ -7,6 +7,8 @@
 
 ### Read in data ---- 
 
+#options(scipen = 999) #remove exponent options, throws R off
+
 #get plot palette
 library(randomcoloR)
 n <- 14
@@ -103,9 +105,13 @@ wi_caps<-mi_caps[!wi_caps$Year %in% unique(wi_coa$Year),]
 
 
 #combine caps and coa data
-ill_nass<-rbind(ill_coa,ill_caps)
-mi_nass<-rbind(mi_coa,mi_caps)
-wi_nass<-rbind(wi_coa,wi_caps)
+# ill_nass<-rbind(ill_coa,ill_caps)
+# mi_nass<-rbind(mi_coa,mi_caps)
+# wi_nass<-rbind(wi_coa,wi_caps)
+
+ill_nass<-ill_coa
+mi_nass<-mi_coa
+wi_nass<-wi_coa
 
 ill_nass<-ill_nass[order(ill_nass$Year),]
 mi_nass<-mi_nass[order(mi_nass$Year),]
@@ -186,19 +192,14 @@ cdlkey<-read.csv(paste0(cdl_dir,"/CDL_key.csv")) #cdl key
 # 
 
 
-
-
-
-
 ### Get CDL acreage ----
 #remember to activate and reproject the county areas
 
-all_states<-readOGR(state_dir, layer = "tl_2021_us_county") #read in states
-all_states<-spTransform(all_states, crs_bh) #reproject
-
-ill<-all_states[all_states$STATEFP == "17",]
-mi<-all_states[all_states$STATEFP == "26",]
-wi<-all_states[all_states$STATEFP == "55",]
+# all_states<-readOGR(state_dir, layer = "tl_2021_us_county") #read in states
+# 
+# ill<-all_states[all_states$STATEFP == "17",]
+# mi<-all_states[all_states$STATEFP == "26",]
+# wi<-all_states[all_states$STATEFP == "55",]
 
 ##Illinois
 extracted_cdl_dataI<-readRDS(paste0(root_data_out,"/extracted_cdl_dataI.RData"))
@@ -260,8 +261,6 @@ extracted_cdl_dataM<-readRDS(paste0(root_data_out,"/extracted_cdl_dataM.RData"))
 #   county_set_list[[co]]<-stack(county_set) #represents single county stack
 # 
 # }
-# 
-# 
 # 
 # years <- list(2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021)
 # extracted_cdl_data<-list()
@@ -427,10 +426,10 @@ for(n in 1:length(acreages_by_countyI)){
   
 }
 
-names(list_of_final_data_by_countyI)<-cntynames
-for(i in 1:length(list_of_final_data_by_countyI)){
-  write.csv(list_of_final_data_by_countyI[i], paste0(root_figures, "/", names(list_of_final_data_by_countyI)[i], "_finaldf.csv"))
-}
+# names(list_of_final_data_by_countyI)<-cntynames
+# for(i in 1:length(list_of_final_data_by_countyI)){
+#   write.csv(list_of_final_data_by_countyI[i], paste0(root_figures, "/", names(list_of_final_data_by_countyI)[i], "_finaldf.csv"))
+# }
 
 
 cntynames<-c('CHAMPAIGN',"DU PAGE","MCHENRY")
@@ -503,60 +502,33 @@ finali<-ggpubr::ggarrange(list_of_plotsI[[1]], list_of_plotsI[[2]], list_of_plot
                   nrow = 3)  # number of rows
 finali
 
-
-
-#boxplots showing the specific acreage average via threshold compared to NASS average
-final_Illinois<-do.call(rbind, list_of_dataI)
-box<-ggplot(final_Illinois, aes(x = as.factor(thresh), y = sum_field, color=as.factor(thresh)))+
-  geom_boxplot()+
-  facet_wrap(.~County, scales = "free")
-  #geom_point(data = final_Illinois,aes(aes(x = year, y = sum_nass)),color = 'black')+
-  # theme(axis.text.x = element_text(angle = 45, hjust = 1))+
-  # theme(panel.background = element_blank(),
-  #       axis.line = element_line(colour = "black"),
-  #       axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
-  #       axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
-  #       axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-
-box
-nass_dat<-final_Illinois[final_Illinois$thresh ==1,]
-nass_dat<-nass_dat %>% group_by(County) %>% mutate(avg =mean(sum_nass))
-#nass_dat$thresh<-c(1:14,1,2,5,10,1:12,14)
-nass_dat$thresh<-c(1:14,1,2,5,14,1:12,14)
-
-ill_box<-box + 
-  geom_line(nass_dat, mapping=aes(x=as.factor(thresh), y=avg, group=1),size=1,color="black")+
-  facet_wrap(.~County, scales = "free_y")+
-  scale_y_continuous(n.breaks=10,expand = expansion(mult = c(0, .1)))+
-  xlab("Threshold") +
-  ylab("Sum of Crop Acreages")+
-  theme(legend.position = "none",axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0)),
-axis.title.x = element_text(margin = margin(t = 5, r = 0, b = 0, l = 0)))
-  
-ill_box
-
-final_Illinois_by_crop<-do.call(rbind, list_of_final_data_by_countyI)
-final_Illinois_by_crop$ratio<-final_Illinois_by_crop$NASSacres/final_Illinois_by_crop$fieldacres
-
 #Plot showing the ratio of NASS acres to field acres across years, by threshold, crop 
-final_Illinois_by_crop<-final_Illinois_by_crop[final_Illinois_by_crop$threshold ==1, ]
-ratio_plotI<-ggplot(final_Illinois_by_crop, aes(x=as.factor(Commodity), y=(log2(ratio)), fill=Commodity)) +
-  geom_boxplot()+
-  facet_wrap(.~County, scales = "free")+
-  xlab("Crop") +
-  ylab("Acreage Ratio")+
-  labs(title = "Ratio NASS Acres to Field Acres, By Crop")+
-  theme(panel.background = element_blank(),
-        axis.line = element_line(colour = "black"),
-        axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
-        axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
-        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
-theme(legend.position = "none")
-ratio_plotI
+final_Illinois_by_crop<-do.call(rbind, list_of_final_data_by_countyI)
+final_Illinois_by_crop$Label<-paste0(tools::toTitleCase(tolower(final_Illinois_by_crop$County))," County, Illinois")
+final_Illinois_by_crop$Label<-ifelse(final_Illinois_by_crop$Label == "Du Page County, Illinois","DuPage County, Illinois", final_Illinois_by_crop$Label)
+final_Illinois_by_crop$Label<-ifelse(final_Illinois_by_crop$Label == "Mchenry County, Illinois","McHenry County, Illinois", final_Illinois_by_crop$Label)
 
+final_Illinois_by_crop$County <- factor(final_Illinois_by_crop$County , levels = c("CHAMPAIGN", "MCHENRY", "DU PAGE"))
+final_Illinois_by_crop$ratio<-final_Illinois_by_crop$fieldacres/final_Illinois_by_crop$NASSacres
 
+final_Illinois_by_crop <- final_Illinois_by_crop %>% 
+  group_by(County, year, threshold) %>% mutate(percent = (NASSacres/sum(NASSacres))*100) #get percentage of each crop
+final_Illinois_by_crop<-final_Illinois_by_crop[final_Illinois_by_crop$percent>5,] #get crops that make up 95% of crop area
 
-
+# final_Illinois_by_crop<-final_Illinois_by_crop[final_Illinois_by_crop$threshold ==1, ]
+# ratio_plotI<-ggplot(final_Illinois_by_crop, aes(x=as.factor(Commodity), y=(log2(ratio)), fill=Commodity)) +
+#   geom_boxplot()+
+#   facet_wrap(.~County, scales = "free")+
+#   xlab("Crop") +
+#   ylab("Acreage Ratio")+
+#   labs(title = "Ratio NASS Acres to Field Acres, By Crop")+
+#   theme(panel.background = element_blank(),
+#         axis.line = element_line(colour = "black"),
+#         axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
+#         axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
+#         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+# theme(legend.position = "none")
+# ratio_plotI
 
 
 ### Michigan acreages----
@@ -670,6 +642,7 @@ for(i in 1:length(list_of_final_data_by_countyM)){
 
 cntynames<-c("HURON", "OCEANA", "VAN BUREN")
 
+
 list_of_plotsM<-list()
 list_of_dataM<-list()
 for(c in 1:length(list_of_final_data_by_countyM)){
@@ -736,55 +709,32 @@ finalm<-ggpubr::ggarrange(list_of_plotsM[[1]], list_of_plotsM[[2]], list_of_plot
 finalm
 
 
-#boxplots showing the specific acreage average via threshold compared to NASS average
-final_Michigan<-do.call(rbind, list_of_dataM)
-box<-ggplot(final_Michigan, aes(x = as.factor(thresh), y = sum_field, color=as.factor(thresh)))+
-  geom_boxplot()+
-  facet_wrap(.~County, scales = "free")
-#geom_point(data = final_Illinois,aes(aes(x = year, y = sum_nass)),color = 'black')+
-# theme(axis.text.x = element_text(angle = 45, hjust = 1))+
-# theme(panel.background = element_blank(),
-#       axis.line = element_line(colour = "black"),
-#       axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
-#       axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
-#       axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-
-box
-nass_dat<-final_Michigan[final_Michigan$thresh ==1,]
-nass_dat<-nass_dat %>% group_by(County) %>% mutate(avg =mean(sum_nass))
-#nass_dat$thresh<-c(1:14,1,2,5,10,1:12,14)
-nass_dat$thresh<-c(1:14,1:14,1:7,8,9,14)
-
-mi_box<-box + 
-  geom_line(nass_dat, mapping=aes(x=as.factor(thresh), y=avg, group=1),size=1,color="black")+
-  facet_wrap(.~County, scales = "free_y")+
-  scale_y_continuous(n.breaks=10,expand = expansion(mult = c(0, .1)))+
-  xlab("Threshold") +
-  ylab("Sum of Crop Acreages")+
-  theme(legend.position = "none",axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0)),
-        axis.title.x = element_text(margin = margin(t = 5, r = 0, b = 0, l = 0)))
-mi_box
-
-
-
-final_Michigan_by_crop<-do.call(rbind, list_of_final_data_by_countyM)
-final_Michigan_by_crop$ratio<-final_Michigan_by_crop$NASSacres/final_Michigan_by_crop$fieldacres
-
 #Plot showing the ratio of NASS acres to field acres across years, by crop at threshold 1
+final_Michigan_by_crop<-do.call(rbind, list_of_final_data_by_countyM)
+final_Michigan_by_crop$Label<-paste0(tools::toTitleCase(tolower(final_Michigan_by_crop$County))," County, Michigan")
+
+final_Michigan_by_crop$County <- factor(final_Michigan_by_crop$County , levels = c("HURON", "OCEANA", "VAN BUREN"))
+final_Michigan_by_crop$ratio<-final_Michigan_by_crop$fieldacres/final_Michigan_by_crop$NASSacres
+
+final_Michigan_by_crop <- final_Michigan_by_crop %>% 
+  group_by(County, year, threshold) %>% mutate(percent = (NASSacres/sum(NASSacres))*100) #get percentage of each crop
+final_Michigan_by_crop<-final_Michigan_by_crop[final_Michigan_by_crop$percent>4,] #get crops that make up ~95% of crop area
+
+
 final_Michigan_by_crop<-final_Michigan_by_crop[final_Michigan_by_crop$threshold ==1, ]
-ratio_plotM<-ggplot(final_Michigan_by_crop, aes(x=as.factor(Commodity), y=(log2(ratio)), fill=Commodity)) +
-  geom_boxplot()+
-  facet_wrap(.~County, scales = "free")+
-  xlab("Crop") +
-  ylab("Acreage Ratio")+
-  labs(title = "Ratio NASS Acres to Field Acres, By Crop")+
-  theme(panel.background = element_blank(),
-        axis.line = element_line(colour = "black"),
-        axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
-        axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
-        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
-  theme(legend.position = "none")
-ratio_plotM
+# ratio_plotM<-ggplot(final_Michigan_by_crop, aes(x=as.factor(Commodity), y=(log2(ratio)), fill=Commodity)) +
+#   geom_boxplot()+
+#   facet_wrap(.~County, scales = "free")+
+#   xlab("Crop") +
+#   ylab("Acreage Ratio")+
+#   labs(title = "Ratio NASS Acres to Field Acres, By Crop")+
+#   theme(panel.background = element_blank(),
+#         axis.line = element_line(colour = "black"),
+#         axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
+#         axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
+#         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+#   theme(legend.position = "none")
+# ratio_plotM
 
 
 
@@ -793,23 +743,24 @@ ratio_plotM
 ### Wisconsin Acreages----
 acreages_by_countyW<-readRDS(paste0(root_data_out,"/acreages_by_countyW.RData"))
 cntynames<-c("LANGLADE","ROCK","WAUSHARA")
+
 # acreages_by_cdl<-list()
-# acreages_by_county<-list()
+# acreages_by_countyW<-list()
 # cdl_extract_data<-list()
 # for(county in 1:length(field_list_wi_f)){
 #   county_layers<-field_list_wi_f[[county]]
-#   
+# 
 #   for(f in 1:length(cdl_data_wi_rec)){
 #     cdl<-cdl_data_wi_rec[[f]]
 #     cdl_extract<-lapply(county_layers, function(x) exact_extract(cdl, x, "mode"))
 #     cdl_extract<-lapply(cdl_extract, function(x) as.data.frame(x))
-#     
+# 
 #     field_area<- function(x){as.data.frame(terra::area(x), na.rm=T) }
 #     field_extract<-lapply(county_layers, field_area)
-#     
+# 
 #     cdl_extract<-mapply(c, cdl_extract, field_extract, SIMPLIFY=FALSE)
 #     cdl_extract_df<-lapply(cdl_extract, function(x) as.data.frame(do.call("cbind", x)))
-#     
+# 
 #     get_acreages<-function(y){
 #       y$polygon<-row.names(y)
 #       colnames(y)[1]<-"Class"
@@ -817,23 +768,23 @@ cntynames<-c("LANGLADE","ROCK","WAUSHARA")
 #       y$area<-(y$area)*0.000247105 #convert to acres
 #       crop_total<-aggregate(y$area, by=list(Class=y$Class), FUN=sum)
 #       crop_final<-left_join(crop_total, cdlkey, by="Class")
-#       crop_final$Category<-  toupper(crop_final$Category) 
+#       crop_final$Category<-  toupper(crop_final$Category)
 #       crop_final$Year<-years[[f]]
 #       crop_final
 #     }
-#     
+# 
 #     get_acreages_by_cdl<-lapply(cdl_extract_df, get_acreages)
 #     acreages_by_cdl[[f]]<-get_acreages_by_cdl
 #   }
-#   
+# 
 #   names(acreages_by_cdl)<-2008:2021
-#   acreages_by_county[[county]]<-acreages_by_cdl
+#   acreages_by_countyW[[county]]<-acreages_by_cdl
 #   cdl_extract_data[[county]]<-cdl_extract_df
-#   
+# 
 # }
 # 
+# saveRDS(acreages_by_countyW, file=paste0(root_data_out,"/acreages_by_countyW.RData"))
 names(acreages_by_countyW)<-cntynames
-#saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_countyW.RData"))
 
 list_of_final_data_by_countyW<-list()
 for(n in 1:length(acreages_by_countyW)){ 
@@ -848,6 +799,8 @@ for(n in 1:length(acreages_by_countyW)){
     for(layer in 1:length(year_list)){
       layer_by_year<-year_list[[layer]]
       layer_by_year$year<-as.numeric(names(county[y]))
+      layer_by_year<-year_list[[layer]]
+      layer_by_year$year<-as.numeric(names(county[y]))
       layer_by_year$Category<-  toupper(layer_by_year$Category) 
       layer_by_year$Category[grepl('WINTER', layer_by_year$Category)] <- 'WHEAT'
       layer_by_year$Category[grepl('OTHER HAY/NON ALFALFA', layer_by_year$Category)] <- 'HAY'
@@ -855,7 +808,6 @@ for(n in 1:length(acreages_by_countyW)){
       layer_by_year$x<-ifelse(layer_by_year$Class ==  36, with(layer_by_year,sum(x[Category =='HAY'])), layer_by_year$x)
       layer_by_year<-layer_by_year[!layer_by_year$Class == 37,] #drop the other hay class because we merged it with the alfalfa class
       layer_by_year$threshold<-15-layer
-      
 
       list_of_field[[layer]]<-layer_by_year
       
@@ -890,7 +842,7 @@ for(n in 1:length(acreages_by_countyW)){
 
 names(list_of_final_data_by_countyW)<-cntynames
 for(i in 1:length(list_of_final_data_by_countyW)){
-  write.csv(list_of_final_data_by_countyW[i], paste0(root_figures, "/", names(list_of_final_data_by_countyW)[i], "_finaldf.csv"))
+  write.csv(list_of_final_data_by_countyW[i], paste0(root_figures, "/", names(list_of_final_data_by_countyW)[i], "_finaldf_og.csv"))
 }
 
 cntynames<-c("LANGLADE","ROCK","WAUSHARA")
@@ -961,65 +913,137 @@ finalw<-ggpubr::ggarrange(list_of_plotsW[[1]], list_of_plotsW[[2]], list_of_plot
 finalw
 
 
-#list_of_plotsW[[3]]
+
+#Plot showing the ratio of NASS acres to field acres across years, by crop at threshold 1
+final_Wisconsin_by_crop<-do.call(rbind, list_of_final_data_by_countyW)
+final_Wisconsin_by_crop$Label<-paste0(tools::toTitleCase(tolower(final_Wisconsin_by_crop$County))," County, Wisconsin")
+
+final_Wisconsin_by_crop$County <- factor(final_Wisconsin_by_crop$County , levels = c("ROCK", "WAUSHARA", "LANGLADE"))
+final_Wisconsin_by_crop$ratio<-final_Wisconsin_by_crop$fieldacres/final_Wisconsin_by_crop$NASSacres
+
+final_Wisconsin_by_crop <- final_Wisconsin_by_crop %>% 
+  group_by(County, year, threshold) %>% mutate(percent = (NASSacres/sum(NASSacres))*100) #get percentage of each crop
+final_Wisconsin_by_crop<-final_Wisconsin_by_crop[final_Wisconsin_by_crop$percent>4,] #get crops that make up ~95% of crop area
 
 
+final_Wisconsin_by_crop<-final_Wisconsin_by_crop[final_Wisconsin_by_crop$threshold ==1, ]
+# ratio_plotW<-ggplot(final_Wisconsin_by_crop, aes(x=as.factor(Commodity), y=(log2(ratio)), fill=Commodity)) +
+#   geom_boxplot()+
+#   facet_wrap(.~County, scales = "free")+
+#   xlab("Crop") +
+#   ylab("Acreage Ratio")+
+#   labs(title = "Ratio NASS Acres to Field Acres, By Crop")+
+#   theme(panel.background = element_blank(),
+#         axis.line = element_line(colour = "black"),
+#         axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
+#         axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
+#         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+#   theme(legend.position = "none")
+# ratio_plotW
 
-final<-ggpubr::ggarrange(list_of_plotsW[[1]], list_of_plotsW[[2]], list_of_plotsW[[3]], # list of plots
-                         labels = "AUTO", # labels
-                         common.legend = T, # COMMON LEGEND
-                         legend = "right", # legend position
-                         align = "hv", # Align them both, horizontal and vertical
-                         nrow = 3)  # number of rows
-final
+### Combine Boxplots----
+final_Illinois<-do.call(rbind, list_of_dataI)
+final_Illinois$County <- factor(final_Illinois$County , levels = c("Champaign", "McHenry", "DuPage"))
+final_Illinois<-final_Illinois[!c(final_Illinois$County == 'McHenry' & final_Illinois$year==2021),] #remove
+final_Illinois$State<-"Illinois"
 
+final_Michigan<-do.call(rbind, list_of_dataM)
+final_Michigan$County <- factor(final_Michigan$County , levels = c("Huron", "Oceana", "VanBuren"))
+final_Michigan$State<-"Michigan"
 
-#1000,800 export
-
-
-
-#boxplots showing the specific acreage average via threshold compared to NASS average
 final_Wisconsin<-do.call(rbind, list_of_dataW)
-box<-ggplot(final_Wisconsin, aes(x = as.factor(thresh), y = sum_field, color=as.factor(thresh)))+
-  geom_boxplot()+
-  facet_wrap(.~County, scales = "free")
-#geom_point(data = final_Illinois,aes(aes(x = year, y = sum_nass)),color = 'black')+
-# theme(axis.text.x = element_text(angle = 45, hjust = 1))+
-# theme(panel.background = element_blank(),
-#       axis.line = element_line(colour = "black"),
-#       axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
-#       axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
-#       axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+final_Wisconsin$County <- factor(final_Wisconsin$County , levels = c("Rock", "Waushara", "Langlade"))
+final_Wisconsin$State<-"Wisconsin"
 
-box
-nass_dat<-final_Wisconsin[final_Wisconsin$thresh ==1,]
-nass_dat<-nass_dat %>% group_by(County) %>% mutate(avg =mean(sum_nass))
+final_all<-rbind(final_Illinois,final_Michigan,final_Wisconsin)
+final_all$Label<-paste0(final_all$County," County, ",final_all$State)
+final_all$Label<-ifelse(final_all$Label == "VanBuren County, Michigan","Van Buren County, Michigan", final_all$Label) #correct Van Buren
+#final_all$Label <- factor(final_all$Label , levels=unique(as.character(final_all$Label )) )
+final_all <- transform(final_all, Label=reorder(Label, -sum_nass) ) 
+
+nass_dat<-final_all[final_all$thresh ==1,]
+nass_dat<-nass_dat %>% group_by(County) %>% mutate(avgnass =mean(sum_nass))%>% mutate(avgcdl = mean(sum_cdl))
 #nass_dat$thresh<-c(1:14,1,2,5,10,1:12,14)
-nass_dat$thresh<-c(1,5,14,1,5,14,1,5,14)
+nass_dat$thresh<-rep(c(1,5,14,1,5,14,1,5,14),3)
 
-wi_box<-box + 
-  geom_line(nass_dat, mapping=aes(x=as.factor(thresh), y=avg, group=1),size=1,color="black")+
-  facet_wrap(.~County, scales = "free_y")+
+
+t_box<-
+  ggplot(final_all, aes(x = as.factor(thresh), y = sum_field, color=as.factor(thresh)))+
+  geom_boxplot()+
+  geom_line(nass_dat, mapping=aes(x=as.factor(thresh), y=avgnass, group=1),size=1,color="black")+
+  geom_line(nass_dat, mapping=aes(x=as.factor(thresh), y=avgcdl, group=1),size=1,color="darkgrey")+
+  facet_wrap(.~Label, scales = "free_y")+
   scale_y_continuous(n.breaks=10,expand = expansion(mult = c(0, .1)))+
   xlab("Threshold") +
   ylab("Sum of Crop Acreages")+
   theme(legend.position = "none",axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0)),
         axis.title.x = element_text(margin = margin(t = 5, r = 0, b = 0, l = 0)))
-wi_box
+
+t_box
+
+#what's the total percentage change across threshold? 
+final_all <- final_all %>% group_by(thresh, County) %>% 
+  mutate(avgfield =mean(sum_field))%>% 
+  mutate(avgnass =mean(sum_nass)) %>%
+  mutate(avgcdl =mean(sum_cdl))
+  
+percent<-final_all[final_all$year ==2008,]
+percent<-percent %>% group_by(County, year) %>% 
+mutate(percentf = ((max(avgfield) - min (avgfield))/max(avgfield))*100) %>%
+mutate(percentn = ((max(avgnass) - max (avgfield))/max(avgnass))*100) %>%
+mutate(percentc = ((max(avgcdl) - max (avgfield))/max(avgcdl))*100)
+
+percent[,12:14]<-round(percent[,12:14],1)
+
+#percent<-percent %>% group_by(County) %>% mutate(sdf=100*(sd(avgfield)/mean(avgfield)) )
 
 
+percent<-percent %>% 
+  group_by(County) %>% 
+  mutate(heightf = min(avgfield)) %>%
+  # mutate(endf = min(avgfield)) %>%
+  # mutate(topf = max(avgfield)) %>%
+  #mutate(avgnass = ifelse(County %in% counties, max(avgnass) + .3 * sd(avgfield)), avgnass) %>%
+  mutate(heightn = avgnass ) %>%
+  # mutate(endn = min(avgnass)) %>%
+  # mutate(topn = max(avgnass)) %>%
+ # mutate(avgcdl = ifelse(County %in% counties, max(avgcdl) + .3 * sd(avgfield)), avgcdl) %>%
+  mutate(heightc = avgcdl) 
+  # mutate(endc = min(avgcdl)) %>%
+  # mutate(topc = max(avgcdl)) 
 
-final_Wisconsin_by_crop<-do.call(rbind, list_of_final_data_by_countyW)
-final_Wisconsin_by_crop$ratio<-final_Wisconsin_by_crop$NASSacres/final_Wisconsin_by_crop$fieldacres
 
-#Plot showing the ratio of NASS acres to field acres across years, by crop at threshold 1
-final_Wisconsin_by_crop<-final_Wisconsin_by_crop[final_Wisconsin_by_crop$threshold ==1, ]
-ratio_plotW<-ggplot(final_Wisconsin_by_crop, aes(x=as.factor(Commodity), y=(log2(ratio)), fill=Commodity)) +
-  geom_boxplot(aes(weight = prop2), 
-                 varwidth = TRUE,)+
+fin_box<-t_box +
+  geom_line(percent, mapping=aes(x=as.factor(thresh), y=avgfield, group=Label,),size=1, alpha=0.4, color="darkblue")+
+  facet_wrap(.~Label, scales = "free_y")+
+  geom_text(percent, mapping=aes(x = 15.5, y = heightf, label = paste0(percentf, "%")), size= 4, col='darkblue', stat = "identity")+
+  geom_text(percent, mapping=aes(x = 15, y = heightn, label = paste0(percentn, "%")), size= 4, col='black', stat = "identity")+
+  geom_text(percent, mapping=aes(x = 15, y = heightc, label = paste0(percentc, "%")), size= 4, col='darkgrey',  stat = "identity")+
+  coord_cartesian(xlim = c(1, 16), # This focuses the x-axis on the range of interest
+                  clip = 'off') +  
+  theme(panel.background = element_blank(),
+        panel.spacing.x= unit(2.5, "lines"),
+        axis.line = element_line(colour = "black"),
+        axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14),
+        axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+  scale_y_continuous(expand = c(0.1,0))
+  
+fin_box
 
-  #geom_violin()+
-  facet_wrap(.~County, scales = "free")+
+
+#### Combine Plot Ratios ----
+final_by_crop<-rbind(final_Illinois_by_crop,final_Michigan_by_crop,final_Wisconsin_by_crop)
+
+#levels(final_by_crop$Label)<- levels(final_all$Label)
+
+final_by_crop<-final_by_crop%>%group_by(Label)%>%mutate(NASSacresm = mean(NASSacres))
+final_by_crop <- transform(final_by_crop, Label=reorder(Label, -(NASSacresm)) ) 
+
+
+ratio_plotf<-ggplot(final_by_crop, aes(x=as.factor(Commodity), y=(log2(ratio)), fill=Commodity)) +
+  geom_boxplot()+
+  facet_wrap(.~Label, scales = "free")+
   xlab("Crop") +
   ylab("Acreage Ratio")+
   labs(title = "Ratio NASS Acres to Field Acres, By Crop")+
@@ -1029,26 +1053,9 @@ ratio_plotW<-ggplot(final_Wisconsin_by_crop, aes(x=as.factor(Commodity), y=(log2
         axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   theme(legend.position = "none")
-ratio_plotW
-
-
-### Combine Plots----
-
-
-ggpubr::ggarrange(ill_box, mi_box, wi_box, # list of plots
-                  labels = 1, # labels
-                  # common.legend = T, # COMMON LEGEND
-                  # legend = "right", # legend position
-                  align = "hv", # Align them both, horizontal and vertical
-                  ncol = 1)  # number of rows
+ratio_plotf
 
 
 
 
-ggpubr::ggarrange(ratio_plotI, ratio_plotM, ratio_plotW, # list of plots
-                  labels = "AUTO", # labels
-                  # common.legend = T, # COMMON LEGEND
-                  # legend = "right", # legend position
-                  align = "hv", # Align them both, horizontal and vertical
-                  ncol = 1)  # number of rows
 
