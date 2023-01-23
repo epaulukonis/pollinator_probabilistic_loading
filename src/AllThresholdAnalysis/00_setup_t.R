@@ -194,7 +194,7 @@ source(file.path(root_src, "02_formatting_cdl_t.R"))
 #source(file.path(root_src, "03_CPAA_threshold_t.R"))
 #source(file.path(root_src, "04_CPAA_delineation_t.R"))
 # source(file.path(root_src, "06_subdelineation_t.R"))
-source(file.path(root_src, "09_hyperprametertest_t.R"))
+source(file.path(root_src, "09_hyperparametertest_t.R"))
 
 
 
