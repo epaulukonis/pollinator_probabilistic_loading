@@ -6,6 +6,7 @@
 
 
 #### Hyperparameter runs ----
+cdlkey<-read.csv(paste0(cdl_dir,"/CDL_key.csv")) #cdl key
 
 #Michigan 
 print(list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/SUB/smallerfields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
