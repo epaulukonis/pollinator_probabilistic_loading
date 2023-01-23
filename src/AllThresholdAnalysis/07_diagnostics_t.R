@@ -10,10 +10,10 @@
 #options(scipen = 999) #remove exponent options, throws R off
 
 #get plot palette
-library(randomcoloR)
-n <- 14
-palette <- distinctColorPalette(n)
-pie(rep(1, n), col=palette)
+# library(randomcoloR)
+# n <- 14
+# palette <- distinctColorPalette(n)
+# pie(rep(1, n), col=palette)
 
 
 #Illinois
@@ -300,7 +300,6 @@ extracted_cdl_dataW<-readRDS(paste0(root_data_out,"/extracted_cdl_dataW.RData"))
 # 
 # }
 # 
-# 
 # years <- list(2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021)
 # extracted_cdl_data<-list()
 # names(county_set_list)<-c("WAUSHARA","LANGLADE","ROCK")
@@ -312,7 +311,6 @@ extracted_cdl_dataW<-readRDS(paste0(root_data_out,"/extracted_cdl_dataW.RData"))
 #   cdl_extract$County<-names(county_set_list[county])
 #   extracted_cdl_data[[county]] <-cdl_extract
 # }
-# 
 # 
 # extracted_cdl_dataW<-do.call(rbind, extracted_cdl_data)
 # saveRDS(extracted_cdl_dataW, file=paste0(root_data_out,"/extracted_cdl_dataW.RData"))
@@ -365,10 +363,8 @@ cntynames<-c('CHAMPAIGN',"DU PAGE","MCHENRY")
 
 names(acreages_by_countyI)<-cntynames
 
-
 list_of_final_data_by_countyI<-list()
-for(n in 1:length(acreages_by_countyI)){ 
-  #county_name<-'CHAMPAIGN'
+for(n in 1:length(acreages_by_countyI)){
   county<-acreages_by_countyI[[n]]
   county_name<-names(acreages_by_countyI[n])
   names(county)<-years
@@ -378,22 +374,20 @@ for(n in 1:length(acreages_by_countyI)){
     year_list<-county[[y]]
     list_of_field<-list()
     for(layer in 1:length(year_list)){
-    layer_by_year<-year_list[[layer]]
-    layer_by_year$year<-as.numeric(names(county[y]))
-    layer_by_year$Category<-  toupper(layer_by_year$Category) 
-    #layer_by_year<-layer_by_year[!layer_by_year$Category == "OTHER HAY/NON ALFALFA",] #add in winter wheat?? no
-    layer_by_year<-year_list[[layer]]
-    layer_by_year$year<-as.numeric(names(county[y]))
-    layer_by_year$Category<-  toupper(layer_by_year$Category) 
-    layer_by_year$Category[grepl('WINTER', layer_by_year$Category)] <- 'WHEAT'
-    layer_by_year$Category[grepl('OTHER HAY/NON ALFALFA', layer_by_year$Category)] <- 'HAY'
-    layer_by_year$Category[grepl('ALFALFA', layer_by_year$Category)] <- 'HAY'
-    layer_by_year$x<-ifelse(layer_by_year$Class ==  36, with(layer_by_year,sum(x[Category =='HAY'])), layer_by_year$x)
-    layer_by_year<-layer_by_year[!layer_by_year$Class == 37,] #drop the other hay class because we merged it with the alfalfa class
-    layer_by_year$threshold<-15-layer
-    
-    list_of_field[[layer]]<-layer_by_year
-    
+      layer_by_year<-year_list[[layer]]
+      layer_by_year$year<-as.numeric(names(county[y]))
+      layer_by_year<-year_list[[layer]]
+      layer_by_year$year<-as.numeric(names(county[y]))
+      layer_by_year$Category<-  toupper(layer_by_year$Category) 
+      layer_by_year$Category[grep("\\bWINTER WHEAT\\b", layer_by_year$Category)] <- 'WHEAT' 
+      # layer_by_year$Category[grep("\\bALFALFA\\b", layer_by_year$Category)] <- 'HAY & HAYLAGE' #change the alfalfa to general hay/haylage
+      # layer_by_year$Category[grep("\\bOTHER HAY/NON ALFALFA\\b", layer_by_year$Category)] <- 'HAY & HAYLAGE' #change the alfalfa to general hay/haylage
+      # layer_by_year$x<-ifelse(layer_by_year$Class ==  36, with(layer_by_year,sum(x[Category =='HAY & HAYLAGE'])), layer_by_year$x)
+      # layer_by_year<-layer_by_year[!layer_by_year$Class == 37,] #drop the other hay class because we merged it with the alfalfa class
+      
+      layer_by_year$threshold<-15-layer
+      list_of_field[[layer]]<-layer_by_year
+      
     }
     
     list_of_year[[y]]<-do.call(rbind, list_of_field)
@@ -404,16 +398,26 @@ for(n in 1:length(acreages_by_countyI)){
   #NASS data
   ill_nassx<-ill_nass[!ill_nass$Value == " (D)",]
   ill_nassx$Value<-as.numeric(as.numeric(gsub(",", "", ill_nassx$Value)))
+  ill_nassx$Commodity[grep("\\bBEANS\\b", ill_nassx$Commodity)] <- 'DRY BEANS'
   ill_nass_y<- ill_nassx %>%
     #filter(Year %in% c(layer_by_year$year)) %>%
     filter(County %in% county_name) %>%
     filter_at(vars(starts_with("Data.Item")), all_vars(grepl('HARVESTED|BEARING & NON-BEARING', .)))%>% #use 'non' to filter bearing and non-bearing
-    filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('OPERATIONS|SMALL|PROCESSING', .)))%>%
+    filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('OPERATIONS|SMALL|PROCESSING|WHEAT, WINTER', .))) #note; I included an extra 'winter wheat' elimination because CoA double counts winter wheat as wheat
+  
+  #extra step to deal with hay/alfalfa  
+  #we need to keep ONLY alfalfa in the CoA, and match excluding alfalfa to the same name in the CDL; other types of hay are not specific enough, so are removed
+  # totalhay<-ill_nass_y[(ill_nass_y$Commodity == 'HAY & HAYLAGE'),] 
+  # totalhay<-totalhay %>%  group_by(Year) %>% mutate(Value= sum(as.numeric(Value))) %>% filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('IRRIGATED', .))) #note; I included an extra 'winter wheat' elimination because CoA double counts winter wheat as wheat
+  alfalfa<-ill_nass_y[(ill_nass_y$Commodity == 'HAY' & grepl('ALFALFA',ill_nass_y$Data.Item)),]
+  alfalfa$Commodity <- ifelse(grepl('EXCL',alfalfa$Data.Item), 'OTHER HAY/NON ALFALFA','ALFALFA')
+  
+  ill_nass_y <- ill_nass_y %>% 
+    filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('HAY', .))) %>%
+    rbind(alfalfa)%>%
     group_by(Commodity, Year) %>% summarise(sum = sum(as.numeric(Value))) 
   
-  
-  #|SILAGE|IRRIGATED
-  
+  #join together the field and the CoA data 
   names(field_data)[3]<-"Commodity"
   names(field_data)[2]<-"fieldacres"
   layer_by_year_crops<-left_join(field_data, ill_nass_y, by = c("Year","Commodity"))
@@ -423,13 +427,13 @@ for(n in 1:length(acreages_by_countyI)){
   layer_by_year_crops$County<-cntynames[[n]]
   list_of_final_data_by_countyI[[n]]<-layer_by_year_crops
   
-  
 }
 
-# names(list_of_final_data_by_countyI)<-cntynames
-# for(i in 1:length(list_of_final_data_by_countyI)){
-#   write.csv(list_of_final_data_by_countyI[i], paste0(root_figures, "/", names(list_of_final_data_by_countyI)[i], "_finaldf.csv"))
-# }
+
+names(list_of_final_data_by_countyI)<-cntynames
+for(i in 1:length(list_of_final_data_by_countyI)){
+  write.csv(list_of_final_data_by_countyI[i], paste0(root_figures, "/", names(list_of_final_data_by_countyI)[i], "_finaldf.csv"))
+}
 
 
 cntynames<-c('CHAMPAIGN',"DU PAGE","MCHENRY")
@@ -580,7 +584,7 @@ acreages_by_countyM<-readRDS(paste0(root_data_out,"/acreages_by_countyM.RData"))
 names(acreages_by_countyM)<-cntynames
 
 list_of_final_data_by_countyM<-list()
-for(n in 1:length(acreages_by_countyM)){ 
+for(n in 1:length(acreages_by_countyM)){
   county<-acreages_by_countyM[[n]]
   county_name<-names(acreages_by_countyM[n])
   names(county)<-years
@@ -592,18 +596,16 @@ for(n in 1:length(acreages_by_countyM)){
     for(layer in 1:length(year_list)){
       layer_by_year<-year_list[[layer]]
       layer_by_year$year<-as.numeric(names(county[y]))
-      layer_by_year$Category<-  toupper(layer_by_year$Category) 
-      #layer_by_year<-layer_by_year[!layer_by_year$Category == "OTHER HAY/NON ALFALFA",] #add in winter wheat?? no
       layer_by_year<-year_list[[layer]]
       layer_by_year$year<-as.numeric(names(county[y]))
       layer_by_year$Category<-  toupper(layer_by_year$Category) 
-      layer_by_year$Category[grepl('WINTER', layer_by_year$Category)] <- 'WHEAT'
-      layer_by_year$Category[grepl('OTHER HAY/NON ALFALFA', layer_by_year$Category)] <- 'HAY'
-      layer_by_year$Category[grepl('ALFALFA', layer_by_year$Category)] <- 'HAY'
-      layer_by_year$x<-ifelse(layer_by_year$Class ==  36, with(layer_by_year,sum(x[Category =='HAY'])), layer_by_year$x)
-      layer_by_year<-layer_by_year[!layer_by_year$Class == 37,] #drop the other hay class because we merged it with the alfalfa class
-      layer_by_year$threshold<-15-layer
+      layer_by_year$Category[grep("\\bWINTER WHEAT\\b", layer_by_year$Category)] <- 'WHEAT' 
+      # layer_by_year$Category[grep("\\bALFALFA\\b", layer_by_year$Category)] <- 'HAY & HAYLAGE' #change the alfalfa to general hay/haylage
+      # layer_by_year$Category[grep("\\bOTHER HAY/NON ALFALFA\\b", layer_by_year$Category)] <- 'HAY & HAYLAGE' #change the alfalfa to general hay/haylage
+      # layer_by_year$x<-ifelse(layer_by_year$Class ==  36, with(layer_by_year,sum(x[Category =='HAY & HAYLAGE'])), layer_by_year$x)
+      # layer_by_year<-layer_by_year[!layer_by_year$Class == 37,] #drop the other hay class because we merged it with the alfalfa class
       
+      layer_by_year$threshold<-15-layer
       list_of_field[[layer]]<-layer_by_year
       
     }
@@ -616,13 +618,26 @@ for(n in 1:length(acreages_by_countyM)){
   #NASS data
   mi_nassx<-mi_nass[!mi_nass$Value == " (D)",]
   mi_nassx$Value<-as.numeric(as.numeric(gsub(",", "", mi_nassx$Value)))
+  mi_nassx$Commodity[grep("\\bBEANS\\b", mi_nassx$Commodity)] <- 'DRY BEANS'
   mi_nass_y<- mi_nassx %>%
     #filter(Year %in% c(layer_by_year$year)) %>%
     filter(County %in% county_name) %>%
     filter_at(vars(starts_with("Data.Item")), all_vars(grepl('HARVESTED|BEARING & NON-BEARING', .)))%>% #use 'non' to filter bearing and non-bearing
-    filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('OPERATIONS|SMALL|PROCESSING', .)))%>%
-    group_by(Commodity, Year) %>% summarise(sum = sum(as.numeric(Value))) 
+    filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('OPERATIONS|SMALL|PROCESSING|WHEAT, WINTER', .))) #note; I included an extra 'winter wheat' elimination because CoA double counts winter wheat as wheat
   
+  #extra step to deal with hay/alfalfa  
+  #we need to keep ONLY alfalfa in the CoA, and match excluding alfalfa to the same name in the CDL; other types of hay are not specific enough, so are removed
+  # totalhay<-mi_nass_y[(mi_nass_y$Commodity == 'HAY & HAYLAGE'),] 
+  # totalhay<-totalhay %>%  group_by(Year) %>% mutate(Value= sum(as.numeric(Value))) %>% filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('IRRIGATED', .))) #note; I included an extra 'winter wheat' elimination because CoA double counts winter wheat as wheat
+  alfalfa<-mi_nass_y[(mi_nass_y$Commodity == 'HAY' & grepl('ALFALFA',mi_nass_y$Data.Item)),]
+  alfalfa$Commodity <- ifelse(grepl('EXCL',alfalfa$Data.Item), 'OTHER HAY/NON ALFALFA','ALFALFA')
+  
+  mi_nass_y <- mi_nass_y %>% 
+    filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('HAY', .))) %>%
+    rbind(alfalfa)%>%
+    group_by(Commodity, Year) %>% summarise(sum = sum(as.numeric(Value))) 
+
+  #join together the field and the CoA data 
   names(field_data)[3]<-"Commodity"
   names(field_data)[2]<-"fieldacres"
   layer_by_year_crops<-left_join(field_data, mi_nass_y, by = c("Year","Commodity"))
@@ -631,7 +646,6 @@ for(n in 1:length(acreages_by_countyM)){
   layer_by_year_crops<-na.omit(layer_by_year_crops) #IF there are no crops represented in NASS for that year, drop those rows
   layer_by_year_crops$County<-cntynames[[n]]
   list_of_final_data_by_countyM[[n]]<-layer_by_year_crops
-  
   
 }
 
@@ -787,7 +801,7 @@ cntynames<-c("LANGLADE","ROCK","WAUSHARA")
 names(acreages_by_countyW)<-cntynames
 
 list_of_final_data_by_countyW<-list()
-for(n in 1:length(acreages_by_countyW)){ 
+for(n in 1:length(acreages_by_countyW)){
   county<-acreages_by_countyW[[n]]
   county_name<-names(acreages_by_countyW[n])
   names(county)<-years
@@ -802,13 +816,13 @@ for(n in 1:length(acreages_by_countyW)){
       layer_by_year<-year_list[[layer]]
       layer_by_year$year<-as.numeric(names(county[y]))
       layer_by_year$Category<-  toupper(layer_by_year$Category) 
-      layer_by_year$Category[grepl('WINTER', layer_by_year$Category)] <- 'WHEAT'
-      layer_by_year$Category[grepl('OTHER HAY/NON ALFALFA', layer_by_year$Category)] <- 'HAY'
-      layer_by_year$Category[grepl('ALFALFA', layer_by_year$Category)] <- 'HAY'
-      layer_by_year$x<-ifelse(layer_by_year$Class ==  36, with(layer_by_year,sum(x[Category =='HAY'])), layer_by_year$x)
-      layer_by_year<-layer_by_year[!layer_by_year$Class == 37,] #drop the other hay class because we merged it with the alfalfa class
-      layer_by_year$threshold<-15-layer
+      layer_by_year$Category[grep("\\bWINTER WHEAT\\b", layer_by_year$Category)] <- 'WHEAT' #change the alfalfa to general hay/haylage
+      # layer_by_year$Category[grep("\\bALFALFA\\b", layer_by_year$Category)] <- 'HAY & HAYLAGE' #change the alfalfa to general hay/haylage
+      # layer_by_year$Category[grep("\\bOTHER HAY/NON ALFALFA\\b", layer_by_year$Category)] <- 'HAY & HAYLAGE' #change the alfalfa to general hay/haylage
+      # layer_by_year$x<-ifelse(layer_by_year$Class ==  36, with(layer_by_year,sum(x[Category =='HAY'])), layer_by_year$x)
+      # layer_by_year<-layer_by_year[!layer_by_year$Class == 37,] #drop the other hay class because we merged it with the alfalfa class
 
+      layer_by_year$threshold<-15-layer
       list_of_field[[layer]]<-layer_by_year
       
     }
@@ -821,22 +835,34 @@ for(n in 1:length(acreages_by_countyW)){
   #NASS data
   wi_nassx<-wi_nass[!wi_nass$Value == " (D)",]
   wi_nassx$Value<-as.numeric(as.numeric(gsub(",", "", wi_nassx$Value)))
+  wi_nassx$Commodity[grep("\\bBEANS\\b", wi_nassx$Commodity)] <- 'DRY BEANS'
   wi_nass_y<- wi_nassx %>%
     #filter(Year %in% c(layer_by_year$year)) %>%
     filter(County %in% county_name) %>%
     filter_at(vars(starts_with("Data.Item")), all_vars(grepl('HARVESTED|BEARING & NON-BEARING', .)))%>% #use 'non' to filter bearing and non-bearing
-    filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('OPERATIONS|SMALL|PROCESSING', .)))%>%
-    group_by(Commodity, Year) %>% summarise(sum = sum(as.numeric(Value))) 
+    filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('OPERATIONS|SMALL|PROCESSING|WHEAT, WINTER', .))) #note; I included an extra 'winter wheat' elimination because CoA double counts winter wheat as wheat
+    
+#extra step to deal with hay/alfalfa  
+#we need to keep ONLY alfalfa in the CoA, and match excluding alfalfa to the same name in the CDL; other types of hay are not specific enough, so are removed
+# totalhay<-wi_nass_y[(wi_nass_y$Commodity == 'HAY & HAYLAGE'),] 
+# totalhay<-totalhay %>%  group_by(Year) %>% mutate(Value= sum(as.numeric(Value))) %>% filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('IRRIGATED', .))) #note; I included an extra 'winter wheat' elimination because CoA double counts winter wheat as wheat
+alfalfa<-wi_nass_y[(wi_nass_y$Commodity == 'HAY' & grepl('ALFALFA',wi_nass_y$Data.Item)),]
+alfalfa$Commodity <- ifelse(grepl('EXCL',alfalfa$Data.Item), 'OTHER HAY/NON ALFALFA','ALFALFA')
+
+wi_nass_y <- wi_nass_y %>% 
+  filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('HAY', .))) %>%
+  rbind(alfalfa)%>%
+  group_by(Commodity, Year) %>% summarise(sum = sum(as.numeric(Value))) 
   
+#join together the field and the CoA data 
   names(field_data)[3]<-"Commodity"
   names(field_data)[2]<-"fieldacres"
   layer_by_year_crops<-left_join(field_data, wi_nass_y, by = c("Year","Commodity"))
   colnames(layer_by_year_crops)[8]<-"NASSacres"
-  
+
   layer_by_year_crops<-na.omit(layer_by_year_crops) #IF there are no crops represented in NASS for that year, drop those rows
   layer_by_year_crops$County<-cntynames[[n]]
   list_of_final_data_by_countyW[[n]]<-layer_by_year_crops
-  
   
 }
 
@@ -850,6 +876,7 @@ cntynames<-c("LANGLADE","ROCK","WAUSHARA")
 list_of_plotsW<-list()
 list_of_dataW<-list()
 for(c in 1:length(list_of_final_data_by_countyW)){
+
   layer_by_year_crops<-list_of_final_data_by_countyW[[c]]
   extracted_cdl_dataW$CDLacres<-((extracted_cdl_dataW$count)*900)*0.000247105
   colnames(extracted_cdl_dataW)[1]<-'Class'
@@ -994,7 +1021,6 @@ mutate(percentn = ((max(avgnass) - max (avgfield))/max(avgnass))*100) %>%
 mutate(percentc = ((max(avgcdl) - max (avgfield))/max(avgcdl))*100)
 
 percent[,12:14]<-round(percent[,12:14],1)
-
 #percent<-percent %>% group_by(County) %>% mutate(sdf=100*(sd(avgfield)/mean(avgfield)) )
 
 
@@ -1024,8 +1050,8 @@ fin_box<-t_box +
   theme(panel.background = element_blank(),
         panel.spacing.x= unit(2.5, "lines"),
         axis.line = element_line(colour = "black"),
-        axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14),
-        axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14),
+        axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14, face='bold'),
+        axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14, face='bold'),
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   scale_y_continuous(expand = c(0.1,0))
   
@@ -1034,18 +1060,23 @@ fin_box
 
 #### Combine Plot Ratios ----
 final_by_crop<-rbind(final_Illinois_by_crop,final_Michigan_by_crop,final_Wisconsin_by_crop)
-
 #levels(final_by_crop$Label)<- levels(final_all$Label)
-
 final_by_crop<-final_by_crop%>%group_by(Label)%>%mutate(NASSacresm = mean(NASSacres))
-final_by_crop <- transform(final_by_crop, Label=reorder(Label, -(NASSacresm)) ) 
+final_by_crop<-na.omit(final_by_crop)
 
+#this is to add an additional rank to sort the plot the same as the boxplot above
+order<-as.data.frame(cbind(as.numeric(9:1) , c("Champaign County, Illinois", "Huron County, Michigan", "Rock County, Wisconsin",
+                                  'McHenry County, Illinois',"Van Buren County, Michigan","Waushara County, Wisconsin",
+                                  "Oceana County, Michigan", "Langlade County, Wisconsin", "DuPage County, Illinois")))
+names(order)<-c("Rank","Label")
+final_by_crop<-merge(final_by_crop,order,by="Label")
+final_by_crop <- transform(final_by_crop, Label=reorder(Label, -as.numeric(Rank)) ) 
 
 ratio_plotf<-ggplot(final_by_crop, aes(x=as.factor(Commodity), y=(log2(ratio)), fill=Commodity)) +
   geom_boxplot()+
   facet_wrap(.~Label, scales = "free")+
   xlab("Crop") +
-  ylab("Acreage Ratio")+
+  ylab("Ratio Sum of Crop Acreage")+
   labs(title = "Ratio NASS Acres to Field Acres, By Crop")+
   theme(panel.background = element_blank(),
         axis.line = element_line(colour = "black"),
@@ -1057,5 +1088,11 @@ ratio_plotf
 
 
 
+final_by_crop<-final_by_crop[final_by_crop$threshold==1,]
+final_by_crop$Commodity<-tools::toTitleCase(tolower(final_by_crop$Commodity))
+write.csv(final_by_crop, paste0(root_figures, "/", "individualcrops", "_NASSproportioncsv"))
 
+
+final_by_crop_sum<-final_by_crop %>% group_by(Label, Commodity) %>% summarise(avg = mean(percent))
+write.csv(final_by_crop_sum, paste0(root_figures, "/", "individualcrops", "_NASSproportion_sum.csv"))
 

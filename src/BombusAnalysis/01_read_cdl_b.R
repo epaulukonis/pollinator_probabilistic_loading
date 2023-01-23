@@ -1,12 +1,14 @@
 ### Probabilistic Crop Loading 
 
-### 02 Formatting CDL data
+### 01 Formatting CDL data
 
 # Edited by E. Paulukonis Sept 2021
 
 import_start_time <- Sys.time()
 print("stepping into 02_formatting_cdl_b.R")
 
+
+### Illinois-Specific----
 cdl_rec_filename<-paste0(cdl_dir_adj, "/CDL_2021_17.tif")
 if(file.exists(cdl_rec_filename)){
   
@@ -15,7 +17,8 @@ if(file.exists(cdl_rec_filename)){
   cdl_data_ill_rec<-setNames(lapply(cdl_data_ill_rec, raster), tools::file_path_sans_ext(basename(cdl_data_ill_rec)))
   cdl_data_ill_rec<-cdl_data_ill_rec[-c(1:9)] 
   print('the Illinois CDL has already been processed, it can be read in')
-  plot(cdl_data_ill_rec[[2]])
+  
+  
   
 }else{
   
@@ -84,10 +87,104 @@ if(file.exists(cdl_rec_filename)){
   cdl_fin_co<-lapply(cdl_fin, mask_crop)
   
   f<-cdl_dir_adj
-  m <- cbind(from = c(-Inf, 80), to = c(0, 200), becomes = c(NA)) #non-crop reclass tables; i.e., reclassify crop and non-crop
+  #m <- cbind(from = c(-Inf, 80), to = c(0, 200), becomes = c(NA)) #non-crop reclass tables; i.e., reclassify crop and non-crop
   cdl_fin_co_rec<-list()
   for(layer in 1:22){
     cdl_fin_co_rec[[layer]] <- reclassify(cdl_fin_co[[layer]], m)
     writeRaster(cdl_fin_co_rec[[layer]], file.path(f, names(cdl_fin_co_rec[[layer]])), format="GTiff", overwrite = TRUE)
   }
 }
+
+### Michigan-Specific ----
+cdl_rec_filename<-paste0(cdl_mi_dir, "/rec_cdl/CDL_2021_26.tif")
+if(file.exists(cdl_rec_filename)){
+  
+  print(list.files(path=paste0(cdl_mi_dir,"/rec_cdl"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  cdl_data_mi_rec <- file.path(paste0(cdl_mi_dir,"/rec_cdl"), list.files(path=paste0(cdl_mi_dir,"/rec_cdl"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  cdl_data_mi_rec<-setNames(lapply(cdl_data_mi_rec, raster), tools::file_path_sans_ext(basename(cdl_data_mi_rec)))#create list of reclassed and stacked cdl rasters 
+  
+  print('the Michigan CDL has already been processed, it can be read in')
+  
+}else{
+  
+  #### Import and modify files ####
+  print(list.files(path=cdl_mi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  print(cdl_mi_dir)
+  cdl_data <- file.path(cdl_mi_dir, list.files(path=cdl_mi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  cdl_data<-lapply(cdl_data, raster) #create list of cdl rasters 
+  
+  
+  # first expand extent 
+  ext<-extent(cdl_data[[14]])
+  cdl_data<-lapply(cdl_data, function(x) setExtent(x, ext)) #make sure all have the same extent
+  
+  
+  study<-mi
+  #mask to the study area
+  mask_crop<-function(x){
+    r_list<-crop(x, study)
+    mask(r_list, study)
+  }
+  cdl_mi_co<-lapply(cdl_data, mask_crop)
+  
+  f<-paste0(cdl_mi_dir, "/rec_cdl")
+  
+  
+  is_n <- c(0,1:256)
+  becomes_n <- c(NA,rep.int(1,256))
+  
+  n<-cbind(is_n,becomes_n)
+  #m <- cbind(from = c(-Inf, 80), to = c(0, 200), becomes = c(NA)) #non-crop reclass tables; i.e., reclassify crop and non-crop
+  cdl_mi_rec<-list()
+  for(layer in 1:14){
+    cdl_mi_rec[[layer]] <- reclassify(cdl_mi_co[[layer]], m)
+    writeRaster(cdl_mi_rec[[layer]], file.path(f, names(cdl_mi_rec[[layer]])), format="GTiff", overwrite = TRUE)
+  }
+}
+
+
+
+### Wisconsin-Specific ----
+cdl_rec_filename<-paste0(cdl_wi_dir, "/rec_cdl/CDL_2021_55.tif")
+if(file.exists(cdl_rec_filename)){
+  
+  print(list.files(path=paste0(cdl_wi_dir,"/rec_cdl"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  cdl_data_wi_rec <- file.path(paste0(cdl_wi_dir,"/rec_cdl"), list.files(path=paste0(cdl_wi_dir,"/rec_cdl"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  cdl_data_wi_rec<-setNames(lapply(cdl_data_wi_rec, raster), tools::file_path_sans_ext(basename(cdl_data_wi_rec)))#create list of reclassed and stacked cdl rasters 
+  
+  print('the Wisconsin CDL has already been processed, it can be read in')
+  
+}else{
+  
+  #### Import and modify files ####
+  print(list.files(path=cdl_wi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  print(cdl_wi_dir)
+  cdl_data <- file.path(cdl_wi_dir, list.files(path=cdl_wi_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+  cdl_data<-lapply(cdl_data, raster) #create list of cdl rasters 
+  
+  
+  # first expand extent 
+  ext<-extent(cdl_data[[14]])
+  cdl_data<-lapply(cdl_data, function(x) setExtent(x, ext)) #make sure all have the same extent
+  
+  
+  study<-wi
+  #mask to the study area
+  mask_crop<-function(x){
+    r_list<-crop(x, study)
+    mask(r_list, study)
+  }
+  cdl_wi_co<-lapply(cdl_data, mask_crop)
+  
+  f<-paste0(cdl_wi_dir, "/rec_cdl")
+  
+  # m <- cbind(from = c(-Inf, 80), to = c(0, 200), becomes = c(NA)) #non-crop reclass tables; i.e., reclassify crop and non-crop
+  cdl_wi_rec<-list()
+  for(layer in 1:14){
+    cdl_wi_rec[[layer]] <- reclassify(cdl_wi_co[[layer]], m)
+    writeRaster(cdl_wi_rec[[layer]], file.path(f, names(cdl_wi_rec[[layer]])), format="GTiff", overwrite = TRUE)
+  }
+}
+
+
+

@@ -36,6 +36,10 @@ library(smoothr)
 library(exactextractr)
 library(data.table)
 library(gtools)
+
+library(tidyverse)
+library(beecoSp)
+library(cdlTools)
 # library(janitor)
 # library(TraMineR)
 # library(geosphere)
@@ -105,7 +109,7 @@ cdl_ms_dir = file.path(cdl_dir, "Multi-State")
 print(cdl_ms_dir)
 print(list.files(path=cdl_ms_dir, all.files=TRUE, full.names=FALSE))
 
-#Micghigan specific
+#Michigan specific
 cdl_mi_dir= file.path(cdl_ms_dir, "Michigan")
 print(cdl_mi_dir)
 print(list.files(path=cdl_mi_dir, all.files=TRUE, full.names=FALSE))
@@ -180,6 +184,10 @@ state_dir = file.path(root_data_in, "MapData/state")
 print(state_dir)
 print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 
+
+pest_dir = file.path(root_data_in, "PesticideData")
+print(pest_dir)
+print(list.files(path=pest_dir, all.files=TRUE, full.names=FALSE))
 
 
 threshold_dir<-file.path(root_data_out,"all_thresh")

@@ -1,76 +1,79 @@
 ### Probabilistic Crop Loading 
 
-### 01 Extracttion of counties/area of interest
+### 02 Extracttion of counties/area of interest
 
 # Edited by E. Paulukonis Sept 2021
 
 import_start_time <- Sys.time()
 print("stepping into 01_studyarea_c.R")
 
-# # input state and species data
-# print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE)) #state
-# print(list.files(path=bombus_dir, all.files=TRUE, full.names=FALSE)) #species
-# 
-# 
-# #rpbb_states<-readOGR(state_dir, layer = 'RPBB_states') #read in US counties
-# 
-# # get species potential zones
-# bomb_h <- readOGR(bombus_dir, layer = "RPBB_High_Potential_Zones_03172021")
-# # bomb_l <- readOGR(bombus_dir, layer = "RPBB_Low_Potential_Zones_03172021")
-# #h_range <- readOGR(bombus_dir, layer = "RPBB_US_range") 
-# #rpbb_study<-readOGR(state_dir, layer = "IL_BNDY_County_Py") #read in states
-# 
-# #h_range<-spTransform(h_range, crs(bomb_h)) #reproject 
-# #ill<-spTransform(rpbb_study, crs(bomb_h)) #reproject 
-# 
-# crs_bh<-crs(bomb_h)
-# rm(bomb_h)
-# 
-# all_states<-readOGR(state_dir, layer = "tl_2021_us_county") #read in states
-# all_states<-spTransform(all_states, crs_bh) #reproject 
-# 
-# ill<-all_states[all_states$STATEFP == "17",]
-# mi<-all_states[all_states$STATEFP == "26",]
-# wi<-all_states[all_states$STATEFP == "55",]
-# 
-# rm(all_states)
+
+all_states<-readOGR(state_dir, layer = "tl_2021_us_county") #read in states
+#all_states<-spTransform(all_states, crs_bh) #reproject
+
+ill<-all_states[all_states$STATEFP == "17",]
+mi<-all_states[all_states$STATEFP == "26",]
+wi<-all_states[all_states$STATEFP == "55",]
 
 
-#read in NLCD
-# print(list.files(path=paste0(nlcd_dir,"/NLCD/NLCD_F"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
-# nlcd_all<- file.path(paste0(nlcd_dir,"/NLCD/NLCD_F"), list.files(path=paste0(nlcd_dir,"/NLCD/NLCD_F"), pattern='.tif$', all.files=TRUE, full.names=FALSE))
-# nlcd_all<-setNames(lapply(nlcd_all, raster), tools::file_path_sans_ext(basename(nlcd_all)))
-# 
+states<-c("17","26","55")
+study_area<-all_states[all_states$STATEFP %in% states,]
+
+sub_group<-c("DuPage","McHenry","Champaign","Waushara","Langlade","Rock", "Van Buren", "Oceana","Huron")
+suball<-study_area[study_area$NAME %in% sub_group,]
 
 
-#### various scraps ----
 
-## you can take a look at some plots here: 
-# plot(h_range, col='red')
-# plot(states, add=T)
-# plot(bomb_l, add=T)
-# plot(bomb_h, add=T)
-# plot(ill)
-# plot(wi)
-# plot(mi)
+affinis_ill<-read.csv(paste0(bombus_dir,"/bombus_ILL.csv"))
+names(affinis_ill)
 
+coordinates(affinis_ill)=~decimalLongitude+decimalLatitude #get coordinates
+proj4string(affinis_ill)=CRS("+init=epsg:4326") # set it to lat-long
+affinis_ill = spTransform(affinis_ill,crs(all_states)) #transform to match NC habitat
 
-#study<-gIntersection(ill, h_range, byid=T, id=ill$COUNTY_NAM) #get intersection of counties and range here
+plot(study_area)
+plot(affinis_ill, add=T)
+plot(suball, add=T, col='red')
 
 
-#writeOGR(study, dsn=state_dir, layer="/study_area",driver="ESRI Shapefile") 
+affinis_illb<-affinis_ill[affinis_ill$Year <2017,]
+affinis_illa<-affinis_ill[affinis_ill$Year >=2017,]
 
-##get the roads
-# roads<-readOGR(state_dir, layer = "tl_2011_17111_roads")
-# roads<-spTransform(roads, crs(bomb_h))
-
-
-# note that you may need to read out files to QGIS or other to look-up specific county
-# if you're interested in a specific county, use code below:
-# extract county
-# co<-"PEORIA" #set county
-# county<-state[state$COUNTY_NAM == co,]
-# plot(county)
-# plot(bomb_l, add=T)
+plot(study_area)
+plot(affinis_illb, add=T)
+plot(suball, add=T, col='red')
 
 
+plot(study_area)
+plot(affinis_illa, add=T)
+plot(suball, add=T, col='red')
+
+
+writeOGR(obj=study_area, dsn=paste0(state_dir,"/studyarea"), layer="StudyArea_bombus", driver="ESRI Shapefile") # this is in geographical projection
+writeOGR(obj=suball, dsn=paste0(state_dir,"/studyarea"), layer="Counties_bombus", driver="ESRI Shapefile") # this is in geographical projection
+writeOGR(obj=affinis_illa, dsn=paste0(state_dir,"/studyarea"), layer="locationsa_bombusesa", driver="ESRI Shapefile") # this is in geographical projection
+writeOGR(obj=affinis_illb, dsn=paste0(state_dir,"/studyarea"), layer="locationsb_bombusesa", driver="ESRI Shapefile") # this is in geographical projection
+
+
+#### GLRI study area
+glri<-readOGR(paste0(state_dir,"/greatlakes_subbasins"), layer = "greatlakes_subbasins")
+glri= spTransform(glri, crs(all_states)) #transform to match NC habitat
+
+plot(study_area)
+plot(glri,add=T, col='blue')
+
+plot(glri)
+plot(all_states,add=T)
+
+#RPBB
+rpbb<-readOGR(paste0(state_dir), layer = "RPBB_states")
+
+
+codes<-as.data.frame(cbind(as.numeric(rpbb$STATEFP),(rpbb$STUSPS)))
+
+
+
+write.csv(codes ,file='codes.csv', row.names=FALSE)
+
+
+    
