@@ -1096,3 +1096,31 @@ write.csv(final_by_crop, paste0(root_figures, "/", "individualcrops", "_NASSprop
 final_by_crop_sum<-final_by_crop %>% group_by(Label, Commodity) %>% summarise(avg = mean(percent))
 write.csv(final_by_crop_sum, paste0(root_figures, "/", "individualcrops", "_NASSproportion_sum.csv"))
 
+
+#### Get field size distributions ----
+acreages_by_field<-list()
+field_extract_wi<-list()
+for(county in 1:length(field_list_wi_f)){
+  county_layers<-field_list_wi_f[[county]]
+
+    field_area<- function(x){as.data.frame(terra::area(x), na.rm=T) }
+    field_extract<-lapply(county_layers, field_area)
+    field_extract_df<-lapply(field_extract, function(x) as.data.frame(do.call("cbind", x)))
+
+    get_acreages<-function(y){
+      y$Polygon<-row.names(y)
+      colnames(y)[1]<-"Acreage"
+      y$Acreage<-(y$Acreage)*0.000247105 #convert to acres
+     
+    }
+    get_acreages_by_field<-lapply(field_extract_df, get_acreages)
+  
+   acreages_by_field <- purrr::map_df(get_acreages_by_field, ~as.data.frame(.x), .id="Name")
+   acreages_by_field$County<-cntynames[county]
+  
+ field_extract_wi[[county]]<-acreages_by_field 
+ 
+}
+# acreages_by_countyI<-acreages_by_county
+
+

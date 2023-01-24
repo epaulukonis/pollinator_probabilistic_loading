@@ -7,6 +7,7 @@
 
 #### Hyperparameter runs ----
 cdlkey<-read.csv(paste0(cdl_dir,"/CDL_key.csv")) #cdl key
+years<-2008:2021
 
 #Michigan 
 print(list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/SUB/smallerfields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
@@ -62,6 +63,7 @@ for(county in 1:length(field_list_mi_f)){
   for(f in 1:length(cdl_data_mi_rec)){
     cdl<-cdl_data_mi_rec[[f]]
     cdl_extract<-lapply(county_layers, function(x) exact_extract(cdl, x, "mode"))
+    #saveRDS(cdl_extract, file=paste0(root_data_out,"/all_tif/MICHIGAN/diagnosing_sfM.RData"))
     cdl_extract<-lapply(cdl_extract, function(x) as.data.frame(x))
     
     field_area<- function(x){as.data.frame(terra::area(x), na.rm=T) }
