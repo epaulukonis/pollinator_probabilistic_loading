@@ -28,7 +28,7 @@ foreach(i=1:3) %do% {
   names(field_list_mi_f[[i]])<-paste0(names(field_list_mi_f[i]),14:1,"fin")
 }
 
-
+#saveRDS(field_list_mi_f, file=paste0(root_data_out,"/all_tif/MICHIGAN/field_data_smM.RData"))
 
 #Wisconsin
 print(list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/SUB/smallerfields"), pattern='.shp', all.files=TRUE, full.names=FALSE))
@@ -49,13 +49,16 @@ foreach(i=1:3) %do% {
   names(field_list_wi_f[[i]])<-paste0(names(field_list_wi_f[i]),14:1,"fin")
 }
 
+#saveRDS(field_list_mi_f, file=paste0(root_data_out,"/all_tif/WISCONSIN/field_data_smW.RData"))
 
 ### Michigan acreages
 cntynames<-c("HURON", "OCEANA", "VAN BUREN")
 #acreages_by_countyM<-readRDS(paste0(root_data_out,"/acreages_by_county_sfM.RData"))
 
+#cdl_extract<-readRDS(paste0(root_data_out,"/all_tif/MICHIGAN/diagnosing_sfM.RData"))
+
 acreages_by_cdl<-list()
-acreages_by_county<-list()
+acreages_by_countyM<-list()
 cdl_extract_data<-list()
 for(county in 1:length(field_list_mi_f)){
   county_layers<-field_list_mi_f[[county]]
@@ -71,6 +74,7 @@ for(county in 1:length(field_list_mi_f)){
     
     cdl_extract<-mapply(c, cdl_extract, field_extract, SIMPLIFY=FALSE)
     cdl_extract_df<-lapply(cdl_extract, function(x) as.data.frame(do.call("cbind", x)))
+  
     
     get_acreages<-function(y){
       y$polygon<-row.names(y)
@@ -78,18 +82,22 @@ for(county in 1:length(field_list_mi_f)){
       colnames(y)[2]<-"area"
       y$area<-(y$area)*0.000247105 #convert to acres
       crop_total<-aggregate(y$area, by=list(Class=y$Class), FUN=sum)
-      crop_final<-left_join(crop_total, cdlkey, by="Class")
+      print(head(crop_total))
+      crop_final<-dplyr::left_join(crop_total, cdlkey, by="Class")
+      print(head(crop_final))
       crop_final$Category<-  toupper(crop_final$Category)
       crop_final$Year<-years[[f]]
+      print(head(crop_final))
       crop_final
     }
+    
     
     get_acreages_by_cdl<-lapply(cdl_extract_df, get_acreages)
     acreages_by_cdl[[f]]<-get_acreages_by_cdl
   }
   
   names(acreages_by_cdl)<-2008:2021
-  acreages_by_county[[county]]<-acreages_by_cdl
+  acreages_by_countyM[[county]]<-acreages_by_cdl
   cdl_extract_data[[county]]<-cdl_extract_df
   
 }
@@ -97,7 +105,8 @@ for(county in 1:length(field_list_mi_f)){
 acreages_by_countyM<-acreages_by_county
 saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfM.RData"))
 # names(acreages_by_countyM)<-cntynames
-# 
+
+
 # list_of_final_data_by_countyM<-list()
 # for(n in 1:length(acreages_by_countyM)){
 #   county<-acreages_by_countyM[[n]]
