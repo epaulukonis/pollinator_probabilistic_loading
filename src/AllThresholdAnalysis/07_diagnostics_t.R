@@ -86,38 +86,38 @@ foreach(i=1:3) %do% {
 #saveRDS(field_list_mi_f, file=paste0(root_data_out,"/all_tif/MICHIGAN/field_data_W.RData"))
 
 ### Read in CoA and OG CDL ----
-ill_coa<-read.csv(paste0(coa_dir,"/CoA_ILL.csv"))
-mi_coa<-read.csv(paste0(coa_dir,"/CoA_MI.csv"))
-wi_coa<-read.csv(paste0(coa_dir,"/CoA_WIS.csv"))
-
-
-#sub the years for 2008 to be 2007, the last census prior to CDL
-ill_coa$Year[ill_coa$Year ==2007 ] <- 2008
-mi_coa$Year[mi_coa$Year ==2007 ] <- 2008
-wi_coa$Year[wi_coa$Year ==2007 ] <- 2008
-
-ill_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_ill.csv"))
-mi_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_MI.csv"))
-wi_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_WIS.csv"))
-
-ill_caps<-ill_caps[!ill_caps$Year %in% unique(ill_coa$Year),]
-mi_caps<-mi_caps[!mi_caps$Year %in% unique(mi_coa$Year),]
-wi_caps<-mi_caps[!wi_caps$Year %in% unique(wi_coa$Year),]
-
-
-#combine caps and coa data
-# ill_nass<-rbind(ill_coa,ill_caps)
-# mi_nass<-rbind(mi_coa,mi_caps)
-# wi_nass<-rbind(wi_coa,wi_caps)
-
-ill_nass<-ill_coa
-mi_nass<-mi_coa
-wi_nass<-wi_coa
-
-ill_nass<-ill_nass[order(ill_nass$Year),]
-mi_nass<-mi_nass[order(mi_nass$Year),]
-wi_nass<-wi_nass[order(wi_nass$Year),]
-
+# ill_coa<-read.csv(paste0(coa_dir,"/CoA_ILL.csv"))
+# mi_coa<-read.csv(paste0(coa_dir,"/CoA_MI.csv"))
+# wi_coa<-read.csv(paste0(coa_dir,"/CoA_WIS.csv"))
+# 
+# 
+# #sub the years for 2008 to be 2007, the last census prior to CDL
+# ill_coa$Year[ill_coa$Year ==2007 ] <- 2008
+# mi_coa$Year[mi_coa$Year ==2007 ] <- 2008
+# wi_coa$Year[wi_coa$Year ==2007 ] <- 2008
+# 
+# ill_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_ill.csv"))
+# mi_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_MI.csv"))
+# wi_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_WIS.csv"))
+# 
+# ill_caps<-ill_caps[!ill_caps$Year %in% unique(ill_coa$Year),]
+# mi_caps<-mi_caps[!mi_caps$Year %in% unique(mi_coa$Year),]
+# wi_caps<-mi_caps[!wi_caps$Year %in% unique(wi_coa$Year),]
+# 
+# 
+# #combine caps and coa data
+# # ill_nass<-rbind(ill_coa,ill_caps)
+# # mi_nass<-rbind(mi_coa,mi_caps)
+# # wi_nass<-rbind(wi_coa,wi_caps)
+# 
+# ill_nass<-ill_coa
+# mi_nass<-mi_coa
+# wi_nass<-wi_coa
+# 
+# ill_nass<-ill_nass[order(ill_nass$Year),]
+# mi_nass<-mi_nass[order(mi_nass$Year),]
+# wi_nass<-wi_nass[order(wi_nass$Year),]
+# 
 
 years<-2008:2021
 
