@@ -59,7 +59,7 @@ names(sub_by_county_list)<-c("Champaign","DuPage","McHenry")
 ####Sub-delineation
 sub_fw_sets<-list()
 sub_fw_by_county<-list()
-area_thresh <- units::set_units(44100 , m^2) #10 acres for dropping polygons
+area_thresh <- units::set_units(8100 , m^2) #2 acres for dropping polygons
 expand_shrink_clean<-function(x){
   expand<-gBuffer(x, width=90, byid=T) # 3 pixel smooth
   shrink<-gBuffer(expand, width=-90, byid=T) #3 pixel smooth
