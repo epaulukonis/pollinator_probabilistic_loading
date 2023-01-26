@@ -11,55 +11,54 @@ import_start_time <- Sys.time()
 print("stepping into 04_CPAA_delineation.R")
 options(scipen = 999) #remove exponent options, throws R off
 
-#mi_cpaa_t<-paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Final/Huron_threshold1.shp")
+ill_cpaa_t<-paste0(root_data_out, "/all_tif/ILLINOIS/CPAA/smallerfields/Champaign_threshold1.shp")
 
 # mi_cpaa_t<-paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Huron_threshold1.shp")
 # wi_cpaa_t<-paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Langlade_threshhold1.shp")
 
 #file.exists(mi_cpaa_t) && file.exists(wi_cpaa_t) &&
 
-if(file.exists(mi_cpaa_t)){
+if(file.exists(ill_cpaa_t)){
 
-  # print(list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/CPAA"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-  # ill_cpaa<- file.path(paste0(root_data_out, "/all_tif/ILLINOIS/CPAA"), list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/CPAA"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-  # ill_cpaa<-setNames(lapply(ill_cpaa, readOGR), tools::file_path_sans_ext(basename(ill_cpaa)))
-  # ill_cpaa<-ill_cpaa[order(mixedsort(names(ill_cpaa)))]
-  # 
+  print(list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/CPAA/smallerfields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  ill_cpaa<- file.path(paste0(root_data_out, "/all_tif/ILLINOIS/CPAA/smallerfields"), list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/CPAA"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  ill_cpaa<-setNames(lapply(ill_cpaa, readOGR), tools::file_path_sans_ext(basename(ill_cpaa)))
+  ill_cpaa<-ill_cpaa[order(mixedsort(names(ill_cpaa)))]
+
   # cpaa_list_ill_f<-list()
   # cpaa_list_ill_f[[1]]<-ill_cpaa[1:2]
   # cpaa_list_ill_f[[2]]<-ill_cpaa[4:5]
   # cpaa_list_ill_f[[3]]<-ill_cpaa[6:7]
+
+  cpaa_list_ill_f<-list()
+  cpaa_list_ill_f[[1]]<-ill_cpaa[1:14]
+  cpaa_list_ill_f[[2]]<-ill_cpaa[15:28]
+  cpaa_list_ill_f[[3]]<-ill_cpaa[29:42]
+  names(cpaa_list_ill_f)<-c("Champaign","DuPage","McHenry")
+
+
+  # print(list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Final"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  # mi_cpaa<- file.path(paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Final"), list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Final"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  # mi_cpaa<-setNames(lapply(mi_cpaa, readOGR), tools::file_path_sans_ext(basename(mi_cpaa)))
+  # mi_cpaa<-mi_cpaa[order(mixedsort(names(mi_cpaa)))]
+  # 
+  # cpaa_list_mi_f<-list()
+  # cpaa_list_mi_f[[1]]<-mi_cpaa[1:14]
+  # cpaa_list_mi_f[[2]]<-mi_cpaa[15:28]
+  # cpaa_list_mi_f[[3]]<-mi_cpaa[29:42]
+  # names(cpaa_list_mi_f)<-c("Huron", "Oceana", "VanBuren") 
   # 
   # 
-  # cpaa_list_ill_f<-list()
-  # cpaa_list_ill_f[[1]]<-ill_cpaa[1:14]
-  # cpaa_list_ill_f[[2]]<-ill_cpaa[15:28]
-  # cpaa_list_ill_f[[3]]<-ill_cpaa[29:42]
-  # names(cpaa_list_ill_f)<-c("Champaign","DuPage","McHenry")
+  # print(list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Final"), pattern='.shp', all.files=TRUE, full.names=FALSE))
+  # wi_cpaa<- file.path(paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Final"), list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Final"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  # wi_cpaa<-setNames(lapply(wi_cpaa, readOGR), tools::file_path_sans_ext(basename(wi_cpaa)))
+  # wi_cpaa<-wi_cpaa[order(mixedsort(names(wi_cpaa)))]
   # 
-
-  print(list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Final"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-  mi_cpaa<- file.path(paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Final"), list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/CPAA/Final"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-  mi_cpaa<-setNames(lapply(mi_cpaa, readOGR), tools::file_path_sans_ext(basename(mi_cpaa)))
-  mi_cpaa<-mi_cpaa[order(mixedsort(names(mi_cpaa)))]
-
-  cpaa_list_mi_f<-list()
-  cpaa_list_mi_f[[1]]<-mi_cpaa[1:14]
-  cpaa_list_mi_f[[2]]<-mi_cpaa[15:28]
-  cpaa_list_mi_f[[3]]<-mi_cpaa[29:42]
-  names(cpaa_list_mi_f)<-c("Huron", "Oceana", "VanBuren") 
-  
-
-  print(list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Final"), pattern='.shp', all.files=TRUE, full.names=FALSE))
-  wi_cpaa<- file.path(paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Final"), list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/CPAA/Final"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-  wi_cpaa<-setNames(lapply(wi_cpaa, readOGR), tools::file_path_sans_ext(basename(wi_cpaa)))
-  wi_cpaa<-wi_cpaa[order(mixedsort(names(wi_cpaa)))]
-
-  cpaa_list_wi_f<-list()
-  cpaa_list_wi_f[[1]]<-wi_cpaa[1:14]
-  cpaa_list_wi_f[[2]]<-wi_cpaa[15:28]
-  cpaa_list_wi_f[[3]]<-wi_cpaa[29:42]
-  names(cpaa_list_wi_f)<-c("Langlade","Rock","Waushara")
+  # cpaa_list_wi_f<-list()
+  # cpaa_list_wi_f[[1]]<-wi_cpaa[1:14]
+  # cpaa_list_wi_f[[2]]<-wi_cpaa[15:28]
+  # cpaa_list_wi_f[[3]]<-wi_cpaa[29:42]
+  # names(cpaa_list_wi_f)<-c("Langlade","Rock","Waushara")
   
 
 }else{
@@ -128,7 +127,7 @@ for (c in 1:length(thresh_list_ill_f)){
     rc <- clump(fw, directions = 8)
     f<-freq(rc)
     f<-as.data.frame(f)
-    excludeID <- f$value[which(f$count <= 3)] #remove pixel clump of 9 or fewer (this was visual inspection based)
+    excludeID <- f$value[which(f$count <= 3)] #remove pixel clump of 3 or fewer (this was visual inspection based)
     formaskSieve <- rc
     # assign NA to all clumps whose IDs are found in excludeID
     formaskSieve[rc %in% excludeID] <- NA
@@ -154,7 +153,7 @@ for (c in 1:length(thresh_list_ill_f)){
 
 #names(cpaa_field_set)[1]<-names(thresh_list_ill_f)[1]
 
-  #add separate function for buffering and cleaning, drop crumbs < 1 acres, do buffer to smooth of 8 acres
+  #add separate function for buffering and cleaning, drop crumbs < 2 acres, do buffer to smooth of 8 acres
   area_thresh <- units::set_units(4046.86, m^2) #drop crumbs below 1 acres
   expand_shrink_clean<-function(x){
     expand<-gBuffer(x, width=180, byid=T) # 6 pixel expand to smooth (~8 acres)
