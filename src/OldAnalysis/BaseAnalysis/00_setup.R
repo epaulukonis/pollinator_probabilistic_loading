@@ -198,6 +198,8 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 
 #source other files
 # source(file.path(root_src, "01_studyarea.R"))
-# source(file.path(root_src, "02_formatting_cdl.R"))
+source(file.path(root_src, "02_formatting_cdl.R"))
+source(file.path(root_src, "03_formatting_cdl.R"))
+source(file.path(root_src, "04_CPAA_delineation.R"))
 
 
