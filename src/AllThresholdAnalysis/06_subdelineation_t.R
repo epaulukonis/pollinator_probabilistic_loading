@@ -128,8 +128,8 @@ for (county in 1:length(sub_by_county_list)){
 names(sub_fw_by_county)<-c("Champaign","DuPage","McHenry")
 #finally, clip the output by the original CPAA layer
 area_thresh <- units::set_units(8100 , m^2) #2 acres for dropping polygons
-for(cpaal in 1:length(cpaa_list_mi_f)){
-  cpaa<-cpaa_list_mi_f[[cpaal]]
+for(cpaal in 1:length(cpaa_list_ill_f)){
+  cpaa<-cpaa_list_ill_f[[cpaal]]
   output<-sub_fw_by_county[[cpaal]]
   for(i in 1:length(output)){
     cropped<-st_intersection(sf::st_as_sf(output[[i]]),sf::st_as_sf(cpaa[[i]])) #intersect the CPAA and the sub delineation
