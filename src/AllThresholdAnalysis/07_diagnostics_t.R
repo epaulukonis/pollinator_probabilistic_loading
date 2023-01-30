@@ -15,13 +15,13 @@ ill_coa$Year[ill_coa$Year ==2007 ] <- 2008
 mi_coa$Year[mi_coa$Year ==2007 ] <- 2008
 wi_coa$Year[wi_coa$Year ==2007 ] <- 2008
 
-ill_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_ill.csv"))
-mi_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_MI.csv"))
-wi_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_WIS.csv"))
-
-ill_caps<-ill_caps[!ill_caps$Year %in% unique(ill_coa$Year),]
-mi_caps<-mi_caps[!mi_caps$Year %in% unique(mi_coa$Year),]
-wi_caps<-mi_caps[!wi_caps$Year %in% unique(wi_coa$Year),]
+# ill_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_ill.csv"))
+# mi_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_MI.csv"))
+# wi_caps<-read.csv(paste0(caps_dir,"/2008_2021_CAPS_WIS.csv"))
+# 
+# ill_caps<-ill_caps[!ill_caps$Year %in% unique(ill_coa$Year),]
+# mi_caps<-mi_caps[!mi_caps$Year %in% unique(mi_coa$Year),]
+# wi_caps<-mi_caps[!wi_caps$Year %in% unique(wi_coa$Year),]
 
 
 #combine caps and coa data
