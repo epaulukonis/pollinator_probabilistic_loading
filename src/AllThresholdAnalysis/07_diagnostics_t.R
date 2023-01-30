@@ -4,80 +4,6 @@
 
 # Edited by E. Paulukonis October 2022
 
-
-### Read in data ---- 
-
-#options(scipen = 999) #remove exponent options, throws R off
-
-#Illinois
-print(list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/SUB"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-ill_field<- file.path(paste0(root_data_out, "/all_tif/ILLINOIS/SUB"), list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/SUB"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-ill_field<-setNames(lapply(ill_field, readOGR), tools::file_path_sans_ext(basename(ill_field)))
-#ill_fieldf<-ill_field[(mixedsort(as.character(names(ill_field))))]
-
-
-# field_list_ill_f<-list()
-# field_list_ill_f[[1]]<-ill_field[1:2]
-# field_list_ill_f[[2]]<-ill_field[3:4]
-# field_list_ill_f[[3]]<-ill_field[5:6]
-
-field_list_ill_f<-list()
-field_list_ill_f[[1]]<-ill_field[1:14]
-field_list_ill_f[[2]]<-ill_field[15:28]
-field_list_ill_f[[3]]<-ill_field[29:42]
-names(field_list_ill_f)<-c("Champaign","DuPage","McHenry")
-#rm(ill_field)
-
-foreach(i=1:3) %do% {
-   areaf<-sapply(field_list_ill_f[[i]],function(x) sum(terra::area(x)))
-   field_list_ill_f[[i]]<-field_list_ill_f[[i]][order(areaf)]
-    names(field_list_ill_f[[i]])<-paste0(names(field_list_ill_f[i]),14:1,"fin")
-}
-
-#saveRDS(field_list_mi_f, file=paste0(root_data_out,"/all_tif/MICHIGAN/field_data_I.RData"))
-
-#Michigan 
-print(list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/SUB"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-mi_field<- file.path(paste0(root_data_out, "/all_tif/MICHIGAN/SUB"), list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/SUB"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-mi_field<-setNames(lapply(mi_field, readOGR), tools::file_path_sans_ext(basename(mi_field)))
-#mi_fieldf<-mi_field[order(mixedsort(names(mi_field)))]
-
-field_list_mi_f<-list()
-field_list_mi_f[[1]]<-mi_field[1:14]
-field_list_mi_f[[2]]<-mi_field[15:28]
-field_list_mi_f[[3]]<-mi_field[29:42]
-names(field_list_mi_f)<-c("Huron", "Oceana", "VanBuren")
-# rm(mi_field)
-
-foreach(i=1:3) %do% {
-  areaf<-sapply(field_list_mi_f[[i]],function(x) sum(terra::area(x)))
-  field_list_mi_f[[i]]<-field_list_mi_f[[i]][order(areaf)]
-  names(field_list_mi_f[[i]])<-paste0(names(field_list_mi_f[i]),14:1,"fin")
-}
-
-#saveRDS(field_list_mi_f, file=paste0(root_data_out,"/all_tif/MICHIGAN/field_data_M.RData"))
-
-#Wisconsin
-print(list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/SUB"), pattern='.shp', all.files=TRUE, full.names=FALSE))
-wi_field<- file.path(paste0(root_data_out, "/all_tif/WISCONSIN/SUB"), list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/SUB"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-wi_field<-setNames(lapply(wi_field, readOGR), tools::file_path_sans_ext(basename(wi_field)))
-# wi_field<-wi_field[order(mixedsort(names(wi_field)))]
-
-field_list_wi_f<-list()
-field_list_wi_f[[1]]<-wi_field[1:14]
-field_list_wi_f[[2]]<-wi_field[15:28]
-field_list_wi_f[[3]]<-wi_field[29:42]
-names(field_list_wi_f)<-c("Langlade","Rock","Waushara")
-#rm(wi_field)
-
-foreach(i=1:3) %do% {
-  areaf<-sapply(field_list_wi_f[[i]],function(x) sum(terra::area(x)))
-  field_list_wi_f[[i]]<-field_list_wi_f[[i]][order(areaf)]
-  names(field_list_wi_f[[i]])<-paste0(names(field_list_wi_f[i]),14:1,"fin")
-}
-
-#saveRDS(field_list_mi_f, file=paste0(root_data_out,"/all_tif/MICHIGAN/field_data_W.RData"))
-
 ### Read in CoA and OG CDL ----
 ill_coa<-read.csv(paste0(coa_dir,"/CoA_ILL.csv"))
 mi_coa<-read.csv(paste0(coa_dir,"/CoA_MI.csv"))
@@ -311,8 +237,79 @@ extracted_cdl_dataW<-readRDS(paste0(root_data_out,"/extracted_cdl_dataW.RData"))
 
 
 
+### Read in Original data ---- 
 
-#### Original
+#options(scipen = 999) #remove exponent options, throws R off
+
+#Illinois
+print(list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/SUB"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+ill_field<- file.path(paste0(root_data_out, "/all_tif/ILLINOIS/SUB"), list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/SUB"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+ill_field<-setNames(lapply(ill_field, readOGR), tools::file_path_sans_ext(basename(ill_field)))
+#ill_fieldf<-ill_field[(mixedsort(as.character(names(ill_field))))]
+
+
+# field_list_ill_f<-list()
+# field_list_ill_f[[1]]<-ill_field[1:2]
+# field_list_ill_f[[2]]<-ill_field[3:4]
+# field_list_ill_f[[3]]<-ill_field[5:6]
+
+field_list_ill_f<-list()
+field_list_ill_f[[1]]<-ill_field[1:14]
+field_list_ill_f[[2]]<-ill_field[15:28]
+field_list_ill_f[[3]]<-ill_field[29:42]
+names(field_list_ill_f)<-c("Champaign","DuPage","McHenry")
+#rm(ill_field)
+
+foreach(i=1:3) %do% {
+   areaf<-sapply(field_list_ill_f[[i]],function(x) sum(terra::area(x)))
+   field_list_ill_f[[i]]<-field_list_ill_f[[i]][order(areaf)]
+    names(field_list_ill_f[[i]])<-paste0(names(field_list_ill_f[i]),14:1,"fin")
+}
+
+#saveRDS(field_list_mi_f, file=paste0(root_data_out,"/all_tif/MICHIGAN/field_data_I.RData"))
+
+#Michigan 
+print(list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/SUB"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+mi_field<- file.path(paste0(root_data_out, "/all_tif/MICHIGAN/SUB"), list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/SUB"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+mi_field<-setNames(lapply(mi_field, readOGR), tools::file_path_sans_ext(basename(mi_field)))
+#mi_fieldf<-mi_field[order(mixedsort(names(mi_field)))]
+
+field_list_mi_f<-list()
+field_list_mi_f[[1]]<-mi_field[1:14]
+field_list_mi_f[[2]]<-mi_field[15:28]
+field_list_mi_f[[3]]<-mi_field[29:42]
+names(field_list_mi_f)<-c("Huron", "Oceana", "VanBuren")
+# rm(mi_field)
+
+foreach(i=1:3) %do% {
+  areaf<-sapply(field_list_mi_f[[i]],function(x) sum(terra::area(x)))
+  field_list_mi_f[[i]]<-field_list_mi_f[[i]][order(areaf)]
+  names(field_list_mi_f[[i]])<-paste0(names(field_list_mi_f[i]),14:1,"fin")
+}
+
+#saveRDS(field_list_mi_f, file=paste0(root_data_out,"/all_tif/MICHIGAN/field_data_M.RData"))
+
+#Wisconsin
+print(list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/SUB"), pattern='.shp', all.files=TRUE, full.names=FALSE))
+wi_field<- file.path(paste0(root_data_out, "/all_tif/WISCONSIN/SUB"), list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/SUB"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+wi_field<-setNames(lapply(wi_field, readOGR), tools::file_path_sans_ext(basename(wi_field)))
+# wi_field<-wi_field[order(mixedsort(names(wi_field)))]
+
+field_list_wi_f<-list()
+field_list_wi_f[[1]]<-wi_field[1:14]
+field_list_wi_f[[2]]<-wi_field[15:28]
+field_list_wi_f[[3]]<-wi_field[29:42]
+names(field_list_wi_f)<-c("Langlade","Rock","Waushara")
+#rm(wi_field)
+
+foreach(i=1:3) %do% {
+  areaf<-sapply(field_list_wi_f[[i]],function(x) sum(terra::area(x)))
+  field_list_wi_f[[i]]<-field_list_wi_f[[i]][order(areaf)]
+  names(field_list_wi_f[[i]])<-paste0(names(field_list_wi_f[i]),14:1,"fin")
+}
+
+#saveRDS(field_list_mi_f, file=paste0(root_data_out,"/all_tif/MICHIGAN/field_data_W.RData"))
+
 ### Illinois acreages----
 acreages_by_countyI<-readRDS(paste0(root_data_out,"/acreages_by_countyI.RData"))
 cntynames<-c('CHAMPAIGN',"DU PAGE","MCHENRY")
@@ -1028,50 +1025,120 @@ foreach(i=1:3) %do% {
 #saveRDS(field_list_mi_f, file=paste0(root_data_out,"/all_tif/WISCONSIN/field_data_smW.RData"))
 
 #### Extract hyperparameter data
+
+
+
+### Read in HP data ---- 
+#Illinois
+print(list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/SUB/smallerfields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+ill_field<- file.path(paste0(root_data_out, "/all_tif/ILLINOIS/SUB/smallerfields"), list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/SUB/smallerfields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+ill_field<-setNames(lapply(ill_field, readOGR), tools::file_path_sans_ext(basename(ill_field)))
+#ill_fieldf<-ill_field[(mixedsort(as.character(names(ill_field))))]
+
+
+# field_list_ill_f<-list()
+# field_list_ill_f[[1]]<-ill_field[1:2]
+# field_list_ill_f[[2]]<-ill_field[3:4]
+# field_list_ill_f[[3]]<-ill_field[5:6]
+
+field_list_ill_f<-list()
+field_list_ill_f[[1]]<-ill_field[1:14]
+field_list_ill_f[[2]]<-ill_field[15:28]
+field_list_ill_f[[3]]<-ill_field[29:42]
+names(field_list_ill_f)<-c("Champaign","DuPage","McHenry")
+#rm(ill_field)
+
+foreach(i=1:3) %do% {
+  areaf<-sapply(field_list_ill_f[[i]],function(x) sum(terra::area(x)))
+  field_list_ill_f[[i]]<-field_list_ill_f[[i]][order(areaf)]
+  names(field_list_ill_f[[i]])<-paste0(names(field_list_ill_f[i]),14:1,"fin")
+}
+
+#saveRDS(field_list_mi_f, file=paste0(root_data_out,"/all_tif/MICHIGAN/field_data_I.RData"))
+
+#Michigan 
+print(list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/SUB/smallerfields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+mi_field<- file.path(paste0(root_data_out, "/all_tif/MICHIGAN/SUB/smallerfields"), list.files(path=paste0(root_data_out, "/all_tif/MICHIGAN/SUB/smallerfields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+mi_field<-setNames(lapply(mi_field, readOGR), tools::file_path_sans_ext(basename(mi_field)))
+#mi_fieldf<-mi_field[order(mixedsort(names(mi_field)))]
+
+field_list_mi_f<-list()
+field_list_mi_f[[1]]<-mi_field[1:14]
+field_list_mi_f[[2]]<-mi_field[15:28]
+field_list_mi_f[[3]]<-mi_field[29:42]
+names(field_list_mi_f)<-c("Huron", "Oceana", "VanBuren")
+# rm(mi_field)
+
+foreach(i=1:3) %do% {
+  areaf<-sapply(field_list_mi_f[[i]],function(x) sum(terra::area(x)))
+  field_list_mi_f[[i]]<-field_list_mi_f[[i]][order(areaf)]
+  names(field_list_mi_f[[i]])<-paste0(names(field_list_mi_f[i]),14:1,"fin")
+}
+
+#saveRDS(field_list_mi_f, file=paste0(root_data_out,"/all_tif/MICHIGAN/field_data_M.RData"))
+
+#Wisconsin
+print(list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/SUB/smallerfields"), pattern='.shp', all.files=TRUE, full.names=FALSE))
+wi_field<- file.path(paste0(root_data_out, "/all_tif/WISCONSIN/SUB/smallerfields"), list.files(path=paste0(root_data_out, "/all_tif/WISCONSIN/SUB/smallerfields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+wi_field<-setNames(lapply(wi_field, readOGR), tools::file_path_sans_ext(basename(wi_field)))
+# wi_field<-wi_field[order(mixedsort(names(wi_field)))]
+
+field_list_wi_f<-list()
+field_list_wi_f[[1]]<-wi_field[1:14]
+field_list_wi_f[[2]]<-wi_field[15:28]
+field_list_wi_f[[3]]<-wi_field[29:42]
+names(field_list_wi_f)<-c("Langlade","Rock","Waushara")
+#rm(wi_field)
+
+foreach(i=1:3) %do% {
+  areaf<-sapply(field_list_wi_f[[i]],function(x) sum(terra::area(x)))
+  field_list_wi_f[[i]]<-field_list_wi_f[[i]][order(areaf)]
+  names(field_list_wi_f[[i]])<-paste0(names(field_list_wi_f[i]),14:1,"fin")
+}
+
 ### Illinois acreages HP ----
 #acreages_by_countyI<-readRDS(paste0(root_data_out,"/acreages_by_county_sfI.RData"))
-acreages_by_countyI<-readRDS(paste0(root_data_out,"/acreages_by_countyI.RData"))
 cntynames<-c('CHAMPAIGN',"DU PAGE","MCHENRY")
-# acreages_by_cdl<-list()
-# acreages_by_county<-list()
-# cdl_extract_data<-list()
-# for(county in 1:length(field_list_ill_f)){
-#   county_layers<-field_list_ill_f[[county]]
-#
-#   for(f in 1:length(cdl_data_ill_rec)){
-#     cdl<-cdl_data_ill_rec[[f]]
-#     cdl_extract<-lapply(county_layers, function(x) exact_extract(cdl, x, "mode"))
-#     cdl_extract<-lapply(cdl_extract, function(x) as.data.frame(x))
-#
-#     field_area<- function(x){as.data.frame(terra::area(x), na.rm=T) }
-#     field_extract<-lapply(county_layers, field_area)
-#
-#     cdl_extract<-mapply(c, cdl_extract, field_extract, SIMPLIFY=FALSE)
-#     cdl_extract_df<-lapply(cdl_extract, function(x) as.data.frame(do.call("cbind", x)))
-#
-#     get_acreages<-function(y){
-#       y$polygon<-row.names(y)
-#       colnames(y)[1]<-"Class"
-#       colnames(y)[2]<-"area"
-#       y$area<-(y$area)*0.000247105 #convert to acres
-#       crop_total<-aggregate(y$area, by=list(Class=y$Class), FUN=sum)
-#       crop_final<-left_join(crop_total, cdlkey, by="Class")
-#       crop_final$Category<-  toupper(crop_final$Category)
-#       crop_final$Year<-years[[f]]
-#       crop_final
-#     }
-#
-#     get_acreages_by_cdl<-lapply(cdl_extract_df, get_acreages)
-#     acreages_by_cdl[[f]]<-get_acreages_by_cdl
-#   }
-#
-#   names(acreages_by_cdl)<-2008:2021
-#   acreages_by_county[[county]]<-acreages_by_cdl
-#   cdl_extract_data[[county]]<-cdl_extract_df
-#
-# }
-# acreages_by_countyI<-acreages_by_county
-# saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.RData"))
+acreages_by_cdl<-list()
+acreages_by_county<-list()
+cdl_extract_data<-list()
+for(county in 1:length(field_list_ill_f)){
+  county_layers<-field_list_ill_f[[county]]
+
+  for(f in 1:length(cdl_data_ill_rec)){
+    cdl<-cdl_data_ill_rec[[f]]
+    cdl_extract<-lapply(county_layers, function(x) exact_extract(cdl, x, "mode"))
+    cdl_extract<-lapply(cdl_extract, function(x) as.data.frame(x))
+
+    field_area<- function(x){as.data.frame(terra::area(x), na.rm=T) }
+    field_extract<-lapply(county_layers, field_area)
+
+    cdl_extract<-mapply(c, cdl_extract, field_extract, SIMPLIFY=FALSE)
+    cdl_extract_df<-lapply(cdl_extract, function(x) as.data.frame(do.call("cbind", x)))
+
+    get_acreages<-function(y){
+      y$polygon<-row.names(y)
+      colnames(y)[1]<-"Class"
+      colnames(y)[2]<-"area"
+      y$area<-(y$area)*0.000247105 #convert to acres
+      crop_total<-aggregate(y$area, by=list(Class=y$Class), FUN=sum)
+      crop_final<-left_join(crop_total, cdlkey, by="Class")
+      crop_final$Category<-  toupper(crop_final$Category)
+      crop_final$Year<-years[[f]]
+      crop_final
+    }
+
+    get_acreages_by_cdl<-lapply(cdl_extract_df, get_acreages)
+    acreages_by_cdl[[f]]<-get_acreages_by_cdl
+  }
+
+  names(acreages_by_cdl)<-2008:2021
+  acreages_by_county[[county]]<-acreages_by_cdl
+  cdl_extract_data[[county]]<-cdl_extract_df
+
+}
+acreages_by_countyI<-acreages_by_county
+saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.RData"))
 
 
 names(acreages_by_countyI)<-cntynames
