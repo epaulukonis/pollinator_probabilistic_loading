@@ -86,7 +86,7 @@ for (c in 1:length(thresh_list_ill_f)){
     # mask out NA areas here using NLCD
     # focal window of 3x3 pixels, or 7x7 (13)
     r<-terra::rast(df_n)
-    fw<- terra::focal(r, w = 13, fun = "modal",  na.policy='omit', fillvalue=NA)%>%
+    fw<- terra::focal(r, w = 3, fun = "modal",  na.policy='omit', fillvalue=NA)%>%
       terra::mask(mask = r)
     fw<-raster(fw) #convert back to raster object
 

@@ -8,9 +8,10 @@ date <- '20220325' # date for aggregate estimates (bee toxic load)
 cmp_date <- '20220325' # date for the compound-specific table 
 
 
-test <- reclasstables(filepath = paste0(pest_dir, "/beecosP/beetox_I_cdl_reclass.", date, ".csv"),
-                      state = c("WI","IL"),
-                      year = c(2003,2014),
+states<-BR$STUSPS #get all states associated with RPBB
+rec <- reclasstables(filepath = paste0(pest_dir, "/beecosP/beetox_I_cdl_reclass.", date, ".csv"),
+                      state = states,
+                      year = 2008:2021,
                       write_reclass = T,
                       outfolder = paste0(pest_dir, "/beecosP/output/reclasskeys/insecticidestest"))
 # specify path to CDL raster file
@@ -18,16 +19,17 @@ test <- reclasstables(filepath = paste0(pest_dir, "/beecosP/beetox_I_cdl_reclass
 
 
 
+
 test_imi <- reclasstables(filepath = paste0(pest_dir,"/beecosP/beetox_cmpd_cdl_reclass_", cmp_date, "/IMIDACLOPRID.csv"),
-                          state = c("WI","IL"),
-                          year = c(2003,2014),
+                          state = states,
+                          year = 2008:2021,
                           write_reclass = T,
                           outfolder = paste0(pest_dir, "/beecosP/output/reclasskeys/imidaclopridtest"))
 
 
 test_cloth <- reclasstables(filepath = paste0(pest_dir,"/beecosP/beetox_cmpd_cdl_reclass_", cmp_date, "/CLOTHIANIDIN.csv"),
-                          state = c("WI","IL"),
-                          year = c(2003,2014),
+                            state = states,
+                            year = 2008:2021,
                           write_reclass = T,
                           outfolder = paste0(pest_dir, "/beecosP/output/reclasskeys/clothtest"))
 
@@ -38,7 +40,7 @@ cdl_path <- paste0(cdl_dir_adj, "/CDL_2014_17.tif") #need to specify the cdl yea
 
 # contact toxicity for insecticides
 CDL_reclass(rasterpath = cdl_path,
-            reclasstable = test$IL_2003,
+            reclasstable = rec$IL_2003,
             from = "value",
             to = "ld50_ct_ha_bil",
             writerast = TRUE,

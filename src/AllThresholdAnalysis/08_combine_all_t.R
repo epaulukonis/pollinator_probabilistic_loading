@@ -1,12 +1,11 @@
 ### Probabilistic Crop Loading 
 
-### 09 hyperparameter runs
+### 08 combine all
 
 # Edited by E. Paulukonis January 2023
 
-#to work on 1/27
 
-#### Put together boxplots combining ALL; you'll need to run 07 first----
+#### Sum Acreage Boxplots (Figure 1) ----
 #original hyperparameters
 final_Illinois<-do.call(rbind, list_of_dataI)
 final_Illinois$County <- factor(final_Illinois$County , levels = c("Champaign", "McHenry", "DuPage"))
@@ -45,48 +44,32 @@ final_Wisconsinsf$type<-"Small"
 
 #combine here
 final_all<-rbind(final_Illinois,final_Michigan,final_Wisconsin, final_Illinoissf,final_Michigansf,final_Wisconsinsf)
+#saveRDS(final_all, file=paste0(root_data_out,"/final_all.RData"))
+
+
 final_all$Label<-paste0(final_all$County," County, ",final_all$State)
 final_all$Label<-ifelse(final_all$Label == "VanBuren County, Michigan, Large","Van Buren County, Michigan, Large", final_all$Label) #correct Van Buren
 final_all$Label<-ifelse(final_all$Label == "VanBuren County, Michigan, Small","Van Buren County, Michigan, Small", final_all$Label) #correct Van Buren
 
 #final_all$Label <- factor(final_all$Label , levels=unique(as.character(final_all$Label )) )
 final_all <- transform(final_all, Label=reorder(Label, -sum_nass) ) 
-
 nass_dat<-final_all[final_all$thresh ==1,]
-nass_dat<-nass_dat %>% group_by(County) %>% mutate(avgnass =mean(sum_nass))%>% mutate(avgcdl = mean(sum_cdl))
+nass_dat<-nass_dat %>% group_by(County, type) %>% mutate(avgnass =mean(sum_nass))%>% mutate(avgcdl = mean(sum_cdl))
 #nass_dat$thresh<-c(1:14,1,2,5,10,1:12,14)
 nass_dat$thresh<-rep(c(1,5,14,1,5,14,1,5,14),6)
 
 
-t_box<-
-  ggplot(final_all, aes(x = as.factor(thresh), y = sum_field, color=as.factor(thresh)))+
-  geom_boxplot()+
-  geom_line(nass_dat, mapping=aes(x=as.factor(thresh), y=avgnass, group=1),size=1,color="black")+
-  geom_line(nass_dat, mapping=aes(x=as.factor(thresh), y=avgcdl, group=1),size=1,color="darkgrey")+
-  facet_grid(rows = vars(Label), cols = vars(type),
-  scales="free_y", switch = 'y')+
-  #facet_wrap(.~Label, scales = "free_y")+
-  scale_y_continuous(n.breaks=10,expand = expansion(mult = c(0, .1)))+
-  xlab("Threshold") +
-  ylab("Sum of Crop Acreages")+
-  theme(legend.position = "none",axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0)),
-        axis.title.x = element_text(margin = margin(t = 5, r = 0, b = 0, l = 0)))
-
-t_box
-
-
-#try combining plots? 
-
-
+#there a few VERY minor classes in the small data-set that make it over; the area is negligible for comparison purposes
+#between the original and modified hyperparameter NASS/CDL totals, so we use the 'small' avg value. 
 
 #what's the total percentage change across threshold? 
-final_all <- final_all %>% group_by(thresh, County) %>% 
+final_all <- final_all %>% group_by(thresh, County,type) %>% 
   mutate(avgfield =mean(sum_field))%>% 
   mutate(avgnass =mean(sum_nass)) %>%
   mutate(avgcdl =mean(sum_cdl))
 
 percent<-final_all[final_all$year ==2008,]
-percent<-percent %>% group_by(County, year) %>% 
+percent<-percent %>% group_by(County, year, type) %>% 
   mutate(percentf = ((max(avgfield) - min (avgfield))/max(avgfield))*100) %>%
   mutate(percentn = ((max(avgnass) - max (avgfield))/max(avgnass))*100) %>%
   mutate(percentc = ((max(avgcdl) - max (avgfield))/max(avgcdl))*100)
@@ -95,47 +78,64 @@ percent[,13:15]<-round(percent[,13:15],1)
 #percent<-percent %>% group_by(County) %>% mutate(sdf=100*(sd(avgfield)/mean(avgfield)) )
 
 
-percent<-percent %>% 
-  group_by(County) %>% 
-  mutate(heightf = min(avgfield)) %>%
-  # mutate(endf = min(avgfield)) %>%
-  # mutate(topf = max(avgfield)) %>%
-  #mutate(avgnass = ifelse(County %in% counties, max(avgnass) + .3 * sd(avgfield)), avgnass) %>%
-  mutate(heightn = avgnass ) %>%
-  # mutate(endn = min(avgnass)) %>%
-  # mutate(topn = max(avgnass)) %>%
-  # mutate(avgcdl = ifelse(County %in% counties, max(avgcdl) + .3 * sd(avgfield)), avgcdl) %>%
-  mutate(heightc = avgcdl) 
-# mutate(endc = min(avgcdl)) %>%
-# mutate(topc = max(avgcdl)) 
+# percent<-percent %>%
+#   group_by(County, type) %>%
+#   mutate(heightf = min(avgfield)) %>%
+#   # mutate(endf = min(avgfield)) %>%
+#   # mutate(topf = max(avgfield)) %>%
+#   #mutate(avgnass = ifelse(County %in% counties, max(avgnass) + .3 * sd(avgfield)), avgnass) %>%
+#   mutate(heightn = avgnass ) %>%
+#   # mutate(endn = min(avgnass)) %>%
+#   # mutate(topn = max(avgnass)) %>%
+#   # mutate(avgcdl = ifelse(County %in% counties, max(avgcdl) + .3 * sd(avgfield)), avgcdl) %>%
+#   mutate(heightc = avgcdl)
+# # mutate(endc = min(avgcdl)) %>%
+# # mutate(topc = max(avgcdl))
 
+percents<-percent[percent$type=="Small",]
+percentl<-percent[percent$type=="Large",]
 
-fin_box<-t_box +
-  geom_line(percent, mapping=aes(x=as.factor(thresh), y=avgfield, group=Label,),size=1, alpha=0.4, color="darkblue")+
-  facet_grid(rows = vars(Label), cols = vars(type),
-             scales="free_y", switch = 'y')+
-  #facet_wrap(.~Label, scales = "free_y")+
-  geom_text(percent, mapping=aes(x = 15.5, y = heightf, label = paste0(percentf, "%")), size= 4, col='darkblue', stat = "identity")+
-  geom_text(percent, mapping=aes(x = 15, y = heightn, label = paste0(percentn, "%")), size= 4, col='black', stat = "identity")+
-  geom_text(percent, mapping=aes(x = 15, y = heightc, label = paste0(percentc, "%")), size= 4, col='darkgrey',  stat = "identity")+
-  coord_cartesian(xlim = c(1, 16), # This focuses the x-axis on the range of interest
-                  clip = 'off') +  
+threshold_box<-
+  ggplot(final_all, aes(x = as.factor(thresh), y = sum_field, color=interaction(type, thresh),group = interaction(type,thresh)))+
+  geom_boxplot()+
+  geom_line(nass_dat, mapping=aes(x=as.factor(thresh), y=avgnass, group=1),size=1,color="black")+
+  geom_line(nass_dat, mapping=aes(x=as.factor(thresh), y=avgcdl, group=1),size=1,color="darkgrey")+
+  geom_line(percents, mapping=aes(x=as.factor(thresh), y=avgfield, group=1),size=1, alpha=0.4, color=c("#8c510a"))+
+  geom_line(percentl, mapping=aes(x=as.factor(thresh), y=avgfield, group=1),size=1, alpha=0.4, color=c("#01665e"))+
+  geom_text(data=nass_dat[nass_dat$type == "Small",], mapping=aes(x = 15, y = avgnass, label = paste0("NASS")), size= 3, col='black', stat = "identity")+
+  geom_text(data=nass_dat[nass_dat$type == "Small",], mapping=aes(x = 0.5, y = avgcdl, label = paste0("CDL")),  size= 3, col='darkgrey',  stat = "identity")+
+  facet_wrap(.~Label, scales = "free_y")+
+  scale_y_continuous(n.breaks=5,expand = expansion(mult = c(0, 0.1)))+
+  scale_x_discrete(expand = expansion(add = c(2,2)))+
+  xlab("Threshold") +
+  ylab("Sum of Crop Acreages")+
   theme(panel.background = element_blank(),
         panel.spacing.x= unit(2.5, "lines"),
         axis.line = element_line(colour = "black"),
         axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14, face='bold'),
         axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14, face='bold'),
-        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
-  scale_y_continuous(expand = c(0.1,0))
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+        legend.position = "none")
 
-fin_box
+threshold_box
 
 
-##do individual crop ratios here ----
+### output Table 2
+percent_out<-percent[percent$thresh == 1,]
+percent_out<- percent_out[order(percent_out$type, -percent_out$avgnass), ]
+write.csv(percent_out, paste0(root_figures, "/Manuscript/", "Table2.csv"))
 
-final_by_crop<-rbind(final_Illinois_by_crop,final_Michigan_by_crop,final_Wisconsin_by_crop)
+
+## Crop Ratio Plot (Figure 2) ----
+final_by_cropl<-rbind(final_Illinois_by_crop,final_Michigan_by_crop,final_Wisconsin_by_crop)
+final_by_cropl$Hyperparameters<-'Large'
+final_by_crops<-rbind(final_Illinois_by_cropsf,final_Michigan_by_cropsf, final_Wisconsin_by_cropsf)
+final_by_crops$Hyperparameters<-'Small'
+
+final_by_crop<-rbind(final_by_crops, final_by_cropl)
+
 #levels(final_by_crop$Label)<- levels(final_all$Label)
-final_by_crop<-final_by_crop%>%group_by(Label)%>%mutate(NASSacresm = mean(NASSacres))
+final_by_crop<-final_by_crop%>%group_by(Label,Hyperparameters)%>%mutate(NASSacresm = mean(NASSacres))
 final_by_crop<-na.omit(final_by_crop)
 
 #this is to add an additional rank to sort the plot the same as the boxplot above
@@ -146,9 +146,8 @@ names(order)<-c("Rank","Label")
 final_by_crop<-merge(final_by_crop,order,by="Label")
 final_by_crop <- transform(final_by_crop, Label=reorder(Label, -as.numeric(Rank)) ) 
 
-ratio_plotf<-ggplot(final_by_crop, aes(x=as.factor(Commodity), y=(log2(ratio)), fill=Commodity)) +
+ratio_plotf<-ggplot(final_by_crop, aes(x=as.factor(Commodity), y=(log2(ratio)), fill=Hyperparameters)) +
   geom_boxplot()+
-  
   facet_wrap(.~Label, scales = "free")+
   xlab("Crop") +
   ylab("Ratio Sum of Crop Acreage")+
@@ -157,9 +156,10 @@ ratio_plotf<-ggplot(final_by_crop, aes(x=as.factor(Commodity), y=(log2(ratio)), 
         axis.line = element_line(colour = "black"),
         axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
         axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
-        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
-  theme(legend.position = "none")
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+  # theme(legend.position = "none")
 ratio_plotf
 
 
-
+final_by_crop<- final_by_crop[order(final_by_crop$Hyperparameters, -final_by_crop$NASSacresm), ]
+write.csv(final_by_crop, paste0(root_figures, "/Manuscript/", "Table3.csv"))

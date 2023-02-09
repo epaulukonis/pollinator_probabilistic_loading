@@ -545,3 +545,159 @@ for(c in 1:length(list_of_final_data_by_countyI)){
 final_Illinois<-do.call(rbind, list_of_dataI)
 final_Illinois <- final_Illinois %>% group_by(thresh, County) %>% mutate(avgfield =mean(sum_field))
 
+
+
+
+
+
+#### high/low comparison ----
+final_Ih<-final_Illinois[final_Illinois$County == 'Champaign' & final_Illinois$thresh==1,]
+final_Mh<-final_Michigan[final_Michigan$County == 'Huron' & final_Michigan$thresh==1,]
+final_Wh<-final_Wisconsin[final_Wisconsin$County == 'Rock' & final_Wisconsin$thresh==1,]
+final_Ih$State<-"Illinois"
+final_Mh$State<-"Michigan"
+final_Wh$State<-"Wisconsin"
+high<-rbind(final_Ih,final_Mh,final_Wh)
+
+final_Il<-final_Illinois[final_Illinois$County == 'DuPage' & final_Illinois$thresh==1,]
+final_Ml<-final_Michigan[final_Michigan$County == 'VanBuren' & final_Michigan$thresh==1,]
+final_Wl<-final_Wisconsin[final_Wisconsin$County == 'Langlade' & final_Wisconsin$thresh==1,]
+final_Il$State<-"Illinois"
+final_Ml$State<-"Michigan"
+final_Wl$State<-"Wisconsin"
+final_Ml$County<-gsub("([a-z])([A-Z])","\\1 \\2",final_Ml$County)
+low<-rbind(final_Il,final_Ml,final_Wl)
+
+high$sum_nass<-ifelse(high$sum_nass == 0, NA, high$sum_nass)
+low$sum_nass<-ifelse(low$sum_nass == 0, NA, low$sum_nass)
+
+high<-na.omit(high)
+low<-na.omit(low)
+
+#low
+nass_datL<-low %>% group_by(County) %>% mutate(avg =mean(sum_nass)) %>% mutate(avgcdl =mean(sum_cdl))
+#high
+nass_datH<-high %>% group_by(County) %>% mutate(avg =mean(sum_nass)) %>% mutate(avgcdl =mean(sum_cdl))
+
+nass_data<-rbind(nass_datH,nass_datL)
+
+nass_data$County <- factor(nass_data$County , levels = c("Champaign", "DuPage","Huron","Van Buren","Rock","Langlade"))
+compare_box<-ggplot(nass_data, aes(x = as.factor(County), y = log(sum_field), color=State))+
+  geom_boxplot()+
+  xlab("County") +
+  ylab("Log(Sum of Crop Acreages)")+
+  labs(title = paste0("Comparison of Sum Total Crop Acreages in High vs. Low Agriculture Counties"))+
+  scale_y_continuous(n.breaks=8, expand = expansion(mult = c(0.1, 0.2)))+
+  theme(legend.position = "none",axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0)),
+        axis.title.x = element_text(margin = margin(t = 5, r = 0, b = 0, l = 0)))
+# facet_wrap(.~State, scales = "free")
+
+compare_box
+
+compare_boxf<-compare_box + 
+  geom_point(nass_data, mapping=aes(x=as.factor(County), y=log(avg),group=1),size=3,color="black", shape=17)+
+  geom_point(nass_data, mapping=aes(x=as.factor(County), y=log(avgcdl),group=1),size=3,color="darkgrey", shape=19)+
+  #scale_y_continuous(limit = c(2.75, 6))+
+  theme_minimal()+
+  theme(axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
+        axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"))
+
+compare_boxf
+
+
+
+
+
+
+
+
+### Combine Boxplots----
+final_Illinois<-do.call(rbind, list_of_dataI)
+final_Illinois$County <- factor(final_Illinois$County , levels = c("Champaign", "McHenry", "DuPage"))
+final_Illinois<-final_Illinois[!c(final_Illinois$County == 'McHenry' & final_Illinois$year==2021),] #remove
+final_Illinois$State<-"Illinois"
+
+final_Michigan<-do.call(rbind, list_of_dataM)
+final_Michigan$County <- factor(final_Michigan$County , levels = c("Huron", "Oceana", "VanBuren"))
+final_Michigan$State<-"Michigan"
+
+final_Wisconsin<-do.call(rbind, list_of_dataW)
+final_Wisconsin$County <- factor(final_Wisconsin$County , levels = c("Rock", "Waushara", "Langlade"))
+final_Wisconsin$State<-"Wisconsin"
+
+final_all<-rbind(final_Michigan,final_Wisconsin)
+final_all$Label<-paste0(final_all$County," County, ",final_all$State)
+final_all$Label<-ifelse(final_all$Label == "VanBuren County, Michigan","Van Buren County, Michigan", final_all$Label) #correct Van Buren
+#final_all$Label <- factor(final_all$Label , levels=unique(as.character(final_all$Label )) )
+final_all <- transform(final_all, Label=reorder(Label, -sum_nass) )
+
+nass_dat<-final_all[final_all$thresh ==1,]
+nass_dat<-nass_dat %>% group_by(County) %>% mutate(avgnass =mean(sum_nass))%>% mutate(avgcdl = mean(sum_cdl))
+#nass_dat$thresh<-c(1:14,1,2,5,10,1:12,14)
+nass_dat$thresh<-rep(c(1,5,14,1,5,14,1,5,14),3)
+
+
+t_box<-
+  ggplot(final_all, aes(x = as.factor(thresh), y = sum_field, color=as.factor(thresh)))+
+  geom_boxplot()+
+  geom_line(nass_dat, mapping=aes(x=as.factor(thresh), y=avgnass, group=1),size=1,color="black")+
+  geom_line(nass_dat, mapping=aes(x=as.factor(thresh), y=avgcdl, group=1),size=1,color="darkgrey")+
+  facet_wrap(.~Label, scales = "free_y")+
+  scale_y_continuous(n.breaks=10,expand = expansion(mult = c(0, .1)))+
+  xlab("Threshold") +
+  ylab("Sum of Crop Acreages")+
+  theme(legend.position = "none",axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0)),
+        axis.title.x = element_text(margin = margin(t = 5, r = 0, b = 0, l = 0)))
+
+t_box
+
+#what's the total percentage change across threshold?
+final_all <- final_all %>% group_by(thresh, County) %>%
+  mutate(avgfield =mean(sum_field))%>%
+  mutate(avgnass =mean(sum_nass)) %>%
+  mutate(avgcdl =mean(sum_cdl))
+
+percent<-final_all[final_all$year ==2008,]
+percent<-percent %>% group_by(County, year) %>%
+  mutate(percentf = ((max(avgfield) - min (avgfield))/max(avgfield))*100) %>%
+  mutate(percentn = ((max(avgnass) - max (avgfield))/max(avgnass))*100) %>%
+  mutate(percentc = ((max(avgcdl) - max (avgfield))/max(avgcdl))*100)
+
+percent[,12:14]<-round(percent[,12:14],1)
+#percent<-percent %>% group_by(County) %>% mutate(sdf=100*(sd(avgfield)/mean(avgfield)) )
+
+
+percent<-percent %>%
+  group_by(County) %>%
+  mutate(heightf = min(avgfield)) %>%
+  # mutate(endf = min(avgfield)) %>%
+  # mutate(topf = max(avgfield)) %>%
+  #mutate(avgnass = ifelse(County %in% counties, max(avgnass) + .3 * sd(avgfield)), avgnass) %>%
+  mutate(heightn = avgnass ) %>%
+  # mutate(endn = min(avgnass)) %>%
+  # mutate(topn = max(avgnass)) %>%
+  # mutate(avgcdl = ifelse(County %in% counties, max(avgcdl) + .3 * sd(avgfield)), avgcdl) %>%
+  mutate(heightc = avgcdl)
+# mutate(endc = min(avgcdl)) %>%
+# mutate(topc = max(avgcdl))
+
+
+fin_box<-t_box +
+  geom_line(percent, mapping=aes(x=as.factor(thresh), y=avgfield, group=Label,),size=1, alpha=0.4, color="darkblue")+
+  facet_wrap(.~Label, scales = "free_y")+
+  geom_text(percent, mapping=aes(x = 15.5, y = heightf, label = paste0(percentf, "%")), size= 4, col='darkblue', stat = "identity")+
+  geom_text(percent, mapping=aes(x = 15, y = heightn, label = paste0(percentn, "%")), size= 4, col='black', stat = "identity")+
+  geom_text(percent, mapping=aes(x = 15, y = heightc, label = paste0(percentc, "%")), size= 4, col='darkgrey',  stat = "identity")+
+  coord_cartesian(xlim = c(1, 16), # This focuses the x-axis on the range of interest
+                  clip = 'off') +
+  theme(panel.background = element_blank(),
+        panel.spacing.x= unit(2.5, "lines"),
+        axis.line = element_line(colour = "black"),
+        axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14, face='bold'),
+        axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14, face='bold'),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+  scale_y_continuous(expand = c(0.1,0))
+
+fin_box
+
+

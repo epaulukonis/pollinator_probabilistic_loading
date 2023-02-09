@@ -13,6 +13,7 @@ R.Version()$version.string
 # install.packages(c("ggplot2", "rgeos","sf","raster","dplyr","ggplot2","cowplot",
 #                    "grid","foreign","progress","parallel","foreach", "gridExtra","stringr"))
 
+
 library(sp)
 library(sf)
 library(stars)
@@ -36,6 +37,7 @@ library(smoothr)
 library(exactextractr)
 library(data.table)
 library(gtools)
+library(gstat)
 
 library(tidyverse)
 library(beecoSp)
@@ -67,7 +69,7 @@ root_data_out <- file.path(root_dir, "data_out")
 print(root_data_out)
 root_figures <- file.path(root_dir, "figures")
 print(root_figures)
-root_src <- file.path(root_dir, "src/AllThresholdAnalysis")
+root_src <- file.path(root_dir, "src/BombusAnalysis")
 print(root_src)
 
 # set data directories, check to see what files are in each, and unzip if needed - uncomment if needed
@@ -92,58 +94,11 @@ print(list.files(path=nlcd_dir_acc, all.files=TRUE, full.names=FALSE))
 # }
 #
 # cdl
-cdl_dir = file.path(root_data_in, "MapData/CDL")
+cdl_dir = file.path(root_data_in, "MapData/CDL/BombusAnalysis")
 print(cdl_dir)
 print(list.files(path=cdl_dir, all.files=TRUE, full.names=FALSE))
 
 
-# field
-field_dir = file.path(root_data_in, "MapData/Fields_Testing")
-print(field_dir)
-print(list.files(path=field_dir, all.files=TRUE, full.names=FALSE))
-
-
-
-#Multi-state specific
-cdl_ms_dir = file.path(cdl_dir, "Multi-State")
-print(cdl_ms_dir)
-print(list.files(path=cdl_ms_dir, all.files=TRUE, full.names=FALSE))
-
-#Michigan specific
-cdl_mi_dir= file.path(cdl_ms_dir, "Michigan")
-print(cdl_mi_dir)
-print(list.files(path=cdl_mi_dir, all.files=TRUE, full.names=FALSE))
-
-#Wisconsin specific
-cdl_wi_dir= file.path(cdl_ms_dir, "Wisconsin")
-print(cdl_wi_dir)
-print(list.files(path=cdl_wi_dir, all.files=TRUE, full.names=FALSE))
-
-
-#Illinois specific
-cdl_ill_dir= file.path(cdl_dir, "Illinois")
-print(cdl_ill_dir)
-print(list.files(path=cdl_ill_dir, all.files=TRUE, full.names=FALSE))
-
-cdl_acc_dir = file.path(cdl_dir, "Illinois/cdl_acc")
-print(cdl_acc_dir)
-print(list.files(path=cdl_acc_dir, all.files=TRUE, full.names=FALSE))
-
-cdl_dir_fin = file.path(cdl_dir, "Illinois/fixed_cdl")
-print(cdl_dir_fin)
-print(list.files(path=cdl_dir_fin, all.files=TRUE, full.names=FALSE))
-
-cdl_dir_rec = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_old_cdl")
-print(cdl_dir_rec)
-print(list.files(path=cdl_dir_rec, all.files=TRUE, full.names=FALSE))
-
-cdl_dir_rec_n = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_new_cdl")
-print(cdl_dir_rec_n)
-print(list.files(path=cdl_dir_rec_n, all.files=TRUE, full.names=FALSE))
-
-cdl_dir_adj = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_new_cdl/adjusted")
-print(cdl_dir_adj)
-print(list.files(path=cdl_dir_adj, all.files=TRUE, full.names=FALSE))
 
 #coa
 coa_dir = file.path(root_data_in, "CropData/CoA/all_CoA")
@@ -189,7 +144,3 @@ pest_dir = file.path(root_data_in, "PesticideData")
 print(pest_dir)
 print(list.files(path=pest_dir, all.files=TRUE, full.names=FALSE))
 
-
-threshold_dir<-file.path(root_data_out,"all_thresh")
-print(threshold_dir)
-print(list.files(path=threshold_dir, all.files=TRUE, full.names=FALSE))
