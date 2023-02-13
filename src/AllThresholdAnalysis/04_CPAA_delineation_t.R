@@ -86,11 +86,14 @@ for (c in 1:length(thresh_list_ill_f)){
     # mask out NA areas here using NLCD
     # focal window of 3x3 pixels, or 7x7 (13)
     r<-terra::rast(df_n)
-    fw<- terra::focal(r, w = 3, fun = "modal",  na.policy='omit', fillvalue=NA)%>%
+
+   # terra::writeRaster(r, paste0(root_data_out, "/test_mchenry_1.tif"), filetype = "GTiff", overwrite = TRUE)
+    fw<- terra::focal(r, w = 13, fun = "modal",  na.policy='omit', fillvalue=NA)%>%
       terra::mask(mask = r)
     fw<-raster(fw) #convert back to raster object
 
-
+    #terra::writeRaster(r, paste0(root_data_out, "/test_mchenry_1_fw.tif"), filetype = "GTiff", overwrite = TRUE)
+    
 
   ##this part is somewhat complicated; here we need to match the nlcd with the year and county
     Ch<-'Champaign'
@@ -116,12 +119,18 @@ for (c in 1:length(thresh_list_ill_f)){
     if(i >7 && i <=10 && grepl(Mc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[14]]}
     if(i >10 && grepl(Mc, names(thresh_list[1]), fixed = TRUE)){nlcd<-nlcd_ill[[15]]}
 
-    ext<-extent(nlcd)
+    ext<-extent(nlcd) #issue is here; something happening with NLcd mask that is excluding some pixels 2/12/23
     fw<-setExtent(fw, ext)
     fw<-crop(fw, nlcd)
     fw<-projectRaster(fw, nlcd, method='ngb',crs(nlcd))
+    #terra::writeRaster(fw, paste0(root_data_out, "/test_mchenry_1_fw_premasknlcd.tif"), filetype = "GTiff", overwrite = TRUE)
+    
+    
+    
     fw<-mask(fw, nlcd) #mask out by NLCD NA here
 
+   # terra::writeRaster(fw, paste0(root_data_out, "/test_mchenry_1_fw_finnlcd.tif"), filetype = "GTiff", overwrite = TRUE)
+    
 
     # this evaluates and removes clumps of pixels (nearest neighbor =  8)
     rc <- clump(fw, directions = 8)
@@ -154,13 +163,17 @@ for (c in 1:length(thresh_list_ill_f)){
 #names(cpaa_field_set)[1]<-names(thresh_list_ill_f)[1]
 
   #add separate function for buffering and cleaning, drop crumbs < 2 acres, do buffer to smooth of 8 acres
-  area_thresh <- units::set_units(4046.86, m^2) #drop crumbs below 1 acres
+  area_thresh <- units::set_units(4046.86, m^2) #drop crumbs below 2 acres
   expand_shrink_clean<-function(x){
     expand<-gBuffer(x, width=180, byid=T) # 6 pixel expand to smooth (~8 acres)
     shrink<-gBuffer(expand, width=-180, byid=T) #6 pixel shrink to smooth (~8 acres)
     drop_polygons<-drop_crumbs(shrink, area_thresh, drop_empty = TRUE) }
 
-
+ #fw_fill_fin<-expand_shrink_clean(fw_fill)
+ # writeOGR(fw_fill_fin, root_data_out, paste0("/test_mchenry_1_fw_fill"), driver = "ESRI Shapefile")
+  
+  
+  
 cpaa_final_batch<-list()
 for(layer in 1:length(cpaa_field_set)){
  fw_analysis<-cpaa_field_set[[layer]]

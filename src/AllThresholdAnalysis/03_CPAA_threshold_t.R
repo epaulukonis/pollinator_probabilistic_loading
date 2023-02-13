@@ -31,18 +31,20 @@ if(file.exists(thresh_ill_filename)){
     # thresh_list_ill_f<-list()
     # thresh_list_ill_f[[1]]<-thresh_list_ill[1:2]
     # thresh_list_ill_f[[2]]<-thresh_list_ill[3:4]
-    # thresh_list_ill_f[[3]]<-thresh_list_ill[5:6]
+    # thresh_list_ill_f[[3]]<-thresh_list_ill[5:7]
     
     
     f<-paste0(root_data_out, "/all_NLCD/Illinois")
     print(list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
     nlcd_ill<- file.path(f, list.files(path=f, pattern='.tif$', all.files=TRUE, full.names=FALSE))
     nlcd_ill<-setNames(lapply(nlcd_ill, raster), tools::file_path_sans_ext(basename(nlcd_ill)))
+    
 
 }else{
 study<-ill
 sub_group<-c("DuPage","McHenry","Champaign")
 sub<-study[study$NAME %in% sub_group,]
+sub<-spTransform(sub, crs(cdl_data_ill_rec[[1]])) #reproject
 
 names_county<-list()
 county_set_list<-list()
@@ -84,7 +86,7 @@ layer_list<-list()
       layer_list[[layer]] <- reclassify(county_r[[layer]], n)
       }
 
-    layer_list<-layer_list[-c(1:9)] ##note, this applies ONLY to Illinois, with 23 years total
+    #layer_list<-layer_list[-c(1:9)] ##note, this applies ONLY to Illinois, with 23 years total
     county_list[[county]]<-layer_list
     }
 
@@ -147,30 +149,31 @@ thresh_list_by_year_ill<-list() #contains all the datasets by yar
     }
 
 
-#####Get NLCD mask for non-crop areas (roadS)
-# for(county_layer in 1:length(county_list)){
-#   cpaa<-county_list[[county_layer]][[1]] ##get associated county for CRS
-#   for(nlcd_layer in 1:length(nlcd_all)){
-#     nlcd<-nlcd_all[[nlcd_layer]]
-# 
-#     #first, crop the original NLCD in its own GCS to make it easier to reproject in the new CRS
-#     co_r<-sub[sub$NAME == sub$NAME[county_layer],]
-#     reproj<-spTransform(co_r, crs(nlcd)) #reproject to make it easier to clip
-#     nlcd<-crop(nlcd, reproj)
-# 
-#     nlcdc<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa)) #make sure it's same projected as CPAA
-# 
-#     nlcdc<-crop(nlcdc, co_r) #crop to co_r
-#     nlcdc<-mask(nlcdc, co_r) #mask to co_r
-#     nlcdc[nlcdc < 81 | nlcdc > 82]<-NA
-# 
-#     names(nlcdc)<-names(nlcd_all[nlcd_layer])
-#     f<-paste0(root_data_out, "/all_NLCD/Wisconsin")
-#     writeRaster(nlcdc, file.path(f, paste0(names_cc[[county_layer]],"_",names(nlcdc))), format="GTiff", overwrite = TRUE)
-# 
-#   }
-# 
-# }
+####Get NLCD mask for non-crop areas (roadS)
+for(county_layer in 1:length(county_list)){
+  cpaa<-county_list[[county_layer]][[1]] ##get associated county for CRS
+  for(nlcd_layer in 1:length(nlcd_all)){
+    nlcd<-nlcd_all[[nlcd_layer]]
+    #first, crop the original NLCD in its own GCS to make it easier to reproject in the new CRS
+    co_r<-sub[sub$NAME == names(county_list[county_layer]),]
+    co_r<-spTransform(co_r, crs(nlcd)) #reproject to make it easier to clip
+    nlcd<-crop(nlcd, co_r)
+    nlcdc<-projectRaster(nlcd, cpaa, method='ngb',crs(cpaa)) #make sure it's same projected as CPAA
+
+    nlcdc<-crop(nlcdc, co_r) #crop to co_r
+    nlcdc<-mask(nlcdc, co_r) #mask to co_r
+    nlcdc[nlcdc < 81 | nlcdc > 82]<-NA
+
+    names(nlcdc)<-names(nlcd_all[nlcd_layer])
+    f<-paste0(root_data_out, "/all_NLCD/Illinois")
+    writeRaster(nlcdc, file.path(f, paste0(names_cc[[county_layer]],"_",names(nlcdc))), format="GTiff", overwrite = TRUE)
+
+  }
+
+}
+
+
+
 
 }
 
