@@ -33,8 +33,13 @@ ill<-all_states[all_states$STATEFP == "17",]
 mi<-all_states[all_states$STATEFP == "26",]
 wi<-all_states[all_states$STATEFP == "55",]
 
-rm(all_states)
+# rm(all_states)
 
+sub_group<-c("DuPage","McHenry","Champaign","Van Buren", "Oceana","Huron","Waushara","Langlade","Rock")
+
+
+states<-all_states[all_states$NAME %in% sub_group,]
+writeOGR(states, state_dir, paste0("/all_counties"), driver = "ESRI Shapefile")
 
 
 #read in NLCD
