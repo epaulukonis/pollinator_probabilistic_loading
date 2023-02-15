@@ -40,7 +40,7 @@ saveRDS(bombus_zones, file=paste0(bombus_dir,"/bombus_CDL_zones.RData"))
 
 
 
-namesones)<-names(CDL)
+namesones<-names(CDL)
 names(bombus_zones)=BR$STUSPS[match(names(bombus_zones),BR$STATEFP)]
 
 for(state in 1:length(CDL)){
