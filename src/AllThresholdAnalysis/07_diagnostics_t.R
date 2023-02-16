@@ -959,7 +959,7 @@ ill_field<- file.path(paste0(root_data_out, "/all_tif/ILLINOIS/SUB/smallerfields
 ill_field<-setNames(lapply(ill_field, readOGR), tools::file_path_sans_ext(basename(ill_field)))
 ill_fieldf<-ill_field[(mixedsort(as.character(names(ill_field))))]
 
-#field_list_ill_f<-list(1,2,3)
+field_list_ill_f<-list()
 field_list_ill_f[[1]]<-ill_field[1:14]
 field_list_ill_f[[2]]<-ill_field[15:28]
 field_list_ill_f[[3]]<-ill_field[29:42]
