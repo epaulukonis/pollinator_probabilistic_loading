@@ -201,7 +201,7 @@ print(list.files(path=threshold_dir, all.files=TRUE, full.names=FALSE))
 
 #run illinois smaller fields
 source(file.path(root_src, "02_formatting_cdl_t.R"))
-# #source(file.path(root_src, "03_CPAA_threshold_t.R"))
+#source(file.path(root_src, "03_CPAA_threshold_t.R"))
 # source(file.path(root_src, "04_CPAA_delineation_t.R"))
 # source(file.path(root_src, "06_subdelineation_t.R"))
 source(file.path(root_src, "07_diagnostics_t.R"))

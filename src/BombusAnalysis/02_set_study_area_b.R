@@ -14,12 +14,12 @@ BZ<-read_sf(bombus_dir, layer = "RPBB_Low_Potential_Zones_03172021")
 fips<-read.csv(paste0(state_dir,"/state_codes.csv"))
 
 #affinis_all<-read.csv(paste0(bombus_dir,"/bombus_ILL.csv"))
-# affinis_all<-read.csv(paste0(bombus_dir,"/bombus_ILL.csv"))
-# affinis_all$ID<-row.names(affinis_all)
-# affinis_b<-affinis_all[affinis_all$Year <2000,]
-# affinis_a<-affinis_all[affinis_all$Year >=2000,]
+affinis_all<-read.csv(paste0(bombus_dir,"/bombus_ILL.csv"))
+affinis_all$ID<-row.names(affinis_all)
 
-BZ<-st_transform(BZ, crs(CDL[[1]]))
+
+
+#BZ<-st_transform(BZ, crs(CDL[[1]]))
 #check
 # plot(CDL[[1]][[1]])
 # plot(BZ$geometry, add=T)
@@ -115,22 +115,19 @@ plot(grid)
 #convert to spatial
 coordinates(affinis_all)=~decimalLongitude+decimalLatitude #get coordinates
 proj4string(affinis_all)=CRS("+init=epsg:4326") # set it to lat-long
-affinis_all = spTransform(affinis_all,crs(raw_CDL_all[[1]][[1]])) #transform to match NC habitat
+#affinis_all = spTransform(affinis_all,crs(raw_CDL_all[[1]][[1]])) #transform to match NC habitat
 
 
-plot(affinis_b)
-plot(affinis_a)
-
-
-
+affinis_b<-affinis_all[affinis_all$Year <2000,]
+affinis_a<-affinis_all[affinis_all$Year >=2000,]
 
 
 
 
 writeOGR(obj=study_area, dsn=paste0(state_dir,"/studyarea"), layer="StudyArea_bombus", driver="ESRI Shapefile") # this is in geographical projection
 writeOGR(obj=suball, dsn=paste0(state_dir,"/studyarea"), layer="Counties_bombus", driver="ESRI Shapefile") # this is in geographical projection
-writeOGR(obj=affinis_illa, dsn=paste0(state_dir,"/studyarea"), layer="locationsa_bombusesa", driver="ESRI Shapefile") # this is in geographical projection
-writeOGR(obj=affinis_illb, dsn=paste0(state_dir,"/studyarea"), layer="locationsb_bombusesa", driver="ESRI Shapefile") # this is in geographical projection
+writeOGR(obj=affinis_a, dsn=paste0(state_dir,"/studyarea"), layer="locationsa_bombusespost2000", driver="ESRI Shapefile") # this is in geographical projection
+writeOGR(obj=affinis_b, dsn=paste0(state_dir,"/studyarea"), layer="locationsb_bombusespre2000", driver="ESRI Shapefile") # this is in geographical projection
 
 
 #### GLRI study area

@@ -65,179 +65,179 @@ cdlkey<-read.csv(paste0(cdl_dir,"/CDL_key.csv")) #cdl key
 # 
 # 
 # 
-### Get the thresholds----
-# print_thresholds_ill<-matrix(nrow=3,ncol=3,NA)
-# colnames(print_thresholds_ill)<-c("threshold","county","state")
+# ### Get the thresholds----
+# # print_thresholds_ill<-matrix(nrow=3,ncol=3,NA)
+# # colnames(print_thresholds_ill)<-c("threshold","county","state")
+# # 
+# # print_thresholds_mi<-matrix(nrow=3,ncol=3,NA)
+# # colnames(print_thresholds_mi)<-c("threshold","county","state")
+# # 
+# # print_thresholds_wi<-matrix(nrow=3,ncol=3,NA)
+# # colnames(print_thresholds_wi)<-c("threshold","county","state")
+# # 
+# # names_counties<-c("DuPage","McHenry","Champaign")
+# # 
+# #  for(n in 1:length(avg_thresh_ill)){
+# #   csv<-avg_thresh_ill[[n]]
+# #   n_thresh<-min(csv$bin)
+# #   csv$countyname<-names_counties[n]
+# #   countyname<-csv[1,9]
+# #   print_thresholds_ill[n,1]<-n_thresh
+# #   print_thresholds_ill[n,2]<-countyname
+# #   print_thresholds_ill[n,3]<-'ILL'
+# # }
+# # 
+# # for(n in 1:length(avg_thresh_mi)){
+# #   csv<-avg_thresh_mi[[n]]
+# #   n_thresh<-min(csv$bin)
+# #   countyname<-csv[1,9]
+# #   print_thresholds_mi[n,1]<-n_thresh
+# #   print_thresholds_mi[n,2]<-countyname
+# #   print_thresholds_mi[n,3]<-'MI'
+# # }
+# # 
+# # 
+# # for(n in 1:length(avg_thresh_wi)){
+# #   csv<-avg_thresh_wi[[n]]
+# #   n_thresh<-min(csv$bin)
+# #   countyname<-csv[1,9]
+# #   print_thresholds_wi[n,1]<-n_thresh
+# #   print_thresholds_wi[n,2]<-countyname
+# #   print_thresholds_wi[n,3]<-'WI'
+# # }
+# # 
+# # print_thresh<-as.data.frame(rbind(print_thresholds_ill, print_thresholds_mi,print_thresholds_wi))
+# # print_thresh
+# # 
+# # 
 # 
-# print_thresholds_mi<-matrix(nrow=3,ncol=3,NA)
-# colnames(print_thresholds_mi)<-c("threshold","county","state")
 # 
-# print_thresholds_wi<-matrix(nrow=3,ncol=3,NA)
-# colnames(print_thresholds_wi)<-c("threshold","county","state")
+# ### Get CDL acreage ----
+# #remember to activate and reproject the county areas
 # 
-# names_counties<-c("DuPage","McHenry","Champaign")
+# # all_states<-readOGR(state_dir, layer = "tl_2021_us_county") #read in states
+# # 
+# # ill<-all_states[all_states$STATEFP == "17",]
+# # mi<-all_states[all_states$STATEFP == "26",]
+# # wi<-all_states[all_states$STATEFP == "55",]
 # 
-#  for(n in 1:length(avg_thresh_ill)){
-#   csv<-avg_thresh_ill[[n]]
-#   n_thresh<-min(csv$bin)
-#   csv$countyname<-names_counties[n]
-#   countyname<-csv[1,9]
-#   print_thresholds_ill[n,1]<-n_thresh
-#   print_thresholds_ill[n,2]<-countyname
-#   print_thresholds_ill[n,3]<-'ILL'
-# }
+# ##Illinois
+# extracted_cdl_dataI<-readRDS(paste0(root_data_out,"/extracted_cdl_dataI.RData"))
+# # study<-ill
+# # sub_group<-c("DuPage","McHenry","Champaign")
+# # sub<-study[study$NAME %in% sub_group,]
+# # 
+# # names_county<-list()
+# # county_set_list<-list()
+# # for (co in 1:length(sub)){
+# #   co_r<-sub[sub$NAME == sub$NAME[co],]
+# #   mask_crop<-function(x){
+# #     r_list<-crop(x, co_r)
+# #     mask(r_list, co_r) 
+# #   }
+# #   
+# #   county_set<-lapply(cdl_data_ill_rec, mask_crop) #crop and mask the fixed CDL to the counties, put in list
+# #   county_set_list[[co]]<-stack(county_set) #represents single county stack
+# # 
+# # }
+# # 
+# # years <- list(2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021)
+# # extracted_cdl_data<-list()
+# # names(county_set_list)<-c("DU PAGE","CHAMPAIGN","MCHENRY") #order kind of wonky
+# # for(county in 1:length(county_set_list)){
+# #   county_layers<-county_set_list[[county]]
+# #   cdl_extract<-freq(county_layers)
+# #   cdl_extract<-Map(cbind, cdl_extract, year = years)
+# #   cdl_extract<-as.data.frame(do.call(rbind,cdl_extract))
+# #   cdl_extract$County<-names(county_set_list[county])
+# #  extracted_cdl_data[[county]] <-cdl_extract
+# # }
+# # 
+# # extracted_cdl_dataI<-do.call(rbind, extracted_cdl_data)
+# # saveRDS(extracted_cdl_dataI, file=paste0(root_data_out,"/extracted_cdl_dataI.RData"))
 # 
-# for(n in 1:length(avg_thresh_mi)){
-#   csv<-avg_thresh_mi[[n]]
-#   n_thresh<-min(csv$bin)
-#   countyname<-csv[1,9]
-#   print_thresholds_mi[n,1]<-n_thresh
-#   print_thresholds_mi[n,2]<-countyname
-#   print_thresholds_mi[n,3]<-'MI'
-# }
+# 
+# ## Michigan
+# extracted_cdl_dataM<-readRDS(paste0(root_data_out,"/extracted_cdl_dataM.RData"))
+# # study<-mi
+# # sub_group<-c("Van Buren", "Oceana","Huron")
+# # sub<-study[study$NAME %in% sub_group,]
+# # crs_cdl<-crs(cdl_data_mi_rec[[1]])
+# # sub<-spTransform(sub, crs_cdl)
+# # 
+# # # plot(cdl_data_mi_rec[[1]])
+# # # plot(sub[1],add=T)
+# # 
+# # names_county<-list()
+# # county_set_list<-list()
+# # for (co in 1:length(sub)){
+# #   co_r<-sub[sub$NAME == sub$NAME[co],]
+# #   mask_crop<-function(x){
+# #     r_list<-crop(x, co_r)
+# #     mask(r_list, co_r)
+# #   }
+# # 
+# #   county_set<-lapply(cdl_data_mi_rec, mask_crop) #crop and mask the fixed CDL to the counties, put in list
+# #   county_set_list[[co]]<-stack(county_set) #represents single county stack
+# # 
+# # }
+# # 
+# # years <- list(2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021)
+# # extracted_cdl_data<-list()
+# # names(county_set_list)<-c("VAN BUREN", "OCEANA","HURON")
+# # for(county in 1:length(county_set_list)){
+# #   county_layers<-county_set_list[[county]]
+# #   cdl_extract<-freq(county_layers)
+# #   cdl_extract<-Map(cbind, cdl_extract, year = years)
+# #   cdl_extract<-as.data.frame(do.call(rbind,cdl_extract))
+# #   cdl_extract$County<-names(county_set_list[county])
+# #   extracted_cdl_data[[county]] <-cdl_extract
+# # }
+# # 
+# # extracted_cdl_dataM<-do.call(rbind, extracted_cdl_data)
+# # saveRDS(extracted_cdl_dataM, file=paste0(root_data_out,"/extracted_cdl_dataM.RData"))
 # 
 # 
-# for(n in 1:length(avg_thresh_wi)){
-#   csv<-avg_thresh_wi[[n]]
-#   n_thresh<-min(csv$bin)
-#   countyname<-csv[1,9]
-#   print_thresholds_wi[n,1]<-n_thresh
-#   print_thresholds_wi[n,2]<-countyname
-#   print_thresholds_wi[n,3]<-'WI'
-# }
+# ## Wisconsin
+# extracted_cdl_dataW<-readRDS(paste0(root_data_out,"/extracted_cdl_dataW.RData"))
+# # study<-wi
+# # sub_group<-c("Waushara","Langlade","Rock")
+# # sub<-study[study$NAME %in% sub_group,]
+# # crs_cdl<-crs(cdl_data_wi_rec[[1]])
+# # sub<-spTransform(sub, crs_cdl)
+# # 
+# # names_county<-list()
+# # county_set_list<-list()
+# # for (co in 1:length(sub)){
+# #   co_r<-sub[sub$NAME == sub$NAME[co],]
+# #   mask_crop<-function(x){
+# #     r_list<-crop(x, co_r)
+# #     mask(r_list, co_r)
+# #   }
+# # 
+# #   county_set<-lapply(cdl_data_wi_rec, mask_crop) #crop and mask the fixed CDL to the counties, put in list
+# #   county_set_list[[co]]<-stack(county_set) #represents single county stack
+# # 
+# # }
+# # 
+# # years <- list(2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021)
+# # extracted_cdl_data<-list()
+# # names(county_set_list)<-c("WAUSHARA","LANGLADE","ROCK")
+# # for(county in 1:length(county_set_list)){
+# #   county_layers<-county_set_list[[county]]
+# #   cdl_extract<-freq(county_layers)
+# #   cdl_extract<-Map(cbind, cdl_extract, year = years)
+# #   cdl_extract<-as.data.frame(do.call(rbind,cdl_extract))
+# #   cdl_extract$County<-names(county_set_list[county])
+# #   extracted_cdl_data[[county]] <-cdl_extract
+# # }
+# # 
+# # extracted_cdl_dataW<-do.call(rbind, extracted_cdl_data)
+# # saveRDS(extracted_cdl_dataW, file=paste0(root_data_out,"/extracted_cdl_dataW.RData"))
 # 
-# print_thresh<-as.data.frame(rbind(print_thresholds_ill, print_thresholds_mi,print_thresholds_wi))
-# print_thresh
 # 
 # 
-
-
-### Get CDL acreage ----
-#remember to activate and reproject the county areas
-
-# all_states<-readOGR(state_dir, layer = "tl_2021_us_county") #read in states
-# 
-# ill<-all_states[all_states$STATEFP == "17",]
-# mi<-all_states[all_states$STATEFP == "26",]
-# wi<-all_states[all_states$STATEFP == "55",]
-
-##Illinois
-extracted_cdl_dataI<-readRDS(paste0(root_data_out,"/extracted_cdl_dataI.RData"))
-# study<-ill
-# sub_group<-c("DuPage","McHenry","Champaign")
-# sub<-study[study$NAME %in% sub_group,]
-# 
-# names_county<-list()
-# county_set_list<-list()
-# for (co in 1:length(sub)){
-#   co_r<-sub[sub$NAME == sub$NAME[co],]
-#   mask_crop<-function(x){
-#     r_list<-crop(x, co_r)
-#     mask(r_list, co_r) 
-#   }
-#   
-#   county_set<-lapply(cdl_data_ill_rec, mask_crop) #crop and mask the fixed CDL to the counties, put in list
-#   county_set_list[[co]]<-stack(county_set) #represents single county stack
-# 
-# }
-# 
-# years <- list(2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021)
-# extracted_cdl_data<-list()
-# names(county_set_list)<-c("DU PAGE","CHAMPAIGN","MCHENRY") #order kind of wonky
-# for(county in 1:length(county_set_list)){
-#   county_layers<-county_set_list[[county]]
-#   cdl_extract<-freq(county_layers)
-#   cdl_extract<-Map(cbind, cdl_extract, year = years)
-#   cdl_extract<-as.data.frame(do.call(rbind,cdl_extract))
-#   cdl_extract$County<-names(county_set_list[county])
-#  extracted_cdl_data[[county]] <-cdl_extract
-# }
-# 
-# extracted_cdl_dataI<-do.call(rbind, extracted_cdl_data)
-# saveRDS(extracted_cdl_dataI, file=paste0(root_data_out,"/extracted_cdl_dataI.RData"))
-
-
-## Michigan
-extracted_cdl_dataM<-readRDS(paste0(root_data_out,"/extracted_cdl_dataM.RData"))
-# study<-mi
-# sub_group<-c("Van Buren", "Oceana","Huron")
-# sub<-study[study$NAME %in% sub_group,]
-# crs_cdl<-crs(cdl_data_mi_rec[[1]])
-# sub<-spTransform(sub, crs_cdl)
-# 
-# # plot(cdl_data_mi_rec[[1]])
-# # plot(sub[1],add=T)
-# 
-# names_county<-list()
-# county_set_list<-list()
-# for (co in 1:length(sub)){
-#   co_r<-sub[sub$NAME == sub$NAME[co],]
-#   mask_crop<-function(x){
-#     r_list<-crop(x, co_r)
-#     mask(r_list, co_r)
-#   }
-# 
-#   county_set<-lapply(cdl_data_mi_rec, mask_crop) #crop and mask the fixed CDL to the counties, put in list
-#   county_set_list[[co]]<-stack(county_set) #represents single county stack
-# 
-# }
-# 
-# years <- list(2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021)
-# extracted_cdl_data<-list()
-# names(county_set_list)<-c("VAN BUREN", "OCEANA","HURON")
-# for(county in 1:length(county_set_list)){
-#   county_layers<-county_set_list[[county]]
-#   cdl_extract<-freq(county_layers)
-#   cdl_extract<-Map(cbind, cdl_extract, year = years)
-#   cdl_extract<-as.data.frame(do.call(rbind,cdl_extract))
-#   cdl_extract$County<-names(county_set_list[county])
-#   extracted_cdl_data[[county]] <-cdl_extract
-# }
-# 
-# extracted_cdl_dataM<-do.call(rbind, extracted_cdl_data)
-# saveRDS(extracted_cdl_dataM, file=paste0(root_data_out,"/extracted_cdl_dataM.RData"))
-
-
-## Wisconsin
-extracted_cdl_dataW<-readRDS(paste0(root_data_out,"/extracted_cdl_dataW.RData"))
-# study<-wi
-# sub_group<-c("Waushara","Langlade","Rock")
-# sub<-study[study$NAME %in% sub_group,]
-# crs_cdl<-crs(cdl_data_wi_rec[[1]])
-# sub<-spTransform(sub, crs_cdl)
-# 
-# names_county<-list()
-# county_set_list<-list()
-# for (co in 1:length(sub)){
-#   co_r<-sub[sub$NAME == sub$NAME[co],]
-#   mask_crop<-function(x){
-#     r_list<-crop(x, co_r)
-#     mask(r_list, co_r)
-#   }
-# 
-#   county_set<-lapply(cdl_data_wi_rec, mask_crop) #crop and mask the fixed CDL to the counties, put in list
-#   county_set_list[[co]]<-stack(county_set) #represents single county stack
-# 
-# }
-# 
-# years <- list(2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021)
-# extracted_cdl_data<-list()
-# names(county_set_list)<-c("WAUSHARA","LANGLADE","ROCK")
-# for(county in 1:length(county_set_list)){
-#   county_layers<-county_set_list[[county]]
-#   cdl_extract<-freq(county_layers)
-#   cdl_extract<-Map(cbind, cdl_extract, year = years)
-#   cdl_extract<-as.data.frame(do.call(rbind,cdl_extract))
-#   cdl_extract$County<-names(county_set_list[county])
-#   extracted_cdl_data[[county]] <-cdl_extract
-# }
-# 
-# extracted_cdl_dataW<-do.call(rbind, extracted_cdl_data)
-# saveRDS(extracted_cdl_dataW, file=paste0(root_data_out,"/extracted_cdl_dataW.RData"))
-
-
-
-# ### Read in Original data ---- 
+# # ### Read in Original data ---- 
 # 
 # #options(scipen = 999) #remove exponent options, throws R off
 # 
@@ -488,13 +488,13 @@ extracted_cdl_dataW<-readRDS(paste0(root_data_out,"/extracted_cdl_dataW.RData"))
 # list_of_plotsI[[3]]<-list_of_plotsI[[3]] + scale_y_continuous(breaks=c(0,4270,25000, 50000, 75000,100000,125000,150000,200000))
 # 
 # 
-# finali<-ggpubr::ggarrange(list_of_plotsI[[1]], list_of_plotsI[[2]], list_of_plotsI[[3]], # list of plots
-#                   labels = "AUTO", # labels
-#                   common.legend = T, # COMMON LEGEND
-#                   legend = "right", # legend position
-#                   align = "hv", # Align them both, horizontal and vertical
-#                   nrow = 3)  # number of rows
-# finali
+# # finali<-ggpubr::ggarrange(list_of_plotsI[[1]], list_of_plotsI[[2]], list_of_plotsI[[3]], # list of plots
+# #                   labels = "AUTO", # labels
+# #                   common.legend = T, # COMMON LEGEND
+# #                   legend = "right", # legend position
+# #                   align = "hv", # Align them both, horizontal and vertical
+# #                   nrow = 3)  # number of rows
+# # finali
 # 
 # #Plot showing the ratio of NASS acres to field acres across years, by threshold, crop
 # final_Illinois_by_crop<-do.call(rbind, list_of_final_data_by_countyI)
@@ -921,7 +921,7 @@ extracted_cdl_dataW<-readRDS(paste0(root_data_out,"/extracted_cdl_dataW.RData"))
 # #                           align = "hv", # Align them both, horizontal and vertical
 # #                           nrow = 3)  # number of rows
 # # finalw
-# # 
+# #
 # 
 # 
 # #Plot showing the ratio of NASS acres to field acres across years, by crop at threshold 1
@@ -950,7 +950,7 @@ extracted_cdl_dataW<-readRDS(paste0(root_data_out,"/extracted_cdl_dataW.RData"))
 # 
 # #something wonky happening here, checking naming (combining all in 08 is giving same result)
 # 
-
+# 
 
 ### Read in HP data ---- 
 #Illinois
@@ -966,11 +966,11 @@ field_list_ill_f[[3]]<-ill_field[29:42]
 names(field_list_ill_f)<-c("Champaign","DuPage","McHenry")
 #rm(ill_field)
 
-# foreach(i=1:3) %do% {
-#   areaf<-sapply(field_list_ill_f[[i]],function(x) sum(terra::area(x)))
-#   field_list_ill_f[[i]]<-field_list_ill_f[[i]][order(areaf)]
-#   names(field_list_ill_f[[i]])<-paste0(names(field_list_ill_f[i]),14:1,"fin")
-# }
+foreach(i=1:3) %do% {
+  areaf<-sapply(field_list_ill_f[[i]],function(x) sum(terra::area(x)))
+  field_list_ill_f[[i]]<-field_list_ill_f[[i]][order(areaf)]
+  names(field_list_ill_f[[i]])<-paste0(names(field_list_ill_f[i]),14:1,"fin")
+}
 
 #saveRDS(field_list_ill_f, file=paste0(root_data_out,"/all_tif/Illinois/field_data_I.RData"))
 
@@ -1046,6 +1046,24 @@ for(county in 1:length(field_list_ill_f)){
       crop_final
     }
 
+
+
+    get_acreages<-function(y){
+      y$polygon<-row.names(y)
+      colnames(y)[1]<-"Class"
+      colnames(y)[2]<-"area"
+      y$area<-(y$area)*0.000247105 #convert to acres
+      crop_total<-aggregate(y$area, by=list(Class=y$Class), FUN=sum)
+      print(head(crop_total))
+      crop_final<-dplyr::left_join(crop_total, cdlkey, by="Class")
+      print(head(crop_final))
+      crop_final$Category<-  toupper(crop_final$Category)
+      crop_final$Year<-years[[f]]
+      print(head(crop_final))
+      crop_final
+    }
+
+
     get_acreages_by_cdl<-lapply(cdl_extract_df, get_acreages)
     acreages_by_cdl[[f]]<-get_acreages_by_cdl
   }
@@ -1058,19 +1076,17 @@ for(county in 1:length(field_list_ill_f)){
 acreages_by_countyI<-acreages_by_county
 saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.RData"))
 
-
-# names(acreages_by_countyI)<-cntynames
-# 
+#names(acreages_by_countyI)<-cntynames
 # list_of_final_data_by_countyI_sf<-list()
 # for(n in 1:length(acreages_by_countyI)){
 #   county<-acreages_by_countyI[[n]]
 #   county_name<-names(acreages_by_countyI[n])
 #   names(county)<-years
-#   
+# 
 #   list_of_year<-list()
 #   for(y in 1:length(county)){
 #     year_list<-county[[y]]
-#     
+# 
 #     list_of_field<-list()
 #     for(layer in 1:length(year_list)){
 #       layer_by_year<-year_list[[layer]]
@@ -1083,16 +1099,16 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #       # layer_by_year$Category[grep("\\bOTHER HAY/NON ALFALFA\\b", layer_by_year$Category)] <- 'HAY & HAYLAGE' #change the alfalfa to general hay/haylage
 #       # layer_by_year$x<-ifelse(layer_by_year$Class ==  36, with(layer_by_year,sum(x[Category =='HAY & HAYLAGE'])), layer_by_year$x)
 #       # layer_by_year<-layer_by_year[!layer_by_year$Class == 37,] #drop the other hay class because we merged it with the alfalfa class
-#       
+# 
 #       layer_by_year$threshold<-15-layer
 #       list_of_field[[layer]]<-layer_by_year
-#       
+# 
 #     }
-#     
+# 
 #     list_of_year[[y]]<-do.call(rbind, list_of_field)
-#     
+# 
 #   }
-#   
+# 
 #   field_data<-do.call(rbind, list_of_year)
 #   #NASS data
 #   ill_nassx<-ill_nass[!ill_nass$Value == " (D)",]
@@ -1103,29 +1119,29 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #     filter(County %in% county_name) %>%
 #     filter_at(vars(starts_with("Data.Item")), all_vars(grepl('HARVESTED|BEARING & NON-BEARING', .)))%>% #use 'non' to filter bearing and non-bearing
 #     filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('OPERATIONS|SMALL|PROCESSING|WHEAT, WINTER', .))) #note; I included an extra 'winter wheat' elimination because CoA double counts winter wheat as wheat
-#   
+# 
 #   #extra step to deal with hay/alfalfa
 #   #we need to keep ONLY alfalfa in the CoA, and match excluding alfalfa to the same name in the CDL; other types of hay are not specific enough, so are removed
 #   # totalhay<-ill_nass_y[(ill_nass_y$Commodity == 'HAY & HAYLAGE'),]
 #   # totalhay<-totalhay %>%  group_by(Year) %>% mutate(Value= sum(as.numeric(Value))) %>% filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('IRRIGATED', .))) #note; I included an extra 'winter wheat' elimination because CoA double counts winter wheat as wheat
 #   alfalfa<-ill_nass_y[(ill_nass_y$Commodity == 'HAY' & grepl('ALFALFA',ill_nass_y$Data.Item)),]
 #   alfalfa$Commodity <- ifelse(grepl('EXCL',alfalfa$Data.Item), 'OTHER HAY/NON ALFALFA','ALFALFA')
-#   
+# 
 #   ill_nass_y <- ill_nass_y %>%
 #     filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('HAY', .))) %>%
 #     rbind(alfalfa)%>%
 #     group_by(Commodity, Year) %>% summarise(sum = sum(as.numeric(Value)))
-#   
+# 
 #   #join together the field and the CoA data
 #   names(field_data)[3]<-"Commodity"
 #   names(field_data)[2]<-"fieldacres"
 #   layer_by_year_crops<-left_join(field_data, ill_nass_y, by = c("Year","Commodity"))
 #   colnames(layer_by_year_crops)[8]<-"NASSacres"
-#   
+# 
 #   layer_by_year_crops<-na.omit(layer_by_year_crops) #IF there are no crops represented in NASS for that year, drop those rows
 #   layer_by_year_crops$County<-cntynames[[n]]
 #   list_of_final_data_by_countyI_sf[[n]]<-layer_by_year_crops
-#   
+# 
 # }
 # 
 # 
@@ -1143,7 +1159,7 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #   extracted_cdl_dataI$CDLacres<-((extracted_cdl_dataI$count)*900)*0.000247105
 #   colnames(extracted_cdl_dataI)[1]<-'Class'
 #   layer_by_year_crops<-left_join(layer_by_year_crops, extracted_cdl_dataI, by=c("County","year","Class"))
-#   
+# 
 #   #Plot showing combined data
 #   sum_field<-layer_by_year_crops %>% group_by(year, threshold) %>% summarise(sumf = sum(as.numeric(fieldacres)))
 #   sum_nass<-layer_by_year_crops %>% group_by(year, threshold) %>% summarise(sumf = sum(as.numeric(NASSacres)))
@@ -1151,18 +1167,18 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #   all_data<-cbind(sum_field,sum_nass, sum_cdl)
 #   names(all_data)<-c("year","thresh","sum_field","year","thresh","sum_nass","year","thresh","sum_cdl")
 #   all_data<-all_data[,c(1:3,6,9)]
-#   
+# 
 #   #because some thresholds include crops that others don't, we need to modify the final NASS values to reflect that
 #   all_data_t <- all_data %>% group_by(year) %>%
 #     mutate(sum_nass = ifelse(max(sum_nass) > min(sum_nass),  max(sum_nass), min(sum_nass)))
 #   all_data_t <- all_data_t %>% group_by(year) %>%
 #     mutate(sum_cdl = ifelse(max(sum_cdl) > min(sum_cdl),  max(sum_cdl), min(sum_cdl)))
-#   
+# 
 #   all_data_t$County<-names(field_list_ill_f)[c]
 #   list_of_dataI_sf[[c]]<-all_data_t
-#   
+# 
 #   #plot showing the specific changes in acreage by year specific to each County
-#   
+# 
 #   ratio_plot<-ggplot(all_data_t, aes(x=year, y=(sum_field), fill=factor(thresh), colour=factor(thresh))) +
 #     geom_point()+
 #     geom_line()+
@@ -1178,19 +1194,19 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #           axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
 #           axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
 #           axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-#   
+# 
 #   ratio_plot
-#   
+# 
 #   output<-ratio_plot+
 #     geom_point(all_data_t,mapping=aes(y=(sum_nass)), col='black') +
 #     geom_line(all_data_t,mapping=aes(y=(sum_nass)), col='black')+
 #     geom_point(all_data_t,mapping=aes(y=(sum_cdl)), col='darkgrey') +
 #     geom_line(all_data_t,mapping=aes(y=(sum_cdl)), col='darkgrey')
 #   output
-#   
-#   
+# 
+# 
 #   list_of_plotsI[[c]]<-output
-#   
+# 
 # }
 # 
 # #manually adjust any changes to axis needed
@@ -1227,20 +1243,20 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 # # cdl_extract_data<-list()
 # # for(county in 1:length(field_list_mi_f)){
 # #   county_layers<-field_list_mi_f[[county]]
-# #   
+# #
 # #   for(f in 1:length(cdl_data_mi_rec)){
 # #     cdl<-cdl_data_mi_rec[[f]]
 # #     cdl_extract<-lapply(county_layers, function(x) exact_extract(cdl, x, "mode"))
 # #     #saveRDS(cdl_extract, file=paste0(root_data_out,"/all_tif/MICHIGAN/diagnosing_sfM.RData"))
 # #     cdl_extract<-lapply(cdl_extract, function(x) as.data.frame(x))
-# #     
+# #
 # #     field_area<- function(x){as.data.frame(terra::area(x), na.rm=T) }
 # #     field_extract<-lapply(county_layers, field_area)
-# #     
+# #
 # #     cdl_extract<-mapply(c, cdl_extract, field_extract, SIMPLIFY=FALSE)
 # #     cdl_extract_df<-lapply(cdl_extract, function(x) as.data.frame(do.call("cbind", x)))
-# #   
-# #     
+# #
+# #
 # #     get_acreages<-function(y){
 # #       y$polygon<-row.names(y)
 # #       colnames(y)[1]<-"Class"
@@ -1255,18 +1271,18 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 # #       print(head(crop_final))
 # #       crop_final
 # #     }
-# #     
-# #     
+# #
+# #
 # #     get_acreages_by_cdl<-lapply(cdl_extract_df, get_acreages)
 # #     acreages_by_cdl[[f]]<-get_acreages_by_cdl
 # #   }
-# #   
+# #
 # #   names(acreages_by_cdl)<-2008:2021
 # #   acreages_by_countyM[[county]]<-acreages_by_cdl
 # #   cdl_extract_data[[county]]<-cdl_extract_df
-# #   
+# #
 # # }
-# # 
+# #
 # # acreages_by_countyM<-acreages_by_county
 # # saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfM.RData"))
 # names(acreages_by_countyM)<-cntynames
@@ -1277,7 +1293,7 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #   county<-acreages_by_countyM[[n]]
 #   county_name<-names(acreages_by_countyM[n])
 #   names(county)<-years
-#   
+# 
 #   list_of_year<-list()
 #   for(y in 1:length(county)){
 #     year_list<-county[[y]]
@@ -1293,16 +1309,16 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #       # layer_by_year$Category[grep("\\bOTHER HAY/NON ALFALFA\\b", layer_by_year$Category)] <- 'HAY & HAYLAGE' #change the alfalfa to general hay/haylage
 #       # layer_by_year$x<-ifelse(layer_by_year$Class ==  36, with(layer_by_year,sum(x[Category =='HAY & HAYLAGE'])), layer_by_year$x)
 #       # layer_by_year<-layer_by_year[!layer_by_year$Class == 37,] #drop the other hay class because we merged it with the alfalfa class
-#       
+# 
 #       layer_by_year$threshold<-15-layer
 #       list_of_field[[layer]]<-layer_by_year
-#       
+# 
 #     }
-#     
+# 
 #     list_of_year[[y]]<-do.call(rbind, list_of_field)
-#     
+# 
 #   }
-#   
+# 
 #   field_data<-do.call(rbind, list_of_year)
 #   #NASS data
 #   mi_nassx<-mi_nass[!mi_nass$Value == " (D)",]
@@ -1313,29 +1329,29 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #     filter(County %in% county_name) %>%
 #     filter_at(vars(starts_with("Data.Item")), all_vars(grepl('HARVESTED|BEARING & NON-BEARING', .)))%>% #use 'non' to filter bearing and non-bearing
 #     filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('OPERATIONS|SMALL|PROCESSING|WHEAT, WINTER', .))) #note; I included an extra 'winter wheat' elimination because CoA double counts winter wheat as wheat
-#   
+# 
 #   #extra step to deal with hay/alfalfa
 #   #we need to keep ONLY alfalfa in the CoA, and match excluding alfalfa to the same name in the CDL; other types of hay are not specific enough, so are removed
 #   # totalhay<-mi_nass_y[(mi_nass_y$Commodity == 'HAY & HAYLAGE'),]
 #   # totalhay<-totalhay %>%  group_by(Year) %>% mutate(Value= sum(as.numeric(Value))) %>% filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('IRRIGATED', .))) #note; I included an extra 'winter wheat' elimination because CoA double counts winter wheat as wheat
 #   alfalfa<-mi_nass_y[(mi_nass_y$Commodity == 'HAY' & grepl('ALFALFA',mi_nass_y$Data.Item)),]
 #   alfalfa$Commodity <- ifelse(grepl('EXCL',alfalfa$Data.Item), 'OTHER HAY/NON ALFALFA','ALFALFA')
-#   
+# 
 #   mi_nass_y <- mi_nass_y %>%
 #     filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('HAY', .))) %>%
 #     rbind(alfalfa)%>%
 #     group_by(Commodity, Year) %>% summarise(sum = sum(as.numeric(Value)))
-#   
+# 
 #   #join together the field and the CoA data
 #   names(field_data)[3]<-"Commodity"
 #   names(field_data)[2]<-"fieldacres"
 #   layer_by_year_crops<-left_join(field_data, mi_nass_y, by = c("Year","Commodity"))
 #   colnames(layer_by_year_crops)[8]<-"NASSacres"
-#   
+# 
 #   layer_by_year_crops<-na.omit(layer_by_year_crops) #IF there are no crops represented in NASS for that year, drop those rows
 #   layer_by_year_crops$County<-cntynames[[n]]
 #   list_of_final_data_by_countyM_sf[[n]]<-layer_by_year_crops
-#   
+# 
 # }
 # 
 # # names(list_of_final_data_by_countyM_sf)<-cntynames
@@ -1353,7 +1369,7 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #   extracted_cdl_dataM$CDLacres<-((extracted_cdl_dataM$count)*900)*0.000247105
 #   colnames(extracted_cdl_dataM)[1]<-'Class'
 #   layer_by_year_crops<-left_join(layer_by_year_crops, extracted_cdl_dataM, by=c("County","year","Class"))
-#   
+# 
 #   #Plot showing combined data
 #   sum_field<-layer_by_year_crops %>% group_by(year, threshold) %>% summarise(sumf = sum(as.numeric(fieldacres)))
 #   sum_nass<-layer_by_year_crops %>% group_by(year, threshold) %>% summarise(sumf = sum(as.numeric(NASSacres)))
@@ -1361,18 +1377,18 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #   all_data<-cbind(sum_field,sum_nass, sum_cdl)
 #   names(all_data)<-c("year","thresh","sum_field","year","thresh","sum_nass","year","thresh","sum_cdl")
 #   all_data<-all_data[,c(1:3,6,9)]
-#   
+# 
 #   #because some thresholds include crops that others don't, we need to modify the final NASS values to reflect that
 #   all_data_t <- all_data %>% group_by(year) %>%
 #     mutate(sum_nass = ifelse(max(sum_nass) > min(sum_nass),  max(sum_nass), min(sum_nass)))
 #   all_data_t <- all_data_t %>% group_by(year) %>%
 #     mutate(sum_cdl = ifelse(max(sum_cdl) > min(sum_cdl),  max(sum_cdl), min(sum_cdl)))
-#   
+# 
 #   all_data_t$County<-names(field_list_mi_f)[c]
 #   list_of_dataM_sf[[c]]<-all_data_t
-#   
+# 
 #   #plot showing the specific changes in acreage by year specific to each County
-#   
+# 
 #   ratio_plot<-ggplot(all_data_t, aes(x=year, y=(sum_field), fill=factor(thresh), colour=factor(thresh))) +
 #     geom_point()+
 #     geom_line()+
@@ -1388,19 +1404,19 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #           axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
 #           axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
 #           axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-#   
+# 
 #   ratio_plot
-#   
+# 
 #   output<-ratio_plot+
 #     geom_point(all_data_t,mapping=aes(y=(sum_nass)), col='black') +
 #     geom_line(all_data_t,mapping=aes(y=(sum_nass)), col='black')+
 #     geom_point(all_data_t,mapping=aes(y=(sum_cdl)), col='darkgrey') +
 #     geom_line(all_data_t,mapping=aes(y=(sum_cdl)), col='darkgrey')
 #   output
-#   
-#   
+# 
+# 
 #   list_of_plotsM[[c]]<-output
-#   
+# 
 # }
 # 
 # # finalm<-ggpubr::ggarrange(list_of_plotsM[[1]], list_of_plotsM[[2]], list_of_plotsM[[3]], # list of plots
@@ -1432,18 +1448,18 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 # # cdl_extract_data<-list()
 # # for(county in 1:length(field_list_wi_f)){
 # #   county_layers<-field_list_wi_f[[county]]
-# #   
+# #
 # #   for(f in 1:length(cdl_data_wi_rec)){
 # #     cdl<-cdl_data_wi_rec[[f]]
 # #     cdl_extract<-lapply(county_layers, function(x) exact_extract(cdl, x, "mode"))
 # #     cdl_extract<-lapply(cdl_extract, function(x) as.data.frame(x))
-# #     
+# #
 # #     field_area<- function(x){as.data.frame(terra::area(x), na.rm=T) }
 # #     field_extract<-lapply(county_layers, field_area)
-# #     
+# #
 # #     cdl_extract<-mapply(c, cdl_extract, field_extract, SIMPLIFY=FALSE)
 # #     cdl_extract_df<-lapply(cdl_extract, function(x) as.data.frame(do.call("cbind", x)))
-# #     
+# #
 # #     get_acreages<-function(y){
 # #       y$polygon<-row.names(y)
 # #       colnames(y)[1]<-"Class"
@@ -1455,17 +1471,17 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 # #       crop_final$Year<-years[[f]]
 # #       crop_final
 # #     }
-# #     
+# #
 # #     get_acreages_by_cdl<-lapply(cdl_extract_df, get_acreages)
 # #     acreages_by_cdl[[f]]<-get_acreages_by_cdl
 # #   }
-# #   
+# #
 # #   names(acreages_by_cdl)<-2008:2021
 # #   acreages_by_countyW[[county]]<-acreages_by_cdl
 # #   cdl_extract_data[[county]]<-cdl_extract_df
-# #   
+# #
 # # }
-# # 
+# #
 # # saveRDS(acreages_by_countyW, file=paste0(root_data_out,"/acreages_by_county_sfW.RData"))
 # names(acreages_by_countyW)<-cntynames
 # 
@@ -1474,7 +1490,7 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #   county<-acreages_by_countyW[[n]]
 #   county_name<-names(acreages_by_countyW[n])
 #   names(county)<-years
-#   
+# 
 #   list_of_year<-list()
 #   for(y in 1:length(county)){
 #     year_list<-county[[y]]
@@ -1490,16 +1506,16 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #       # layer_by_year$Category[grep("\\bOTHER HAY/NON ALFALFA\\b", layer_by_year$Category)] <- 'HAY & HAYLAGE' #change the alfalfa to general hay/haylage
 #       # layer_by_year$x<-ifelse(layer_by_year$Class ==  36, with(layer_by_year,sum(x[Category =='HAY'])), layer_by_year$x)
 #       # layer_by_year<-layer_by_year[!layer_by_year$Class == 37,] #drop the other hay class because we merged it with the alfalfa class
-#       
+# 
 #       layer_by_year$threshold<-15-layer
 #       list_of_field[[layer]]<-layer_by_year
-#       
+# 
 #     }
-#     
+# 
 #     list_of_year[[y]]<-do.call(rbind, list_of_field)
-#     
+# 
 #   }
-#   
+# 
 #   field_data<-do.call(rbind, list_of_year)
 #   #NASS data
 #   wi_nassx<-wi_nass[!wi_nass$Value == " (D)",]
@@ -1510,29 +1526,29 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #     filter(County %in% county_name) %>%
 #     filter_at(vars(starts_with("Data.Item")), all_vars(grepl('HARVESTED|BEARING & NON-BEARING', .)))%>% #use 'non' to filter bearing and non-bearing
 #     filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('OPERATIONS|SMALL|PROCESSING|WHEAT, WINTER', .))) #note; I included an extra 'winter wheat' elimination because CoA double counts winter wheat as wheat
-#   
+# 
 #   #extra step to deal with hay/alfalfa
 #   #we need to keep ONLY alfalfa in the CoA, and match excluding alfalfa to the same name in the CDL; other types of hay are not specific enough, so are removed
 #   # totalhay<-wi_nass_y[(wi_nass_y$Commodity == 'HAY & HAYLAGE'),]
 #   # totalhay<-totalhay %>%  group_by(Year) %>% mutate(Value= sum(as.numeric(Value))) %>% filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('IRRIGATED', .))) #note; I included an extra 'winter wheat' elimination because CoA double counts winter wheat as wheat
 #   alfalfa<-wi_nass_y[(wi_nass_y$Commodity == 'HAY' & grepl('ALFALFA',wi_nass_y$Data.Item)),]
 #   alfalfa$Commodity <- ifelse(grepl('EXCL',alfalfa$Data.Item), 'OTHER HAY/NON ALFALFA','ALFALFA')
-#   
+# 
 #   wi_nass_y <- wi_nass_y %>%
 #     filter_at(vars(starts_with("Data.Item")), all_vars(!grepl('HAY', .))) %>%
 #     rbind(alfalfa)%>%
 #     group_by(Commodity, Year) %>% summarise(sum = sum(as.numeric(Value)))
-#   
+# 
 #   #join together the field and the CoA data
 #   names(field_data)[3]<-"Commodity"
 #   names(field_data)[2]<-"fieldacres"
 #   layer_by_year_crops<-left_join(field_data, wi_nass_y, by = c("Year","Commodity"))
 #   colnames(layer_by_year_crops)[8]<-"NASSacres"
-#   
+# 
 #   layer_by_year_crops<-na.omit(layer_by_year_crops) #IF there are no crops represented in NASS for that year, drop those rows
 #   layer_by_year_crops$County<-cntynames[[n]]
 #   list_of_final_data_by_countyW_sf[[n]]<-layer_by_year_crops
-#   
+# 
 # }
 # 
 # # names(list_of_final_data_by_countyW_sf)<-cntynames
@@ -1545,12 +1561,12 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 # list_of_plotsW<-list()
 # list_of_dataW_sf<-list()
 # for(c in 1:length(list_of_final_data_by_countyW_sf)){
-#   
+# 
 #   layer_by_year_crops<-list_of_final_data_by_countyW_sf[[c]]
 #   extracted_cdl_dataW$CDLacres<-((extracted_cdl_dataW$count)*900)*0.000247105
 #   colnames(extracted_cdl_dataW)[1]<-'Class'
 #   layer_by_year_crops<-left_join(layer_by_year_crops, extracted_cdl_dataW, by=c("County","year","Class"))
-#   
+# 
 #   #Plot showing combined data
 #   sum_field<-layer_by_year_crops %>% group_by(year, threshold) %>% summarise(sumf = sum(as.numeric(fieldacres)))
 #   sum_nass<-layer_by_year_crops %>% group_by(year, threshold) %>% summarise(sumf = sum(as.numeric(NASSacres)))
@@ -1558,18 +1574,18 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #   all_data<-cbind(sum_field,sum_nass, sum_cdl)
 #   names(all_data)<-c("year","thresh","sum_field","year","thresh","sum_nass","year","thresh","sum_cdl")
 #   all_data<-all_data[,c(1:3,6,9)]
-#   
+# 
 #   #because some thresholds include crops that others don't, we need to modify the final NASS values to reflect that
 #   all_data_t <- all_data %>% group_by(year) %>%
 #     mutate(sum_nass = ifelse(max(sum_nass) > min(sum_nass),  max(sum_nass), min(sum_nass)))
 #   all_data_t <- all_data_t %>% group_by(year) %>%
 #     mutate(sum_cdl = ifelse(max(sum_cdl) > min(sum_cdl),  max(sum_cdl), min(sum_cdl)))
-#   
+# 
 #   all_data_t$County<-names(field_list_wi_f)[c]
 #   list_of_dataW_sf[[c]]<-all_data_t
-#   
+# 
 #   #plot showing the specific changes in acreage by year specific to each County
-#   
+# 
 #   ratio_plot<-ggplot(all_data_t, aes(x=year, y=(sum_field), fill=factor(thresh), colour=factor(thresh))) +
 #     geom_point()+
 #     geom_line()+
@@ -1585,19 +1601,19 @@ saveRDS(acreages_by_county, file=paste0(root_data_out,"/acreages_by_county_sfI.R
 #           axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
 #           axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
 #           axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-#   
+# 
 #   ratio_plot
-#   
+# 
 #   output<-ratio_plot+
 #     geom_point(all_data_t,mapping=aes(y=(sum_nass)), col='black') +
 #     geom_line(all_data_t,mapping=aes(y=(sum_nass)), col='black')+
 #     geom_point(all_data_t,mapping=aes(y=(sum_cdl)), col='darkgrey') +
 #     geom_line(all_data_t,mapping=aes(y=(sum_cdl)), col='darkgrey')
 #   output
-#   
-#   
+# 
+# 
 #   list_of_plotsW[[c]]<-output
-#   
+# 
 # }
 # 
 # # finalw<-ggpubr::ggarrange(list_of_plotsW[[1]], list_of_plotsW[[2]], list_of_plotsW[[3]], # list of plots
