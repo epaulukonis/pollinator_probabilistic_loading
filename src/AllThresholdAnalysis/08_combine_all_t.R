@@ -161,5 +161,9 @@ ratio_plotf<-ggplot(final_by_crop, aes(x=as.factor(Commodity), y=(log2(ratio)), 
 ratio_plotf
 
 #output table s1, s2
+final_by_crop<- final_by_crop %>%
+  group_by(County, year, Hyperparameters) %>% mutate(percentf = (fieldacres/sum(fieldacres))*100)
+
+
 final_by_crop<- final_by_crop[order(final_by_crop$Hyperparameters, -final_by_crop$NASSacresm), ]
 write.csv(final_by_crop, paste0(root_figures, "/Manuscript/", "TableS1S2.csv"))
