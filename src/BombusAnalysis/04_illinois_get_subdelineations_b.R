@@ -62,6 +62,7 @@ names(cdl_mask_list)<-c(1:7)
 
 #here, we stack the individual sequence numbers and run the process
 for(set in 1:length(cdl_mask_list)){
+  cpaa<-ill_cpaa[[set]]
   annual_set<-cdl_mask_list[[set]]
     sub_layer<-stack(annual_set)
     y<-sub_layer

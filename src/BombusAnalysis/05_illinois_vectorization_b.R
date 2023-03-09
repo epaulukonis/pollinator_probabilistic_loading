@@ -25,7 +25,6 @@ ill_fieldf<-ill_field[(mixedsort(as.character(names(ill_field))))]
 
 temporal_level_vectors<-list()
 for(i in 1:length(field_list_ill_f)){
-  i=1
   fields<-ill_fieldf[[temp]]
   
   #match cdl sets 
@@ -90,7 +89,7 @@ test_combo1<-combo1 %>%
 area_thresh <- units::set_units(30, m^2) #Fill holes, just one pixel wide
 fw_fill<- fill_holes(test_combo1, threshold = area_thresh)
 
-st_write(fw_fill, root_data_out, layer="/all_tif/ILLINOIS/bombus/test_fieldoutput.shp", driver = "ESRI Shapefile")
+st_write(fw_fill, paste0(root_data_out, "/all_tif/ILLINOIS/bombus"), layer="test_fieldoutput.shp", driver = "ESRI Shapefile")
 
 
 
