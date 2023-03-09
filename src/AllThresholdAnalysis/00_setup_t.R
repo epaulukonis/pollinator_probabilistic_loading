@@ -206,6 +206,6 @@ source(file.path(root_src, "02_formatting_cdl_t.R"))
 # source(file.path(root_src, "06_subdelineation_t.R"))
 # source(file.path(root_src, "07_diagnostics_t.R"))
 
-source(file.path(root_src, "10_final_vectors_t.R"))
+#source(file.path(root_src, "10_final_vectors_t.R"))
 
 
