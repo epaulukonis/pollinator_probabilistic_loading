@@ -7,14 +7,14 @@
 import_start_time <- Sys.time()
 print("stepping into 01_read_cdl_b.R")
 
-if(file.exists(paste0(cdl_dir,"/CDL/raw_CDL.RData"))){ 
- raw_CDL_all<- readRDS(file=paste0(cdl_dir,"/CDL/raw_CDL.RData"))
+if(file.exists(paste0(cdl_dir_all,"/CDL/raw_CDL.RData"))){ 
+ raw_CDL_all<- readRDS(file=paste0(cdl_dir_all,"/CDL/raw_CDL.RData"))
  
  CDL<-lapply(raw_CDL_all, stack)
  names(CDL)<-substring(names(CDL),5,6 )
  rm(raw_CDL_all)
   
-  } else if (!file.exists(paste0(cdl_dir,"/CDL/raw_CDL.RData"))){
+  } else if (!file.exists(paste0(cdl_dir_all,"/CDL/raw_CDL.RData"))){
    common_path = "C:/Users/EPAULUKO/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/GitHub/Annies-Crop-Downloader/zfiles/"
    primary_dirs = list.files(common_path);
    primary_dirs #all folders

@@ -94,9 +94,19 @@ print(list.files(path=nlcd_dir_acc, all.files=TRUE, full.names=FALSE))
 # }
 #
 # cdl
-cdl_dir = file.path(root_data_in, "MapData/CDL/BombusAnalysis")
+cdl_dir = file.path(root_data_in, "MapData/CDL")
 print(cdl_dir)
 print(list.files(path=cdl_dir, all.files=TRUE, full.names=FALSE))
+
+#All states
+cdl_dir_all = file.path(root_data_in, "MapData/CDL/BombusAnalysis")
+print(cdl_dir)
+print(list.files(path=cdl_dir, all.files=TRUE, full.names=FALSE))
+
+#Illinois
+cdl_dir_adj = file.path(cdl_dir, "Illinois/reclass_cdl/reclass_new_cdl/adjusted")
+print(cdl_dir_adj)
+print(list.files(path=cdl_dir_adj, all.files=TRUE, full.names=FALSE))
 
 
 
@@ -143,4 +153,10 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 pest_dir = file.path(root_data_in, "PesticideData")
 print(pest_dir)
 print(list.files(path=pest_dir, all.files=TRUE, full.names=FALSE))
+
+
+
+#run illinois subdelineations here
+source(file.path(root_src, "01_illinois_read_cdl_b.R"))
+source(file.path(root_src, "04_illinois_get_subdelineations_b.R"))
 
