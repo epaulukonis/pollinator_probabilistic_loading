@@ -125,7 +125,7 @@ for(set in 1:length(cdl_mask_list)){
     poly<-st_collection_extract(cropped, "POLYGON")
     final_layer<-drop_crumbs(poly, area_thresh, drop_empty = TRUE) #drop crumbs
     
-    setwd(paste0(root_data_out, "/all_tif/ILLINOIS/bombus/SUB"))
+    setwd(paste0(root_data_out, "/all_tif/ILLINOIS/SUB/bombus"))
     # st_write(final_layer,paste0("bombus_fields_fin.shp"))
     
     st_write(final_layer,paste0("fields_",names(cdl_mask_list[set]),"_fin.shp"))
