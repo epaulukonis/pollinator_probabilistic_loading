@@ -158,5 +158,6 @@ print(list.files(path=pest_dir, all.files=TRUE, full.names=FALSE))
 
 #run illinois subdelineations here
 source(file.path(root_src, "01_illinois_read_cdl_b.R"))
-source(file.path(root_src, "04_illinois_get_subdelineations_b.R"))
+# source(file.path(root_src, "04_illinois_get_subdelineations_b.R"))
+source(file.path(root_src, "05_illinois_vectorization_b.R"))
 

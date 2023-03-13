@@ -24,8 +24,8 @@ ill_fieldf<-ill_field[(mixedsort(as.character(names(ill_field))))]
 
 
 temporal_level_vectors<-list()
-for(i in 1:length(field_list_ill_f)){
-  fields<-ill_fieldf[[temp]]
+for(i in 1:length(ill_fieldf)){
+  fields<-ill_fieldf[[i]]
   
   #match cdl sets 
     if(i ==1){cdl_data<-cdl_data_ill_rec[1:4]}
@@ -63,33 +63,39 @@ field_extractions_cdl<-list()
 
 #here, we take the extracted fields 
 
-set1<-st_as_sf(ill_fieldf[[1]])
-combo1<-cbind(set1, temporal_level_vectors[[1]][[1]])
-
-colnames(combo1)
-colnames(combo1)[3]<-"crop"
-colnames(combo1)[4]<-"area"
-combo1$id<-as.numeric(row.names(combo1))+1
-
-inst_list<-st_intersects(combo1)
-library(igraph)
-g = graph.adjlist(inst_list)
-c = components(g)
-
-test<-table(c$membership)
-test<-as.data.frame(cbind(c$membership, 1:(nrow(combo1)-1)))
-names(test)<-c("groups","id")
-combo1<-merge(combo1,test,by="id")
-
-test_combo1<-combo1 %>%
-  group_by(groups, crop) %>%
-  summarise(geometry = sf::st_union(geometry)) %>%
-  ungroup()
-
-area_thresh <- units::set_units(30, m^2) #Fill holes, just one pixel wide
-fw_fill<- fill_holes(test_combo1, threshold = area_thresh)
-
-st_write(fw_fill, paste0(root_data_out, "/all_tif/ILLINOIS/bombus"), layer="test_fieldoutput.shp", driver = "ESRI Shapefile")
+for(field in 1:length(ill_fieldf)){
+set1<-st_as_sf(ill_fieldf[[field]])
+field_extractions_cdl<-temporal_level_vectors[[field]]
 
 
+  for(vector in 1:length(field_extractions_cdl)){
+  combo1<-cbind(set1, field_extractions_cdl[[vector]])
+  
+  colnames(combo1)
+  colnames(combo1)[3]<-"crop"
+  colnames(combo1)[4]<-"area"
+  combo1$id<-as.numeric(row.names(combo1))+1
+  
+  inst_list<-st_intersects(combo1)
+  library(igraph)
+  g = graph.adjlist(inst_list)
+  c = components(g)
+  
+  test<-table(c$membership)
+  test<-as.data.frame(cbind(c$membership, 1:(nrow(combo1)-1)))
+  names(test)<-c("groups","id")
+  combo1<-merge(combo1,test,by="id")
+  
+  test_combo1<-combo1 %>%
+    group_by(groups, crop) %>%
+    summarise(geometry = sf::st_union(geometry)) %>%
+    ungroup()
+  
+  area_thresh <- units::set_units(30, m^2) #Fill holes, just one pixel wide
+  fw_fill<- fill_holes(test_combo1, threshold = area_thresh)
+  
+  st_write(fw_fill, paste0(root_data_out, "/all_tif/ILLINOIS/bombus/final_vectors"), layer=paste0(names(field_extractions_cdl[vector]),"_","fieldoutput.shp"), driver = "ESRI Shapefile")
 
+  }
+
+}

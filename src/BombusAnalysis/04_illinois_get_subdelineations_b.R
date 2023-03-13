@@ -62,6 +62,7 @@ names(cdl_mask_list)<-c(1:7)
 
 #here, we stack the individual sequence numbers and run the process
 for(set in 1:length(cdl_mask_list)){
+  set=1
   cpaa<-ill_cpaa[[set]]
   annual_set<-cdl_mask_list[[set]]
     sub_layer<-stack(annual_set)
@@ -129,7 +130,7 @@ for(set in 1:length(cdl_mask_list)){
     # st_write(final_layer,paste0("bombus_fields_fin.shp"))
     
     st_write(final_layer,paste0("fields_",names(cdl_mask_list[set]),"_fin.shp"))
-   
+   print(paste0("layer ",set," done"))
 }
 
 
