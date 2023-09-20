@@ -39,6 +39,7 @@ library(data.table)
 library(gtools)
 library(ggrepel)
 library(RColorBrewer)
+library(spatialEco)
 # library(janitor)
 # library(TraMineR)
 # library(geosphere)
@@ -149,6 +150,11 @@ coa_dir = file.path(root_data_in, "CropData/CoA/all_CoA")
 print(coa_dir)
 print(list.files(path=coa_dir, all.files=TRUE, full.names=FALSE))
 
+#OR:
+coa_dir = file.path(root_data_in, "CropData/CoA")
+print(coa_dir)
+print(list.files(path=coa_dir, all.files=TRUE, full.names=FALSE))
+
 # coa_zip<-list.files(path=coa_dir, pattern='.zip', all.files=TRUE, full.names=FALSE)
 # print(coa_zip)
 # # zip_ex <- as.list(c(file.exists(file.path(coa_dir, coa_zip))))
@@ -185,6 +191,8 @@ print(list.files(path=state_dir, all.files=TRUE, full.names=FALSE))
 
 
 
+
+
 threshold_dir<-file.path(root_data_out,"all_thresh")
 print(threshold_dir)
 print(list.files(path=threshold_dir, all.files=TRUE, full.names=FALSE))
@@ -200,7 +208,7 @@ print(list.files(path=threshold_dir, all.files=TRUE, full.names=FALSE))
 
 
 #run illinois smaller fields
-source(file.path(root_src, "02_formatting_cdl_t.R"))
+#source(file.path(root_src, "02_formatting_cdl_t.R"))
 # source(file.path(root_src, "03_CPAA_threshold_t.R"))
 # source(file.path(root_src, "04_CPAA_delineation_t.R"))
 # source(file.path(root_src, "06_subdelineation_t.R"))

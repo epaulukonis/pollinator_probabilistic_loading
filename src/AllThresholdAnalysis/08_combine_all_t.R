@@ -96,18 +96,18 @@ percents<-percent[percent$type=="Small",]
 percentl<-percent[percent$type=="Large",]
 
 threshold_box<-
-  ggplot(final_all, aes(x = as.factor(thresh), y = sum_field, color=interaction(type, thresh),group = interaction(type,thresh)))+
+  ggplot(final_all, aes(x = as.factor(thresh), y = sum_field,group = interaction(type,thresh)))+
   geom_boxplot()+
   geom_line(nass_dat, mapping=aes(x=as.factor(thresh), y=avgnass, group=1),size=1,color="black")+
   geom_line(nass_dat, mapping=aes(x=as.factor(thresh), y=avgcdl, group=1),size=1,color="darkgrey")+
-  geom_line(percents, mapping=aes(x=as.factor(thresh), y=avgfield, group=1),size=1, alpha=0.4, color=c("#8c510a"))+
-  geom_line(percentl, mapping=aes(x=as.factor(thresh), y=avgfield, group=1),size=1, alpha=0.4, color=c("#01665e"))+
+  geom_line(percents, mapping=aes(x=as.factor(thresh), y=avgfield, group=1),size=1.5, alpha=0.4, color=c("#8c510a"))+
+  geom_line(percentl, mapping=aes(x=as.factor(thresh), y=avgfield, group=1),size=1.5, alpha=0.4, color=c("#01665e"))+
   geom_text(data=nass_dat[nass_dat$type == "Small",], mapping=aes(x = 15, y = avgnass, label = paste0("NASS")), size= 3, col='black', stat = "identity")+
   geom_text(data=nass_dat[nass_dat$type == "Small",], mapping=aes(x = 0.5, y = avgcdl, label = paste0("CDL")),  size= 3, col='darkgrey',  stat = "identity")+
   facet_wrap(.~Label, scales = "free_y")+
   scale_y_continuous(n.breaks=5,expand = expansion(mult = c(0, 0.1)))+
   scale_x_discrete(expand = expansion(add = c(2,2)))+
-  xlab("Threshold") +
+  xlab("Threshold (N Years or More Included)") +
   ylab("Sum of Crop Acreages")+
   theme(panel.background = element_blank(),
         panel.spacing.x= unit(2.5, "lines"),
@@ -118,6 +118,8 @@ threshold_box<-
         legend.position = "none")
 
 threshold_box
+
+
 
 
 ### output Table 2

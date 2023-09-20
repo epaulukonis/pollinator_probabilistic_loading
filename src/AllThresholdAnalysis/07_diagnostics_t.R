@@ -5,9 +5,9 @@
 # Edited by E. Paulukonis October 2022
 
 ### Read in CoA and OG CDL ----
-ill_coa<-read.csv(paste0(coa_dir,"/CoA_ILL.csv"))
-mi_coa<-read.csv(paste0(coa_dir,"/CoA_MI.csv"))
-wi_coa<-read.csv(paste0(coa_dir,"/CoA_WIS.csv"))
+ill_coa<-read.csv(paste0(coa_dir,"/all_CoA//CoA_ILL.csv"))
+mi_coa<-read.csv(paste0(coa_dir,"/all_CoA/CoA_MI.csv"))
+wi_coa<-read.csv(paste0(coa_dir,"/all_CoA/CoA_WIS.csv"))
 
 
 #sub the years for 2008 to be 2007, the last census prior to CDL

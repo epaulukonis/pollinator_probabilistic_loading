@@ -1,0 +1,52 @@
+Year,Original treatment rate from study (mg a.i./seed),MRID,Chemical,Collected from,Mean (ng a.i./g; normalized to 1.3 mg a.i./seed),95% CI (±),Maximum single value,Number of samples,% detections (quantifications),Plant,Type,Normalized To
+2015,0.5,50154301,Clothianidin,Plant,2,0.7,2.7,3,100 (33),Corn,Pollen,1.3
+2015,0.5,50154301,Clothianidin,Plant,2,0.8,2.9,3,100 (33),Corn,Pollen,1.3
+,,,,,,,,,,Corn,Pollen,1.3
+2008,0.5,49073618,Clothianidin,Plant,2.2,0.6,7.8,32,78 (38),Corn,Pollen,1.3
+2015,1.25,50154301,Clothianidin,Plant,2.2,0.2,2.3,3,100 (100),Corn,Pollen,1.3
+2015,0.25,50154301,Clothianidin,Plant,2.4,1.7,3.3,3,67 (0),Corn,Pollen,1.3
+2008,1.25,48298801,Clothianidin,Plant,3,0.3,5.2,50,98 (98),Corn,Pollen,1.3
+2008,1.25,48298801,Clothianidin,Plant,3,0.4,5.5,50,98 (92),Corn,Pollen,1.3
+,,,,,,,,,,Corn,Pollen,1.3
+2008,0.5,49073616,Clothianidin,Plant,3.3,1,15.6,36,72 (72),Corn,Pollen,1.3
+2008,1.25,48298801,Clothianidin,Plant,3.5,0.4,9.7,50,100 (98),Corn,Pollen,1.3
+2008,1.25,48298801,Clothianidin,Plant,4.1,0.4,7.8,50,98 (98),Corn,Pollen,1.3
+2008,1.25,48298801,Clothianidin,Plant,4.1,0.7,10.8,50,84 (84),Corn,Pollen,1.3
+,,,,,,,,,,Corn,Pollen,1.3
+2008,0.5,49073617,Clothianidin,Plant,8.4,1.1,10.4,9,100 (100),Corn,Pollen,1.3
+2004,0.5,49073613,Clothianidin,Plant,25.4,7.9,36.4,4,100 (100),Corn,Pollen,1.3
+2013,1.34,49511701,Imidacloprid,Plant,2.2,0.6,5.2,20,100 (70),Corn,Pollen,1.3
+2013,1.34,49511701,Imidacloprid,Plant,2.6,0.6,4.8,20,85 (80),Corn,Pollen,1.3
+2012,1.34,49511701,Imidacloprid,Plant,3.1,0.5,9.1,40,100 (95),Corn,Pollen,1.3
+2012,1.34,49511701,Imidacloprid,Plant,4.2,1.9,42.5,42,100 (76),Corn,Pollen,1.3
+2013,1.34,49511701,Imidacloprid,Plant,7.1,4.4,38.4,21,95 (67),Corn,Pollen,1.3
+2012,1.34,49511701,Imidacloprid,Plant,7.6,1.3,25.3,42,98 (98),Corn,Pollen,1.3
+2015,1.1,50265505,Thiamethoxam,Plant,2.1,0.4,2.3,3,100 (66),Corn,Pollen,1.3
+2015,1.1,50265505,Thiamethoxam,Plant,2.7,1.4,4.2,3,100 (100),Corn,Pollen,1.3
+2006,0.73,49158916,Thiamethoxam,Bee,3.7,1.1,6.6,11,100 (73),Corn,Pollen,1.3
+2015,1.1,50265505,Thiamethoxam,Plant,4.2,0.7,4.7,3,100 (100),Corn,Pollen,1.3
+2006,0.71,49158915,Thiamethoxam,Bee,4.2,0.5,6.8,27,100 (96),Corn,Pollen,1.3
+2006,0.79,49158914,Thiamethoxam,Bee,7.5,1.9,16.3,14,100 (100),Corn,Pollen,1.3
+2005,0.74,49158915,Thiamethoxam,Bee,7.5,0.6,11.3,27,100 (100),Corn,Pollen,1.3
+2005,0.81,49158914,Thiamethoxam,Bee,8.5,1.7,18,27,100 (100),Corn,Pollen,1.3
+2005,0.74,49158916,Thiamethoxam,Bee,18.5,1.8,28.4,23,100 (100),Corn,Pollen,1.3
+2015,0.088,50025902,clothianidin,Bees,<LOD (0.27),NA,<LOD (0.27),14,0 (0),Soy,Pollen,0.16
+2015,0.18,50025902,imidacloprid,Comb***,1.2,0.36,3.3,12,100 (42),Soy,Pollen,0.16
+2014,0.18,50025901,imidacloprid,Bees,1.5,0.51,3.6,15,93 (40),Soy,Pollen,0.16
+2015,0.0756,49804104,thiamethoxam,Bees,< LOD (0.46),NA,< LOD (0.46),9,0 (0),Soy,Nectar,0.16
+2014,0.088,50025901,clothianidin,Bees,<LOD (0.27),NA,<LOD (0.27),15,0 (0),Soy,Nectar,0.16
+2015,0.088,50025902,clothianidin,Bees,<LOQ (1.2),NA,<LOQ (1.2),26,4 (0),Soy,Nectar,0.16
+2015,0.18,50025902,imidacloprid,Bees,0.62,0.16,1.2,11,45 (9),Soy,Nectar,0.16
+2014,0.18,50025901,imidacloprid,Bees,0.69,0.14,1.3,15,60 (7),Soy,Nectar,0.16
+2015,0.0756,49804104,thiamethoxam,Bees,0.97,0.52,2.4,9,33 (33),Soy,Nectar,0.16
+2015,0.0756,49804104,thiamethoxam,Bees,2.7,2.5,11.7,9,56 (56),Soy,Nectar,0.16
+2015,0.35,49904901,Clothianidin,Plant,0.98,0.95,4.53,9,56 (22),Cotton,Pollen,0.35
+2015,0.35,49904901,Clothianidin,Plant,0.48,0.36,1.8,9,44 (11),Cotton,Pollen,0.35
+2013,0.3,49686801,Thiamethoxam,Plant,0.71,0.33,1.05,3,33 (0),Cotton,Pollen,0.35
+2013,0.3,49686801,Thiamethoxam,Plant,<LOD (0.54),NA,<LOD (0.54),3,0 (0),Cotton,Pollen,0.35
+2013,0.3,49686801,Thiamethoxam,Plant,<LOD (0.54),NA,<LOD (0.54),3,0 (0),Cotton,Pollen,0.35
+2015,0.35,49904901,Clothianidin,Plant,<LOD (0.1),NA,<LOD (0.1),9,0 (0),Cotton,Nectar,0.35
+2015,0.35,49904901,Clothianidin,Plant,<LOD (0.1),NA,<LOD (0.1),9,0 (0),Cotton,Nectar,0.35
+2013,0.3,49686801,Thiamethoxam,Plant,1.74,0.22,1.97,3,100 (33),Cotton,Nectar,0.35
+2013,0.3,49686801,Thiamethoxam,Plant,1.18,0.27,1.46,3,100 (33),Cotton,Nectar,0.35
+2013,0.3,49686801,Thiamethoxam,Plant,1.05,NA,<LOQ(-1.05),2,100 (0),Cotton,Nectar,0.35

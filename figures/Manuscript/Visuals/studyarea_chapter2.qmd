@@ -1,0 +1,54 @@
+<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis version="3.24.0-Tisler">
+  <identifier>IL_BNDY_County_Py</identifier>
+  <parentidentifier></parentidentifier>
+  <language>EN</language>
+  <type>dataset</type>
+  <title>IL_BNDY_County_Py</title>
+  <abstract>This data set contains Illinois county polygons. The data were extracted from, and are redundant with, ISGS feature dataset IL_Public_Land_Survey_System. The data set is maintained as a separate entity for ease of query and display. The polygon attributes indicate county name and and FIPS code. The nominal scale is 1:62,500. As of 2003, the data are typically distributed in geographic coordinates (longitude and latitude), decimal degrees, and the North American Datum (NAD) of 1983, and this is the default spatial reference of the ArcSDE feature dataset in which the data are stored. The data were originally developed, however, in a custom Lambert Conformal Conic projection and were distributed in that coordinate system for several years. The data were digitized in the late 1960s and in 1984-85 from 7.5- and 15-minute USGS topographic quadrangles. Errors in the location of a given feature are dependent on the accuracy of the original maps and on the accuracy of digitizing. Estimates are that features have an average locational error of at least plus/minus 100 feet.
+
+These data are appropriate for use in local and regional thematic analysis. The data are not appropriate as a geodetic, legal or engineering base. The data set was originally created for the purpose of producing maps of well locations in Illinois for geologic research by the ISGS and others. It serves as an important base cartographic element for many types of maps and has been widely distributed and used outside the ISGS. The data set was not and is not intended as a substitute for surveyed locations, such as can be determined by a registered Public Land Surveyor. Although useful in a GIS as a reference base layer for maps, the data set has no legal basis in the definition of boundaries or property lines.
+
+The data were originally developed as a part of the ILLIMAP System and were created in the late 1960s and early 1970s for the purpose of producing maps of well locations in Illinois for geologic research by the ISGS and others. It was one of the first efforts in the nation to digitally capture public land survey boundaries. The principal originators of the first version were geologists at the ISGS: Dave Swann, Paul DuMontelle, Dick Mast, and Lindell Van Dyke. The data were initially digitized from 7.5- and 15-minute USGS topographic maps, and this work comprises approximately two-thirds of the present data set. The accuracy was stated as follows: "For the townships digitized from 7.5-minute quadrangles, 95.2 percent of the ILLIMAP distances are within 100 feet of the recorded plat distances, and all are within 180 feet. In townships digitized from 15-minute quadrangles, 82.5 percent of the ILLIMAP distances are within 100 feet of the plat distances, and 98.7 percent are within 200 feet." (ISGS Circular 451, p. 13) For more information on the origin of the data set, refer to the metadata for the IL_Public_Land_Survey_System feature dataset. Also refer to ISGS Circular 451 (ILLIMAP - A Computer-Based Mapping System for Illinois, Swann, DuMontelle, Mast &amp; Van Dyke, 1970). That publication discusses the original digitizing work, coordinate conversions, and the accuracy of the results. The database was maintained by the ISGS Computer Services Unit under Van Dyke's direction until 1985 at which time the data were converted to an Arc/Info coverage. The conversion was accomplished by Environmental Systems Research Institute (ESRI) of Redlands, California, working under contract with the ISGS via the Illinois Department of Energy and Natural Resources and its Lands Unsuitable for Mining Program. The remaining one third of the state was digitized from 7.5-minute quadrangles at this time (1984-85.) In 2003 the data set was transitioned from the ESRI ArcInfo coverage data model to the ESRI ArcSDE enterprise geodatabase data model. The data are stored in an Oracle relational database management system (RDBMS) and maintained using ArcGIS software. Recent updates to the data: In March, 1998 the data set as it stood was designated Edition 1.0 for metadata and version management purposes. Edition 1.0 of these data were reviewed for internal logical consistency in March, 1998. As a result, several unneeded .AAT and .PAT items were dropped, tics were replaced, three dangling arcs were corrected and COVER-ID values were recalculated to be unique. See logical consistency report and process steps for March, 1998 for more details. The updated data set was designated edition 1.1. In June, 2003 the data set was transitioned to storage in an Oracle RDBMS using the ArcSDE geodatabase model. At that time this metadata document was significantly updated. The result (and most current edition) is designated Edition 2.0.</abstract>
+  <keywords vocabulary="gmd:topicCategory">
+    <keyword>illimap</keyword>
+  </keywords>
+  <contact>
+    <name></name>
+    <organization></organization>
+    <position></position>
+    <voice></voice>
+    <fax></fax>
+    <email></email>
+    <role>Point of contact</role>
+  </contact>
+  <links>
+    <link url="file://\\OUTLIER\C$\ISGS\projects\chouse_update\ToGoToChouse\Counties\IL_BNDY_County_Py.shp" mimeType="" size="" type="Local Area Network" name="Shapefile" description="" format=""/>
+  </links>
+  <fees></fees>
+  <constraints type="Access">ISGS information must be obtained directly from the ISGS or from an authorized distributor. Be aware that ISGS information obtained from an unauthorized third party may have been altered subsequent to original distribution, or may no longer be current. Any access to these data, Web sites, computer systems, electronic services, and electronic networks is governed by University and campus policies, in particular, but not limited to, the Policy on Appropriate Use of Computers and Network Systems at the University of Illinois at Urbana-Champaign, the ISGS Terms of Use document available at the ISGS Web site, and the University of Illinois Web Privacy Notice. Links to these are provided in the Cross References section.</constraints>
+  <rights>ISGS information is the property of and copyrighted by the Board of Trustees of the University of Illinois with all rights reserved.  University copyright policy is stated in the General Rules Concerning University Organization and Procedure, Article III, Section 4. A link is provided in the Cross References section. Individuals or entities may make fair use of copyrighted ISGS material, such as reproducing a single figure or table, or using a brief text quotation, without obtaining formal permission, but in all cases the Illinois State Geological Survey must be credited as the source of the material. To reproduce ISGS information beyond the fair use standard, permission must be obtained from the ISGS Information Office, 615 East Peabody Drive, Champaign, Illinois 61820, 217-333-4747, isgs@isgs.illinois.edu. License fees and a license agreement may be required, depending on the proposed usage. Any use of these data is governed by University and campus policies, in particular, but not limited to, the Policy on Appropriate Use of Computers and Network Systems at the University of Illinois at Urbana-Champaign, the ISGS Terms of Use document available at the ISGS Web site, and the University of Illinois Web Privacy Notice. Links to these are provided in the Cross References section. Map information is to be used at a scientifically and cartographically appropriate scale, that is, at a scale no greater than indicated on the map or as described in the documentation of the map or map data.  Map information is not appropriate for, and is not to be used as, a geodetic, legal, or engineering base. Map information has no legal basis in the definition of boundaries or property lines and is not intended as a substitute for surveyed locations such as can be determined by a registered Public Land Surveyor. The data do not replace the need for detailed site-specific studies.</rights>
+  <encoding></encoding>
+  <crs>
+    <spatialrefsys nativeFormat="Wkt">
+      <wkt></wkt>
+      <proj4></proj4>
+      <srsid>0</srsid>
+      <srid>0</srid>
+      <authid></authid>
+      <description></description>
+      <projectionacronym></projectionacronym>
+      <ellipsoidacronym></ellipsoidacronym>
+      <geographicflag>false</geographicflag>
+    </spatialrefsys>
+  </crs>
+  <extent>
+    <spatial minx="0" maxz="0" minz="0" maxy="0" miny="0" dimensions="2" crs="" maxx="0"/>
+    <temporal>
+      <period>
+        <start></start>
+        <end></end>
+      </period>
+    </temporal>
+  </extent>
+</qgis>

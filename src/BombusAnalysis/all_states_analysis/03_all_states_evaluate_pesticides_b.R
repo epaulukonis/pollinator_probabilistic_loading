@@ -8,7 +8,7 @@ date <- '20220325' # date for aggregate estimates (bee toxic load)
 cmp_date <- '20220325' # date for the compound-specific table 
 
 
-states<-range$STUSPS #get all states associated with RPBB
+#states<-range$STUSPS #get all states associated with RPBB
 rec <- reclasstables(filepath = paste0(pest_dir, "/beecosP/beetox_I_cdl_reclass.", date, ".csv"),
                       state = states,
                       year = 2008:2021,

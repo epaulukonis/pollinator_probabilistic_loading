@@ -1,0 +1,2752 @@
+cmpd_usgs,state_alpha,state_fips,year,Categories,value,crop_usgs,kg_ha,unsurveyed,noncrop,coverage
+DIENOCHLOR,CA,6,1997,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Sorghum,4,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Sunflower,6,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Peanuts,10,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Tobacco,11,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1997,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Barley,21,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1997,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Rye,27,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Oats,28,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1997,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1997,Canola,31,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Flaxseed,32,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Safflower,33,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Rape Seed,34,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Mustard,35,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1997,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1997,Sugarbeets,41,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1997,Sugarcane,45,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Hops,56,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1997,Sod/Grass Seed,59,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1997,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Cherries,66,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Peaches,67,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Apples,68,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Grapes,69,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Christmas Trees,70,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Other Tree Crops,71,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Citrus,72,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Pecans,74,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Almonds,75,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Walnuts,76,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Pears,77,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1997,Pistachios,204,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Triticale,205,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,1997,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Prunes,210,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Olives,211,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Oranges,212,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1997,Nectarines,218,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Plums,220,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Apricots,223,Orchards_and_grapes,4.137593e-4,0,0,3
+DIENOCHLOR,CA,6,1997,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1997,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Dbl Crop Oats/Corn,226,Double,0,0,0,3
+DIENOCHLOR,CA,6,1997,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Dbl Crop Lettuce/Barley,233,Double,0,0,0,3
+DIENOCHLOR,CA,6,1997,Dbl Crop Durum Wht/Sorghum,234,Double,0,0,0,3
+DIENOCHLOR,CA,6,1997,Dbl Crop Barley/Sorghum,235,Double,0,0,0,3
+DIENOCHLOR,CA,6,1997,Dbl Crop WinWht/Sorghum,236,Double,0,0,0,3
+DIENOCHLOR,CA,6,1997,Dbl Crop Barley/Corn,237,Double,0,0,0,3
+DIENOCHLOR,CA,6,1997,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Dbl Crop Soybeans/Oats,240,Double,0,0,0,3
+DIENOCHLOR,CA,6,1997,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1997,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1997,Dbl Crop Barley/Soybeans,254,Double,0,0,0,3
+DIENOCHLOR,CA,6,1998,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1998,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1998,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1998,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1998,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1998,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1998,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1998,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1998,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1998,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Cherries,66,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Peaches,67,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Apples,68,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Grapes,69,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Citrus,72,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Pecans,74,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Almonds,75,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Walnuts,76,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Pears,77,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1998,Pistachios,204,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Prunes,210,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Olives,211,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Oranges,212,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1998,Nectarines,218,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Plums,220,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Apricots,223,Orchards_and_grapes,4.281857e-4,0,0,3
+DIENOCHLOR,CA,6,1998,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1998,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1998,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1998,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1999,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1999,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1999,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1999,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1999,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1999,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1999,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1999,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1999,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Cherries,66,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Peaches,67,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Apples,68,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Grapes,69,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Citrus,72,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Pecans,74,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Almonds,75,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Walnuts,76,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Pears,77,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,1999,Pistachios,204,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Prunes,210,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Olives,211,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Oranges,212,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1999,Nectarines,218,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Plums,220,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Apricots,223,Orchards_and_grapes,7.709351e-4,0,0,3
+DIENOCHLOR,CA,6,1999,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1999,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,1999,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,1999,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Sorghum,4,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Sunflower,6,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Peanuts,10,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Tobacco,11,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2000,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Barley,21,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2000,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Rye,27,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Oats,28,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2000,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2000,Canola,31,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Flaxseed,32,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Safflower,33,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Rape Seed,34,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Mustard,35,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2000,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2000,Sugarbeets,41,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2000,Sugarcane,45,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Hops,56,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2000,Sod/Grass Seed,59,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2000,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Cherries,66,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Peaches,67,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Apples,68,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Grapes,69,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Christmas Trees,70,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Other Tree Crops,71,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Citrus,72,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Pecans,74,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Almonds,75,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Walnuts,76,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Pears,77,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2000,Pistachios,204,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Triticale,205,Other_crops,0,0,0,3
+DIENOCHLOR,CA,6,2000,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Prunes,210,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Olives,211,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Oranges,212,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2000,Nectarines,218,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Plums,220,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Apricots,223,Orchards_and_grapes,8.683051e-5,0,0,3
+DIENOCHLOR,CA,6,2000,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2000,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Dbl Crop Oats/Corn,226,Double,0,0,0,3
+DIENOCHLOR,CA,6,2000,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Dbl Crop Lettuce/Barley,233,Double,0,0,0,3
+DIENOCHLOR,CA,6,2000,Dbl Crop Durum Wht/Sorghum,234,Double,0,0,0,3
+DIENOCHLOR,CA,6,2000,Dbl Crop Barley/Sorghum,235,Double,0,0,0,3
+DIENOCHLOR,CA,6,2000,Dbl Crop WinWht/Sorghum,236,Double,0,0,0,3
+DIENOCHLOR,CA,6,2000,Dbl Crop Barley/Corn,237,Double,0,0,0,3
+DIENOCHLOR,CA,6,2000,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Dbl Crop Soybeans/Oats,240,Double,0,0,0,3
+DIENOCHLOR,CA,6,2000,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2000,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2000,Dbl Crop Barley/Soybeans,254,Double,0,0,0,3
+DIENOCHLOR,CA,6,2001,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2001,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2001,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2001,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2001,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2001,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2001,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2001,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2001,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2001,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Cherries,66,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Peaches,67,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Apples,68,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Grapes,69,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Citrus,72,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Pecans,74,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Almonds,75,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Walnuts,76,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Pears,77,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2001,Pistachios,204,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Prunes,210,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Olives,211,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Oranges,212,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2001,Nectarines,218,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Plums,220,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Apricots,223,Orchards_and_grapes,4.220538e-5,0,0,3
+DIENOCHLOR,CA,6,2001,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2001,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2001,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2001,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2002,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2002,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2002,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2002,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2002,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2002,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2002,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2002,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2002,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Cherries,66,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Peaches,67,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Apples,68,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Grapes,69,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Citrus,72,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Pecans,74,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Almonds,75,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Walnuts,76,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Pears,77,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2002,Pistachios,204,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Prunes,210,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Olives,211,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Oranges,212,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2002,Nectarines,218,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Plums,220,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Apricots,223,Orchards_and_grapes,3.98208e-5,0,0,3
+DIENOCHLOR,CA,6,2002,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2002,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2002,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2002,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2003,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2003,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2003,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2003,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2003,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2003,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2003,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2003,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2003,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Cherries,66,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Peaches,67,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Apples,68,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Grapes,69,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Citrus,72,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Pecans,74,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Almonds,75,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Walnuts,76,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Pears,77,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2003,Pistachios,204,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Prunes,210,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Olives,211,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Oranges,212,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2003,Nectarines,218,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Plums,220,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Apricots,223,Orchards_and_grapes,2.103142e-5,0,0,3
+DIENOCHLOR,CA,6,2003,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2003,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2003,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2003,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2004,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2004,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2004,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2004,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2004,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2004,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2004,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2004,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2004,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Cherries,66,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Peaches,67,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Apples,68,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Grapes,69,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Citrus,72,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Pecans,74,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Almonds,75,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Walnuts,76,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Pears,77,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2004,Pistachios,204,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Prunes,210,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Olives,211,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Oranges,212,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2004,Nectarines,218,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Plums,220,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Apricots,223,Orchards_and_grapes,2.229778e-5,0,0,3
+DIENOCHLOR,CA,6,2004,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2004,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2004,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2004,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2005,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2005,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2005,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2005,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2005,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2005,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2005,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2005,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2005,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Cherries,66,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Peaches,67,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Apples,68,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Grapes,69,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Citrus,72,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Pecans,74,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Almonds,75,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Walnuts,76,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Pears,77,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2005,Pistachios,204,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Prunes,210,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Olives,211,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Oranges,212,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2005,Nectarines,218,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Plums,220,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Apricots,223,Orchards_and_grapes,9.102232e-6,0,0,3
+DIENOCHLOR,CA,6,2005,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2005,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2005,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2005,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2006,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2006,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2006,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2006,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2006,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2006,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2006,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2006,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2006,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Cherries,66,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Peaches,67,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Apples,68,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Grapes,69,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Citrus,72,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Pecans,74,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Almonds,75,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Walnuts,76,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Pears,77,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2006,Pistachios,204,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Prunes,210,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Olives,211,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Oranges,212,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2006,Nectarines,218,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Plums,220,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Apricots,223,Orchards_and_grapes,8.226584e-6,0,0,3
+DIENOCHLOR,CA,6,2006,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2006,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2006,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2006,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2007,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2007,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2007,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2007,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2007,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2007,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2007,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2007,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2007,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Cherries,66,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Peaches,67,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Apples,68,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Grapes,69,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Citrus,72,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Pecans,74,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Almonds,75,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Walnuts,76,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Pears,77,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2007,Pistachios,204,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Prunes,210,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Olives,211,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Oranges,212,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2007,Nectarines,218,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Plums,220,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Apricots,223,Orchards_and_grapes,1.285115e-6,0,0,3
+DIENOCHLOR,CA,6,2007,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2007,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2007,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2007,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2008,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2008,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2008,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2008,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2008,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2008,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2008,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2008,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2008,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Cherries,66,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Peaches,67,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Apples,68,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Grapes,69,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Citrus,72,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Pecans,74,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Almonds,75,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Walnuts,76,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Pears,77,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2008,Pistachios,204,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Prunes,210,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Olives,211,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Oranges,212,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2008,Nectarines,218,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Plums,220,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Apricots,223,Orchards_and_grapes,1.433896e-6,0,0,3
+DIENOCHLOR,CA,6,2008,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2008,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2008,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2008,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2009,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2009,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2009,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2009,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2009,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2009,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2009,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2009,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2009,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Cherries,66,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Peaches,67,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Apples,68,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Grapes,69,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Citrus,72,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Pecans,74,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Almonds,75,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Walnuts,76,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Pears,77,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2009,Pistachios,204,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Prunes,210,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Olives,211,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Oranges,212,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2009,Nectarines,218,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Plums,220,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Apricots,223,Orchards_and_grapes,6.128064e-7,0,0,3
+DIENOCHLOR,CA,6,2009,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2009,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2009,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2009,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2010,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2010,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2010,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2010,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2010,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2010,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2010,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2010,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2010,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Cherries,66,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Peaches,67,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Apples,68,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Grapes,69,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Citrus,72,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Pecans,74,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Almonds,75,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Walnuts,76,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Pears,77,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2010,Pistachios,204,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Prunes,210,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Olives,211,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Oranges,212,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2010,Nectarines,218,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Plums,220,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Apricots,223,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2010,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2010,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2010,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2010,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2011,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2011,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2011,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2011,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2011,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2011,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2011,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2011,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2011,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Cherries,66,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Peaches,67,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Apples,68,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Grapes,69,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Citrus,72,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Pecans,74,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Almonds,75,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Walnuts,76,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Pears,77,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2011,Pistachios,204,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Prunes,210,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Olives,211,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Oranges,212,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2011,Nectarines,218,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Plums,220,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Apricots,223,Orchards_and_grapes,0,0,0,3
+DIENOCHLOR,CA,6,2011,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2011,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2011,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2011,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2012,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2012,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2012,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2012,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2012,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2012,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2012,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2012,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2012,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Cherries,66,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Peaches,67,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Apples,68,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Grapes,69,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Citrus,72,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Pecans,74,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Almonds,75,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Walnuts,76,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Pears,77,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2012,Pistachios,204,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Prunes,210,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Olives,211,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Oranges,212,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2012,Nectarines,218,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Plums,220,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Apricots,223,Orchards_and_grapes,8.185857e-8,0,0,3
+DIENOCHLOR,CA,6,2012,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2012,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2012,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2012,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2013,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2013,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2013,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2013,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2013,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2013,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2013,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2013,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2013,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Cherries,66,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Peaches,67,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Apples,68,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Grapes,69,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Citrus,72,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Pecans,74,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Almonds,75,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Walnuts,76,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Pears,77,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2013,Pistachios,204,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Prunes,210,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Olives,211,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Oranges,212,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2013,Nectarines,218,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Plums,220,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Apricots,223,Orchards_and_grapes,3.96057e-7,0,0,3
+DIENOCHLOR,CA,6,2013,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2013,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2013,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2013,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2014,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2014,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2014,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2014,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2014,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2014,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2014,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2014,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2014,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Cherries,66,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Peaches,67,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Apples,68,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Grapes,69,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Citrus,72,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Pecans,74,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Almonds,75,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Walnuts,76,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Pears,77,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2014,Pistachios,204,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Prunes,210,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Olives,211,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Oranges,212,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2014,Nectarines,218,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Plums,220,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Apricots,223,Orchards_and_grapes,4.603804e-7,0,0,3
+DIENOCHLOR,CA,6,2014,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2014,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2014,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2014,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2015,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2015,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2015,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2015,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2015,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2015,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2015,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2015,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2015,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Cherries,66,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Peaches,67,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Apples,68,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Grapes,69,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Citrus,72,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Pecans,74,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Almonds,75,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Walnuts,76,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Pears,77,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2015,Pistachios,204,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Prunes,210,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Olives,211,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Oranges,212,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2015,Nectarines,218,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Plums,220,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Apricots,223,Orchards_and_grapes,7.439947e-8,0,0,3
+DIENOCHLOR,CA,6,2015,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2015,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2015,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2015,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2016,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2016,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2016,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2016,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2016,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2016,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2016,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2016,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2016,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Cherries,66,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Peaches,67,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Apples,68,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Grapes,69,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Citrus,72,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Pecans,74,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Almonds,75,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Walnuts,76,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Pears,77,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2016,Pistachios,204,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Prunes,210,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Olives,211,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Oranges,212,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2016,Nectarines,218,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Plums,220,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Apricots,223,Orchards_and_grapes,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2016,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2016,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2016,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Corn,1,Corn,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Cotton,2,Cotton,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Rice,3,Rice,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Sorghum,4,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Soybeans,5,Soybeans,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Sunflower,6,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Peanuts,10,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Tobacco,11,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Sweet Corn,12,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2017,Mint,14,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Barley,21,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Durum Wheat,22,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Spring Wheat,23,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Winter Wheat,24,Wheat,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Other Small Grains,25,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2017,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Rye,27,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Oats,28,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Millet,29,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2017,Speltz,30,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2017,Canola,31,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Flaxseed,32,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Safflower,33,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Rape Seed,34,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Mustard,35,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Alfalfa,36,Alfalfa,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Camelina,38,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2017,Buckwheat,39,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2017,Sugarbeets,41,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Dry Beans,42,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Potatoes,43,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Other Crops,44,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2017,Sugarcane,45,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Sweet Potatoes,46,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Misc Vegs & Fruits,47,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Watermelons,48,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Onions,49,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Cucumbers,50,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Chick Peas,51,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Lentils,52,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Peas,53,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Tomatoes,54,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Caneberries,55,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Hops,56,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Herbs,57,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2017,Sod/Grass Seed,59,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Switchgrass,60,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2017,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Forest,63,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Shrubland,64,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Barren,65,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Cherries,66,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Peaches,67,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Apples,68,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Grapes,69,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Christmas Trees,70,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Other Tree Crops,71,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Citrus,72,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Pecans,74,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Almonds,75,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Walnuts,76,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Pears,77,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Water,83,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Wetlands,87,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Aquaculture,92,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Open Water,111,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Developed/Open Space,121,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Developed/High Intensity,124,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Barren,131,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Deciduous Forest,141,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Evergreen Forest,142,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Mixed Forest,143,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Shrubland,152,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Woody Wetlands,190,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+DIENOCHLOR,CA,6,2017,Pistachios,204,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Triticale,205,Other_crops,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Carrots,206,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Asparagus,207,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Garlic,208,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Cantaloupes,209,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Prunes,210,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Olives,211,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Oranges,212,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Honeydew Melons,213,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Broccoli,214,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Peppers,216,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Pomegranates,217,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2017,Nectarines,218,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Greens,219,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Plums,220,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Strawberries,221,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Squash,222,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Apricots,223,Orchards_and_grapes,1.402659e-7,0,0,3
+DIENOCHLOR,CA,6,2017,Vetch,224,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2017,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Dbl Crop Oats/Corn,226,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Lettuce,227,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Pumpkins,229,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Dbl Crop Lettuce/Durum Wht,230,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Dbl Crop Lettuce/Cantaloupe,231,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Dbl Crop Lettuce/Cotton,232,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Dbl Crop Lettuce/Barley,233,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Dbl Crop Soybeans/Oats,240,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Blueberries,242,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Cabbage,243,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Cauliflower,244,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Celery,245,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Radishes,246,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Turnips,247,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Eggplants,248,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Gourds,249,Not_surveyed,NA,1,0,2
+DIENOCHLOR,CA,6,2017,Cranberries,250,Vegetables_and_fruit,NA,0,0,3
+DIENOCHLOR,CA,6,2017,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3

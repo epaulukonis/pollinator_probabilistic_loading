@@ -1,0 +1,132 @@
+year,state_alpha,state_fips,value,Categories,crop_usgs,kg_ha,ld50_ct_ha_bil,ld50_or_ha_bil,unsurveyed,noncrop,source,coverage
+2012,VT,50,1,Corn,Corn,0.1138865,2.781365,4.321973,0,0,usgs,3
+2012,VT,50,2,Cotton,Cotton,NA,NA,NA,0,0,NA,3
+2012,VT,50,3,Rice,Rice,NA,NA,NA,0,0,NA,3
+2012,VT,50,4,Sorghum,Other_crops,NA,NA,NA,0,0,NA,3
+2012,VT,50,5,Soybeans,Soybeans,0.01876459,0.2877339,4.93976,0,0,interp,3
+2012,VT,50,6,Sunflower,Other_crops,NA,NA,NA,0,0,NA,3
+2012,VT,50,10,Peanuts,Other_crops,NA,NA,NA,0,0,NA,3
+2012,VT,50,11,Tobacco,Other_crops,NA,NA,NA,0,0,NA,3
+2012,VT,50,12,Sweet Corn,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,13,Pop or Orn Corn,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,14,Mint,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,21,Barley,Other_crops,NA,NA,NA,0,0,NA,3
+2012,VT,50,22,Durum Wheat,Wheat,NA,NA,NA,0,0,NA,3
+2012,VT,50,23,Spring Wheat,Wheat,NA,NA,NA,0,0,NA,3
+2012,VT,50,24,Winter Wheat,Wheat,NA,NA,NA,0,0,NA,3
+2012,VT,50,25,Other Small Grains,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,26,Dbl Crop WinWht/Soybeans,Double,NA,NA,NA,0,0,NA,3
+2012,VT,50,27,Rye,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,28,Oats,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,29,Millet,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,30,Speltz,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,31,Canola,Other_crops,NA,NA,NA,0,0,NA,3
+2012,VT,50,32,Flaxseed,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,33,Safflower,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,34,Rape Seed,Other_crops,NA,NA,NA,0,0,NA,3
+2012,VT,50,35,Mustard,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,36,Alfalfa,Alfalfa,0.02950106,0.1991973,0.3775876,0,0,usgs,3
+2012,VT,50,37,Other Hay/Non Alfalfa,Pasture_and_hay,NA,NA,NA,0,0,NA,3
+2012,VT,50,38,Camelina,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,39,Buckwheat,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,41,Sugarbeets,Other_crops,NA,NA,NA,0,0,NA,3
+2012,VT,50,42,Dry Beans,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,43,Potatoes,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,44,Other Crops,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,45,Sugarcane,Other_crops,NA,NA,NA,0,0,NA,3
+2012,VT,50,46,Sweet Potatoes,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,47,Misc Vegs & Fruits,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,48,Watermelons,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,49,Onions,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,50,Cucumbers,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,51,Chick Peas,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,52,Lentils,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,53,Peas,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,54,Tomatoes,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,55,Caneberries,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,56,Hops,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,57,Herbs,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,58,Clover/Wildflowers,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,59,Sod/Grass Seed,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,60,Switchgrass,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,61,Fallow/Idle Cropland,Pasture_and_hay,NA,NA,NA,0,0,NA,3
+2012,VT,50,62,Pasture/Grass,Pasture_and_hay,NA,NA,NA,0,0,NA,3
+2012,VT,50,63,Forest,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,64,Shrubland,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,65,Barren,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,66,Cherries,Orchards_and_grapes,3.491405,28.14911,23.22731,0,0,usgs,3
+2012,VT,50,67,Peaches,Orchards_and_grapes,3.491405,28.14911,23.22731,0,0,usgs,3
+2012,VT,50,68,Apples,Orchards_and_grapes,3.491405,28.14911,23.22731,0,0,usgs,3
+2012,VT,50,69,Grapes,Orchards_and_grapes,3.491405,28.14911,23.22731,0,0,usgs,3
+2012,VT,50,70,Christmas Trees,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,71,Other Tree Crops,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,72,Citrus,Orchards_and_grapes,3.491405,28.14911,23.22731,0,0,usgs,3
+2012,VT,50,74,Pecans,Orchards_and_grapes,3.491405,28.14911,23.22731,0,0,usgs,3
+2012,VT,50,75,Almonds,Orchards_and_grapes,3.491405,28.14911,23.22731,0,0,usgs,3
+2012,VT,50,76,Walnuts,Orchards_and_grapes,3.491405,28.14911,23.22731,0,0,usgs,3
+2012,VT,50,77,Pears,Orchards_and_grapes,3.491405,28.14911,23.22731,0,0,usgs,3
+2012,VT,50,83,Water,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,87,Wetlands,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,92,Aquaculture,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,111,Open Water,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,112,Perennial Ice/Snow,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,121,Developed/Open Space,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,122,Developed/Low Intensity,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,123,Developed/Med Intensity,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,124,Developed/High Intensity,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,131,Barren,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,141,Deciduous Forest,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,142,Evergreen Forest,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,143,Mixed Forest,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,152,Shrubland,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,171,Grassland Herbaceous,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,176,Grassland/Pasture,Pasture_and_hay,NA,NA,NA,0,0,NA,3
+2012,VT,50,181,Pasture/Hay,Pasture_and_hay,NA,NA,NA,0,0,NA,3
+2012,VT,50,190,Woody Wetlands,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,195,Herbaceous Wetlands,Non_crop,NA,NA,NA,0,1,NA,1
+2012,VT,50,204,Pistachios,Orchards_and_grapes,3.491405,28.14911,23.22731,0,0,usgs,3
+2012,VT,50,205,Triticale,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,206,Carrots,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,207,Asparagus,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,208,Garlic,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,209,Cantaloupes,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,210,Prunes,Orchards_and_grapes,3.491405,28.14911,23.22731,0,0,usgs,3
+2012,VT,50,211,Olives,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,212,Oranges,Orchards_and_grapes,3.491405,28.14911,23.22731,0,0,usgs,3
+2012,VT,50,213,Honeydew Melons,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,214,Broccoli,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,216,Peppers,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,217,Pomegranates,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,218,Nectarines,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,219,Greens,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,220,Plums,Orchards_and_grapes,3.491405,28.14911,23.22731,0,0,usgs,3
+2012,VT,50,221,Strawberries,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,222,Squash,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,223,Apricots,Orchards_and_grapes,3.491405,28.14911,23.22731,0,0,usgs,3
+2012,VT,50,224,Vetch,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,225,Dbl Crop WinWht/Corn,Double,NA,NA,NA,0,0,NA,3
+2012,VT,50,226,Dbl Crop Oats/Corn,Double,NA,NA,NA,0.5,0,NA,3
+2012,VT,50,227,Lettuce,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,229,Pumpkins,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,230,Dbl Crop Lettuce/Durum Wht,Double,NA,NA,NA,0,0,NA,3
+2012,VT,50,231,Dbl Crop Lettuce/Cantaloupe,Double,4.975904,50.62339,35.60772,0,0,usgs,3
+2012,VT,50,232,Dbl Crop Lettuce/Cotton,Double,NA,NA,NA,0,0,NA,3
+2012,VT,50,233,Dbl Crop Lettuce/Barley,Double,NA,NA,NA,0,0,NA,3
+2012,VT,50,234,Dbl Crop Durum Wht/Sorghum,Double,NA,NA,NA,0,0,NA,3
+2012,VT,50,235,Dbl Crop Barley/Sorghum,Double,NA,NA,NA,0,0,NA,3
+2012,VT,50,236,Dbl Crop WinWht/Sorghum,Double,NA,NA,NA,0,0,NA,3
+2012,VT,50,237,Dbl Crop Barley/Corn,Double,NA,NA,NA,0,0,NA,3
+2012,VT,50,238,Dbl Crop WinWht/Cotton,Double,NA,NA,NA,0,0,NA,3
+2012,VT,50,239,Dbl Crop Soybeans/Cotton,Double,NA,NA,NA,0,0,NA,3
+2012,VT,50,240,Dbl Crop Soybeans/Oats,Double,NA,NA,NA,0.5,0,NA,3
+2012,VT,50,241,Dbl Crop Corn/Soybeans,Double,0.1326511,3.069099,9.261734,0,0,interp,3
+2012,VT,50,242,Blueberries,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,243,Cabbage,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,244,Cauliflower,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,245,Celery,Vegetables_and_fruit,2.487952,25.31169,17.80386,0,0,usgs,3
+2012,VT,50,246,Radishes,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,247,Turnips,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,248,Eggplants,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,249,Gourds,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,250,Cranberries,Not_surveyed,NA,NA,NA,1,0,NA,2
+2012,VT,50,254,Dbl Crop Barley/Soybeans,Double,NA,NA,NA,0,0,NA,3

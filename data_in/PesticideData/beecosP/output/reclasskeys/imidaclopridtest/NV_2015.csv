@@ -1,0 +1,132 @@
+cmpd_usgs,state_alpha,state_fips,year,Categories,value,crop_usgs,kg_ha,unsurveyed,noncrop,coverage
+IMIDACLOPRID,NV,32,2015,Corn,1,Corn,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Cotton,2,Cotton,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Rice,3,Rice,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Sorghum,4,Other_crops,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Soybeans,5,Soybeans,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Sunflower,6,Other_crops,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Peanuts,10,Other_crops,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Tobacco,11,Other_crops,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Sweet Corn,12,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Pop or Orn Corn,13,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Mint,14,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Barley,21,Other_crops,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Durum Wheat,22,Wheat,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Spring Wheat,23,Wheat,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Winter Wheat,24,Wheat,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Other Small Grains,25,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Dbl Crop WinWht/Soybeans,26,Double,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Rye,27,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Oats,28,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Millet,29,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Speltz,30,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Canola,31,Other_crops,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Flaxseed,32,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Safflower,33,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Rape Seed,34,Other_crops,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Mustard,35,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Alfalfa,36,Alfalfa,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Other Hay/Non Alfalfa,37,Pasture_and_hay,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Camelina,38,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Buckwheat,39,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Sugarbeets,41,Other_crops,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Dry Beans,42,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Potatoes,43,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Other Crops,44,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Sugarcane,45,Other_crops,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Sweet Potatoes,46,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Misc Vegs & Fruits,47,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Watermelons,48,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Onions,49,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Cucumbers,50,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Chick Peas,51,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Lentils,52,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Peas,53,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Tomatoes,54,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Caneberries,55,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Hops,56,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Herbs,57,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Clover/Wildflowers,58,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Sod/Grass Seed,59,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Switchgrass,60,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Fallow/Idle Cropland,61,Pasture_and_hay,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Pasture/Grass,62,Pasture_and_hay,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Forest,63,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Shrubland,64,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Barren,65,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Cherries,66,Orchards_and_grapes,0.01340631,0,0,3
+IMIDACLOPRID,NV,32,2015,Peaches,67,Orchards_and_grapes,0.01340631,0,0,3
+IMIDACLOPRID,NV,32,2015,Apples,68,Orchards_and_grapes,0.01340631,0,0,3
+IMIDACLOPRID,NV,32,2015,Grapes,69,Orchards_and_grapes,0.01340631,0,0,3
+IMIDACLOPRID,NV,32,2015,Christmas Trees,70,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Other Tree Crops,71,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Citrus,72,Orchards_and_grapes,0.01340631,0,0,3
+IMIDACLOPRID,NV,32,2015,Pecans,74,Orchards_and_grapes,0.01340631,0,0,3
+IMIDACLOPRID,NV,32,2015,Almonds,75,Orchards_and_grapes,0.01340631,0,0,3
+IMIDACLOPRID,NV,32,2015,Walnuts,76,Orchards_and_grapes,0.01340631,0,0,3
+IMIDACLOPRID,NV,32,2015,Pears,77,Orchards_and_grapes,0.01340631,0,0,3
+IMIDACLOPRID,NV,32,2015,Water,83,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Wetlands,87,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Aquaculture,92,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Open Water,111,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Perennial Ice/Snow,112,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Developed/Open Space,121,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Developed/Low Intensity,122,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Developed/Med Intensity,123,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Developed/High Intensity,124,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Barren,131,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Deciduous Forest,141,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Evergreen Forest,142,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Mixed Forest,143,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Shrubland,152,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Grassland Herbaceous,171,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Grassland/Pasture,176,Pasture_and_hay,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Pasture/Hay,181,Pasture_and_hay,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Woody Wetlands,190,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Herbaceous Wetlands,195,Non_crop,NA,0,1,1
+IMIDACLOPRID,NV,32,2015,Pistachios,204,Orchards_and_grapes,0.01340631,0,0,3
+IMIDACLOPRID,NV,32,2015,Triticale,205,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Carrots,206,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Asparagus,207,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Garlic,208,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Cantaloupes,209,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Prunes,210,Orchards_and_grapes,0.01340631,0,0,3
+IMIDACLOPRID,NV,32,2015,Olives,211,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Oranges,212,Orchards_and_grapes,0.01340631,0,0,3
+IMIDACLOPRID,NV,32,2015,Honeydew Melons,213,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Broccoli,214,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Peppers,216,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Pomegranates,217,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Nectarines,218,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Greens,219,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Plums,220,Orchards_and_grapes,0.01340631,0,0,3
+IMIDACLOPRID,NV,32,2015,Strawberries,221,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Squash,222,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Apricots,223,Orchards_and_grapes,0.01340631,0,0,3
+IMIDACLOPRID,NV,32,2015,Vetch,224,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Dbl Crop WinWht/Corn,225,Double,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Dbl Crop Oats/Corn,226,Double,NA,0.5,0,3
+IMIDACLOPRID,NV,32,2015,Lettuce,227,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Pumpkins,229,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Dbl Crop Lettuce/Durum Wht,230,Double,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Dbl Crop Lettuce/Cantaloupe,231,Double,0.12024582,0,0,3
+IMIDACLOPRID,NV,32,2015,Dbl Crop Lettuce/Cotton,232,Double,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Dbl Crop Lettuce/Barley,233,Double,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Dbl Crop Durum Wht/Sorghum,234,Double,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Dbl Crop Barley/Sorghum,235,Double,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Dbl Crop WinWht/Sorghum,236,Double,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Dbl Crop Barley/Corn,237,Double,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Dbl Crop WinWht/Cotton,238,Double,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Dbl Crop Soybeans/Cotton,239,Double,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Dbl Crop Soybeans/Oats,240,Double,NA,0.5,0,3
+IMIDACLOPRID,NV,32,2015,Dbl Crop Corn/Soybeans,241,Double,NA,0,0,3
+IMIDACLOPRID,NV,32,2015,Blueberries,242,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Cabbage,243,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Cauliflower,244,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Celery,245,Vegetables_and_fruit,0.06012291,0,0,3
+IMIDACLOPRID,NV,32,2015,Radishes,246,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Turnips,247,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Eggplants,248,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Gourds,249,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Cranberries,250,Not_surveyed,NA,1,0,2
+IMIDACLOPRID,NV,32,2015,Dbl Crop Barley/Soybeans,254,Double,NA,0,0,3

@@ -1,4 +1,4 @@
-### B. affinis analysis
+### Probabilistic Crop Loading
 
 ### 00 Setup of directories and file paths
 
@@ -38,14 +38,16 @@ library(exactextractr)
 library(data.table)
 library(gtools)
 library(gstat)
+library(fasterize)
+library(purrr)
 
 library(tidyverse)
-# library(beecoSp)
+library(beecoSp)
 # library(cdlTools)
-# library(janitor)
+library(janitor)
 # library(TraMineR)
 # library(geosphere)
-# library(ggridges)
+library(ggridges)
 # library(ghibli)
 # library(tidyverse)
 # library(progress)
@@ -111,7 +113,7 @@ print(list.files(path=cdl_dir_adj, all.files=TRUE, full.names=FALSE))
 
 
 #coa
-coa_dir = file.path(root_data_in, "CropData/CoA/all_CoA")
+coa_dir = file.path(root_data_in, "CropData/CoA")
 print(coa_dir)
 print(list.files(path=coa_dir, all.files=TRUE, full.names=FALSE))
 
@@ -157,7 +159,7 @@ print(list.files(path=pest_dir, all.files=TRUE, full.names=FALSE))
 
 
 #run illinois subdelineations here
-source(file.path(root_src, "01_illinois_read_cdl_b.R"))
+#source(file.path(root_src, "01_illinois_read_cdl_b.R"))
 # source(file.path(root_src, "04_illinois_get_subdelineations_b.R"))
-source(file.path(root_src, "05_illinois_vectorization_b.R"))
+#source(file.path(root_src, "05_illinois_vectorization_b.R"))
 

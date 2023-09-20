@@ -1,11 +1,24 @@
 ### Probabilistic Crop Loading 
 
-### 04 getting sub-delineations
+### 05 vectorizing final fields
 
 # Edited by E. Paulukonis March 2023
 
 #in this script, we process the final field outputs and extract the original CDL to the fields while applying a get of geometric
 #functions to match original crop patterns by year. we then output the final field delineation as a vector for each year
+
+final_vector<-paste0(paste0(root_data_out, "/all_tif/ILLINOIS/bombus/final_vectors/CDL_1999_17_fieldoutput.shp"))
+
+
+if(file.exists(final_vector)){
+  
+  print(list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/bombus/final_vectors"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  fv<- file.path(paste0(root_data_out, "/all_tif/ILLINOIS/bombus/final_vectors"), list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/bombus/final_vectors"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  fv<-setNames(lapply(fv, readOGR), tools::file_path_sans_ext(basename(fv)))
+  fv<-fv[(mixedsort(as.character(names(fv))))]
+
+  
+}else{
 
 print(list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/bombus/SUB"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
 ill_field<- file.path(paste0(root_data_out, "/all_tif/ILLINOIS/bombus/SUB"), list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/bombus/SUB"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
@@ -61,7 +74,7 @@ field_extractions_cdl<-list()
 
 }
 
-#here, we take the extracted fields 
+#here, we take the extracted fields and finalize them with the CDL
 
 for(field in 1:length(ill_fieldf)){
 set1<-st_as_sf(ill_fieldf[[field]])
@@ -97,5 +110,8 @@ field_extractions_cdl<-temporal_level_vectors[[field]]
   st_write(fw_fill, paste0(root_data_out, "/all_tif/ILLINOIS/bombus/final_vectors"), layer=paste0(names(field_extractions_cdl[vector]),"_","fieldoutput.shp"), driver = "ESRI Shapefile")
 
   }
+
+}
+
 
 }

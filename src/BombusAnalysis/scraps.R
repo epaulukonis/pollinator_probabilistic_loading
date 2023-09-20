@@ -116,3 +116,174 @@ bombus_zones<-list()
 # saveRDS(bombus_zones, file=paste0(bombus_dir,"/bombus_CDL_zones.RData"))
 
 
+
+
+
+#06 ----
+
+#I have to figure out how to partition the field data into weeks, including weeks where no plantings occur
+
+
+function(week, probs) week[sample(nrow(week), nrow(week)*probs, replace = TRUE),]
+sampled_fields<-matrix(data=NA, nrow=nrow(field), ncol=3)
+#this works for single probabilities...but not a suite of them 
+f.sample <- function(a, probs) a[sample(nrow(a), nrow(a)*probs, replace = TRUE),]
+out<-f.sample(field[field$crop==1,], )
+
+
+soy<-test_df[which(test_df$Year == 1999 & test_df$crop ==5), ]  
+ss_s <- sample(1:20,size=nrow(fields),replace=TRUE, prob=corn$prob)
+fields$sample<-ss_s
+
+#not going to work because not all of them are sampled 
+
+
+week_list<-list()
+for(w in 1:length(unique(test$Date))){
+  
+}
+
+
+
+
+
+#new thought; instead of doing timing partitioning up front, it's probably easier to assign
+#fields based on x seed, x foliar, x nothing, and then for each of those three sets, go from there. 
+
+#######----
+names(fv)<-1999:2021
+list_of_sampled_fields_by_year<-list()
+for(year in 1:length(fv)){
+  year=6
+  field<-fv[[year]]
+  field<-as.data.frame(field)
+  field$id<-as.numeric(row.names(field))+1
+  field$year<-names(fv[year])
+  field_cornsoy<-field[field$crop %in% c(1,5),]
+  field_other<-field[!field$crop %in% c(1,5),]
+  
+  crop_probs_corn<-corn[which(corn$Year == names(fv[year])), ] 
+  crop_probs_soy<-soy[which(soy$Year == names(fv[year])), ] 
+  
+  crop_probs_corn<-split(crop_probs_corn, f = crop_probs_corn$Status)
+  crop_probs_soy<-split(crop_probs_soy, f = crop_probs_soy$Status)
+  
+  
+  
+  sample_fields<-function(x){
+    sample(1:3,size=nrow(field_cornsoy[field_cornsoy$crop==x$Crop,]),replace=T, prob=x$prob)
+  }
+  
+  
+  
+  sample_fields<-function(x){
+    sample(1:nrow(x),size=nrow(field_cornsoy[field_cornsoy$crop==x$Crop,]),replace=T, prob=x$prob)
+  }
+  
+  
+  #note: it is very important that users be clear that these events are mutually exclusive; IDs assigned weekly values in planted are not linked to IDs in emerged
+  corn_weeks<-as.data.frame(sapply(crop_probs_corn,sample_fields))
+  soy_weeks<-as.data.frame(sapply(crop_probs_soy,sample_fields))
+  # corn_weeks<-gather(corn_weeks, "Status", "Period", 1:3)
+  # soy_weeks<-gather(soy_weeks, "Status", "Period", 1:3)
+  
+  #challenge: I need to figure out how to join the fields by ID...
+  
+  #corn
+  #planted -> emergence 4-28 days
+  #emergence to silking: 
+  
+  #soy
+  #planted -> emergence 6-15
+  #emergence -> blooming
+  
+  
+  #maybe goal is to only have extra scenario for blooming
+  
+  #think I am making it too complex, Monday consider dialing down a little
+  
+  
+  field_cornsoy[,5:7]<-ifelse(field_cornsoy$crop ==1, paste0("Week ",corn_weeks), paste0("Week ",soy_weeks))
+  #nope
+  
+  field_cornsoy$SampleP<-ifelse(field_cornsoy$crop ==1, paste0("Week ",corn_weeks), paste0("Week ",soy_weeks))
+  field_other$Sample<-paste0("NotAssigned")
+  field_f<-rbind(field_cornsoy,field_other)
+  field_f <- field_f[order(field_f$id),]
+  
+  
+  
+  split_by_week<-split(field_f, f = field_f$Sample)
+  
+  
+  list_of_sampled_fields_by_year[[year]]<-split_by_week
+}
+
+names(list_of_sampled_fields_by_year)<-names(fv)[1:6]
+
+
+#code to make mock probabilities
+
+#set probabilities for each year and treatment; here, we assign the fields based on a set of probabilities
+#probabilities for neonics
+status<-c("seed","foliar","notreatment")
+
+#probabilties that corn or soy will be assigned seed, foliar, or no treatment
+corn_neo_probs<-c(70,20,10)
+soy_neo_probs<-c(40,30,30)
+
+#of the ones assigned seed or foliar treatment, these are the probabilities that thsoe fields will also be assigned glyphosate spray
+#probabilities for glyphosate  
+corn_glyp_probs<-c(0,50,50)
+soy_glyp_probs<-c(0,50,50)
+
+treatment_probabilities_corn<-as.data.frame(cbind(status,corn_neo_probs, corn_glyp_probs))
+treatment_probabilities_soy<-as.data.frame(cbind(status,soy_neo_probs, soy_glyp_probs))
+
+#test year
+treatment_probabilities_soy$year<-2004
+treatment_probabilities_corn$year<-2004
+
+treatment_probabilities_soy$t_id<-1:3
+treatment_probabilities_corn$t_id<-1:3
+
+
+CORN<-(c(0.02,0.02,0.02,0.34))
+SOYBEANS<-(c(0.017,0.02,0.019,0.34))
+unit<-"kg/acre"
+maxrates<-as.data.frame(cbind(Compound,CORN,SOYBEANS,unit))
+maxrates<-gather(maxrates, "Commodity", "AR", 2:3)
+
+
+##5. combine data to get rough proportions of treated crops
+#for later, if you want row-wise totals
+# testy<-state_pest %>% 
+#   rowwise() %>% 
+#   mutate(SumByIndex = sum(c_across(c(6:15)), na.rm = T))
+
+state_pest<-gather(state_pest, "Commodity", "kg", 6:15)
+state_pest$Commodity<-toupper(state_pest$Commodity)
+state_pest<-state_pest[state_pest$Commodity %in% maxrates$Commodity, ]
+state_pest_df<-left_join(state_pest, maxrates, by=c('Compound',"Commodity"))
+state_pest_df$applied_acres<-state_pest_df$kg / as.numeric(state_pest_df$AR)
+pest_prop_by_crop<-left_join(state_pest_df, crop_by_state, by = c("Year","Commodity"))
+pest_prop_by_crop$percent<-(pest_prop_by_crop$applied_acres/pest_prop_by_crop$sumf)*100
+
+#moral: this ended up being a bit of a bust
+#what my intention was to try to link kg applied to application rates and get proportion treated assuming some rate
+#but it's really tricky to do!
+#I think the better option is to calculate the average application rate by dividing kg/acre as Maggie did...
+#question for Tom: if we can't say anything certain about which fields are applied or not
+#is it simply best to assume that all fields are applied with an average application rate?
+
+#split by planted, emerged
+# crop_probs_corn<-split(crop_probs_corn, f = crop_probs_corn$Status)
+# crop_probs_soy<-split(crop_probs_soy, f = crop_probs_soy$Status)
+
+#aggregate by year
+county_pest_agg<-county_pest %>% group_by(COMPOUND, YEAR) %>% mutate(avg = mean(EPEST_HIGH_KG))
+#assignn categories (glyphosate or neonic)
+
+county_pest_agg<-county_pest_agg %>% group_by(YEAR, type) %>% mutate(totals = sum(unique(avg)))
+#this provides use with a way to measure the probability that a field is assigned a particular compound within our 3 county area
+county_pest_agg$prop<-county_pest_agg$avg/county_pest_agg$totals
