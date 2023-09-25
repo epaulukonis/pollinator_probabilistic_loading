@@ -8,13 +8,13 @@
 #Install and load supporting libraries.
 print("stepping into 00_setup.R")
 print(Sys.info()[4])
-R.Version()$version.string
-
+# R.Version()$version.string
+# # 
 # install.packages(c("ggplot2", "rgeos","sf","raster","dplyr","ggplot2","cowplot",
-#                    "grid","foreign","progress","parallel","foreach", "gridExtra","stringr"))
+#                    "grid","foreign","progress","parallel","foreach", "gridExtra","stringr", "stars", "rgdal","terra","smoothr",
+#                    "exactextractr", "data.table", "gtools", "gstat", "fasterize", "purrr", "tidyverse", "ggridges"))
 
 
-library(sp)
 library(sf)
 library(stars)
 library(rgeos)
@@ -42,9 +42,9 @@ library(fasterize)
 library(purrr)
 
 library(tidyverse)
-library(beecoSp)
+#library(beecoSp)
 # library(cdlTools)
-library(janitor)
+#library(janitor)
 # library(TraMineR)
 # library(geosphere)
 library(ggridges)
