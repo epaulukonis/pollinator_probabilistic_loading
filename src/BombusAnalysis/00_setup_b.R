@@ -17,8 +17,8 @@ print(Sys.info()[4])
 
 library(sf)
 library(stars)
-library(rgeos)
-library(rgdal)
+#library(rgeos)
+#library(rgdal)
 library(terra)
 library(raster)
 library(stars)
@@ -40,6 +40,9 @@ library(gtools)
 library(gstat)
 library(fasterize)
 library(purrr)
+library(fuzzyjoin)
+library(stringdist)
+library(cowplot)
 
 library(tidyverse)
 #library(beecoSp)
@@ -51,12 +54,13 @@ library(ggridges)
 # library(ghibli)
 # library(tidyverse)
 # library(progress)
+#library(pfm)
 
 who_is_running<-'eap'
 #who_is_running<-'stp'
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
   root_dir <- file.path("c:", "git", "pollinator_probabilistic_loading")
-}else if (Sys.info()[4]=="LZ26EPAULUKO"){
+}else if (Sys.info()[4]=="LZ26EPAULUKO-2"){
   root_dir <- 'C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/GitHub/pollinator_probabilistic_loading'
 }else{
   root_dir <- file.path("/work", "HONEYBEE", who_is_running, "pollinator_probabilistic_loading")

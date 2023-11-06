@@ -4,6 +4,27 @@
 
 # Edited by E. Paulukonis March 2023
 
+
+scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/sampled_fields_2021.shp")
+
+
+if(file.exists(scenario)){
+  
+  print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  scenarios<- file.path(paste0(root_data_out, "/all_bombus/modified_sampled_fields"), list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  scenarios<-setNames(lapply(scenarios, st_read), tools::file_path_sans_ext(basename(scenarios)))
+  scenarios<-scenarios[(mixedsort(as.character(names(scenarios))))]
+  
+  #change column names to fix 'emerged date' as application date
+  colnamesog <- colnames(scenarios[[1]])
+  colnamesnew<-c("Compond","Commdty","Year","ApplctT", "crop","area",  "id", "plntddt","applddt", "AvgRt_k","geometry")
+  
+  scenarios<- lapply(scenarios, setNames, colnamesnew)
+  
+}else{
+
+
+
 options(scipen = 999) #remove exponent options, throws R off
 #par(mfrow=c(1,1))
 
@@ -181,18 +202,21 @@ pest_prop_by_cropc<-pest_prop_by_cropc %>%
   mutate(probs_application=sumx_by_crop/sum_by_app)
 
 #finally, there will be some 'proportion treated' where the proportion is greater than 1, because the application rate may overestimate acreage 
+# we also need to account for some rows adding up to more than 0
 pest_prop_by_cropc<- pest_prop_by_cropc %>% 
   group_by(Year, Commodity, ApplicationType) %>% 
   mutate(prop_treated_acresf = ifelse(ApplicationType == "Seed" & prop_treated_acres > 1, 1, prop_treated_acresf)) %>%
-  mutate(prop_treated_acresf = ifelse(ApplicationType == "Seed" & prop_treated_acres < 0, 0, prop_treated_acresf)) 
+  mutate(prop_treated_acresf = ifelse(ApplicationType == "Seed" & prop_treated_acres < 0, 0, prop_treated_acresf)) %>%
+  mutate(prop_treated_acresf = ifelse(cumsum(prop_treated_acresf)  > 1 & prop_treated_acresf < 1, 0, prop_treated_acresf )) %>% # this code specifically makes sure that the values of groups do not add up to more than 0
+  ungroup()
+
   
-# 
+# Various code to test the output if needed
 # testy<-pest_prop_by_cropc %>%
 # group_by(Year, Commodity, ApplicationType) %>%
 #   filter(n()>1)%>%
 #   mutate(pick= sample(Compound, size = 1, prob = probs_application))
 
-#I need to address the issue of sampling when probs = 1 and others do not = 0; will tackle later
 
 # code to test output; sum of probs_application should = 1
 #test<-pest_prop_by_cropc[pest_prop_by_cropc$Year == 2015 & pest_prop_by_cropc$ApplicationType == "Seed" & pest_prop_by_cropc$Commodity == "CORN",]
@@ -266,11 +290,11 @@ soy<- soy %>%
 
 #now that we have the planting data, we need to prepare the pesticide data. 
 pest_crop<-pest_prop_by_cropc
-names(pest_crop) #just make sure that the columns below include acre_f, avgrate_kgacre, 
+names(pest_crop) #just make sure that the columns below include acres_f, avgrate_kgacre, 
 
 #first, let's get the temporal timing right
 pest_crop<-pest_crop[!pest_crop$Year < 1999,] #remove years below 1999
-pest_crop<-pest_crop[,-c(4:6,9:13,16:18,21)] #remove extraneous columns
+pest_crop<-pest_crop[,-c(4:7,10:15,17:20,22)] #remove extraneous columnsn #NOTE: IF YOU RE-RUN, YOU NEED TO FIX THESE COLUMNS YOU EXCLUDE
 pest_crop<-pest_crop %>% group_by(Compound) %>% arrange(Year)
 
 #impute back where years missing for relevant crops
@@ -280,14 +304,14 @@ pest_crop<-pest_crop %>%
   fill(names(.))
 
 pest_crop<-pest_crop[!is.na(pest_crop$acres_f),] #remove rows for which the application type doesn't actually exist
-pest_crop$prop_treated_acres<-as.numeric(pest_crop$prop_treated_acresf) #convert probs to numeric
+pest_crop$prop_treated_acresf<-as.numeric(pest_crop$prop_treated_acresf) #convert probs to numeric
 
 #my.min <- function(x) ifelse( !all(is.na(x)), min(x, na.rm=T), NA) #create function to ignore NAs
 
 #for any seed treatments prior to 2006, remove; remove soybean application for chlorpyrifos, and remove carbofuran post 2009
 pest_cropf<-pest_crop %>%
   group_by(Compound,Commodity) %>%
-  mutate(probsf = ifelse(ApplicationType == "Seed" & Year < 2006, 0, prop_treated_acres)) %>%
+  mutate(probsf = ifelse(ApplicationType == "Seed" & Year < 2006, 0, prop_treated_acresf)) %>%
   mutate(probsf = ifelse(Commodity == "SOYBEANS" & Compound == "CHLORPYRIFOS" & Year < 2006, 0, probsf)) %>%
   mutate(probsf = ifelse(Compound == "CARBOFURAN" & Year > 2009, 0, probsf)) %>%
   mutate(probs_treated= probsf)
@@ -295,7 +319,7 @@ pest_cropf<-pest_crop %>%
 
 
 #drop probabilities we don't need
-pest_cropf <- subset(pest_cropf, select = -c(prop_treated_acres,prop_treated_acresf,probsf))
+pest_cropf <- subset(pest_cropf, select = -c(prop_treated_acresf,probsf))
 
 
 #### Sampling treatment types and Dates ----
@@ -416,16 +440,16 @@ fcs$Compound<- gsub("\\..*","",fcs$Compound)
 fcs<-merge(fcs, apprates[ , c("Compound","Commodity","ApplicationType","ApplicationTiming..d.")], by = c("Compound","Commodity", "ApplicationType"), all.x=T)
 
 #change name
-colnames(fcs)[10]<-'emergeddates'
+colnames(fcs)[10]<-'applicationday'
 
 #final emerged dates
-fcs$emergeddates<- as.Date(fcs$planteddates)+fcs$emergeddates
+fcs$applicationday<- as.Date(fcs$planteddates)+fcs$applicationday
 
 #remove NA
 fcs<-fcs[!is.na(fcs$ApplicationType),]
 
-head(fcs)
-head(pest_cropf)
+# head(fcs)
+# head(pest_cropf)
 
 #merge to get application rates and prepare to sample
 fcst<-merge(fcs, pest_cropf[ , c("Compound","Commodity","Year","ApplicationType","AvgRate_kgacre","probs_application")], by = c("Compound","Commodity","Year","ApplicationType"), all.x=TRUE)
@@ -442,6 +466,7 @@ sample_by_compound<-function(data,x) {filter(data,ApplicationType == x) %>%
   filter(Compound !=pick)%>%
   mutate(Compound=pick)
 }
+
 
 #sample foliar insecticides
 fcst_sampled_foliar<- sample_by_compound(fcst,"FoliarI")
@@ -466,40 +491,48 @@ fcstf<-if(Year>=8){
 
 fcstf<-fcstf[with(fcstf, order(crop, id)), ]
 
+#head(fcstf)
+
+fcstf<-fcstf[,c(1:8,10:11,13)]
 
 #some optional code to make sure everything works correctly; use testy to pick a combo of id, crop, and application type
 # testy<-filter(fcst,ApplicationType == "FoliarI") %>%
 #   group_by(id,crop) %>%
 #   filter(n()>1)
-# testorig<-fcst[fcst$id == 2248 & fcst$ApplicationType =='FoliarI' & fcst$crop== 1,]
-# testnew<-fcstf[fcstf$id == 2248 & fcstf$ApplicationType =='FoliarI'& fcst$crop== 1,]
-#also double check that there are no repeats on herbicide applications
-# testy<-filter(fcst,ApplicationType == "FoliarH") %>%
+# #pick an id from the old batch and compare against new; below I used id 210
+# testorig<-fcst[fcst$id == 210 & fcst$ApplicationType =='FoliarI' & fcst$crop== 1,]
+# testnew<-fcstf[fcstf$id == 210 & fcstf$ApplicationType =='FoliarI'& fcstf$crop== 1,]
+
+#also double check that there are no repeats on herbicide applications; should be 0
+# testy<-filter(fcstf,ApplicationType == "FoliarH") %>%
 #   group_by(id,crop) %>%
 #   filter(n()>1)
 
 
 #add back to list   
 list_of_sampled_fields_by_year[[Year]]<-fcstf
-   
-   }
+
+}
       
+
+###Finally, here we write everything out to ESRI shapefile 
 #this contains the list of all treated fields by year, for each of 3 foliar/soil scenarios. 
 names(list_of_sampled_fields_by_year)<-names(fv)
  
-
-
 for(i in names(list_of_sampled_fields_by_year)){
-  write.csv(list_of_sampled_fields_by_year[[i]], paste0(root_data_out, "/all_bombus/sampled_fields/sampled_fields_",i,".csv"))
+  st_write(list_of_sampled_fields_by_year[[i]], paste0(root_data_out, "/all_bombus/modified_sampled_fields/sampled_fields_",i,".shp"), driver = "ESRI Shapefile")
 }
 
 
-
+}
 
  
  ##### Examine the output ----
  
  df<-list_of_sampled_fields_by_year[[20]]
+ 
+ df<-scenarios[[20]]
+
  testy<-df[!df$ApplicationType == "None",]
  test<-testy[testy$Compound == "CHLORPYRIFOS",]
  test<-testy[testy$Compound == "GLYPHOSATE",]
@@ -522,4 +555,6 @@ for(i in names(list_of_sampled_fields_by_year)){
  
  ggplot(data = dfs) +
    geom_sf(aes(fill = Compound))
+ 
+ plot(scenarios[[2]]$geometry)
  

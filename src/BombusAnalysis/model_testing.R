@@ -43,7 +43,7 @@ part_coeff<-rbind(partcoeffp, partcoeffn)
 
 # Time
 
-t<-63:110
+#t<-63:110
 
 ##### Onsite ----
 
