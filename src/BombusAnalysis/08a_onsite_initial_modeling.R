@@ -70,6 +70,7 @@ on_field_residue_list<-rep(list(on_field_residues), 16L)
 unique_names<-apprates %>% distinct(Compound,ApplicationType, Commodity)
 names(on_field_residue_list)<-with(unique_names, paste0(Compound,"_",ApplicationType,"_",Commodity))
 
+
 ######## Analysis ###########
 #### Seed Applications ----
 ## Dust ----
@@ -350,6 +351,7 @@ on_field_residue_list<-lapply(on_field_residue_list,set_names_in_list)
 
 
 
+
 #### Soil Applications ----
 ## Soil----
 #merge seed treatments and partitioning coefficients
@@ -556,6 +558,7 @@ set_names_in_list<-function(x){
 
 #apply over list
 on_field_residue_list<-lapply(on_field_residue_list,set_names_in_list)
+
 
 
 
@@ -850,6 +853,8 @@ set_names_in_list<-function(x){
 on_field_residue_list<-lapply(on_field_residue_list,set_names_in_list)
 
 testy<-on_field_residue_list[[2]]
+
+
 
 
 
