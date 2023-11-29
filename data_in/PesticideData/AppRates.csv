@@ -1,17 +1,19 @@
-Compound,Type,AvgRate,Units,ApplicationType,Commodity,ApplicationTiming (d),Notes,Source,Fnote,Note
-Imidacloprid,Neonicotinoid,0.05,lb a.i./acre,Seed,SOYBEANS,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,
-Imidacloprid,Neonicotinoid,0.0975,lb a.i./acre,FoliarI,SOYBEANS,49,Emergence,"Label, 4F",Average or standard reported rate for pest,
-Imidacloprid,Neonicotinoid,0.048,lb a.i./acre,Seed,CORN,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,
-Clothianidin,Neonicotinoid,0.05,lb a.i./acre,Seed,CORN,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,
-Thiamethoxam,Neonicotinoid,0.05,lb a.i./acre,Seed,CORN,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,
-Thiamethoxam,Neonicotinoid,0.03,lb a.i./acre,Seed,SOYBEANS,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,
-Chlorpyrifos,Organophosphate,0.5,lb a.i./acre,FoliarI,CORN,60,Broadcast,"Label, 4E",Average or standard reported rate for pest,
-Chlorpyrifos,Organophosphate,0.5,lb a.i./acre,FoliarI,SOYBEANS,49,Starting 2004,"Label, 4E",Average or standard reported rate for pest,
-Carbofuran,Carbamate,1.56,lb a.i./acre,FoliarI,CORN,60,"Banned 2010, Post-emergent","Label, Furadan 4F",Average or standard reported rate for pest,
-Carbaryl,Carbamate,0.5,lb a.i./acre,FoliarI,SOYBEANS,49,"Can be applied 4x, chose emergent stage","Label, 4L",Average or standard reported rate for pest,
-Carbaryl,Carbamate,0.5,lb a.i./acre,FoliarI,CORN,60,"Can be applied 4x, chose emergent stage","Label, 4L",Average or standard reported rate for pest,
-Bifenthrin,Pyrethroid,0.1,lb a.i./acre,Soil,CORN,0,At-plant/Pre-Plant,"Label, Bifenthrin 17.15%",Average or standard reported rate for pest,
-Bifenthrin,Pyrethroid,0.06,lb a.i./acre,FoliarI,CORN,60,At-plant/Pre-Plant,"Label, Bifenthrin 17.15%",Average or standard reported rate for pest,
-Bifenthrin,Pyrethroid,0.06,lb a.i./acre,FoliarI,SOYBEANS,49,At-plant/Pre-Plant,"Label, Bifenthrin 17.15%",Average or standard reported rate for pest,
-Glyphosate,Herbicide,2.08,lb a.i./acre,FoliarH,CORN,42,Broadcast/Hooded,"Label, Glyphosate",Average or standard reported rate for pest,RoundupReady
-Glyphosate,Herbicide,2.08,lb a.i./acre,FoliarH,SOYBEANS,15,Broadcast/Hooded,"Label, Glyphosate",https://cropwatch.unl.edu/timing-post-emergence-weed-control-soybean,RoundupReady
+Compound,Type,AvgRate,Units,ApplicationType,Commodity,ApplicationTiming (d),Notes,Source,Fnote,Note,k_values
+Imidacloprid,Neonicotinoid,0.05,lb a.i./acre,Seed,SOYBEANS,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,,191
+Imidacloprid,Neonicotinoid,0.0975,lb a.i./acre,FoliarI,SOYBEANS,49,Emergence,"Label, 4F",Average or standard reported rate for pest,,191
+Imidacloprid,Neonicotinoid,0.048,lb a.i./acre,Seed,CORN,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,,191
+Clothianidin,Neonicotinoid,0.05,lb a.i./acre,Seed,CORN,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,,545
+Thiamethoxam,Neonicotinoid,0.05,lb a.i./acre,Seed,CORN,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,,50
+Thiamethoxam,Neonicotinoid,0.03,lb a.i./acre,Seed,SOYBEANS,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,,50
+Chlorpyrifos,Organophosphate,0.5,lb a.i./acre,FoliarI,CORN,60,Broadcast,"Label, 4E",Average or standard reported rate for pest,,7
+Chlorpyrifos,Organophosphate,0.5,lb a.i./acre,FoliarI,SOYBEANS,49,Starting 2004,"Label, 4E",Average or standard reported rate for pest,,7
+Carbofuran,Carbamate,0.473,lb a.i./acre,FoliarI,CORN,60,"Banned 2010, Post-emergent","Label, Furadan 4F",Average or standard reported rate for pest,,3
+Carbaryl,Carbamate,0.5,lb a.i./acre,FoliarI,SOYBEANS,49,"Can be applied 4x, chose emergent stage","Label, 4L",Average or standard reported rate for pest,,3.55
+Carbaryl,Carbamate,0.5,lb a.i./acre,FoliarI,CORN,60,"Can be applied 4x, chose emergent stage","Label, 4L",Average or standard reported rate for pest,,3.55
+Bifenthrin,Pyrethroid,0.1,lb a.i./acre,Soil,CORN,0,At-plant/Pre-Plant,"Label, Bifenthrin 17.15%",Average or standard reported rate for pest,,100
+Bifenthrin,Pyrethroid,0.06,lb a.i./acre,FoliarI,CORN,60,At-plant/Pre-Plant,"Label, Bifenthrin 17.15%",Average or standard reported rate for pest,,100
+Bifenthrin,Pyrethroid,0.06,lb a.i./acre,FoliarI,SOYBEANS,49,At-plant/Pre-Plant,"Label, Bifenthrin 17.15%",Average or standard reported rate for pest,,100
+Glyphosate,Herbicide,2.08,lb a.i./acre,FoliarH,CORN,42,Broadcast/Hooded,"Label, Glyphosate",Average or standard reported rate for pest,RoundupReady,30
+Glyphosate,Herbicide,2.08,lb a.i./acre,FoliarH,SOYBEANS,15,Broadcast/Hooded,"Label, Glyphosate",https://cropwatch.unl.edu/timing-post-emergence-weed-control-soybean,RoundupReady,30
+Imidacloprid,Neonicotinoid,0.5625,lb a.i./acre,Soil,SOYBEANS,0,At-Plant,"Label, 4F",Average or standard reported rate for pest,Sub for cotton,191
+Bifenthrin,Pyrethroid,0.2,lb a.i./acre,Seed,SOYBEANS,0,At-Plant,"Label, 180 FS",Maximum ,Seed treatment,100

@@ -1,6 +1,6 @@
 ### Probabilistic Crop Loading 
 
-### 07a Initial Onsite Model Outputs
+### 08a Initial Onsite Model Outputs
 
 # Edited by E. Paulukonis August 2023
 
@@ -44,11 +44,11 @@ rgr_soy<-0.06
 m0_corn<-0.25
 m0_soy<-0.15
 #partition coeff
-Fpl<-c(0.35,0.69, 0.69)
-Fnl<-c(0.017,0.05, 0.05)
-partcoeffn<-as.data.frame(cbind(c("IMIDACLOPRID","CLOTHIANIDIN","THIAMETHOXAM"), (Fnl),paste0("Nectar")))
+Fpl<-c(0.35,0.69, 0.69,0.69)
+Fnl<-c(0.017,0.05, 0.05,0.05)
+partcoeffn<-as.data.frame(cbind(c("IMIDACLOPRID","CLOTHIANIDIN","THIAMETHOXAM","BIFENTHRIN"), (Fnl),paste0("Nectar")))
 names(partcoeffn)<-c("Compound","Fr","Type")
-partcoeffp<-as.data.frame(cbind(c("IMIDACLOPRID","CLOTHIANIDIN","THIAMETHOXAM"), (Fpl),paste0("Pollen")))
+partcoeffp<-as.data.frame(cbind(c("IMIDACLOPRID","CLOTHIANIDIN","THIAMETHOXAM","BIFENTHRIN"), (Fpl),paste0("Pollen")))
 names(partcoeffp)<-c("Compound","Fr","Type")
 part_coeff<-rbind(partcoeffp, partcoeffn)
 
@@ -66,7 +66,7 @@ on_field_residues[,1]<-0:150
 colnames(on_field_residues)[1]<-"day"
 
 #put all combos into a list where the name represents the scenario
-on_field_residue_list<-rep(list(on_field_residues), 16L)
+on_field_residue_list<-rep(list(on_field_residues), 18L)
 unique_names<-apprates %>% distinct(Compound,ApplicationType, Commodity)
 names(on_field_residue_list)<-with(unique_names, paste0(Compound,"_",ApplicationType,"_",Commodity))
 
@@ -357,11 +357,16 @@ on_field_residue_list<-lapply(on_field_residue_list,set_names_in_list)
 #merge seed treatments and partitioning coefficients
 soil_treatments<-apprates[apprates$ApplicationType == "Soil",]
 soil_treatments<-soil_treatments[,!names(soil_treatments) %in% "Type"]
+#get the nectar/pollen types from foliar df
+soil_treatments<-merge(x=soil_treatments,y=foliar_type[,c("Compound","Commodity","Type")],by=c("Compound","Commodity"), all.x=T)
 soil_treatments<-merge(soil_treatments,Li) 
 soil_treatments$kg_ha<-soil_treatments$AvgRate*1.12085 #convert original application rate to kg_ha for the soil uptake compartment 
 
+#split into df with pollen or nectar
+soil_treatments_pollen<-soil_treatments[soil_treatments$Type == "Pollen",]
+soil_treatments_nectar<-soil_treatments[soil_treatments$Type == "Nectar",]
 
-soil_soil_datasets<-split(soil_treatments, list(soil_treatments$Compound, soil_treatments$ApplicationType,soil_treatments$Commodity), drop=T)
+soil_soil_datasets<-split(soil_treatments, list(soil_treatments$Compound, soil_treatments$ApplicationType, soil_treatments$Commodity, soil_treatments$Type), drop=T)
 
 # 
 # residues_in_soil_from_soil_briggsryan<-function(x){
@@ -481,8 +486,11 @@ on_field_residue_list<-lapply(on_field_residue_list,set_names_in_list)
 # 
 # daily_conc_on_fieldrb<-lapply(soil_soil_datasets,residues_in_pollen_from_soil_briggsryan)
 
+soil_pollen_datasets<-split(soil_treatments_pollen, list(soil_treatments_pollen$Compound, soil_treatments_pollen$ApplicationType, soil_treatments_pollen$Commodity), drop=T)
+soil_nectar_datasets<-split(soil_treatments_nectar, list(soil_treatments_nectar$Compound, soil_treatments_nectar$ApplicationType, soil_treatments_nectar$Commodity), drop=T)
 
-#note: we only have one compound for soil, but theoretically if you had more you could add the koc and logkow to the apprates df instead of manually assigning them
+
+## Pollen
 residues_in_pollen_from_soil_adhoc<-function(x){
   output<- matrix(data=0, nrow=151, ncol=2)
   n<-ifelse(x$Commodity == "CORN", 67,56)
@@ -506,40 +514,53 @@ residues_in_pollen_from_soil_adhoc<-function(x){
 }
 
 
-daily_conc_on_field<-lapply(soil_soil_datasets,residues_in_pollen_from_soil_adhoc)
+daily_conc_on_field<-lapply(soil_pollen_datasets,residues_in_pollen_from_soil_adhoc)
 
-# 
-# 
-# #quick comparison of the methods, ryan-briggs and adhoc
-# 
-# rb2<-daily_conc_on_fieldrb[[1]]
-# ah<-daily_conc_on_fieldah[[1]]
-# 
-# rb$Method<-"RyanBriggs"
-# ah$Method<-"AdHoc"
-# 
-# soil_methods<-rbind(rb,ah)
-# pollen<-ggplot(soil_methods, aes(day, Pollen_concentration_ug_g_from_soil,  color=Method)) +
-#   geom_point(aes(shape=Commodity))+
-#   ylab("Residues")+
-#   xlab("Day")+
-#   theme_bw()
-# 
-# plot_grid(soil,pollen,nrow=1)
-# 
-# 
-# names(rb)[4]<-"Residues"
-# names(rb2)[4]<-"Residues"
-# 
-# 
-# rb_method<-rbind(rb,rb2)
-# compare<-ggplot(rb_method, aes(day, Residues)) +
-#   geom_point(aes(shape=Commodity))+
-#   ylab("Residues")+
-#   xlab("Day")+
-#   theme_bw()
-# compare
+#then get names of on_field_residue list that match the seed dust output, rename daily_conc_on_field
+names(daily_conc_on_field)<-names(on_field_residue_list)[amatch(names(daily_conc_on_field), names(on_field_residue_list), maxDist = Inf)]
 
+#where the names in the on_field_residue_list match the daily concentrations, join together (note: not the cleanest way, but the easiest I found)
+keys <- unique(c(names(daily_conc_on_field), names(on_field_residue_list)))
+on_field_residue_list<-setNames(mapply(c, on_field_residue_list[keys], daily_conc_on_field[keys]), keys)
+
+#function to set the names in the merged dataframe
+set_names_in_list<-function(x){
+  x<-do.call(data.frame, c(x, check.names = FALSE))
+  x<-setNames(x, (names(x)))
+  x<-(x[, !duplicated(colnames(x)), drop=F])
+  
+}
+
+#apply over list
+on_field_residue_list<-lapply(on_field_residue_list,set_names_in_list)
+
+
+
+## Nectar
+residues_in_nectar_from_soil_adhoc<-function(x){
+  output<- matrix(data=0, nrow=151, ncol=2)
+  n<-ifelse(x$Commodity == "CORN", 67,56)
+  t<-n:150
+  output[(n+1):151,2]<-t
+  
+  for(i in (n+1):nrow(output)){
+    rud_from_soil_uptake<- ((x$`Kn-L`*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * ( exp(-x$KdissSoil*(output[i,2])) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(output[i,2]))  ) 
+    conc_from_soil_uptake<- rud_from_soil_uptake * x$kg_ha
+    output[i,1]<-conc_from_soil_uptake
+  }
+  
+  #only one decay term
+  output<-as.data.frame(output)
+  output[,3]<-x$Compound # add compound
+  output[,4]<-x$Commodity
+  output<-output[,c(2,3,4,1)]
+  names(output)<-c("day","Compound","Commodity",'Nectar_concentration_ug_g_from_soil')
+  output
+  
+}
+
+
+daily_conc_on_field<-lapply(soil_nectar_datasets,residues_in_nectar_from_soil_adhoc)
 
 #then get names of on_field_residue list that match the seed dust output, rename daily_conc_on_field
 names(daily_conc_on_field)<-names(on_field_residue_list)[amatch(names(daily_conc_on_field), names(on_field_residue_list), maxDist = Inf)]
@@ -562,8 +583,6 @@ on_field_residue_list<-lapply(on_field_residue_list,set_names_in_list)
 
 
 
-
-
 #### Foliar Applications ----
 ## Air ----
 #these are the only residues we'll measure as ug/m2
@@ -572,7 +591,7 @@ ag_drift <-read.csv(paste0(pest_dir, "/Models/agdrift_database.csv"))
 #convert to meters
 ag_drift$distance<-ag_drift$distance*0.3048
 
-#visualize the original concentration, if desired
+# #visualize the original concentration, if desired
 # p <- ggplot(ag_drift, aes(distance,pond_ground_high_vf2f)) +
 #   geom_point()+
 #   geom_line()+
@@ -583,6 +602,7 @@ ag_drift$distance<-ag_drift$distance*0.3048
 #         axis.title=element_text(size=14,face="bold"))
 # p
 # 
+
 
 #this is optional code to fit the curve using nonlinear least squares; we will just use the raw curve from agdrift here
 # fit<-nls(pond_ground_high_vf2f ~ SSasymp(distance, yf, y0, decrate), data = ag_drift)
@@ -633,6 +653,7 @@ foliar_air_datasets<-split(foliar_air_conc, list(foliar_air_conc$Compound,foliar
 
 daily_conc_on_field<-list()
 for(compound_and_crop in 1:length(foliar_air_datasets)){
+  #compound_and_crop<-1
   foliar_air_data<-foliar_air_datasets[[compound_and_crop]]
   foliar_air_data$Air_concentration_ug_m2_from_foliar<-foliar_air_data$air_drift_conc #retain as ug/m2
   foliar_air_datasets[[compound_and_crop]]<-foliar_air_data
@@ -641,12 +662,13 @@ for(compound_and_crop in 1:length(foliar_air_datasets)){
   foliar_air_data_on_field<-foliar_air_data[foliar_air_data$d == 0,]
   foliar_air_data_on_field<-foliar_air_data_on_field[rep(seq_len(nrow(foliar_air_data_on_field)), 151),]
     
-  #foliar applications occur 49 days after planting for soybeans, and 60 days afetr planting for corn
+  #foliar applications occur 49 days after planting for soybeans, and 60 days after planting for corn
   # if (grepl('SOYBEANS',names(foliar_air_datasets[compound_and_crop]))){ 
   #   foliar_air_data_on_field[c(1:48,50:151),17]<-0
   # } else { 
   #   foliar_air_data_on_field[c(1:59,61:151),17]<-0} 
-
+  
+  foliar_air_data_on_field[2:151,17]<-0
   foliar_air_data_on_field$day<-0:150
   daily_conc_on_field[[compound_and_crop]]<-foliar_air_data_on_field[,c(1,6,17,18)]
   
@@ -757,8 +779,34 @@ foliar_treatments_nectar<-foliar_nectarpollen_conc[foliar_nectarpollen_conc$Type
 #split by compound, crop, and type (nectar or pollen)
 foliar_pollen_datasets<-split(foliar_treatments_pollen, list(foliar_treatments_pollen$Compound, foliar_treatments_pollen$ApplicationType,foliar_treatments_pollen$Commodity), drop=T)
 
-
 daily_conc_on_field<-list()
+#x<-foliar_pollen_datasets[[2]]
+
+## If running for scenarios:
+# residues_in_nectar_and_pollen_from_foliar<-function(x){
+#   output<- matrix(data=0, nrow=151, ncol=2)
+#   n<-1
+#   t<-n:150
+#   output[(n+1):151,2]<-t
+#   for(i in 7:nrow(output)){
+#     # units will be ug per g of pollen
+#    
+#     pollen_rud <-( ((x$`Kp-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(-x$KdissSoil*(i)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i))) )  +
+#       
+#                  ( ((x$`Kp-L`*x$fsurface*x$cf1)/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i))) )
+#     
+#     output[i,1]<-(pollen_rud*x$kg_ha)
+# 
+#   }
+#   output<-as.data.frame(output)
+# 
+#   names(output)<-c(paste0(x$Type,'_concentration_ug_g_from_foliar'),"day")
+#   output
+#   
+# }
+
+
+## If running for figures:
 residues_in_nectar_and_pollen_from_foliar<-function(x){
   output<- matrix(data=0, nrow=151, ncol=2)
   n<-ifelse(x$Commodity == "CORN", 67,56)
@@ -766,19 +814,18 @@ residues_in_nectar_and_pollen_from_foliar<-function(x){
   output[(n+1):151,2]<-t
   for(i in (n+1):nrow(output)){
     # units will be ug per g of pollen
-   
     pollen_rud <-( ((x$`Kp-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(-x$KdissSoil*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-(n-1)+6))) )  +
       
-                 ( ((x$`Kp-L`*x$fsurface*x$cf1)/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-(n-1)+6))) )
+      ( ((x$`Kp-L`*x$fsurface*x$cf1)/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-(n-1)+6))) )
     
     output[i,1]<-(pollen_rud*x$kg_ha)
-
   }
+  
   output<-as.data.frame(output)
 
   names(output)<-c(paste0(x$Type,'_concentration_ug_g_from_foliar'),"day")
   output
-  
+
 }
 
 
@@ -809,6 +856,30 @@ on_field_residue_list<-lapply(on_field_residue_list,set_names_in_list)
 foliar_nectar_datasets<-split(foliar_treatments_nectar, list(foliar_treatments_nectar$Compound, foliar_treatments_nectar$ApplicationType,foliar_treatments_nectar$Commodity), drop=T)
 
 daily_conc_on_field<-list()
+#x<-foliar_nectar_datasets[[1]]
+
+## If running for scenarios:
+# residues_in_nectar_and_pollen_from_foliar<-function(x){
+#   output<- matrix(data=0, nrow=151, ncol=2)
+#   n<-1
+#   t<-n:150
+#   output[(n+1):151,2]<-t
+#   for(i in 7:nrow(output)){
+#     # units will be ug per g of pollen
+#     pollen_rud <-( ((x$`Kn-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(-x$KdissSoil*(i)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i))) )  +
+#       
+#       ( ((x$`Kn-L`*x$fsurface*x$cf1)/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i))) )
+#     
+#     output[i,1]<-(pollen_rud*x$kg_ha)
+#     
+#   }
+#   output<-as.data.frame(output)
+#   names(output)<-c(paste0(x$Type,'_concentration_ug_g_from_foliar'),"day")
+#   output
+#   
+# }
+
+## If running for figures:
 residues_in_nectar_and_pollen_from_foliar<-function(x){
   output<- matrix(data=0, nrow=151, ncol=2)
   n<-ifelse(x$Commodity == "CORN", 67,56)
@@ -816,19 +887,21 @@ residues_in_nectar_and_pollen_from_foliar<-function(x){
   output[(n+1):151,2]<-t
   for(i in (n+1):nrow(output)){
     # units will be ug per g of pollen
-    
-    pollen_rud <-( ((x$`Kn-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(-x$KdissSoil*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-(n-1)+6))) )  +
+    nectar_rud <-( ((x$`Kn-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(-x$KdissSoil*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-(n-1)+6))) )  +
       
       ( ((x$`Kn-L`*x$fsurface*x$cf1)/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-(n-1)+6))) )
     
-    output[i,1]<-(pollen_rud*x$kg_ha)
-    
+    output[i,1]<-(nectar_rud*x$kg_ha)
   }
+  
   output<-as.data.frame(output)
+  
   names(output)<-c(paste0(x$Type,'_concentration_ug_g_from_foliar'),"day")
   output
   
 }
+
+
 
 
 #apply function to estimate nectar/pollen residues in ug per g after x number of days
@@ -852,18 +925,15 @@ set_names_in_list<-function(x){
 #apply over list
 on_field_residue_list<-lapply(on_field_residue_list,set_names_in_list)
 
-testy<-on_field_residue_list[[2]]
-
-
-
+#testy<-on_field_residue_list[[2]]
 
 
 ######## Plots ###########
 #### Daily outputs by application type----
 
 foliar<-on_field_residue_list[1:10]
-soil<-on_field_residue_list[11]
-seed<-on_field_residue_list[12:16]
+soil<-on_field_residue_list[11:12]
+seed<-on_field_residue_list[13:18]
 
 
 #simple function to arrange data
@@ -920,7 +990,7 @@ soil_data<-lapply(soil,gather_data)
 soil_data<-do.call(rbind,soil_data)
 soil_data$Value<-ifelse(soil_data$Value == 0,NA,soil_data$Value)
 
-hsoil <- ggplot(soil_data, aes(day, Value, color=Compound)) +
+soil <- ggplot(soil_data, aes(day, Value, color=Compound)) +
   geom_point(aes(shape=Commodity), size=1.6)+
   scale_y_continuous(expand = c(0.1,0))+
   colScale+
@@ -1029,10 +1099,12 @@ colScale <- scale_colour_manual(name = "Compound",values = myColors)
 
 soiln<- ggplot(soil_df, aes(day, (Value), color=Compound)) +
   geom_line(aes(linetype = ApplicationType), size=1)+
+  colScale+
   #geom_point(aes(shape=ApplicationType))+
   #scale_shape_manual(values=c(1,4,8))+
   scale_x_continuous(limits=c(0, 30), breaks=seq(0,30, by=5))+
-  facet_wrap(~Commodity,scales = "free", nrow=1)+
+ # facet_wrap(~Commodity,scales = "free", nrow=1)+
+  facet_grid(rows = vars(MediaSub), cols = vars(Commodity), scales="free_y")+
   ylab("Residues [ug/g]")+
   xlab("Days Post-Application")+
  #geom_text(x=125, y=0.05, label="Soil", color="black", size=6)+
@@ -1045,6 +1117,7 @@ soiln
 
 pollenn<- ggplot(pollen_df, aes(day, Value, color=Compound)) +
   geom_line(aes(linetype = ApplicationType), size=1)+
+  colScale+
   #scale_x_continuous(limits=c(60, 130), breaks=seq(60,130, by=10),labels =c("0","7","17","27","37","47","57","67"))+
   # ifelse(pollen_df$Commodity == "CORN",
   # scale_x_continuous(limits=c(70, 130), breaks=seq(70,130, by=10),labels =c("7","17","27","37","47","57","67")),
@@ -1052,7 +1125,8 @@ pollenn<- ggplot(pollen_df, aes(day, Value, color=Compound)) +
   # )+
  # geom_point(aes(shape=ApplicationType))+
   #scale_shape_manual(values=c(1,4,8))+
-  facet_wrap(Commodity ~ .,scales = "free", nrow=1)+
+ # facet_wrap(Commodity ~ .,scales = "free", nrow=1)+
+  facet_grid(rows = vars(MediaSub), cols = vars(Commodity), scales="free_y")+
   ylab("")+
   xlab("Days After Pollen/Nectar Emergence")+
 # geom_text(x=125, y=7.5, label="Pollen", color="black", size=6)+
@@ -1062,13 +1136,13 @@ pollenn<- ggplot(pollen_df, aes(day, Value, color=Compound)) +
   theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"),  axis.title=element_text(size=14,face="bold"))
 pollenn
 
-c<-seq(70,130, by=10)
-s<-seq(60,120, by=10)
+c<-seq(67,140, by=10)
+s<-seq(56,130, by=10)
 
 pollenn<-pollenn + facetted_pos_scales(
   x = list(
-  Commodity == "CORN" ~ scale_x_continuous(limits=c(70, 130), breaks=c,labels =c("0","7","17","27","37","47","57")),
-  Commodity == "SOYBEANS" ~ scale_x_continuous(limits=c(60, 120),breaks=s,labels =c("0","7","17","27","37","47","57"))
+  Commodity == "CORN" ~ scale_x_continuous(limits=c(67, 130), breaks=c,labels =c("0","7","17","27","37","47","57","67")),
+  Commodity == "SOYBEANS" ~ scale_x_continuous(limits=c(56, 120),breaks=s,labels =c("0","7","17","27","37","47","57","67"))
   )
 )
 
@@ -1076,10 +1150,12 @@ pollenn<-pollenn + facetted_pos_scales(
 
 nectarn<- ggplot(nectar_df, aes(day, Value, color=Compound)) +
   geom_line(aes(linetype = ApplicationType), size=1)+
+  colScale+
   #scale_x_continuous(limits=c(60, 120), breaks=seq(60,120, by=10),labels =c("0","7","17","27","37","47","57"))+
   #geom_point(aes(shape=ApplicationType))+
   #scale_shape_manual(values=c(1,4,8))+
-  facet_wrap(~Commodity,scales = "free", nrow=1)+
+  #facet_wrap(~Commodity,scales = "free", nrow=1)+
+  facet_grid(rows = vars(MediaSub), cols = vars(Commodity), scales="free_y")+
   ylab("")+
   xlab("")+
  #geom_text(x=125, y=0.9, label="Nectar", color="black", size=6)+
@@ -1090,7 +1166,7 @@ nectarn
 
 nectarn<-nectarn + facetted_pos_scales(
   x = list(
-    Commodity == "SOYBEANS" ~ scale_x_continuous(limits=c(60, 120),breaks=s,labels =c("0","7","17","27","37","47","57"))
+    Commodity == "SOYBEANS" ~ scale_x_continuous(limits=c(56, 130),breaks=s,labels =c("0","7","17","27","37","47","57","67"))
   )
 )
 
@@ -1124,8 +1200,10 @@ legend.text = element_text(size=14))
 
 legend<-get_only_legend(all_plot_legend)
 
-compare_between_media<-plot_grid(compare_between_media, legend,ncol = 2, rel_widths = c(6,1))
-compare_between_media
+compare_between_mediaon<-plot_grid(compare_between_media, legend,ncol = 2, rel_widths = c(6,1))
+compare_between_mediaon
+
+
 
 
 ### get deposition data for table
@@ -1161,7 +1239,7 @@ list_of_plots<-lapply(list_by_compound,create_plot_by_compound)
 
 
 list_by_compound<-split(combine_all, f= combine_all$Compound)
-x<-list_by_compound[[1]]
+#x<-list_by_compound[[1]]
 
 create_plot_by_compound<-function(x){
   df<-x

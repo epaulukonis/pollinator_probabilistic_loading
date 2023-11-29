@@ -287,3 +287,28 @@ county_pest_agg<-county_pest %>% group_by(COMPOUND, YEAR) %>% mutate(avg = mean(
 county_pest_agg<-county_pest_agg %>% group_by(YEAR, type) %>% mutate(totals = sum(unique(avg)))
 #this provides use with a way to measure the probability that a field is assigned a particular compound within our 3 county area
 county_pest_agg$prop<-county_pest_agg$avg/county_pest_agg$totals
+
+
+
+
+
+
+
+nc <- st_read(system.file("shape/nc.shp", package="sf"))
+st_equals(nc[1:5,], nc[1:4,])
+
+ab <- st_join(df1,df2, join = st_equals_exact, suffix = c("_df1", "_df2"), left = F)
+
+df1<-scenarios[[1]]
+df2<-scenarios[[2]]
+testy<-st_equals(df1,df2)
+
+threshold <- 5
+testy<-purrr::map(scenarios, function(x) {
+  x[x[["id"]] == threshold & x[["Commdty"]] == "CORN", ]
+})
+
+test_df<-testy[[3]]
+test_df2<-testy[[8]]
+
+plot(test_df2["geometry"])
