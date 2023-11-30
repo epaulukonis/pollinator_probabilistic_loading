@@ -8,6 +8,7 @@ library(cowplot)
 library(tidyverse)
 library(ggh4x)
 ##### Read in data for models ----
+## It's important to remember that offsite, we are basically assuming wildflower/foraging habitat
 #### App rates and timing:
 apprates <-read.csv(paste0(pest_dir, "/AppRates.csv"))
 apprates$Compound<-toupper(apprates$Compound)
@@ -17,9 +18,6 @@ apprates$k_values<-log((apprates$AvgRate/2)/apprates$AvgRate)/-(apprates$k_value
 ## Because we're dealing with off-field plants that have both nectar and pollen, here, we'll impute 'pollen and nectar' for each combo of compounds
 library(tidyr)
 apprates<-crossing(apprates, type=c("Pollen","Nectar"))
-
-## It's important to remember that offsite, we are basically assuming wildflower/foraging habitat
-
 
 #### Set up and read in variables for models:
 ## Li
@@ -90,7 +88,7 @@ avg_frac<-(0.001849+0.000319)/2
 air_krupke<-rbind(c(0,3.81,avg_frac), air_krupke)
 
 #air krupke represents a dataframe with information about the on and off-field estimate of deposition from seeds, based on the relationship
-#between the concentration in field in ug/m2 and the amount reported offsite. we then use these depostion fractions to estimate the same relationship for other compounds
+#between the concentration in field in ug/m2 and the amount reported offsite. we then use these deposition fractions to estimate the same relationship for other compounds
 
 #visualize the original concentration, if desired
 # p <- ggplot(air_krupke, aes(d, deposition*100)) +
@@ -111,7 +109,7 @@ seed_treatments<-seed_treatments[ , !(names(seed_treatments) %in% "type")]
 seed_treatments$ug_m2<-seed_treatments$AvgRate*112085 # convert to ug/m2
 seed_dust_conc<-merge(seed_treatments,air_krupke) #merge with the fraction estimated via Krupke
 seed_dust_conc<-seed_dust_conc[with(seed_dust_conc, order(Compound,Commodity)), ] # order by compound, commodity
-seed_dust_conc$dust_drift_conc<-seed_dust_conc$ug_m2*seed_dust_conc$deposition #multiple application rate times deposition curve 
+seed_dust_conc$dust_drift_conc<-seed_dust_conc$ug_m2*seed_dust_conc$deposition #multiply application rate times deposition curve 
 
 #split each set of commodity and compound data into a unique dataframe
 seed_dust_datasets<-split(seed_dust_conc, list(seed_dust_conc$Compound, seed_dust_conc$ApplicationType, seed_dust_conc$Commodity), drop=T) 
@@ -123,7 +121,7 @@ for(compound_and_crop in 1:length(seed_dust_datasets)){
   seed_dust_data_off_field<-seed_dust_datasets[[compound_and_crop]]
   seed_dust_data_off_field<- seed_dust_data_off_field[!seed_dust_data_off_field$d == 0,]
   seed_dust_data_off_field$Dust_concentration_ug_m2_from_seed<-seed_dust_data_off_field$dust_drift_conc #retain as ug/m2
-  seed_dust_data_off_field$Dust_concentration_ug_m2_from_seed<-mean(seed_dust_data_off_field$Dust_concentration_ug_m2_from_seed)
+  seed_dust_data_off_field$Dust_concentration_ug_m2_from_seed<-mean(seed_dust_data_off_field$Dust_concentration_ug_m2_from_seed) #get mean
   
   seed_dust_data_off_field<-  seed_dust_data_off_field[1,]
   seed_dust_data_off_field<-seed_dust_data_off_field[rep(seq_len(nrow(seed_dust_data_off_field)), 151),]
@@ -226,7 +224,6 @@ for(compound_and_crop in 1:length(seed_soil_datasets)){
   daily_conc_off_field[[compound_and_crop]]<-seed_soil_data_off_field[,c(1,2,3,6,7)] #add compound
   
 }
-
 
 
 
