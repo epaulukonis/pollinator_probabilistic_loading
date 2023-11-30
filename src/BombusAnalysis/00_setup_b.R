@@ -60,14 +60,20 @@ who_is_running<-'eap'
 #who_is_running<-'stp'
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
   root_dir <- file.path("c:", "git", "pollinator_probabilistic_loading")
-}else if (Sys.info()[4]=="LZ26EPAULUKO-2"){
+}else if(Sys.info()[4]=="LZ26TPURUCKE-2"){
+  root_dir <- file.path("c:", "Users", "tpurucke", "git", "pollinator_probabilistic_loading")
+  PWC_dir <-  file.path("c:", "Users", "tpurucke", "git", "pollinator_probabilistic_loading", "data_in", "PWCdata", "pesticide runs")
+}else if(Sys.info()[4]=="LZ26EPAULUKO-2"){
   root_dir <- 'C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/GitHub/pollinator_probabilistic_loading'
+  PWC_dir<-"C:/Users/EPAULUKO/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/apps/pwc_2.001/pesticide runs"
 }else{
   root_dir <- file.path("/work", "HONEYBEE", who_is_running, "pollinator_probabilistic_loading")
 }
 print(root_dir)
 
-memory.limit(size=56000)
+# memory.limit() is no longert supported and handled by R internally
+#memory.limit()
+#memory.limit(size=56000)
 
 root_data_in <- file.path(root_dir, "data_in")
 print(root_data_in)
