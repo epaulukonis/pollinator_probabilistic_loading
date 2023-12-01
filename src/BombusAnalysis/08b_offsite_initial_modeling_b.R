@@ -18,6 +18,18 @@ apprates$k_values<-log((apprates$AvgRate/2)/apprates$AvgRate)/-(apprates$k_value
 ## Because we're dealing with off-field plants that have both nectar and pollen, here, we'll impute 'pollen and nectar' for each combo of compounds
 library(tidyr)
 apprates<-crossing(apprates, type=c("Pollen","Nectar"))
+apprate_table <- apprates %>%
+  gt()
+apprate_table
+apprate_table_filename_html <- file.path(root_figures_parameters,"bombus_apprate_table.html")
+apprate_table_html <- as.character(htmltools::save_html(htmltools::as.tags(apprate_table), apprate_table_filename_html))
+
+#saveWidget(as_widget(apprate_table), file = apprate_table_filename_html, selfcontained = F)
+#jpeg(apprate_table_filename, width = 8, height = 11, units = "in", res=300)
+#  as_widget(apprate_table)
+#dev.off()
+
+
 
 #### Set up and read in variables for models:
 ## Li
