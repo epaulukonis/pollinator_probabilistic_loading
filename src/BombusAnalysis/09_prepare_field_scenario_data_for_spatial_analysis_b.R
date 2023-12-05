@@ -19,7 +19,7 @@ colnamesnew<-c("Compound","Commodity","Year","ApplicationType", "crop","area",  
 scenarios<- lapply(scenarios, setNames, colnamesnew)
 
 #let's get our primary data source
-df<-scenarios[[15]] #get 2021
+df<-scenarios[[16]] #get 2014
 df<-df[!is.na(df$applicationday),] #remove all the unassigned compound/application types
 
 
