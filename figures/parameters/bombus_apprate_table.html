@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<style>body{background-color:white;}</style>
+
+
+</head>
+<body>
+<div id="hypsbqiufs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+  <style>#hypsbqiufs table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#hypsbqiufs thead, #hypsbqiufs tbody, #hypsbqiufs tfoot, #hypsbqiufs tr, #hypsbqiufs td, #hypsbqiufs th {
+  border-style: none;
+}
+
+#hypsbqiufs p {
+  margin: 0;
+  padding: 0;
+}
+
+#hypsbqiufs .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#hypsbqiufs .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#hypsbqiufs .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#hypsbqiufs .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#hypsbqiufs .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hypsbqiufs .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hypsbqiufs .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hypsbqiufs .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#hypsbqiufs .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#hypsbqiufs .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#hypsbqiufs .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#hypsbqiufs .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#hypsbqiufs .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#hypsbqiufs .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#hypsbqiufs .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#hypsbqiufs .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#hypsbqiufs .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#hypsbqiufs .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#hypsbqiufs .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hypsbqiufs .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#hypsbqiufs .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#hypsbqiufs .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#hypsbqiufs .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hypsbqiufs .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#hypsbqiufs .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#hypsbqiufs .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hypsbqiufs .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hypsbqiufs .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#hypsbqiufs .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hypsbqiufs .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#hypsbqiufs .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hypsbqiufs .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hypsbqiufs .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hypsbqiufs .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hypsbqiufs .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hypsbqiufs .gt_left {
+  text-align: left;
+}
+
+#hypsbqiufs .gt_center {
+  text-align: center;
+}
+
+#hypsbqiufs .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#hypsbqiufs .gt_font_normal {
+  font-weight: normal;
+}
+
+#hypsbqiufs .gt_font_bold {
+  font-weight: bold;
+}
+
+#hypsbqiufs .gt_font_italic {
+  font-style: italic;
+}
+
+#hypsbqiufs .gt_super {
+  font-size: 65%;
+}
+
+#hypsbqiufs .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#hypsbqiufs .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#hypsbqiufs .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#hypsbqiufs .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#hypsbqiufs .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#hypsbqiufs .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#hypsbqiufs .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+  <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Compound">Compound</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Type">Type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="AvgRate">AvgRate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Units">Units</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="ApplicationType">ApplicationType</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Commodity">Commodity</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ApplicationTiming..d.">ApplicationTiming..d.</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Notes">Notes</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Source">Source</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Fnote">Fnote</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Note">Note</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="k_values">k_values</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="type">type</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Compound" class="gt_row gt_left">BIFENTHRIN</td>
+<td headers="Type" class="gt_row gt_left">Pyrethroid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0600</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">60</td>
+<td headers="Notes" class="gt_row gt_left">At-plant/Pre-Plant</td>
+<td headers="Source" class="gt_row gt_left">Label, Bifenthrin 17.15%</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.006931472</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">BIFENTHRIN</td>
+<td headers="Type" class="gt_row gt_left">Pyrethroid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0600</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">60</td>
+<td headers="Notes" class="gt_row gt_left">At-plant/Pre-Plant</td>
+<td headers="Source" class="gt_row gt_left">Label, Bifenthrin 17.15%</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.006931472</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">BIFENTHRIN</td>
+<td headers="Type" class="gt_row gt_left">Pyrethroid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0600</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">49</td>
+<td headers="Notes" class="gt_row gt_left">At-plant/Pre-Plant</td>
+<td headers="Source" class="gt_row gt_left">Label, Bifenthrin 17.15%</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.006931472</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">BIFENTHRIN</td>
+<td headers="Type" class="gt_row gt_left">Pyrethroid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0600</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">49</td>
+<td headers="Notes" class="gt_row gt_left">At-plant/Pre-Plant</td>
+<td headers="Source" class="gt_row gt_left">Label, Bifenthrin 17.15%</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.006931472</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">BIFENTHRIN</td>
+<td headers="Type" class="gt_row gt_left">Pyrethroid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.1000</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Soil</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-plant/Pre-Plant</td>
+<td headers="Source" class="gt_row gt_left">Label, Bifenthrin 17.15%</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.006931472</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">BIFENTHRIN</td>
+<td headers="Type" class="gt_row gt_left">Pyrethroid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.1000</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Soil</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-plant/Pre-Plant</td>
+<td headers="Source" class="gt_row gt_left">Label, Bifenthrin 17.15%</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.006931472</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">BIFENTHRIN</td>
+<td headers="Type" class="gt_row gt_left">Pyrethroid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.2000</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Seed</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-Plant</td>
+<td headers="Source" class="gt_row gt_left">Label, 180 FS</td>
+<td headers="Fnote" class="gt_row gt_left">Maximum </td>
+<td headers="Note" class="gt_row gt_left">Seed treatment</td>
+<td headers="k_values" class="gt_row gt_right">0.006931472</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">BIFENTHRIN</td>
+<td headers="Type" class="gt_row gt_left">Pyrethroid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.2000</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Seed</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-Plant</td>
+<td headers="Source" class="gt_row gt_left">Label, 180 FS</td>
+<td headers="Fnote" class="gt_row gt_left">Maximum </td>
+<td headers="Note" class="gt_row gt_left">Seed treatment</td>
+<td headers="k_values" class="gt_row gt_right">0.006931472</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">CARBARYL</td>
+<td headers="Type" class="gt_row gt_left">Carbamate</td>
+<td headers="AvgRate" class="gt_row gt_right">0.5000</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">60</td>
+<td headers="Notes" class="gt_row gt_left">Can be applied 4x, chose emergent stage</td>
+<td headers="Source" class="gt_row gt_left">Label, 4L</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.195252727</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">CARBARYL</td>
+<td headers="Type" class="gt_row gt_left">Carbamate</td>
+<td headers="AvgRate" class="gt_row gt_right">0.5000</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">60</td>
+<td headers="Notes" class="gt_row gt_left">Can be applied 4x, chose emergent stage</td>
+<td headers="Source" class="gt_row gt_left">Label, 4L</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.195252727</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">CARBARYL</td>
+<td headers="Type" class="gt_row gt_left">Carbamate</td>
+<td headers="AvgRate" class="gt_row gt_right">0.5000</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">49</td>
+<td headers="Notes" class="gt_row gt_left">Can be applied 4x, chose emergent stage</td>
+<td headers="Source" class="gt_row gt_left">Label, 4L</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.195252727</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">CARBARYL</td>
+<td headers="Type" class="gt_row gt_left">Carbamate</td>
+<td headers="AvgRate" class="gt_row gt_right">0.5000</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">49</td>
+<td headers="Notes" class="gt_row gt_left">Can be applied 4x, chose emergent stage</td>
+<td headers="Source" class="gt_row gt_left">Label, 4L</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.195252727</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">CARBOFURAN</td>
+<td headers="Type" class="gt_row gt_left">Carbamate</td>
+<td headers="AvgRate" class="gt_row gt_right">0.4730</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">60</td>
+<td headers="Notes" class="gt_row gt_left">Banned 2010, Post-emergent</td>
+<td headers="Source" class="gt_row gt_left">Label, Furadan 4F</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.231049060</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">CARBOFURAN</td>
+<td headers="Type" class="gt_row gt_left">Carbamate</td>
+<td headers="AvgRate" class="gt_row gt_right">0.4730</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">60</td>
+<td headers="Notes" class="gt_row gt_left">Banned 2010, Post-emergent</td>
+<td headers="Source" class="gt_row gt_left">Label, Furadan 4F</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.231049060</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">CHLORPYRIFOS</td>
+<td headers="Type" class="gt_row gt_left">Organophosphate</td>
+<td headers="AvgRate" class="gt_row gt_right">0.5000</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">60</td>
+<td headers="Notes" class="gt_row gt_left">Broadcast</td>
+<td headers="Source" class="gt_row gt_left">Label, 4E</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.099021026</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">CHLORPYRIFOS</td>
+<td headers="Type" class="gt_row gt_left">Organophosphate</td>
+<td headers="AvgRate" class="gt_row gt_right">0.5000</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">60</td>
+<td headers="Notes" class="gt_row gt_left">Broadcast</td>
+<td headers="Source" class="gt_row gt_left">Label, 4E</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.099021026</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">CHLORPYRIFOS</td>
+<td headers="Type" class="gt_row gt_left">Organophosphate</td>
+<td headers="AvgRate" class="gt_row gt_right">0.5000</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">49</td>
+<td headers="Notes" class="gt_row gt_left">Starting 2004</td>
+<td headers="Source" class="gt_row gt_left">Label, 4E</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.099021026</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">CHLORPYRIFOS</td>
+<td headers="Type" class="gt_row gt_left">Organophosphate</td>
+<td headers="AvgRate" class="gt_row gt_right">0.5000</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">49</td>
+<td headers="Notes" class="gt_row gt_left">Starting 2004</td>
+<td headers="Source" class="gt_row gt_left">Label, 4E</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.099021026</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">CLOTHIANIDIN</td>
+<td headers="Type" class="gt_row gt_left">Neonicotinoid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0500</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Seed</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-plant</td>
+<td headers="Source" class="gt_row gt_left">Douglas and Tooker</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.001271830</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">CLOTHIANIDIN</td>
+<td headers="Type" class="gt_row gt_left">Neonicotinoid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0500</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Seed</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-plant</td>
+<td headers="Source" class="gt_row gt_left">Douglas and Tooker</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.001271830</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">GLYPHOSATE</td>
+<td headers="Type" class="gt_row gt_left">Herbicide</td>
+<td headers="AvgRate" class="gt_row gt_right">2.0800</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarH</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">42</td>
+<td headers="Notes" class="gt_row gt_left">Broadcast/Hooded</td>
+<td headers="Source" class="gt_row gt_left">Label, Glyphosate</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left">RoundupReady</td>
+<td headers="k_values" class="gt_row gt_right">0.023104906</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">GLYPHOSATE</td>
+<td headers="Type" class="gt_row gt_left">Herbicide</td>
+<td headers="AvgRate" class="gt_row gt_right">2.0800</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarH</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">42</td>
+<td headers="Notes" class="gt_row gt_left">Broadcast/Hooded</td>
+<td headers="Source" class="gt_row gt_left">Label, Glyphosate</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left">RoundupReady</td>
+<td headers="k_values" class="gt_row gt_right">0.023104906</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">GLYPHOSATE</td>
+<td headers="Type" class="gt_row gt_left">Herbicide</td>
+<td headers="AvgRate" class="gt_row gt_right">2.0800</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarH</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">15</td>
+<td headers="Notes" class="gt_row gt_left">Broadcast/Hooded</td>
+<td headers="Source" class="gt_row gt_left">Label, Glyphosate</td>
+<td headers="Fnote" class="gt_row gt_left">https://cropwatch.unl.edu/timing-post-emergence-weed-control-soybean</td>
+<td headers="Note" class="gt_row gt_left">RoundupReady</td>
+<td headers="k_values" class="gt_row gt_right">0.023104906</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">GLYPHOSATE</td>
+<td headers="Type" class="gt_row gt_left">Herbicide</td>
+<td headers="AvgRate" class="gt_row gt_right">2.0800</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarH</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">15</td>
+<td headers="Notes" class="gt_row gt_left">Broadcast/Hooded</td>
+<td headers="Source" class="gt_row gt_left">Label, Glyphosate</td>
+<td headers="Fnote" class="gt_row gt_left">https://cropwatch.unl.edu/timing-post-emergence-weed-control-soybean</td>
+<td headers="Note" class="gt_row gt_left">RoundupReady</td>
+<td headers="k_values" class="gt_row gt_right">0.023104906</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">IMIDACLOPRID</td>
+<td headers="Type" class="gt_row gt_left">Neonicotinoid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0480</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Seed</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-plant</td>
+<td headers="Source" class="gt_row gt_left">Douglas and Tooker</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.003629043</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">IMIDACLOPRID</td>
+<td headers="Type" class="gt_row gt_left">Neonicotinoid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0480</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Seed</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-plant</td>
+<td headers="Source" class="gt_row gt_left">Douglas and Tooker</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.003629043</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">IMIDACLOPRID</td>
+<td headers="Type" class="gt_row gt_left">Neonicotinoid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0500</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Seed</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-plant</td>
+<td headers="Source" class="gt_row gt_left">Douglas and Tooker</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.003629043</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">IMIDACLOPRID</td>
+<td headers="Type" class="gt_row gt_left">Neonicotinoid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0500</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Seed</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-plant</td>
+<td headers="Source" class="gt_row gt_left">Douglas and Tooker</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.003629043</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">IMIDACLOPRID</td>
+<td headers="Type" class="gt_row gt_left">Neonicotinoid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0975</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">49</td>
+<td headers="Notes" class="gt_row gt_left">Emergence</td>
+<td headers="Source" class="gt_row gt_left">Label, 4F</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.003629043</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">IMIDACLOPRID</td>
+<td headers="Type" class="gt_row gt_left">Neonicotinoid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0975</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">FoliarI</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">49</td>
+<td headers="Notes" class="gt_row gt_left">Emergence</td>
+<td headers="Source" class="gt_row gt_left">Label, 4F</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.003629043</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">IMIDACLOPRID</td>
+<td headers="Type" class="gt_row gt_left">Neonicotinoid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.5625</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Soil</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-Plant</td>
+<td headers="Source" class="gt_row gt_left">Label, 4F</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left">Sub for cotton</td>
+<td headers="k_values" class="gt_row gt_right">0.003629043</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">IMIDACLOPRID</td>
+<td headers="Type" class="gt_row gt_left">Neonicotinoid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.5625</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Soil</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-Plant</td>
+<td headers="Source" class="gt_row gt_left">Label, 4F</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left">Sub for cotton</td>
+<td headers="k_values" class="gt_row gt_right">0.003629043</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">THIAMETHOXAM</td>
+<td headers="Type" class="gt_row gt_left">Neonicotinoid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0300</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Seed</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-plant</td>
+<td headers="Source" class="gt_row gt_left">Douglas and Tooker</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.013862944</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">THIAMETHOXAM</td>
+<td headers="Type" class="gt_row gt_left">Neonicotinoid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0300</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Seed</td>
+<td headers="Commodity" class="gt_row gt_left">SOYBEANS</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-plant</td>
+<td headers="Source" class="gt_row gt_left">Douglas and Tooker</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.013862944</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">THIAMETHOXAM</td>
+<td headers="Type" class="gt_row gt_left">Neonicotinoid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0500</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Seed</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-plant</td>
+<td headers="Source" class="gt_row gt_left">Douglas and Tooker</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.013862944</td>
+<td headers="type" class="gt_row gt_left">Nectar</td></tr>
+    <tr><td headers="Compound" class="gt_row gt_left">THIAMETHOXAM</td>
+<td headers="Type" class="gt_row gt_left">Neonicotinoid</td>
+<td headers="AvgRate" class="gt_row gt_right">0.0500</td>
+<td headers="Units" class="gt_row gt_left">lb a.i./acre</td>
+<td headers="ApplicationType" class="gt_row gt_left">Seed</td>
+<td headers="Commodity" class="gt_row gt_left">CORN</td>
+<td headers="ApplicationTiming..d." class="gt_row gt_right">0</td>
+<td headers="Notes" class="gt_row gt_left">At-plant</td>
+<td headers="Source" class="gt_row gt_left">Douglas and Tooker</td>
+<td headers="Fnote" class="gt_row gt_left">Average or standard reported rate for pest</td>
+<td headers="Note" class="gt_row gt_left"></td>
+<td headers="k_values" class="gt_row gt_right">0.013862944</td>
+<td headers="type" class="gt_row gt_left">Pollen</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</body>
+</html>

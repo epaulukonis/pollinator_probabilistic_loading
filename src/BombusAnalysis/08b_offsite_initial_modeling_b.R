@@ -36,14 +36,17 @@ apprate_table_html <- as.character(htmltools::save_html(htmltools::as.tags(appra
 Li<-read.csv(paste0(pest_dir,"/Models/LiParam.csv"))
 Li<-Li %>% spread(Parameter, Value)
 Li$Compound<-toupper(Li$Compound)
-
+li_table <- Li %>%
+  gt()
+li_table
+li_table_filename_html <- file.path(root_figures_parameters,"bombus_li_table.html")
+li_table_html <- as.character(htmltools::save_html(htmltools::as.tags(li_table), li_table_filename_html))
 
 ## Briggs
 #defaults
 theta<-0.2
 foc<-0.01
 bulkdensity<-1.5
-
 ## Purucker and Paulukonis
 #elimination rate via growth
 kel_grow<-0.035
@@ -53,6 +56,8 @@ rgr_soy<-0.06
 #mass of seed (g)
 m0_corn<-0.25
 m0_soy<-0.15
+
+
 #partition coeff
 Fpl<-c(0.35,0.69, 0.69)
 Fnl<-c(0.017,0.05, 0.05)
@@ -61,6 +66,12 @@ names(partcoeffn)<-c("Compound","Fr","Type")
 partcoeffp<-as.data.frame(cbind(c("IMIDACLOPRID","CLOTHIANIDIN","THIAMETHOXAM"), (Fpl),paste0("Pollen")))
 names(partcoeffp)<-c("Compound","Fr","Type")
 part_coeff<-rbind(partcoeffp, partcoeffn)
+part_coeff
+li_table <- Li %>%
+  gt()
+li_table
+li_table_filename_html <- file.path(root_figures_parameters,"bombus_li_table.html")
+li_table_html <- as.character(htmltools::save_html(htmltools::as.tags(li_table), li_table_filename_html))
 
 
 #### Set up empty matrix to hold outputs; these will auto-populate as you go through each application type
