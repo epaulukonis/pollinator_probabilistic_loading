@@ -1123,11 +1123,11 @@ gather_data<-function(x){
   
 }
 
-#Create a custom color scale
-library(RColorBrewer)
-myColors <- brewer.pal(8,"Dark2")
-names(myColors) <- unique(apprates$Compound)
-colScale <- scale_colour_manual(name = "Compound",values = myColors)
+# #Create a custom color scale
+# library(RColorBrewer)
+# myColors <- brewer.pal(8,"Dark2")
+# names(myColors) <- unique(apprates$Compound)
+# colScale <- scale_colour_manual(name = "Compound",values = myColors)
 
 ##Get foliar output
 foliar_data<-lapply(foliar,gather_data)
@@ -1240,11 +1240,6 @@ pollen_df<-combine_all[combine_all$MediaSub == 'Pollen', ]
 #extract nectar
 nectar_df<-combine_all[combine_all$MediaSub == 'Nectar', ]
 
-#Create a custom color scale
-library(RColorBrewer)
-myColors <- brewer.pal(8,"Dark2")
-names(myColors) <- unique(apprates$Compound)
-colScale <- scale_colour_manual(name = "Compound",values = myColors)
 
 
 # airn<- ggplot(air_df, aes(day, Value, group=Compound, color=Compound)) +
@@ -1281,7 +1276,7 @@ soiln<- ggplot(soil_df, aes(day, (Value), color=Compound)) +
   colScale+
   #geom_point(aes(shape=ApplicationType))+
   #scale_shape_manual(values=c(1,4,8))+
-  scale_x_continuous(limits=c(0, 30), breaks=seq(0,30, by=5))+
+  scale_x_continuous(limits=c(0, 150), breaks=seq(0,150, by=20))+
  # facet_wrap(~Commodity,scales = "free", nrow=1)+
   facet_grid(rows = vars(MediaSub), cols = vars(Commodity), scales="free_y")+
   ylab("Residues [ug/g]")+
@@ -1297,6 +1292,7 @@ soiln
 pollenn<- ggplot(pollen_df, aes(day, Value, color=Compound)) +
   geom_line(aes(linetype = ApplicationType), size=1)+
   colScale+
+  scale_x_continuous(limits=c(0, 150), breaks=seq(0,150, by=20))+
   #scale_x_continuous(limits=c(60, 130), breaks=seq(60,130, by=10),labels =c("0","7","17","27","37","47","57","67"))+
   # ifelse(pollen_df$Commodity == "CORN",
   # scale_x_continuous(limits=c(70, 130), breaks=seq(70,130, by=10),labels =c("7","17","27","37","47","57","67")),
@@ -1330,6 +1326,7 @@ pollenn
 nectarn<- ggplot(nectar_df, aes(day, Value, color=Compound)) +
   geom_line(aes(linetype = ApplicationType), size=1)+
   colScale+
+  scale_x_continuous(limits=c(0, 150), breaks=seq(0,150, by=20))+
   #scale_x_continuous(limits=c(60, 120), breaks=seq(60,120, by=10),labels =c("0","7","17","27","37","47","57"))+
   #geom_point(aes(shape=ApplicationType))+
   #scale_shape_manual(values=c(1,4,8))+

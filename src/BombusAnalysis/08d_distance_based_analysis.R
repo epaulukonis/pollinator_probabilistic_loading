@@ -1218,7 +1218,7 @@ get_quantiles<-function(x){
 
  # x<- x %>% group_by(distance, Media) %>% summarise(avg = mean(Value))
  
- #x<-x[x$day<31,]
+ x<-x[x$day<=7,] # get first 7 days post application
  
 quantile_distances<-x%>%
    group_by(Media,distance) %>%
