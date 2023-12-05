@@ -1,4 +1,4 @@
-Year,Original treatment rate from study (mg a.i./seed),MRID,Chemical,Collected from,Mean (ng a.i./g; normalized to 1.3 mg a.i./seed),95% CI (±),Maximum single value,Number of samples,% detections (quantifications),Plant,Type,Normalized To
+Year,Original_treatment_mg_seed,MRID,Chemical,Collected_from,Mean_ng_g_normalized_1.3mg_seed,95_CI,Maximum single value,Number_sample,Percent_detections,Plant,Type,Normalized
 2015,0.5,50154301,Clothianidin,Plant,2,0.7,2.7,3,100 (33),Corn,Pollen,1.3
 2015,0.5,50154301,Clothianidin,Plant,2,0.8,2.9,3,100 (33),Corn,Pollen,1.3
 ,,,,,,,,,,Corn,Pollen,1.3

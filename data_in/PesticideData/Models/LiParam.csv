@@ -17,6 +17,7 @@ LMA,0.08,Imidacloprid
 Wleaf,0.8,Imidacloprid
 KupSurface,2.20E-05,Imidacloprid
 KdissSurface,9.381446841,Imidacloprid
+logKow,0.57,Imidacloprid
 Kp-L,0.348774503,Thiamethoxam
 Kn-L,0.880185208,Thiamethoxam
 fsoil,0.368,Thiamethoxam
@@ -35,6 +36,7 @@ LMA,0.08,Thiamethoxam
 Wleaf,0.8,Thiamethoxam
 KupSurface,1.82E-06,Thiamethoxam
 KdissSurface,11.79674982,Thiamethoxam
+logKow,-0.13,Thiamethoxam
 Kp-L,0.858618125,Clothianidin
 Kn-L,0.807255925,Clothianidin
 fsoil,0.368,Clothianidin
@@ -53,6 +55,7 @@ LMA,0.08,Clothianidin
 Wleaf,0.8,Clothianidin
 KupSurface,5.45E-05,Clothianidin
 KdissSurface,7.556881145,Clothianidin
+logKow,0.91,Clothianidin
 Kp-L,3.136840431,Carbaryl
 Kn-L,0.399723087,Carbaryl
 fsoil,0.368,Carbaryl
@@ -71,6 +74,7 @@ LMA,0.08,Carbaryl
 Wleaf,0.8,Carbaryl
 KupSurface,4.94E-03,Carbaryl
 KdissSurface,1.880567677,Carbaryl
+logKow,2.36,Carbaryl
 Kp-L,3.081225565,Carbofuran
 Kn-L,0.41804759,Carbofuran
 fsoil,0.368,Carbofuran
@@ -89,6 +93,7 @@ LMA,0.08,Carbofuran
 Wleaf,0.8,Carbofuran
 KupSurface,2.72E-03,Carbofuran
 KdissSurface,1.797146642,Carbofuran
+logKow,2.32,Carbofuran
 Kp-L,4.335155468,Chlorpyrifos
 Kn-L,0.00987578,Chlorpyrifos
 fsoil,0.368,Chlorpyrifos
@@ -107,6 +112,7 @@ LMA,0.08,Chlorpyrifos
 Wleaf,0.8,Chlorpyrifos
 KupSurface,3.95E-02,Chlorpyrifos
 KdissSurface,4.12E-01,Chlorpyrifos
+logKow,4.96E+00,Chlorpyrifos
 Kp-L,4.349947735,Bifenthrin
 Kn-L,3.48E-05,Bifenthrin
 fsoil,0.368,Bifenthrin
@@ -125,6 +131,7 @@ LMA,0.08,Bifenthrin
 Wleaf,0.8,Bifenthrin
 KupSurface,8.40E+00,Bifenthrin
 KdissSurface,7.92E-01,Bifenthrin
+logKow,8.15E+00,Bifenthrin
 Kp-L,0.253383812,Glyphosate
 Kn-L,0.901169148,Glyphosate
 fsoil,0.368,Glyphosate
@@ -143,3 +150,4 @@ LMA,0.08,Glyphosate
 Wleaf,0.8,Glyphosate
 KupSurface,2.56E-08,Glyphosate
 KdissSurface,1.39E+01,Glyphosate
+logKow,-3.4,Glyphosate
