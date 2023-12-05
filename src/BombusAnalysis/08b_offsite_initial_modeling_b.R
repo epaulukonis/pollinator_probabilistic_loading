@@ -18,20 +18,35 @@ apprates$k_values<-log((apprates$AvgRate/2)/apprates$AvgRate)/-(apprates$k_value
 ## Because we're dealing with off-field plants that have both nectar and pollen, here, we'll impute 'pollen and nectar' for each combo of compounds
 library(tidyr)
 apprates<-crossing(apprates, type=c("Pollen","Nectar"))
+apprate_table <- apprates %>%
+  gt()
+apprate_table
+apprate_table_filename_html <- file.path(root_figures_parameters,"bombus_apprate_table.html")
+apprate_table_html <- as.character(htmltools::save_html(htmltools::as.tags(apprate_table), apprate_table_filename_html))
+
+#saveWidget(as_widget(apprate_table), file = apprate_table_filename_html, selfcontained = F)
+#jpeg(apprate_table_filename, width = 8, height = 11, units = "in", res=300)
+#  as_widget(apprate_table)
+#dev.off()
+
+
 
 #### Set up and read in variables for models:
 ## Li
 Li<-read.csv(paste0(pest_dir,"/Models/LiParam.csv"))
 Li<-Li %>% spread(Parameter, Value)
 Li$Compound<-toupper(Li$Compound)
-
+li_table <- Li %>%
+  gt()
+li_table
+li_table_filename_html <- file.path(root_figures_parameters,"bombus_li_table.html")
+li_table_html <- as.character(htmltools::save_html(htmltools::as.tags(li_table), li_table_filename_html))
 
 ## Briggs
 #defaults
 theta<-0.2
 foc<-0.01
 bulkdensity<-1.5
-
 ## Purucker and Paulukonis
 #elimination rate via growth
 kel_grow<-0.035
@@ -41,6 +56,8 @@ rgr_soy<-0.06
 #mass of seed (g)
 m0_corn<-0.25
 m0_soy<-0.15
+
+
 #partition coeff
 Fpl<-c(0.35,0.69, 0.69)
 Fnl<-c(0.017,0.05, 0.05)
@@ -49,6 +66,12 @@ names(partcoeffn)<-c("Compound","Fr","Type")
 partcoeffp<-as.data.frame(cbind(c("IMIDACLOPRID","CLOTHIANIDIN","THIAMETHOXAM"), (Fpl),paste0("Pollen")))
 names(partcoeffp)<-c("Compound","Fr","Type")
 part_coeff<-rbind(partcoeffp, partcoeffn)
+part_coeff
+li_table <- Li %>%
+  gt()
+li_table
+li_table_filename_html <- file.path(root_figures_parameters,"bombus_li_table.html")
+li_table_html <- as.character(htmltools::save_html(htmltools::as.tags(li_table), li_table_filename_html))
 
 
 #### Set up empty matrix to hold outputs; these will auto-populate as you go through each application type
