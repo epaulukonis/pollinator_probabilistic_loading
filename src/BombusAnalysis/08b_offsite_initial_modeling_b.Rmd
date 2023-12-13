@@ -1,0 +1,114 @@
+---
+title: "08b_offsite_initial_modeling"
+output: html_document
+date: "2023-12-12"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r app_rates, echo=FALSE, results='hide'}
+if(Sys.info()[4]=="LZ2626UTPURUCKE"){
+  root_dir <- file.path("c:", "git", "pollinator_probabilistic_loading")
+}else if(Sys.info()[4]=="LZ26TPURUCKE-2"){
+  root_dir <- file.path("c:", "Users", "tpurucke", "git", "pollinator_probabilistic_loading")
+  PWC_dir <-  file.path("c:", "Users", "tpurucke", "git", "pollinator_probabilistic_loading", "data_in", "PWCdata", "pesticide runs")
+}else if(Sys.info()[4]=="LZ26EPAULUKO-2"){
+  root_dir <- 'C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/GitHub/pollinator_probabilistic_loading'
+  PWC_dir<-"C:/Users/EPAULUKO/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/apps/pwc_2.001/pesticide runs"
+}else{
+  root_dir <- file.path("/work", "HONEYBEE", who_is_running, "pollinator_probabilistic_loading")
+}
+print(root_dir)
+
+root_data_in <- file.path(root_dir, "data_in")
+print(root_data_in)
+root_data_out <- file.path(root_dir, "data_out")
+print(root_data_out)
+root_figures <- file.path(root_dir, "figures")
+print(root_figures)
+root_figures_parameters <- file.path(root_dir, "figures", "parameters")
+print(root_figures_parameters)
+root_src <- file.path(root_dir, "src/BombusAnalysis")
+print(root_src)
+pest_dir = file.path(root_data_in, "PesticideData")
+print(pest_dir)
+print(list.files(path=pest_dir, all.files=TRUE, full.names=FALSE))
+
+library(tidyverse)
+library(gt)
+```
+
+## QA of off-site and on-site exposure calculations
+
+Initially lets just examine imidacloprid.
+
+```{r apprates, echo=FALSE}
+##### Read in data for models ----
+## It's important to remember that offsite, we are basically assuming wildflower/foraging habitat
+#### App rates and timing:
+apprates <-read.csv(paste0(pest_dir, "/AppRates.csv"))
+apprates$Compound<-toupper(apprates$Compound)
+apprates$k_values<-log((apprates$AvgRate/2)/apprates$AvgRate)/-(apprates$k_values)
+apprates<-crossing(apprates, type=c("Pollen","Nectar"))
+apprate_table <- apprates %>%
+  filter(Compound == "IMIDACLOPRID") %>%
+  gt()
+apprate_table
+```
+
+## Imidacloprid application rates
+
+The (USEPA) maximum cumulative labeled use of imidacloprid across all application types is 0.5 lb a.i./acre/year.
+
+Douglas provides annual loading rates (2004-2017) for for the state of Illinois. Corn ranges 
+from 0.0000188 (2013) to 0.001503 (2005) and soybeans range from 0.0000517 (2007) to 0.019489 (2010).
+These estimates do not seem to discriminate based on application type. Presumably these estiamtes 
+average in non-treated fields.
+
+Foliar application rates are 0.0975 lb a.i./acre for soybeans. This converts to a rate of 0.11 kg/ha. Foliar applications
+on corn have been largely replaced by seed treatment. The EFSA Journal report (2013) documenting discontinuing
+imidacloprid gives a maximum application rate for corn of 0.125 kg/ha.
+
+In the US, maximum labeled foliar application rates for corn and soybean have been ... and currently are ...
+
+Canada in 2021 cut allowable foliar application rates on soybeans (https://www.agcanada.com/daily/federal-reprieve-for-imidacloprid-cuts-its-application-rates) from x.xxx to 0.0244 kg ai/ha.
+
+Seed treatment application rates are 0.048 lb a.i./acre for corn and 0.05 lb a.i./acre for soybeans.
+Canada 2021 restrictions:
+seed treatment for field corn, to 13 grams of active ingredient (g a.i.) per 80,000 seeds;
+seed treatment for sweet corn, to 67.2 g a.i. per 100 kg of seed;
+seed treatment for soybean, to 62.5 g a.i. per 100 kg of seed;
+
+Soil treatment application rates are an order of magnitude more, 0.5625 lb a.i./acre for both corn and soybeans.
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+```{r partition_coefficients, echo=FALSE}
+#partition coeff
+Fpl<-c(0.35,0.69, 0.69)
+Fnl<-c(0.017,0.05, 0.05)
+partcoeffn<-as.data.frame(cbind(c("IMIDACLOPRID","CLOTHIANIDIN","THIAMETHOXAM"), (Fnl),paste0("Nectar")))
+names(partcoeffn)<-c("Compound","Fr","Type")
+partcoeffp<-as.data.frame(cbind(c("IMIDACLOPRID","CLOTHIANIDIN","THIAMETHOXAM"), (Fpl),paste0("Pollen")))
+names(partcoeffp)<-c("Compound","Fr","Type")
+part_coeff<-rbind(partcoeffp, partcoeffn)
+part_coeff_table <- part_coeff %>%
+  gt()
+part_coeff_table
+```
+
+```{r li_parameters, echo=FALSE}
+#### Set up and read in variables for models:
+## Li
+Li<-read.csv(paste0(pest_dir,"/Models/LiParam.csv"))
+Li<-Li %>% spread(Parameter, Value)
+Li$Compound<-toupper(Li$Compound)
+li_table <- Li %>%
+  gt()
+li_table
+```
+Krishnan et al 2020 (https://setac.onlinelibrary.wiley.com/doi/10.1002/etc.4672) provides Agdrift based point deposition values as a function of distance for imidacloprid in Table S5.

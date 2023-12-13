@@ -7,6 +7,7 @@ library(stringdist)
 library(cowplot)
 library(tidyverse)
 library(ggh4x)
+
 ##### Read in data for models ----
 ## It's important to remember that offsite, we are basically assuming wildflower/foraging habitat
 #### App rates and timing:
@@ -67,11 +68,11 @@ partcoeffp<-as.data.frame(cbind(c("IMIDACLOPRID","CLOTHIANIDIN","THIAMETHOXAM"),
 names(partcoeffp)<-c("Compound","Fr","Type")
 part_coeff<-rbind(partcoeffp, partcoeffn)
 part_coeff
-li_table <- Li %>%
+part_coeff_table <- part_coeff %>%
   gt()
-li_table
-li_table_filename_html <- file.path(root_figures_parameters,"bombus_li_table.html")
-li_table_html <- as.character(htmltools::save_html(htmltools::as.tags(li_table), li_table_filename_html))
+part_coeff_table
+part_coeff_table_filename_html <- file.path(root_figures_parameters,"part_coeff_li_table.html")
+part_coeff_table_html <- as.character(htmltools::save_html(htmltools::as.tags(part_coeff_table), part_coeff_table_filename_html))
 
 
 #### Set up empty matrix to hold outputs; these will auto-populate as you go through each application type

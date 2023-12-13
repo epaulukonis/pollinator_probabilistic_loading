@@ -47,8 +47,7 @@ library(gt)
 library(plotly)
 library(magick)
 library(webshot2)
-webshot2::install_chromote()
-
+# webshot2::install_chromote()
 library(tidyverse)
 #library(beecoSp)
 # library(cdlTools)
@@ -60,6 +59,8 @@ library(ggridges)
 # library(tidyverse)
 # library(progress)
 #library(pfm)
+library(rmarkdown)
+
 
 who_is_running<-'eap'
 #who_is_running<-'stp'
