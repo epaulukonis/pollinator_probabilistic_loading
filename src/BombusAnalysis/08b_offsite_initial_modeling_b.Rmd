@@ -38,6 +38,7 @@ print(list.files(path=pest_dir, all.files=TRUE, full.names=FALSE))
 
 library(tidyverse)
 library(gt)
+library(ggplot2)
 ```
 
 ## QA of off-site and on-site exposure calculations
@@ -58,7 +59,7 @@ apprate_table <- apprates %>%
 apprate_table
 ```
 
-## Imidacloprid application rates
+## Imidacloprid foliar application rates
 
 The (USEPA) maximum cumulative labeled use of imidacloprid across all application types is 0.5 lb a.i./acre/year.
 
@@ -75,17 +76,19 @@ In the US, maximum labeled foliar application rates for corn and soybean have be
 
 Canada in 2021 cut allowable foliar application rates on soybeans (https://www.agcanada.com/daily/federal-reprieve-for-imidacloprid-cuts-its-application-rates) from x.xxx to 0.0244 kg ai/ha.
 
+## Imidacloprid seed treatment application rates
+
 Seed treatment application rates are 0.048 lb a.i./acre for corn and 0.05 lb a.i./acre for soybeans.
-Canada 2021 restrictions:
+
+Canada 2021 application rate restrictions:
 seed treatment for field corn, to 13 grams of active ingredient (g a.i.) per 80,000 seeds;
 seed treatment for sweet corn, to 67.2 g a.i. per 100 kg of seed;
 seed treatment for soybean, to 62.5 g a.i. per 100 kg of seed;
 
+## Imidacloprid soil treatment application rates
+
 Soil treatment application rates are an order of magnitude more, 0.5625 lb a.i./acre for both corn and soybeans.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
 
 ```{r partition_coefficients, echo=FALSE}
 #partition coeff
@@ -111,4 +114,167 @@ li_table <- Li %>%
   gt()
 li_table
 ```
+
+
+```{r empty_matrices, echo=FALSE, results='hide'}
+#### Set up empty matrix to hold outputs; these will auto-populate as you go through each application type
+#first, we will create our empty df to populate the on-field concentrations by day
+off_field_residues<-as.data.frame(matrix(NA,nrow = 151, ncol = 0))
+off_field_residues[,1]<-0:150
+colnames(off_field_residues)[1]<-"day"
+dim(off_field_residues)
+
+#put all combos into a list where the name represents the scenario
+off_field_residue_list<-rep(list(off_field_residues), 18L)
+unique_names<-apprates %>% distinct(Compound,ApplicationType, Commodity)
+names(off_field_residue_list)<-with(unique_names, paste0(Compound,"_",ApplicationType,"_",Commodity))
+```
+
+Krupke et al 2017 Journal of Applied Ecology. Neonicotinoid-containing dust deposition (N in nanograms per slide) for
+seed treated corn as a function
+of distance from the field margin (meters). x <- exp(1.68-0.0905*log(d))-1. They conclude that 
+42.4% of the land area within the state of Indiana may be subjected to a pulse of neonicotinoid deposition at levels of 
+≥1.40 ug/m2 during sowing of treated maize. They do not treat neonics individually, they 
+sum thiomethoxam and clothianidin. They use four spatial zones (planted field, 0-30m, 30-60m, 60-90m).
+
+Their weighted deposition rate for honeybee hazard was 3188 ng/m2, dispersed through a 6m vertical
+column (2-8 meters) to generate an air concentration of ng/m3 for foraging and a 2m vertical column
+for . This was compared to an weighted
+LD50 of thiomethoxam (75%) and clothianidin (25%) based on their relative concentrations on the dosimeters.
+
+
+```{r krupke_setup, echo=TRUE}
+######## Analysis ###########
+#### Seed Applications ----
+## Dust ----
+#these are the only residues we'll measure as ug/m2 
+#First, we will derive the fraction of dust moving across and off the field 
+#d<-1:299*0.3048 # first, convert the distance to meters
+d <- seq(1/3, 90, 1/3)
+x<-exp(1.68-0.0905*log(d))-1 # estimate the fraction 
+krupke_df <- data.frame(dist=d, dep=x)
+ggplot(krupke_df, aes(x=dist, y=dep)) +
+  geom_line() +
+  xlab("meters") + 
+  ylab("deposition (ng/slide)") +
+  ggtitle("Krupke 2017")
+```
+
+The area of the glass microscope slide is (generic slide is 75 mm * 25 mm = 1875 mm2). We want to convert to ug/m2.
+```{r krupke_setup2, echo=TRUE}
+# the below conversion is (x ng/1875 mm2)*(1000000 mm2/1 m2)*(1 ug/ 1000 ng) = (x/1875)*1000 to yield ug/m2
+orig_conc_at_distance<-(x/1875)*1000 #ug/m2
+krupke_df2 <- data.frame(dist=d, dep=orig_conc_at_distance)
+krupke_df3 <- rbind(c(0,3.81), 
+                  krupke_df2)
+ggplot(krupke_df3, aes(x=dist, y=dep)) +
+  geom_point() +
+  geom_line() +
+  xlab("meters") + 
+  ylab("deposition (ug/m2)") +
+  ggtitle("Krupke 2017")
+```
+
+The above plot can be compared to Krupke et al 2017 empirical data:
+"Using our empirical data, predicted deposition levels across the state can be further estimated
+given the amount of area at increasing distances from maize fields as follows: 
+25.3% of the state receives 3.81 ug/m2 of neonicotinoid residues in the form of planter dust, 
+6.6% receives 1.70 ug/m2, 
+5.5% receives 1.49 ug/m2, and 
+5.0% receives 1.40 ug/m2.
+These areas correspond with 30 m by 30 m parcels of land that are
+0–30, 30–60, and 60–90 m from maize field margins, respectively."
+
+This next block calculates an average application rate for corn seed treatment
+for clothianidin. 
+Check to see where the 2.06 and 11.92 come from (Krupke manuscript supplement?) 
+and what the units are. Table S-8 of Krupke et al gives a low label rate of
+0.25 mg/seed (empirical measurement 0.253 mg/seed) and a high label rate of
+1.25 mg/seed (empirical measurement 1.20 mg/seed). Number of seeds per
+square meter?
+
+2.06/0.25 = 8.24
+2.06/0.253 = 8.14
+11.92/1.25 = 9.536
+11.92/1.2 = 9.83
+
+32000 seeds per acre, 4046.856 meters per acre, equals 7.91 seeds/m2.
+33000 seeds per acre, 4046.856 meters per acre, equals 8.1545
+80000 kernels per hectare, 100000 mg/ha. 0.1 kg/ha.
+
+From eap: corn seeds/acre low = 33000
+corn seed/acre high = 40250
+sweet corn low = 13068
+sweet corn high = 26136
+soybeans low = 50000
+soybeans high = 130000
+
+```{r krupke_setup3, echo=TRUE}
+# original conc in field, from Krupke based on seeding rate
+# mg/seed * seeds/acre * acre/m2 * ug/mg = ug/m2
+ug_mg <- 1000
+low_clothi_seed_rate <- 0.25*(33000/4046.856) * ug_mg #2038.62
+high_clothi_seed_rate <- 1.25*(40250/4046.856) * ug_mg #124324.9
+#conc_in_field<-((2.06+11.92)/2)*1000 #(ug/m2) # average application rate
+conc_in_field <- mean(c(low_clothi_seed_rate, high_clothi_seed_rate))
+conc_in_field
+```
+
+Original seed treatment midpoint was 6990 ug/m2. Which is 0.000006990 kg/m2 and
+0.0699 kg/ha.
+
+Updated output for on-site seed treatment application rate is 7235.555 ug/m2.
+
+An argument could be made to use low end of range rather than midpoint to be conservative.
+
+This conc_in_field (actually the in-field application rate from Krupke) is used to normalize the
+other off-field deposition rates to give a percentage that can be leverage to estimate off-field 
+deposition rates for (non-clothi) pesticides. Also, reread Krupke et al 2017 to see if they say
+what rates they used to generate the empirical data.
+
+
+
+```{r krupke_setup4, echo=TRUE}
+#to translate this relationship to other in-field concentrations, 
+#I assume that the fraction of off-site deposition based on the original concentration is reflective of all seed treatments
+deposition<-(orig_conc_at_distance/conc_in_field) #proportion of off/on deposition rate for each distance = ug/m2 (deposition(d))/ug/m2 (applied on-site)
+air_krupke<-as.data.frame(cbind(d,orig_conc_at_distance, deposition))
+# avg_frac<-(0.001849+0.000319)/2 not sure where these numbers are from
+avg_frac <- 3.81/conc_in_field
+
+#add in the initial estimate of the concentration at 0 (in-field)
+# 3.81 ug/m2 is mentioned in Krupke as the on-field deposition rate for clothianidin.
+air_krupke<-rbind(c(0,3.81,avg_frac), 
+                  air_krupke)
+
+#air krupke represents a dataframe with information about the on and off-field estimate of deposition from seeds, based on the #relationship
+#between the concentration in field in ug/m2 and the amount reported offsite. we then use these deposition fractions to estimate the same #relationship for other compounds
+
+#visualize the original concentration, if desired
+p <- ggplot(air_krupke, aes(d, deposition*100)) +
+   geom_point()+
+   geom_line()+
+   ylab("Deposition (% of In-Field Concentration)")+
+   xlab("Distance[m]")+
+   theme_bw()
+p
+```
+
+This graph can be used to give deposition percentages of off-site deposition rate to on-site application rate for each of the
+3 pixel distances (0-30m, 30-60m, 60-90m).
+
+```{r krupke_setup5, echo=TRUE}
+first_pixel_deposition_fraction <- mean(air_krupke$deposition[1:90])
+first_pixel_deposition_fraction
+second_pixel_deposition_fraction <- mean(air_krupke$deposition[91:180])
+second_pixel_deposition_fraction
+third_pixel_deposition_fraction <- mean(air_krupke$deposition[181:270])
+third_pixel_deposition_fraction
+```
+
+
+
+
+
+
 Krishnan et al 2020 (https://setac.onlinelibrary.wiley.com/doi/10.1002/etc.4672) provides Agdrift based point deposition values as a function of distance for imidacloprid in Table S5.
