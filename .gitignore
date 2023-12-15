@@ -41,5 +41,13 @@ vignettes/*.pdf
 .Renviron
 
 # tif files
-*.tif
+*.tif*
 
+# Data Files
+figures/
+figures/*.png
+figures/*.zip
+figures/*.csv
+data_in/
+data_in/*.png
+data_in/*.zip

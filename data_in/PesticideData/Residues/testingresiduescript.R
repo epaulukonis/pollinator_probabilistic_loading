@@ -106,8 +106,8 @@ Li_sub<-Li[,c(13:15,17)]
 
 #here is where we multiply the RUD at time t by the converted AR in kg/ha, and get the outcome in ug/g
 residues<-merge(residues, Li_sub, by.x=c("Chemical", "Plant"), by.y=c("Compound", "Plant"), all.x=TRUE, all.y=FALSE) 
-residues$Cn_Li<-(residues$RUDn*residues$kgperha)*1000 #convert to ug/g
-residues$Cp_Li<- (residues$RUDp*residues$kgperha)*1000 #convert to ug/g
+residues$Cn_Li<-(residues$RUDn*residues$kgperha)
+residues$Cp_Li<- (residues$RUDp*residues$kgperha)
 
 #remove irrelevant entries for pollen and nectar
 residues$Cn_Li<-ifelse(residues$Type == "Pollen", residues$Cn_Li == NA, residues$Cn_Li)

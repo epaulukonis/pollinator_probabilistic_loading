@@ -22,7 +22,6 @@ scenarios<- lapply(scenarios, setNames, colnamesnew)
 df<-scenarios[[16]] #get 2014
 df<-df[!is.na(df$applicationday),] #remove all the unassigned compound/application types
 
-
 ### the first thing we want to do is extract the fields that are within the RPBB habitat zones. So we'll need to read thsoe in first. 
 bomb_h <- st_read(bombus_dir, layer = "RPBB_High_Potential_Zones_03172021")
 bomb_h<- st_transform(bomb_h, crs(df)) #reproject to match extent of DF

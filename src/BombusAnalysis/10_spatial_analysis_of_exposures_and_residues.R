@@ -56,20 +56,15 @@ original_names_of_fields<-names(individual_fields_by_group_offfield)
 names(individual_fields_by_group_offfield)<-gsub(".", "_", names(individual_fields_by_group_offfield), fixed=T)
 
 
-
-x<-individual_fields_by_group_onfield[[155]]
-
 ##### ONSITE OUTPUTS BY FIELD
 #alter the gather function slightly
 gather_data<-function(x){
   df<-x
   df<-gather(df, "MediaSub", "Value", 4:ncol(df))
   df
-  
 }
 modeled_onsite_outputs_by_field<-list()
 for(field in 1:length(individual_fields_by_group_onfield)){
-  field<-155
   scenario_df<-individual_fields_by_group_onfield[[field]]
   
   #get name of modeled data that we need to match to the field scenario
@@ -145,6 +140,11 @@ for(field in 1:length(individual_fields_by_group_offfield)){
 names(modeled_offsite_outputs_by_field)<-names(individual_fields_by_group_offfield)
 
 
+
+
+
+
+#### Get moving averages 
 testy<-modeled_onsite_outputs_by_field[[155]]
 x<-testy
 
@@ -169,10 +169,10 @@ get_rolling_average<-function(x){
  
  y<- x %>% 
     group_by(MediaSub) %>%
-    mutate(movingavg = zoo::rollmean(x=Value,7))
- y<-y[y$day==6,]
- 
- ##sliding window of 7 days then plot one or two compounds
+    mutate(movingavg = zoo::rollmean(x=Value,7)) %>%
+    filter(row_number()==1)
+
+ ##sliding window of 7 days
  
 y<-rbind(depo,y)
 # why_no_work[[field]]<-y

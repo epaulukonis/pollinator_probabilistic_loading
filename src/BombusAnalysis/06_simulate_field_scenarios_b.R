@@ -286,6 +286,15 @@ soy<- soy %>%
    mutate(SampleP = 1:length(Period))
 
 
+
+### Quick extra code to pull out peak planting/application date
+
+year_of_interest_soy<-soy[soy$Year==2014,]
+#2014-05-25
+
+year_of_interest_corn<-corn[corn$Year==2014,]
+#	2014-05-04
+
 #### Pesticide sample data preparation ----
 
 #now that we have the planting data, we need to prepare the pesticide data. 
