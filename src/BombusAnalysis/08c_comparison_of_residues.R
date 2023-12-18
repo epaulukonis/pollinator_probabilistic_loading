@@ -2,11 +2,20 @@
 
 ### 08c Comparison of on and off-field residues 
 
-on_field_subset<- on_field_residue_list[grep(c("IMIDACLOPRID|BIFENTHRIN|CARBARYL|GLYPHOSATE|CHLORPYRIFOS"), names(on_field_residue_list))]
+on_field_subset<- on_field_residue_list[grep(c("IMIDACLOPRID|BIFENTHRIN|CARBARYL|GLYPHOSATE|CHLORPYRIFOS|THIAMETHOXAM"), names(on_field_residue_list))]
 on_field_subset <- lapply(on_field_subset, transform, ID="On-field")
 
-off_field_subset<- off_field_residue_list[grep(c("IMIDACLOPRID|BIFENTHRIN|CARBARYL|GLYPHOSATE|CHLORPYRIFOS"), names(off_field_residue_list))]
+off_field_subset<- off_field_residue_list[grep(c("IMIDACLOPRID|BIFENTHRIN|CARBARYL|GLYPHOSATE|CHLORPYRIFOS|THIAMETHOXAM"), names(off_field_residue_list))]
 off_field_subset <- lapply(off_field_subset, transform, ID="Off-field")
+
+
+# on_field_subset<- on_field_residue_list[grep(c("IMIDACLOPRID|BIFENTHRIN"), names(on_field_residue_list))]
+# on_field_subset <- lapply(on_field_subset, transform, ID="On-field")
+# 
+# off_field_subset<- off_field_residue_list[grep(c("IMIDACLOPRID|BIFENTHRIN"), names(off_field_residue_list))]
+# off_field_subset <- lapply(off_field_subset, transform, ID="Off-field")
+
+
 
 names(on_field_subset)<-paste0(names(on_field_subset),"_onfield")
 names(off_field_subset)<-paste0(names(off_field_subset),"_offfield")
@@ -55,100 +64,120 @@ seed_data$MediaSub<- sub("_.*", "", seed_data$Media)
 combine_all<-rbind(foliar_data,soil_data,seed_data)
 
 
-## read in residues from DER
-# res<-read.csv(paste0(pest_dir,"/Residues/DER_ResidueData.csv"))
-# res<-na.omit(res) 
-# residues<-res
-# residues$Residues_DER_ugg<-((as.numeric(residues$Mean_ng_g_normalized_1.3mg_seed)*as.numeric(residues$Original_treatment_mg_seed))/residues$Normalized)/1000
-# residues$Chemical<-toupper(residues$Chemical)
-# residues$Plant<-toupper(residues$Plant)
-# residues$Plant<-ifelse(residues$Plant == "SOY","SOYBEANS",residues$Plant)
-# residues<-residues[,c(4,11,12,14)]
-# colnames(residues)<-c("Compound","Commodity","MediaSub","Residues_ugg")
-# residues$ApplicationType<-"Seed"
-# residues$Source<-"Field"
-# 
-# 
-# # read in residues from lit review
-# litres<-read.csv(paste0(pest_dir,"/Residues/Lit_ResidueData.csv"))
-# litres<-litres[,c(1:5)]
-# litres<-litres[,c(1,3,2,4,5)]
-# litres<-na.omit(litres)
-# litres$Source<-"Field"
-# colnames(litres)<-colnames(residues)
-# litres$Compound<-toupper(litres$Compound)
-# 
-# residues<-rbind(residues,litres)
-# residues<-residues[!residues$Commodity =="COTTON",]
-# residues$ID<-"On-field"
-# 
-# # get the estimated data
-# combine_all<-na.omit(combine_all)
-# combine_all$Source<-"Estimated"
-# 
-# names(combine_all)
-# names(residues)
-# 
-# combine_all<-combine_all[,c(2:4,6:9)]
-# colnames(combine_all)[4]<-"Residues_ugg"
-# 
-# residues<-residues[,c(1:2,7,4:5,3,6)]
-# residues<-residues[residues$Compound == "BIFENTHRIN" |residues$Compound == "IMIDACLOPRID",  ]
-# 
-# #combine all together
-# combine_all<- rbind(combine_all,residues)
-# 
-# 
-# forcomparisons<-combine_all[combine_all$MediaSub == "Pollen" | combine_all$MediaSub == "Nectar"| combine_all$MediaSub == "Soil", ]
-# forcomparisons<-na.omit(forcomparisons)
-# compare_outputs<-split(forcomparisons, list(forcomparisons$Compound), drop=T) 
-# 
-# 
-# 
-# library(RColorBrewer)
-# myColors <- brewer.pal(8,"Dark2")
-# names(myColors) <- unique(combine_all$ApplicationType)
-# colScale <- scale_colour_manual(name = "ApplicationType",values = myColors)
-# fillScale <- scale_fill_manual(name = "ApplicationType",values = myColors)
-# 
-# #x<-compare_outputs[[1]]
-# 
-# create_plot_of_methodcompare<-function(x){
-#   df<-x
-#   
-#   df$Value<-log(df$Residues_ugg)
-#   df$IDf= factor(df$ID, levels=c('On-field','Off-field'))
-#   
-#   
-#   out<-ggplot(df, aes(ApplicationType, (Value),color=ApplicationType, fill=ApplicationType)) +
-#     geom_boxplot()+
-#     colScale+
-#     fillScale+
-#     #scale_y_continuous(breaks=ticks, labels=format(logticks,3))+
-#    # facet_grid(rows = vars(MediaSub), cols = vars(IDf), scales="free_y")+
-#     
-#     ggh4x::facet_nested(MediaSub ~ IDf + Source, scales="free_y")+
-#     
-#     ylab("Log Residues [ug/g]")+
-#     #xlab(ifelse(df$Compound=="IMIDACLOPRID","Application Type", ""))+
-#     theme_bw()+
-#     theme(legend.position="none", axis.text.y = element_text(size=14,face="bold"), axis.text.x = element_text(size=14,face="bold"),  axis.title=element_text(size=14,face="bold"))+
-#     ggtitle(paste0(x$Compound)) 
-#   out
-#   
-# }
-# 
-# 
-# out_plots<-lapply(compare_outputs, create_plot_of_methodcompare)
-# 
-# compare_app_methods<-plot_grid(
-#   out_plots[[1]],
-#   out_plots[[2]],
-#   hjust=0, vjust=0, align= "h",  label_x = 0.01, ncol= 2,rel_widths = c(3,3))
+#function to extract legend 
+get_only_legend <- function(plot) { 
+  plot_table <- ggplot_gtable(ggplot_build(plot)) 
+  legend_plot <- which(sapply(plot_table$grobs, function(x) x$name) == "guide-box") 
+  legend <- plot_table$grobs[[legend_plot]] 
+  return(legend) 
+} 
+
+options(scipen=0)
+
+#### Comparison of application type residues ----
+# read in residues from DER
+res<-read.csv(paste0(pest_dir,"/Residues/DER_ResidueData.csv"))
+res<-na.omit(res)
+residues<-res
+residues$Residues_DER_ugg<-((as.numeric(residues$Mean_ng_g_normalized_1.3mg_seed)*as.numeric(residues$Original_treatment_mg_seed))/residues$Normalized)/1000
+residues$Chemical<-toupper(residues$Chemical)
+residues$Plant<-toupper(residues$Plant)
+residues$Plant<-ifelse(residues$Plant == "SOY","SOYBEANS",residues$Plant)
+residues<-residues[,c(4,11,12,14)]
+colnames(residues)<-c("Compound","Commodity","MediaSub","Residues_ugg")
+residues$ApplicationType<-"Seed"
+residues$Source<-"Reported"
+residues$Location<-"On-field"
+
+
+# read in residues from lit review
+litres<-read.csv(paste0(pest_dir,"/Residues/Lit_ResidueData_Ethan.csv"))
+
+litres<-litres[,c(1:5)]
+litres<-na.omit(litres)
+litres$Commodity<-"Other"
+litres$Source<-"Reported"
+
+litres<-litres[,c(1,6,2,3,5,7,4)]
+colnames(litres)<-colnames(residues)
+litres$Compound<-toupper(litres$Compound)
+
+residues<-rbind(residues,litres)
+residues<-residues[!residues$Commodity =="COTTON",]
+
+# get the estimated data
+combine_all<-na.omit(combine_all)
+combine_all$Source<-"Estimated"
+
+names(combine_all)
+names(residues)
+
+combine_all<-combine_all[,c(2:4,6:9)]
+colnames(combine_all)[4]<-"Residues_ugg"
+
+residues<-residues[,c(1:2,7,4:5,3,6)]
+#residues<-residues[residues$Compound == "BIFENTHRIN" |residues$Compound == "IMIDACLOPRID",  ]
+names(residues)[3]<-"ID"
+
+#combine all together
+combine_all<- rbind(combine_all,residues)
+
+names(combine_all)
+names(residues)
+
+
+forcomparisons<-combine_all[combine_all$MediaSub == "Pollen" | combine_all$MediaSub == "Nectar"| combine_all$MediaSub == "Soil", ]
+forcomparisons<-na.omit(forcomparisons)
+compare_outputs<-split(forcomparisons, list(forcomparisons$Compound), drop=T)
+
+
+
+library(RColorBrewer)
+myColors <- brewer.pal(3,"Dark2")
+names(myColors) <- unique(combine_all$ApplicationType)
+colScale <- scale_colour_manual(name = "ApplicationType",values = myColors)
+fillScale <- scale_fill_manual(name = "ApplicationType",values = myColors)
+
+x<-compare_outputs[[7]]
+
+create_plot_of_methodcompare<-function(x){
+  df<-x
+
+  df$Value<-(as.numeric(df$Residues_ugg))
+  df$IDf= factor(df$ID, levels=c('On-field','Off-field'))
+
+  
+  df<-df[!df$Value < 3e-5,]
+
+  out<-ggplot(df, aes(ApplicationType, log(Value),color=ApplicationType, fill=ApplicationType)) +
+    geom_boxplot()+
+    colScale+
+    fillScale+
+    #scale_y_continuous(breaks=ticks, labels=format(logticks,3))+
+   # facet_grid(rows = vars(MediaSub), cols = vars(IDf), scales="free_y")+
+
+    ggh4x::facet_nested(MediaSub ~ IDf + Source, scales="free_y")+
+
+    ylab("Log Residues [ug/g]")+
+    xlab("Application Type")+
+    theme_bw()+
+    theme(legend.position="none", axis.text.y = element_text(size=14,face="bold"), axis.text.x = element_text(size=14,face="bold"),  axis.title=element_text(size=14,face="bold"))+
+    ggtitle(paste0(x$Compound))
+  out
+
+ }
+
+
+out_plots<-lapply(compare_outputs, create_plot_of_methodcompare)
+
+compare_app_methods<-plot_grid(
+  out_plots[[1]],
+  out_plots[[2]],
+  hjust=0, vjust=0, align= "h",  label_x = 0.01, ncol= 2,rel_widths = c(3,3))
 compare_app_methods
 
 
-#### Daily Time-step organized by on/off-field ---
+#### Daily Time-step organized by on/off-field ----
 combine_all$ID<-factor(combine_all$ID,levels=c("On-field","Off-field"))
 
 #extract air/dust
@@ -164,7 +193,7 @@ nectar_df<-combine_all[combine_all$MediaSub == 'Nectar', ]
 
 #Create a custom color scale
 library(RColorBrewer)
-myColors <- brewer.pal(5,"Dark2")
+myColors <- brewer.pal(7,"Dark2")
 names(myColors) <- unique(combine_all$Compound)
 colScale <- scale_colour_manual(name = "Compound",values = myColors)
 
@@ -201,17 +230,14 @@ colScale <- scale_colour_manual(name = "Compound",values = myColors)
 soiln<- ggplot(soil_df, aes(day, (Value), color=Compound)) +
   geom_line(aes(linetype = ApplicationType), size=1)+
   colScale+
-  #geom_point(aes(shape=ApplicationType))+
-  #scale_shape_manual(values=c(1,4,8))+
+
   scale_x_continuous(limits=c(0, 150), breaks=seq(0,150, by=20))+
   facet_wrap(~Commodity + ID,scales = "free", nrow=2)+
   #facet_grid(rows = vars(Commodity), cols = vars(ID), scales="free")+
   ylab("Residues [ug/g]")+
   xlab("Days Post-Application")+
-  #geom_text(x=125, y=0.05, label="Soil", color="black", size=6)+
   theme_bw()+
   theme()+
-  #theme(plot.margin = unit(c(1,1,1,1), "cm"))
   theme(legend.position="none",axis.text.y = element_text(size=12,face="bold"), 
         axis.text.x = element_text(size=12,face="bold"), 
         axis.title=element_text(size=14,face="bold"),
@@ -222,20 +248,11 @@ soiln
 pollenn<- ggplot(pollen_df, aes(day, Value, color=Compound)) +
   geom_line(aes(linetype = ApplicationType), size=1)+
   colScale+
-  # scale_x_continuous(limits=c(60, 130), breaks=seq(60,130, by=10),labels =c("0","7","17","27","37","47","57","67"))+
-  # ifelse(pollen_df$Commodity == "CORN",
-  # scale_x_continuous(limits=c(70, 130), breaks=seq(70,130, by=10),labels =c("7","17","27","37","47","57","67")),
-  # scale_x_continuous(limits=c(60, 120), breaks=seq(60,120, by=10),labels =c("7","17","27","37","47","57","67"))
-  # )+
-  # geom_point(aes(shape=ApplicationType))+
-  #scale_shape_manual(values=c(1,4,8))+
   facet_wrap(~Commodity + ID,scales = "free", nrow=2)+
   #facet_grid(rows = vars(Commodity), cols = vars(ID), scales="free")+
   ylab("")+
   xlab("Days After Pollen Emergence")+
-  # geom_text(x=125, y=7.5, label="Pollen", color="black", size=6)+
   theme_bw()+
-  #  theme(plot.margin = unit(c(1,1,1,1), "cm"))+
   theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"), 
         axis.text.x = element_text(size=12,face="bold"),  
         axis.title=element_text(size=14,face="bold"),
@@ -245,27 +262,22 @@ pollenn
 c<-seq(67,150, by=10)
 s<-seq(56,140, by=10)
 
-pollenn<-pollenn + facetted_pos_scales(
+  pollenn<-pollenn + facetted_pos_scales(
   x = list(
-    Commodity == "CORN" & ID == "On-field" ~ scale_x_continuous(limits=c(67, 150), breaks=c,labels =c("0","10","20","30","40","50","60","70","80")),
-    Commodity == "SOYBEANS" & ID == "On-field"~ scale_x_continuous(limits=c(56, 140),breaks=s,labels =c("0","10","20","30","40","50","60","70","80"))
+  Commodity == "CORN" & ID == "On-field" ~ scale_x_continuous(limits=c(67, 150), breaks=c,labels =c("0","10","20","30","40","50","60","70","80")),
+  Commodity == "SOYBEANS" & ID == "On-field"~ scale_x_continuous(limits=c(56, 140),breaks=s,labels =c("0","10","20","30","40","50","60","70","80"))
+   )
   )
-)
 
 
 nectarn<- ggplot(nectar_df, aes(day, Value, color=Compound)) +
   geom_line(aes(linetype = ApplicationType), size=1)+
   colScale+
-  #scale_x_continuous(limits=c(60, 120), breaks=seq(60,120, by=10),labels =c("0","7","17","27","37","47","57"))+
-  #geom_point(aes(shape=ApplicationType))+
-  #scale_shape_manual(values=c(1,4,8))+
   facet_wrap(~Commodity + ID,scales = "free", nrow=3)+
   #facet_grid(rows = vars(Commodity), cols = vars(ID), scales="free_y")+
   ylab("")+
   xlab("Days After Nectar Emergence")+
-  #geom_text(x=125, y=0.9, label="Nectar", color="black", size=6)+
   theme_bw()+
-  # theme(plot.margin = unit(c(1,1,1,1), "cm"))+
   theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"),
         axis.text.x = element_text(size=12,face="bold"),  
         axis.title=element_text(size=14,face="bold"),
@@ -277,6 +289,7 @@ s<-seq(56,140, by=10)
 
 nectarn<-nectarn + facetted_pos_scales(
   x = list(
+    
     Commodity == "CORN" & ID == "On-field" ~ scale_x_continuous(limits=c(67, 150), breaks=c,labels =c("0","10","20","30","40","50","60","70","80")),
     Commodity == "SOYBEANS" & ID == "On-field"~ scale_x_continuous(limits=c(56, 140),breaks=s,labels =c("0","10","20","30","40","50","60","70","80"))
   )
@@ -287,7 +300,7 @@ compare_between_media<-plot_grid(
   soiln,
   pollenn,
   nectarn, 
-  # labels = c('Air', 'Dust','Soil','Pollen','Nectar'),
+  labels = c('Soil','Pollen','Nectar'),
   
   hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow = 1,rel_widths = c(4,4,3))
 compare_between_media
@@ -315,68 +328,123 @@ compare_between_media
 
 
 
-#### Daily time-step organized by chemical
+#### Daily time-step organized by chemical ----
 
 #Create a custom color scale
 library(RColorBrewer)
 myColors <- brewer.pal(3,"Dark2")
 names(myColors) <- unique(combine_all$ApplicationType)
-colScale <- scale_colour_manual(name = "ApplicationType",values = myColors)
+colScale <- scale_colour_manual(name = "Application Type",values = myColors)
+
+mylines <- c("solid", "dotted")
+names(mylines) <- unique(combine_all$ID)
+lineScale <- scale_linetype_manual(values = mylines,name = "Location",)
+
 
 combine_all$ID<-factor(combine_all$ID,levels=c("On-field","Off-field"))
-by_chemical<-split(combine_all, list(combine_all$Compound), drop=T) 
+#combine_all<-left_join(combine_all,beetox[,c(1:3)])
+combine_all<-combine_all[with(combine_all, order(Compound,Commodity)), ] 
+by_commodity<-split(combine_all, list(combine_all$Commodity), drop=T) 
 
-x<-by_chemical[[5]]
 
+#x<-by_commodity[[2]]
 plot_all_applications_by_timeseries<-function(x){
   
   x<-na.omit(x)
-  x<-x[!x$Value < 3e-5,] #set level of detection of 0.03 ng/g
+ # x<-x[!x$Value < 3e-5,] #set level of detection of 0.03 ng/g
   x<-x[x$MediaSub == "Pollen" | x$MediaSub == "Nectar"| x$MediaSub == "Soil", ]
+  #x$ApplicationType<-as.factor(x$ApplicationType,levels=c("Foliar","Seed","Soil"))
+    
+  # x$day<- ifelse(x$Commodity == "CORN"  & x$ID == "On-field" & x$MediaSub == "Pollen", x$day-67,x$day )
+  # x$day<- ifelse(x$Commodity == "SOYBEANS" & x$ID == "On-field" & x$MediaSub == "Pollen" | x$Commodity == "SOYBEANS"  & x$ID == "On-field" & x$MediaSub == "Nectar",x$day-56,x$day )
+
+  #here, we need to change the dates to reflect some x number of days post-planting of crop
+  x$day<- ifelse(x$Commodity == "CORN" & x$ApplicationType== "Foliar" & x$ID == "Off-field" & x$MediaSub == "Pollen", x$day+67,x$day )
+  x$day<- ifelse(x$Commodity == "CORN" & x$ApplicationType== "Foliar" & x$ID == "Off-field" & x$MediaSub == "Nectar", x$day+67,x$day )
+  x$day<- ifelse(x$Commodity == "CORN" & x$ApplicationType== "Foliar" & x$ID == "Off-field" & x$MediaSub == "Soil", x$day+67,x$day )
+  
+  x$day<- ifelse(x$Commodity == "SOYBEANS" & x$ApplicationType== "Foliar" & x$ID == "Off-field" & x$MediaSub == "Pollen" ,x$day+56,x$day )
+  x$day<- ifelse(x$Commodity == "SOYBEANS" & x$ApplicationType== "Foliar" & x$ID == "Off-field" & x$MediaSub == "Nectar", x$day+56,x$day )
+  x$day<- ifelse(x$Commodity == "SOYBEANS" & x$ApplicationType== "Foliar" & x$ID == "Off-field" & x$MediaSub == "Soil", x$day+56,x$day )
+  
+  x$day<- ifelse(x$Commodity == "SOYBEANS" & x$ApplicationType== "Foliar" & x$ID == "On-field" & x$MediaSub == "Soil", x$day+56,x$day )
+  x$day<- ifelse(x$Commodity == "CORN" & x$ApplicationType== "Foliar" & x$ID == "On-field" & x$MediaSub == "Soil", x$day+67,x$day )
+  
+  x$MediaSub<-factor(x$MediaSub,levels=c("Soil","Pollen","Nectar"))
+  
+  #surface area of a bumblebee
+  SA<-2.216 #cm2
+  
+  # depo<-x[x$MediaSub == "Air" |x$MediaSub == "Dust" , ]
+  # micro<-x[x$MediaSub == "Pollen" | x$MediaSub == "Nectar"| x$MediaSub == "Soil", ]
+  # 
+  # depo$EEC<-((depo$Value/10000)*SA)# convert to cm2, multiple by surface area of bumblebee to get eec in ug/bee, and divide by contact LD50
+  # micro$EEC<-ifelse(micro$MediaSub == "Soil", (micro$Value/10000*SA), (micro$Value * IR))
+  # x<-rbind(micro,depo)
   
   
-  split_by_commodity<-split(x,list(x$Commodity), drop=T)
-  
-  c<-seq(67,150, by=10)
-  s<-seq(56,140, by=10)
-  
-  list_of_plots<-list()
-  for(crop in 1:length(split_by_commodity)){
-  output<- ggplot(split_by_commodity[[crop]], aes(day, (Value), color=ApplicationType)) +
-    geom_line(aes(linetype = ApplicationType), size=1)+
-    colScale +
-    facetted_pos_scales(
-      x = list(
-        Commodity == "CORN" & ID == "On-field" &  MediaSub == "Pollen"  ~ scale_x_continuous(limits=c(67, 150), breaks=c,labels =c("0","10","20","30","40","50","60","70","80")),
-        Commodity == "SOYBEANS" & ID == "On-field" & MediaSub == "Nectar" | MediaSub == "Pollen"~ scale_x_continuous(limits=c(56, 140),breaks=s,labels =c("0","10","20","30","40","50","60","70","80"))
-        ) ) +
-    facet_nested_wrap(~MediaSub + ID,scales = "free")+
+  x<- x%>% mutate(EEC = case_when(MediaSub == "Soil" ~ Value/10000*SA,
+                         MediaSub == "Air" || MediaSub == "Dust"~ Value/10000*SA,
+                         MediaSub == "Nectar" ~ Value * 0.400, #ingestion rate foraging bee
+                         TRUE ~ Value*0.030))
+
+  split_by_commodity<-split(x,list(x$Compound), drop=T)
+  all<-seq(0,150,by=25)
+  #crop<-split_by_commodity[[5]]
+
+ plot_base_plots<- function(crop){
+    
+  output<- ggplot(crop) +
+    geom_line(aes(day, (EEC), linetype=ID, color=ApplicationType),size=1.2)+
+    facet_nested_wrap(~MediaSub, scales="free",nrow=1)+
+   # facet_grid(~MediaSub+Commodity)+
+    scale_x_continuous(limits=c(0, 150),breaks=all)+
+    #scale_x_continuous(limits=c(0, 80), breaks=all,labels =c("0","10","20","30","40","50","60","70","80"))+
     #facet_grid(rows = vars(ID), cols = vars(Commodity), scales="free_y")+
     ylab("")+
-    xlab("Days After Application")+
+    xlab("")+
+    # xlab(ifelse(crop$Commodity == "SOYBEANS","Days After Planting",""))+
+    # geom_hline(yintercept = crop$Contact_LD50_ug_bee, col="red", linetype="longdash")+
+    # geom_hline(yintercept = crop$Oral_LD50_ug_bee, col="darkred", linetype="longdash")+
+    # geom_label(aes(x = 60, y = crop$Contact_LD50_ug_bee, label = paste0("Contact LD50")), size= 3, col='black')+
+    # geom_label(aes(x = 20, y = crop$Oral_LD50_ug_bee, label = paste0("Oral LD50")), size= 3, col='black')+
     theme_bw()+
-    theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"),
-          axis.text.x = element_text(size=12,face="bold"),  
-          axis.title=element_text(size=14,face="bold"),
-          plot.background = element_rect(color = "black"))+
-    ggtitle(paste0(split_by_commodity[[crop]]$Commodity)) 
+    theme(legend.position="none",axis.text.y = element_text(size=12,face="bold"),
+          axis.text.x = element_text(size=12,face="bold", angle=45, vjust=0.9),  
+          axis.title=element_text(size=14,face="bold"))+
+          # plot.background = element_rect(color = "black"))+
+    ggtitle(paste0(str_to_title(crop$Compound))) +
+    colScale +
+    lineScale
+   
   output
+  }
+  
+  # c<-seq(67,150, by=10)
+  # s<-seq(56,140, by=10)
+  # all<-seq(0,80,by=10)
+  
+ # output<-output + facetted_pos_scales(
+ #    x = list(
+ #      ID =="Off-field" ~ scale_x_continuous(limits=c(0, 80), breaks=all,labels =c("0","10","20","30","40","50","60","70","80")),
+ #      MediaSub =="Soil" ~ scale_x_continuous(limits=c(0, 80), breaks=all,labels =c("0","10","20","30","40","50","60","70","80")),
+ #      Commodity == "CORN" & ID == "On-field" &  MediaSub == "Pollen"  ~ scale_x_continuous(limits=c(67, 150), breaks=c,labels =c("0","10","20","30","40","50","60","70","80")),
+ #      Commodity == "SOYBEANS" & ID == "On-field" &  MediaSub == "Pollen"~ scale_x_continuous(limits=c(56, 140),breaks=s,labels =c("0","10","20","30","40","50","60","70","80")),
+ #      Commodity == "SOYBEANS" & ID == "On-field" &  MediaSub == "Nectar"~ scale_x_continuous(limits=c(56, 140),breaks=s,labels =c("0","10","20","30","40","50","60","70","80"))
+ #      
+ #    ) ) +
+ 
+  
 
-  list_of_plots[[crop]]<-output
-  
-}
-  
 
-  both_crops<-plot_grid(
-    list_of_plots[[1]],
-    list_of_plots[[2]],
-    hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow= 2,rel_widths = c(4,4))
-  both_crops
+  rel_plots<-lapply(split_by_commodity,plot_base_plots)
+  final_plots<-ggarrange(plotlist = rel_plots,nrow= 3, ncol=2)
+
+
   
   
-  all_plot_legend <- ggplot(x, aes(day, Value, colour=ID, fill=ApplicationType)) +
-    geom_line(aes(linetype=ApplicationType), size=1)+
-    colScale+
+  all_plot_legend <- ggplot(x) +
+    geom_line(aes(day, Value, linetype=ID, color=ApplicationType),size=1.5)+
     facet_wrap(~Commodity,scales = "free", nrow=1)+
     ylab("Residues")+
     xlab("Day")+
@@ -385,22 +453,362 @@ plot_all_applications_by_timeseries<-function(x){
            legend.key.height = unit(1, 'cm'), #change legend key height
            legend.key.width = unit(1, 'cm'), #change legend key width
            legend.title = element_text(size=16), #change legend title font size
-           legend.text = element_text(size=14))
-
-
-
+           legend.text = element_text(size=14))+
+    colScale +
+    lineScale
   legend<-get_only_legend(all_plot_legend)
   
-  final<-plot_grid(both_crops,legend, nrow=1, rel_widths = c(7,1))
+  #plot_grid(final_plots,legend)
+  
+  final<-plot_grid(final_plots,nrow=1, rel_widths = c(7))
   final
   
 }
 
 
+supplementary_daily_plots<-lapply(by_commodity, plot_all_applications_by_timeseries)
 
 
 
-#### COlony life-cycle example - this will be tabled until chapter 3 ----
+# daily_time_step<-plot_grid(supplementary_daily_plots[[1]],
+#                  supplementary_daily_plots[[2]],
+#                  # supplementary_daily_plots[[3]],
+#                  # supplementary_daily_plots[[4]],
+#                  # supplementary_daily_plots[[5]],
+#                  # supplementary_daily_plots[[6]],
+#                  nrow=2, rel_widths = c(5,5))
+
+
+
+daily_time_step_corn<-plot_grid(supplementary_daily_plots[[1]], legend, rel_widths = c(5,1))
+daily_time_step_soy<-plot_grid(supplementary_daily_plots[[2]], legend, rel_widths = c(5,1))
+
+y.grob <- textGrob("Rate-Adjusted EEC [ug/bee]", 
+                   gp=gpar(fontface="bold", col="black", fontsize=15), rot=90)
+
+x.grob <- textGrob("Days Post-Planting", 
+                   gp=gpar(fontface="bold", col="black", fontsize=15))
+
+grid.arrange(arrangeGrob(daily_time_step_corn, left = y.grob, bottom = x.grob))
+
+grid.arrange(arrangeGrob(daily_time_step_soy, left = y.grob, bottom = x.grob))
+
+
+
+
+
+
+#### Hazard quotients/Concentrations----
+
+
+#surface area of a bumblebee
+SA<-2.216 #cm2
+
+#combine with beetox and set units
+combine_all$units<-ifelse(combine_all$MediaSub == "Dust" | combine_all$MediaSub == "Air", "ug/m2","ug/g" )
+combine_all<-left_join(combine_all,beetox[,c(1:3)])
+#combine_all<-combine_all[with(combine_all, order(Compound,Commodity)), ] 
+#organize endpoints
+combine_all<- gather(combine_all, "ExposureLevel", "Endpoint", 10:11)
+
+
+#customize colors
+library(RColorBrewer)
+myColors <- brewer.pal(5,"Dark2")
+names(myColors) <- unique(combine_all$MediaSub)
+colScale <- scale_colour_manual(name = "MediaSub",values = myColors)
+fillScale <- scale_fill_manual(name = "MediaSub",values = myColors)
+
+#split according to application type first
+split_datasets_for_HQ<-split(combine_all, list(combine_all$ApplicationType), drop=T) 
+#x<-split_datasets_for_HQ[[1]]
+
+create_plot_of_rq<-function(x){
+  df<-x
+  df<-na.omit(df)
+  
+
+  #calculate ingestion/contact based eecs
+df<- df %>% mutate(EEC = case_when(MediaSub == "Soil" ~ Value/10000*SA,
+                        MediaSub == "Air" || MediaSub == "Dust"~ Value/10000*SA,
+                        MediaSub == "Nectar" ~ Value * 0.400,
+                        TRUE ~ Value*0.030))
+
+
+#remove rows where the condition for concentration is expressed twice
+  df<-df[!(  df$MediaSub == "Air" & df$ExposureLevel == "Oral_LD50_ug_bee" |
+             df$MediaSub == "Dust" & df$ExposureLevel == "Oral_LD50_ug_bee" |
+             df$MediaSub == "Soil" & df$ExposureLevel == "Oral_LD50_ug_bee"|
+             df$MediaSub == "Nectar" & df$ExposureLevel == "Contact_LD50_ug_bee"|
+             df$MediaSub == "Pollen" & df$ExposureLevel == "Contact_LD50_ug_bee") ,]
+  
+  
+  
+  #df$endpoint_final<-df$EEC/(df$Endpoint/10)
+  
+  #split by crop
+  df_list<-split(df, list(df$Commodity), drop=T)
+  #crop<-df_list[[2]]
+
+  plot_by_crop<-function(crop){
+    
+    # ticks <- (seq(-35,15, by=10))
+    # logticks <- exp(ticks)
+    
+  #create plot
+  out<-ggplot(crop) +
+    geom_boxplot(aes(MediaSub, (EEC), color=MediaSub, fill=MediaSub))+
+    geom_point(aes(x=MediaSub, y=(Endpoint),size=1.2),shape=4, color = 'darkred')+
+    scale_y_continuous(trans=scales::log_trans(),
+                       labels = scales::format_format())+
+   # geom_hline(yintercept =0.4, color="darkred")+
+    
+   # scale_y_continuous(breaks=ticks, labels=format(logticks,2))+
+    #geom_label(aes(x=Compound, y=log(Endpoint), label = paste0("Acute LD50")), size= 2, col='black')+
+    facet_nested_wrap(~Compound +ID,nrow=1)+
+   # facet_grid(~ MediaSub  + ID)+
+    #facet_wrap(~Compound, scales = "free", nrow=1)+
+    colScale+
+    fillScale+
+   # scale_y_continuous(limits=c(-30,5), breaks=seq(-30,5, by=10))+
+    #ylab(ifelse(df$ApplicationType == "Foliar","Hazard Quotient", ""))+
+    theme_bw()+
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+    ggtitle(paste0(crop$ApplicationType,"-", crop$Commodity)) +
+    theme(legend.position="none",axis.title=element_text(size=14,face="bold"),axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"), axis.title.y=element_blank(), axis.title.x=element_blank())
+  out
+  
+  }
+  
+  output_by_crop<-lapply(df_list, plot_by_crop)
+  
+  final_plots<-ggarrange(plotlist = output_by_crop, ncol=1)
+  
+ 
+  # all_plot_legend <- 
+  #   ggplot(df) +
+  #   geom_boxplot(aes(MediaSub, log(EEC), color=MediaSub, fill=MediaSub))+
+  #   geom_point(aes(x=MediaSub, y=log(Endpoint)), color = 'darkred')+
+  #   #geom_label(aes(x=Compound, y=log(Endpoint), label = paste0("Acute LD50")), size= 2, col='black')+
+  #   facet_nested_wrap(~Compound +ID,nrow=1)+
+  #   # facet_grid(~ MediaSub  + ID)+
+  #   #facet_wrap(~Compound, scales = "free", nrow=1)+
+  #   colScale+
+  #   fillScale+
+  #   scale_y_continuous(limits=c(-30,5), breaks=seq(-30,5, by=10))+
+  #   #ylab(ifelse(df$ApplicationType == "Foliar","Hazard Quotient", ""))+
+  #   theme_bw()+
+  #   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+  #   ggtitle(paste0(crop$ApplicationType,"-", crop$Commodity)) +
+  #   theme(legend.position="none",axis.title=element_text(size=14,face="bold"),axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"), axis.title.y=element_blank(), axis.title.x=element_blank())
+  # 
+  # legend<-get_only_legend(all_plot_legend)
+  
+
+  final_plots
+
+}
+
+
+list_of_plots<-lapply(split_datasets_for_HQ,  create_plot_of_rq)
+
+compare_risk<-plot_grid(
+  list_of_plots[[1]],
+  list_of_plots[[2]],
+  list_of_plots[[3]],
+  # labels = c('Air', 'Dust','Soil','Pollen','Nectar'),
+  hjust=0, vjust=0, align= "h",  label_x = 0.01, ncol=3, rel_widths = c(4,3,1))
+compare_risk
+
+
+y.grob <- textGrob("Rate-Adjusted EEC [ug/bee]", 
+                   gp=gpar(fontface="bold", col="black", fontsize=15), rot=90)
+
+x.grob <- textGrob("Media Type", 
+                   gp=gpar(fontface="bold", col="black", fontsize=15))
+
+grid.arrange(arrangeGrob(compare_risk, left = y.grob, bottom = x.grob))
+
+# legend_plot<-ggplot(eec_df, aes(MediaSub, Value, fill=MediaSub)) +
+#   geom_hline(yintercept=log(0.4))+
+#   geom_boxplot() +
+#   #geom_point( size=3.2, aes(shape=MediaSub))+
+#   # scale_y_continuous(limits=c(-30,5), breaks=seq(-30,5, by=10))+
+#   
+#   facet_wrap(Commodity ~ Compound, 
+#              scales="free_y",nrow=2)+
+#   #facet_wrap(~Compound, scales = "free", nrow=1)+
+#   ylab("Risk Quotient")+
+#   xlab("Compound")+
+#   theme_bw()+
+#   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+#         legend.key.size = unit(1, 'cm'), #change legend key size
+#         legend.key.height = unit(1, 'cm'), #change legend key height
+#         legend.key.width = unit(1, 'cm'), #change legend key width
+#         legend.title = element_text(size=16), #change legend title font size
+#         legend.text = element_text(size=14))+
+#   #ggtitle(paste0(x$ApplicationType)) +
+#   guides(fill=guide_legend(title="Media Type"))
+# legend_plot
+# 
+# legend_plot<-ggplot(crop) +
+#   geom_boxplot(aes(Compound, log(EEC), color=Compound, fill=Compound))+
+#   geom_point(aes(x=Compound, y=log(Endpoint)), color = 'darkred')+
+#   scale_color_manual
+#   #geom_label(aes(x=Compound, y=log(Endpoint), label = paste0("Acute LD50")), size= 2, col='black')+
+#   facet_nested_wrap(~MediaSub +ID,nrow=1)+
+#   # facet_grid(~ MediaSub  + ID)+
+#   #facet_wrap(~Compound, scales = "free", nrow=1)+
+#   scale_y_continuous(limits=c(-30,5), breaks=seq(-30,5, by=10))+
+#   #ylab(ifelse(df$ApplicationType == "Foliar","Hazard Quotient", ""))+
+#   theme_bw()+
+#   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+#   ggtitle(paste0(crop$ApplicationType,"-", crop$Commodity)) +
+#   theme(axis.title=element_text(size=14,face="bold"),axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"), axis.title.x=element_blank())
+# legend_plot
+# 
+# 
+# legend<-get_only_legend(legend_plot)
+# 
+# compare_RQ<-plot_grid(compare_RQ, legend,nrow=1, rel_widths = c(6.5,0.5))
+# compare_RQ
+
+
+
+
+
+
+
+
+
+
+#### Compare against field estimates ----
+# read in residues from DER
+res<-read.csv(paste0(pest_dir,"/Residues/DER_ResidueData.csv"))
+res<-na.omit(res)
+residues<-res
+residues$Residues_DER_ugg<-((as.numeric(residues$Mean_ng_g_normalized_1.3mg_seed)*as.numeric(residues$Original_treatment_mg_seed))/residues$Normalized)/1000
+residues$Chemical<-toupper(residues$Chemical)
+residues$Plant<-toupper(residues$Plant)
+residues$Plant<-ifelse(residues$Plant == "SOY","SOYBEANS",residues$Plant)
+residues<-residues[,c(4,11,12,14)]
+colnames(residues)<-c("Compound","Commodity","MediaSub","Residues_ugg")
+residues$ApplicationType<-"Seed"
+residues$Source<-"Reported"
+residues$Location<-"On-field"
+
+
+# read in residues from lit review
+litres<-read.csv(paste0(pest_dir,"/Residues/Lit_ResidueData_Ethan.csv"))
+
+litres<-litres[,c(1:5)]
+litres<-na.omit(litres)
+litres$Commodity<-"Other"
+litres$Source<-"Reported"
+
+litres<-litres[,c(1,6,2,3,5,7,4)]
+colnames(litres)<-colnames(residues)
+litres$Compound<-toupper(litres$Compound)
+
+residues<-rbind(residues,litres)
+residues<-residues[!residues$Commodity =="COTTON",]
+
+# get the estimated data
+combine_all<-na.omit(combine_all)
+combine_all$Source<-"Estimated"
+
+names(combine_all)
+names(residues)
+
+combine_all<-combine_all[,c(2:4,6:9)]
+colnames(combine_all)[4]<-"Residues_ugg"
+
+residues<-residues[,c(1:2,7,4:5,3,6)]
+#residues<-residues[residues$Compound == "BIFENTHRIN" |residues$Compound == "IMIDACLOPRID",  ]
+names(residues)[3]<-"ID"
+
+#combine all together
+combine_all<- rbind(combine_all,residues)
+combine_all$ID<-factor(combine_all$ID,levels=c("On-field","Off-field"))
+residues_all<-combine_all
+
+
+#testy<-residues_all[residues_all$Source == "Reported",]
+
+list_by_applciationtype<-split(residues_all, f= residues_all$ApplicationType)
+
+
+create_plot_of_fieldcompare<-function(x){
+  df<-x
+  #df<-df[!df$Commodity == "Other",]
+  df<-df[!c(df$MediaSub == "Dust" | df$MediaSub == "Air"), ]
+  
+  df<-df %>%
+    group_by(MediaSub, Compound, ID )%>%
+    filter(Residues_ugg > 3e-5) %>%
+    filter(n_distinct(Source) > 1)
+  
+  list_by_media_sub<-split(df,list(df$MediaSub))
+  mediasub<-list_by_media_sub[[1]]
+
+  compare_by_mediasub<-function(mediasub){
+
+ticks <- (c(-10,-8,-6,-4,-2,0,2))
+logticks <- exp(ticks)
+
+  out<-ggplot(mediasub, aes(Source, log(Residues_ugg),fill=Source)) +
+    geom_boxplot() +
+    geom_hline(yintercept=log(3e-5))+
+    colScale+
+    # scale_y_continuous(trans=scales::log_trans(),
+    #                    labels = scales::format_format())+
+    scale_y_continuous(breaks=ticks, labels=format(as.numeric(logticks),scientific=T, digits=3))+
+    #scale_y_continuous(breaks=c(ticks,logticks), labels=c(ticks,exp(logticks)))+
+    #facet_nested_wrap(~ApplicationType + Compound +ID,scales="free")+
+    ggh4x:: facet_nested(.~Compound + ID, scales="free_y")+
+    #facet_wrap(~Compound, scales = "free", nrow=1)+
+    ylab(ifelse(df$MediaSub == "Nectar","Log Residues [ug/g]", ""))+
+   # xlab(ifelse(df$MediaSub == "Nectar", "Estimated vs. Field Residues", ""))+
+    theme_bw()+
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+    ggtitle(paste0(mediasub$ApplicationType, "-", mediasub$MediaSub)) +
+    theme(legend.position="none", axis.text.y = element_text(size=14,face="bold"), axis.text.x = element_text(size=14,face="bold"),  axis.title=element_text(size=14,face="bold"))
+  out
+  }
+  
+  experimental_plots<-lapply(list_by_media_sub,compare_by_mediasub)
+  final_plots<-ggarrange(plotlist = experimental_plots, ncol=1)
+  final_plots
+}
+
+
+list_of_estimate_plots<-lapply(list_by_applciationtype,create_plot_of_fieldcompare)
+
+compare_field_est<-plot_grid(
+  # list_of_estimate_plots[[1]],
+  # list_of_estimate_plots[[2]],
+  list_of_estimate_plots[[1]],
+  list_of_estimate_plots[[2]],
+  list_of_estimate_plots[[3]],
+  
+  
+  # labels = c('Air', 'Dust','Soil','Pollen','Nectar'),
+  hjust=0, vjust=0, align= "h",  label_x = 0.01, ncol = 3,rel_widths = c(4,4,2))
+
+compare_field_est
+
+y.grob <- textGrob("Rate-Adjusted EEC", 
+                   gp=gpar(fontface="bold", col="black", fontsize=15), rot=90)
+
+x.grob <- textGrob("", 
+                   gp=gpar(fontface="bold", col="black", fontsize=0))
+
+grid.arrange(arrangeGrob(compare_field_est, left = y.grob, bottom = x.grob))
+
+
+
+
+#### Colony life-cycle example - this will be tabled until chapter 3 ----
 
 #corn
 day<-c(0,30,45,90,120)

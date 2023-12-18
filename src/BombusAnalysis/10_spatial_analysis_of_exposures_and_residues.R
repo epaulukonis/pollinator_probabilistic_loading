@@ -96,7 +96,7 @@ names(modeled_onsite_outputs_by_field)<-names(individual_fields_by_group_onfield
 
 
 
-# examine<-modeled_onsite_outputs_by_field[sapply(modeled_onsite_outputs_by_field, nrow) == 755]
+#examine<-modeled_onsite_outputs_by_field[sapply(modeled_onsite_outputs_by_field, nrow) == 755]
 # testy<-examine[[1]]
 # 
 # 
@@ -104,13 +104,14 @@ names(modeled_onsite_outputs_by_field)<-names(individual_fields_by_group_onfield
 
 ##### OFFSITE OUTPUTS BY FIELD
 #alter the gather function slightly
-gather_data<-function(x){
-  df<-x
-  df<-gather(df, "MediaSub", "Value", 5:ncol(df))
-  df
-  
-}
+# gather_data_offfield<-function(x){
+#   df<-x
+#   df<-gather(df, "MediaSub", "Value", 5:ncol(df))
+#   df
+#   
+# }
 
+#field<-1
 modeled_offsite_outputs_by_field<-list()
 for(field in 1:length(individual_fields_by_group_offfield)){
   
@@ -122,6 +123,9 @@ for(field in 1:length(individual_fields_by_group_offfield)){
   #match on_field_residue list of modeled outputs
   model_df<-off_field_residue_list[names(off_field_residue_list) %in% pulldf]
   model_df<- map_df(model_df, ~as.data.frame((.)))
+  
+  model_df<-model_df[,!names(model_df) %in% "ApplicationType"]
+  
   
   colnames(model_df)[4:ncol(model_df)]<-sub("\\_.*", "", names(model_df)[4:ncol(model_df)])
   
@@ -142,19 +146,18 @@ names(modeled_offsite_outputs_by_field)<-names(individual_fields_by_group_offfie
 
 
 
-
-
 #### Get moving averages 
-testy<-modeled_onsite_outputs_by_field[[155]]
-x<-testy
+# testy<-modeled_offsite_outputs_by_field[[155]]
+# x<-testy
 
 get_rolling_average<-function(x){
-# 
+
 #   why_no_work<-list()
 #   for(field in 1:length(modeled_onsite_outputs_by_field)){
   #x<-modeled_onsite_outputs_by_field[[field]]
-  x$Value<-ifelse(x$MediaSub == "Air" & x$day > 0 | x$MediaSub == "Dust" & x$day > 0, NA, x$Value)
-  x<- x[!is.na(x$Value),]
+  
+x$Value<-ifelse(x$MediaSub == "Air" & x$day > 0 | x$MediaSub == "Dust" & x$day > 0, NA, x$Value)
+x<- x[!is.na(x$Value),]
  
 #pull out single deposition value for air/dust
  depo<-x[x$MediaSub%in% c("Air","Dust"),]
@@ -181,10 +184,148 @@ y<-rbind(depo,y)
 #   }
 }
 
+##on-field
+moving_avg_list_on<-lapply(modeled_onsite_outputs_by_field,get_rolling_average)
+on_field_moving_averages <- do.call("rbind", moving_avg_list_on)
 
-moving_avg_list<-lapply(modeled_onsite_outputs_by_field,get_rolling_average)
 
-on_field_moving_averages <- do.call("rbind", moving_avg_list)
+##off-field
+moving_avg_list_off<-lapply(modeled_offsite_outputs_by_field,get_rolling_average)
+off_field_moving_averages <- do.call("rbind", moving_avg_list_off)
 
-cloth<-on_field_moving_averages[on_field_moving_averages$Compound == "CLOTHIANIDAN",]
-plot(cloth$Value)
+
+
+# st_write(off_field_moving_averages , paste0(root_data_out, "/all_bombus/outputforshiny/off_field_movingavg.shp"), driver = "ESRI Shapefile")
+# st_write(on_field_moving_averages , paste0(root_data_out, "/all_bombus/outputforshiny/on_field_movingavg.shp"), driver = "ESRI Shapefile")
+
+### Get area percentages ----
+
+habitat_area<-sum(st_area(bomb_h))
+on_field_area<-sum(st_area(on_field_moving_averages))
+off_field_area<-sum(st_area(off_field_moving_averages))
+
+total_area_zone<-off_field_area/habitat_area
+
+onfield_tox_thresh<-left_join(on_field_moving_averages,beetox[,c(1:3)])
+offfield_tox_thresh<-left_join(off_field_moving_averages,beetox[,c(1:3)])
+
+#surface area of bee
+SA<-2.216 #cm2
+
+#calculate ingestion/contact based eecs
+onfield_tox_thresh<- onfield_tox_thresh %>% mutate(EEC = case_when(MediaSub == "Soil" ~ movingavg/10000*SA,
+                                   MediaSub == "Air" || MediaSub == "Dust"~ movingavg/10000*SA,
+                                   MediaSub == "Nectar" ~ movingavg * 0.400,
+                                   TRUE ~ movingavg*0.030))
+
+offfield_tox_thresh<- offfield_tox_thresh %>% mutate(EEC = case_when(MediaSub == "Soil" ~ Value/10000*SA,
+                                                                   MediaSub == "Air" || MediaSub == "Dust"~ Value/10000*SA,
+                                                                   MediaSub == "Nectar" ~ movingavg * 0.400,
+                                                                   TRUE ~ Value*0.030))
+
+#remove rows where the condition for concentration is expressed twice
+onfield_tox_thresh<-gather(onfield_tox_thresh,"ExposureLevel","Endpoint", 16:17)
+onfield_tox_thresh<-onfield_tox_thresh[!( onfield_tox_thresh$MediaSub == "Air" & onfield_tox_thresh$ExposureLevel == "Oral_LD50_ug_bee" |
+                                            onfield_tox_thresh$MediaSub == "Dust" & onfield_tox_thresh$ExposureLevel == "Oral_LD50_ug_bee" |
+                                            onfield_tox_thresh$MediaSub == "Soil" & onfield_tox_thresh$ExposureLevel == "Oral_LD50_ug_bee"|
+                                            onfield_tox_thresh$MediaSub == "Nectar" & onfield_tox_thresh$ExposureLevel == "Contact_LD50_ug_bee"|
+                                            onfield_tox_thresh$MediaSub == "Pollen" & onfield_tox_thresh$ExposureLevel == "Contact_LD50_ug_bee") ,]
+sub_onfield<-onfield_tox_thresh[onfield_tox_thresh$EEC >= onfield_tox_thresh$Contact_LD50_ug_bee | onfield_tox_thresh$EEC >= onfield_tox_thresh$Oral_LD50_ug_bee , ]
+
+
+
+
+
+offfield_tox_thresh<-gather(offfield_tox_thresh,"ExposureLevel","Endpoint", 16:17)
+offfield_tox_thresh<-offfield_tox_thresh[!( offfield_tox_thresh$MediaSub == "Air" & offfield_tox_thresh$ExposureLevel == "Oral_LD50_ug_bee" |
+                                            offfield_tox_thresh$MediaSub == "Dust" & offfield_tox_thresh$ExposureLevel == "Oral_LD50_ug_bee" |
+                                            offfield_tox_thresh$MediaSub == "Soil" & offfield_tox_thresh$ExposureLevel == "Oral_LD50_ug_bee"|
+                                            offfield_tox_thresh$MediaSub == "Nectar" & offfield_tox_thresh$ExposureLevel == "Contact_LD50_ug_bee"|
+                                            offfield_tox_thresh$MediaSub == "Pollen" & offfield_tox_thresh$ExposureLevel == "Contact_LD50_ug_bee") ,]
+sub_offfield<-offfield_tox_thresh[offfield_tox_thresh$EEC >= offfield_tox_thresh$Contact_LD50_ug_bee | offfield_tox_thresh$EEC >= offfield_tox_thresh$Oral_LD50_ug_bee , ]
+
+
+#### Make maps ----
+
+library(tmaptools)
+tmap_options(check.and.fix = TRUE)
+tmap_mode("view")
+
+tm_shape(off_field_area) +
+  tm_polygons(fill="Compound", col="Commodity", palette= c( "gold", "darkgreen"),)+
+tm_shape(bomb_h)+
+  tm_fill(col="darkgreen",alpha=0.2)
+
+sub_off<-offfield_tox_thresh[offfield_tox_thresh$Compound == "IMIDACLOPRID",]
+sub_on<-onfield_tox_thresh[onfield_tox_thresh$Compound == "IMIDACLOPRID",]
+
+
+
+tm_shape(sub_off)+
+  tm_polygons(col="EEC",style="cat", palette=get_brewer_pal(palette="GnBu", n=5, plot=FALSE)) +
+tm_shape(sub_on)+
+tm_polygons(col="EEC",style="cat", palette=get_brewer_pal(palette="OrRd", n=5, plot=FALSE)) +
+  tm_facets(by="MediaSub", ncol=2)
+  
+
+
+legendtitle1<-"On-field"
+legendtitle2<-"Off-field"
+
+tmap_options(check.and.fix = TRUE)
+tmap_mode("view")
+
+tm_shape(onfield_tox_thresh)+
+  tm_polygons(fill="EEC", palette = "Greens", fill.legend = tm_legend(title = legendtitle1))+
+  tm_shape(offfield_tox_thresh)+
+  tm_polygons("EEC", fill.legend = tm_legend(title = legendtitle2))+
+  tm_facets(by = "MediaSub",  nrow = 3,  free.coords = TRUE, sync = TRUE) + # set free.coords to TRUE
+  tm_shape(bomb_h)+
+  tm_fill(col="grey",alpha=0.2)
+
+
+
+
+  
+  
+ #### IDK what's going on here... ----
+  
+  # onfield<-st_read( dsn=paste0(root_data_out, "/all_bombus/outputforshiny/on_field_movingavg.shp"))
+  # on_field_sub<-onfield[onfield$MediaSb == "Pollen",]
+  # 
+  # 
+  # 
+  # 
+  # ui <- fluidPage(
+  #   plotOutput("map"),
+  #   selectInput("var", "Variable", on_field_sub)
+  #  # selectInput(inputId = "inputCompound", label = "Select Compound:", multiple = TRUE, choices = sort(on_field_sub$Compond), selected = "GLYPHOSATE")
+  # )
+  # 
+  # server <- function(input, output, session) {
+  #   
+  #   
+  #   
+  #   output$map <- renderPlot({
+  #     #tmap_mode("view")
+  #     tm_shape(on_field_sub) +
+  #       tm_polygons(input$var)
+  #   })
+  #   
+  #   
+  # }
+  # 
+  # shinyApp(ui, server)
+  # 
+  # 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

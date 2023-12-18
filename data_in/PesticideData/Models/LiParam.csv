@@ -6,7 +6,7 @@ Hsoil,0.05,Imidacloprid
 Psoil,1.95,Imidacloprid
 cf1,100,Imidacloprid
 cf2,1000,Imidacloprid
-KupSoil,6.771962583,Imidacloprid
+KupSoil,50.81680722,Imidacloprid
 KelAir,4.47E-08,Imidacloprid
 KelDeg,0.141458608,Imidacloprid
 KelGrow,0.035,Imidacloprid
@@ -25,7 +25,7 @@ Hsoil,0.05,Thiamethoxam
 Psoil,1.95,Thiamethoxam
 cf1,100,Thiamethoxam
 cf2,1000,Thiamethoxam
-KupSoil,2.02E+00,Thiamethoxam
+KupSoil,1.51E+01,Thiamethoxam
 KelAir,1.33E-07,Thiamethoxam
 KelDeg,0.15753345,Thiamethoxam
 KelGrow,0.035,Thiamethoxam
@@ -44,7 +44,7 @@ Hsoil,0.05,Clothianidin
 Psoil,1.95,Clothianidin
 cf1,100,Clothianidin
 cf2,1000,Clothianidin
-KupSoil,9.57E+00,Clothianidin
+KupSoil,7.18E+01,Clothianidin
 KelAir,6.91E-09,Clothianidin
 KelDeg,0.041755854,Clothianidin
 KelGrow,0.035,Clothianidin
@@ -63,7 +63,7 @@ Hsoil,0.05,Carbaryl
 Psoil,1.95,Carbaryl
 cf1,100,Carbaryl
 cf2,1000,Carbaryl
-KupSoil,6.267597679,Carbaryl
+KupSoil,47.03205298,Carbaryl
 KelAir,1.53E-02,Carbaryl
 KelDeg,0.118689586,Carbaryl
 KelGrow,0.035,Carbaryl
@@ -82,7 +82,7 @@ Hsoil,0.05,Carbofuran
 Psoil,1.95,Carbofuran
 cf1,100,Carbofuran
 cf2,1000,Carbofuran
-KupSoil,6.569556857,Carbofuran
+KupSoil,49.29795466,Carbofuran
 KelAir,1.56E-02,Carbofuran
 KelDeg,0.213934315,Carbofuran
 KelGrow,0.035,Carbofuran
@@ -101,7 +101,7 @@ Hsoil,0.05,Chlorpyrifos
 Psoil,1.95,Chlorpyrifos
 cf1,100,Chlorpyrifos
 cf2,1000,Chlorpyrifos
-KupSoil,0.017781238,Chlorpyrifos
+KupSoil,0.133430407,Chlorpyrifos
 KelAir,5.54E-02,Chlorpyrifos
 KelDeg,0.144707136,Chlorpyrifos
 KelGrow,0.035,Chlorpyrifos
@@ -120,7 +120,7 @@ Hsoil,0.05,Bifenthrin
 Psoil,1.95,Bifenthrin
 cf1,100,Bifenthrin
 cf2,1000,Bifenthrin
-KupSoil,1.56E-08,Bifenthrin
+KupSoil,1.17E-07,Bifenthrin
 KelAir,1.76E-05,Bifenthrin
 KelDeg,0.213934315,Bifenthrin
 KelGrow,0.035,Bifenthrin
@@ -139,7 +139,7 @@ Hsoil,0.05,Glyphosate
 Psoil,1.95,Glyphosate
 cf1,100,Glyphosate
 cf2,1000,Glyphosate
-KupSoil,2.56E-05,Glyphosate
+KupSoil,1.92E-04,Glyphosate
 KelAir,6.16E-05,Glyphosate
 KelDeg,0.155066483,Glyphosate
 KelGrow,0.035,Glyphosate

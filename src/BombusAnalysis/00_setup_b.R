@@ -47,7 +47,8 @@ library(gt)
 library(plotly)
 library(magick)
 library(webshot2)
-webshot2::install_chromote()
+library(ggpubr)
+#webshot2::install_chromote()
 
 library(tidyverse)
 #library(beecoSp)
@@ -60,6 +61,18 @@ library(ggridges)
 # library(tidyverse)
 # library(progress)
 #library(pfm)
+
+
+# install.packages("tmap", repos = c("https://r-tmap.r-universe.dev",
+#                                    "https://cloud.r-project.org"))
+
+
+#install.packages('spDataLarge')
+library(spData)
+library(tmap)
+library(scales)
+#library(spDataLarge)
+
 
 who_is_running<-'eap'
 #who_is_running<-'stp'

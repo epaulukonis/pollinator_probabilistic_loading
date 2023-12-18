@@ -86,16 +86,14 @@ unique_names<-apprates %>% distinct(Compound,ApplicationType, Commodity)
 names(off_field_residue_list)<-with(unique_names, paste0(Compound,"_",ApplicationType,"_",Commodity))
 
 
-
-
 ######## Analysis ###########
 #### Seed Applications ----
 ## Dust ----
 #these are the only residues we'll measure as ug/m2 
 #First, we will derive the fraction of dust moving across and off the field 
-d<-1:299*0.3048 # first, convert the distance to meters
+d<-0:299*0.3048 # first, convert the distance to meters
 x<-exp(1.68-0.0905*log(d))-1 # estimate the fraction 
-orig_conc_at_distance<-(x/1855)*1000 #ug/m2
+orig_conc_at_distance<-(x/1875)*1000 #ng/mm2 to ug/m2 is a 1000 unit conversion
 
 
 #original conc in field, from Krupke
@@ -105,7 +103,8 @@ conc_in_field<-((2.06+11.92)/2)*1000#(ug/m2) # average application rate
 #I assume that the fraction of off-site deposition based on the original concentration is reflective of all seed treatments
 deposition<-(orig_conc_at_distance/conc_in_field) #fraction of off
 air_krupke<-as.data.frame(cbind(d,orig_conc_at_distance, deposition))
-avg_frac<-(0.001849+0.000319)/2
+#avg_frac<-(0.001849+0.000319)/2
+avg_frac<-3.81/conc_in_field
 
 #add in the initial estimate of the concentration at 0 (in-field)
 air_krupke<-rbind(c(0,3.81,avg_frac), air_krupke)
@@ -114,13 +113,13 @@ air_krupke<-rbind(c(0,3.81,avg_frac), air_krupke)
 #between the concentration in field in ug/m2 and the amount reported offsite. we then use these deposition fractions to estimate the same relationship for other compounds
 
 #visualize the original concentration, if desired
-# p <- ggplot(air_krupke, aes(d, deposition*100)) +
-#   geom_point()+
-#   geom_line()+
-#   ylab("Deposition (% of In-Field Concentration)")+
-#   xlab("Distance[m]")+
-#   theme_bw()
-# p
+p <- ggplot(air_krupke, aes(d, deposition*100)) +
+  geom_point()+
+  geom_line()+
+  ylab("Deposition (% of In-Field Concentration)")+
+  xlab("Distance[m]")+
+  theme_bw()
+p
 
 #get the seed treatment data and estimate concentration in dust for each seed type
 seed_treatments<-apprates[apprates$ApplicationType == "Seed",]
@@ -272,8 +271,6 @@ set_names_in_list<-function(x){
 off_field_residue_list<-lapply(off_field_residue_list,set_names_in_list)
 
 
-
-
 ## Pollen and Nectar----
 seed_treatments<-apprates[apprates$ApplicationType == "Seed",]
 seed_treatments$ug_m2<-seed_treatments$AvgRate*112085 # convert to ug/m2
@@ -358,7 +355,7 @@ residues_in_nectar_and_pollen_from_seed<-function(x){
     uptakesoil <-( (pol$`Kp-L`* pol$Soil_concentration_ug_g_from_seed) * (pol$KupSoil/(pol$KelAir+pol$KelDeg+pol$KelGrow - pol$KdissSoil)) * (exp(-pol$KdissSoil*(i)) - exp(-(pol$KelAir+pol$KelDeg+pol$KelGrow)*i)) ) 
  
     #then estimate RUD due to leaf deposition
-    uptakeleaf<-( ((pol$`Kp-L`*pol$fsurface*pol$cf1)/(pol$LAI*pol$LMA*(1/(1-pol$Wleaf))*1000)) * (pol$KupSurface/(pol$KelAir+pol$KelDeg+pol$KelGrow - pol$KdissSurface)) * ( exp(-pol$KdissSurface*(i)) - exp(-(pol$KelAir+pol$KelDeg+pol$KelGrow)*i)) ) * (pol$Dust_concentration_ug_m2_from_seed/100000) # sub dust as AR
+    uptakeleaf<-( ((pol$`Kp-L`*pol$fsurface*pol$cf1)/(pol$LAI*pol$LMA*(1/(1-pol$Wleaf))*1000)) * (pol$KupSurface/(pol$KelAir+pol$KelDeg+pol$KelGrow - pol$KdissSurface)) * ( exp(-pol$KdissSurface*(i)) - exp(-(pol$KelAir+pol$KelDeg+pol$KelGrow)*i)) ) * (pol$Dust_concentration_ug_m2_from_seed/100000) # sub dust as AR in kg/ha
     output[i,1]<- (uptakesoil + uptakeleaf) 
     
   }
@@ -369,7 +366,7 @@ residues_in_nectar_and_pollen_from_seed<-function(x){
   output
   
 }
-
+ 
 
 #apply function to estimate nectar/pollen residues in ug per g after x number of days
 daily_conc_off_field<-lapply(seed_pollen_datasets,residues_in_nectar_and_pollen_from_seed)
@@ -760,7 +757,8 @@ names(pwc_set)<-toupper(names(pwc_set))
  ag_drift <-read.csv(paste0(pest_dir, "/Models/agdrift_database.csv"))
  #convert to meters
  ag_drift$distance<-ag_drift$distance*0.3048
- agdrift_data<-ag_drift[,c(1,7)] #use ground spray, very fine to fine
+ agdrift_data<-ag_drift[,c(1,5)] #use ground spray, very fine to fine, ground boom low
+ 
  
  #get the seed treatment data and estimate concentration in dust for each seed type
  foliar_treatments<-apprates[apprates$ApplicationType == "FoliarI" | apprates$ApplicationType == "FoliarH",]
@@ -772,7 +770,8 @@ names(pwc_set)<-toupper(names(pwc_set))
  foliar_treatments$ug_m2<-foliar_treatments$AvgRate*112085 # convert to ug/m2
  foliar_air_conc<-merge(foliar_treatments,agdrift_data) #merge with the fraction estimated via Krupke
  foliar_air_conc<-foliar_air_conc[with(foliar_air_conc, order(Compound,Commodity)), ] # order by compound, commodity
- foliar_air_conc$air_drift_conc<-foliar_air_conc$ug_m2*foliar_air_conc$pond_ground_low_vf2f #multiple application rate times deposition curve 
+ # foliar_air_conc$air_drift_conc<-foliar_air_conc$ug_m2*foliar_air_conc$pond_aerial_vf2f #multiple application rate times deposition curve 
+ foliar_air_conc$air_drift_conc<-foliar_air_conc$ug_m2*foliar_air_conc$pond_ground_high_vf2f #multiple application rate times deposition curve 
  
  #split each set of commodity and compound data into a unique dataframe
  foliar_air_datasets<-split(foliar_air_conc, list(foliar_air_conc$Compound,foliar_air_conc$ApplicationType, foliar_air_conc$Commodity), drop=T) 
@@ -820,7 +819,7 @@ names(pwc_set)<-toupper(names(pwc_set))
  ag_drift <-read.csv(paste0(pest_dir, "/Models/agdrift_database.csv"))
  #convert to meters
  ag_drift$distance<-ag_drift$distance*0.3048
- agdrift_data<-ag_drift[,c(1,7)] #use ground spray, very fine to fine
+ agdrift_data<-ag_drift[,c(1,5)] #use ground spray, very fine to fine
  
  #get the seed treatment data and estimate concentration in dust for each seed type
  foliar_treatments<-apprates[apprates$ApplicationType == "FoliarI" | apprates$ApplicationType == "FoliarH",]
@@ -832,7 +831,8 @@ names(pwc_set)<-toupper(names(pwc_set))
  foliar_treatments$ug_m2<-foliar_treatments$AvgRate*112085 # convert to ug/m2
  foliar_air_conc<-merge(foliar_treatments,agdrift_data) #merge with the fraction estimated via Krupke
  foliar_air_conc<-foliar_air_conc[with(foliar_air_conc, order(Compound,Commodity)), ] # order by compound, commodity
- foliar_air_conc$air_drift_conc<-foliar_air_conc$ug_m2*foliar_air_conc$pond_ground_low_vf2f #multiple application rate times deposition curve 
+ #foliar_air_conc$air_drift_conc<-foliar_air_conc$ug_m2*foliar_air_conc$pond_aerial_vf2f 
+ foliar_air_conc$air_drift_conc<-foliar_air_conc$ug_m2*foliar_air_conc$pond_ground_high_vf2f #multiple application rate times deposition curve 
  
  #split each set of commodity and compound data into a unique dataframe
  foliar_soil_datasets<-split(foliar_air_conc, list(foliar_air_conc$Compound,foliar_air_conc$ApplicationType, foliar_air_conc$Commodity), drop=T) 
@@ -920,7 +920,8 @@ names(pwc_set)<-toupper(names(pwc_set))
  foliar_treatments$ug_m2<-foliar_treatments$AvgRate*112085 # convert to ug/m2
  foliar_treatments<-merge(foliar_treatments,agdrift_data) #merge with the fraction estimated via Krupke
  foliar_treatments<- foliar_treatments[with( foliar_treatments, order(Compound,Commodity)), ] # order by compound, commodity
- foliar_treatments$air_drift_conc<- foliar_treatments$ug_m2* foliar_treatments$pond_ground_low_vf2f #multiple application rate times deposition curve 
+ #foliar_treatments$air_drift_conc<- foliar_treatments$ug_m2* foliar_treatments$pond_aerial_vf2f 
+ foliar_treatments$air_drift_conc<- foliar_treatments$ug_m2* foliar_treatments$pond_ground_high_vf2f #multiple application rate times deposition curve 
  
  foliar_treatments<-foliar_treatments[,!names(foliar_treatments) %in% "Type"]
  foliar_nectarpollen_conc<-merge(foliar_treatments,Li) #merge with the fraction estimated via Krupke
