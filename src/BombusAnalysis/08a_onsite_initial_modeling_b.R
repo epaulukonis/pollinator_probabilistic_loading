@@ -78,7 +78,7 @@ names(on_field_residue_list)<-with(unique_names, paste0(Compound,"_",Application
 #First, we will derive the fraction of dust moving across and off the field 
 d<-1:299*0.3048 # first, convert the distance to meters
 x<-exp(1.68-0.0905*log(d))-1 # estimate the fraction 
-orig_conc_at_distance<-(x/1855)*1000 #ug/m2
+orig_conc_at_distance<-(x/1875)*1000 #ng/mm2 to ug/m2 is a 1000 unit conversion
 
 
 #original conc in field, from Krupke
@@ -184,7 +184,7 @@ for(compound_and_crop in 1:length(seed_soil_datasets)){
   seed_soil_data_on_field$soil_concentration<-seed_soil_data_on_field$dust_drift_conc * (1/10000) #convert to ug/cm2
   
   conc_from_dust<-(seed_soil_data_on_field$soil_concentration/2 * 1/1.95)*exp(-(seed_soil_data_on_field$k_values*seed_soil_data_on_field$day)) #assume 2cm mixing depth, here we use soil bulk density to estimate ug per g of soil
-  conc_from_application<-( ((0.368*100) /(1.95*0.05*1000))*exp(0-seed_soil_data_on_field$KdissSoil * seed_soil_data_on_field$day)) *seed_soil_data_on_field$AvgRate*1.12085 #now add that amount to the amount in soil using Li (converting AR to kg/ha)estimate for soil concentration. I modified mass fraction to be 40%, and soil bulk density to be 1.44 to match 
+  conc_from_application<-( ((0.368*100) /(1.95*0.05*1000))*exp(0-seed_soil_data_on_field$k_values * seed_soil_data_on_field$day)) *seed_soil_data_on_field$AvgRate*1.12085 #now add that amount to the amount in soil using Li (converting AR to kg/ha)estimate for soil concentration. I modified mass fraction to be 40%, and soil bulk density to be 1.44 to match 
   
   #here we combine the deposition from seed dust with the concentration already in the soil from the seed treatment 
   seed_soil_data_on_field$Soil_concentration_ug_g_from_seed<-conc_from_dust+conc_from_application
@@ -245,16 +245,18 @@ seed_treatments_nectar<-seed_treatments[seed_treatments$Type == "Nectar",]
 #split by compound, crop, and type (nectar or pollen)
 seed_pollen_datasets<-split(seed_treatments_pollen, list(seed_treatments_pollen$Compound, seed_treatments_pollen$ApplicationType,seed_treatments_pollen$Commodity), drop=T)
 
-#x<-seed_pollen_datasets[[4]]
+#x<-seed_pollen_datasets[[2]]
 residues_in_nectar_and_pollen_from_seed<-function(x){
   output<- matrix(data=0, nrow=151, ncol=2)
   n<-ifelse(x$Commodity == "CORN", 67,56)
   t<-n:150
   output[(n+1):151,2]<-t
   
+  TSCF<-ifelse(x$Commodity == "CORN", 0.784*exp(-((x$logKow-1.78)^2/2.44)), 0.7*exp(-((x$logKow-3.07)^2/2.44))   )
+  
   for(i in (n+1):nrow(output)){
     # we have two components: a concentration in plant as growth occurs, and an uptake from soil aspect
-    conc_in_plant <-( (x$mg_ai_seed *0.20/x$mass)*exp(-(kel_grow+x$rgr)*output[i,2])*as.numeric(x$Fr) )*1000 # units will be ug per g of pollen; the 1000 converts mg to ug
+    conc_in_plant <-( (x$mg_ai_seed *0.20/x$mass)*TSCF*exp(-(kel_grow+x$rgr)*output[i,2])*as.numeric(x$Fr) )*1000 # units will be ug per g of pollen; the 1000 converts mg to ug
     rud_from_soil_uptake<-(  ((x$`Kp-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(-x$KdissSoil*(output[i,2])) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(output[i,2]))) ) 
     conc_from_soil_uptake<- rud_from_soil_uptake* x$kg_ha
     output[i,1]<- conc_in_plant +  conc_from_soil_uptake
@@ -301,9 +303,11 @@ residues_in_nectar_and_pollen_from_seed<-function(x){
   t<-n:150
   output[(n+1):151,2]<-t
   
+ TSCF<-ifelse(x$Commodity == "CORN", 0.784*exp(-((x$logKow-1.78)^2/2.44)), 0.7*exp(-((x$logKow-3.07)^2/2.44))   )
+  
   for(i in (n+1):nrow(output)){
     # we have two components: a concentration in plant as growth occurs, and an uptake from soil aspect
-    conc_in_plant <-( (x$mg_ai_seed *0.20/x$mass)*exp(-(kel_grow+x$rgr)*output[i,2])*as.numeric(x$Fr) )*1000 # units will be ug per g of pollen; the 1000 converts mg to ug
+    conc_in_plant <-( (x$mg_ai_seed *0.20/x$mass)*TSCF*exp(-(kel_grow+x$rgr)*output[i,2])*as.numeric(x$Fr) )*1000 # units will be ug per g of pollen; the 1000 converts mg to ug
     rud_from_soil_uptake<-(  ((x$`Kn-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(-x$KdissSoil*(output[i,2])) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(output[i,2]))) ) 
     conc_from_soil_uptake<- rud_from_soil_uptake* x$kg_ha
     output[i,1]<- conc_in_plant +  conc_from_soil_uptake
@@ -395,7 +399,7 @@ residues_in_soil_from_soil_adhoc<-function(x){
   
   for(i in 1:nrow(output)){
 
-    soil_RUD <-  (0.40*100) /(1.95*0.05*1000) *exp(0-x$KdissSoil*output[i,2])  # units will be ug per g of soil, depth of 5 cm; we convert lb/acre to kg/ha here. we also assume 40% goes to soil.
+    soil_RUD <-  (0.40*100) /(1.95*0.05*1000) *exp(0-x$k_values*output[i,2])  # units will be ug per g of soil, depth of 5 cm; we convert lb/acre to kg/ha here. we also assume 40% goes to soil.
     soil_conc<-soil_RUD * x$AvgRate*1.12085
     
     output[i,1] <- soil_conc
@@ -635,7 +639,7 @@ ag_drift$distance<-ag_drift$distance*0.3048
 # 
 # p
 
-agdrift_data<-ag_drift[,c(1,7)] #use ground spray, very fine to fine
+agdrift_data<-ag_drift[,c(1,5)] #use ground spray, very fine to fine
 
 
 #get the seed treatment data and estimate concentration in dust for each seed type
@@ -643,7 +647,8 @@ foliar_treatments<-apprates[apprates$ApplicationType == "FoliarI" | apprates$App
 foliar_treatments$ug_m2<-foliar_treatments$AvgRate*112085 # convert to ug/m2
 foliar_air_conc<-merge(foliar_treatments,agdrift_data) #merge with the fraction estimated via Krupke
 foliar_air_conc<-foliar_air_conc[with(foliar_air_conc, order(Compound,Commodity)), ] # order by compound, commodity
-foliar_air_conc$air_drift_conc<-foliar_air_conc$ug_m2*foliar_air_conc$pond_ground_low_vf2f #multiple application rate times deposition curve 
+#foliar_air_conc$air_drift_conc<-foliar_air_conc$ug_m2*foliar_air_conc$pond_aerial_vf2f
+foliar_air_conc$air_drift_conc<-foliar_air_conc$ug_m2*foliar_air_conc$pond_ground_high_vf2f #multiple application rate times deposition curve 
 
 #split each set of commodity and compound data into a unique dataframe
 foliar_air_datasets<-split(foliar_air_conc, list(foliar_air_conc$Compound,foliar_air_conc$ApplicationType, foliar_air_conc$Commodity), drop=T) 
@@ -702,10 +707,12 @@ foliar_treatments<-apprates[apprates$ApplicationType == "FoliarI" | apprates$App
 foliar_treatments$ug_m2<-foliar_treatments$AvgRate*112085 # convert to ug/m2
 foliar_soil_conc<-merge(foliar_treatments,agdrift_data) #merge with the fraction estimated via Krupke
 foliar_soil_conc<-foliar_soil_conc[with(foliar_soil_conc, order(Compound,Commodity)), ] # order by compound, commodity
-foliar_soil_conc$air_drift_conc<-foliar_soil_conc$ug_m2*foliar_soil_conc$pond_ground_low_vf2f #multiple application rate times deposition curve 
+#foliar_soil_conc$air_drift_conc<-foliar_soil_conc$ug_m2*foliar_soil_conc$pond_aerial_vf2f
+foliar_soil_conc$air_drift_conc<-foliar_soil_conc$ug_m2*foliar_soil_conc$pond_ground_high_vf2f #multiple application rate times deposition curve 
 
 #split each set of commodity and compound data into a unique dataframe
 foliar_soil_datasets<-split(foliar_soil_conc, list(foliar_soil_conc$Compound,foliar_soil_conc$ApplicationType, foliar_air_conc$Commodity), drop=T) 
+
 
 #here, we will estimate the concentration in ug per g
 daily_conc_on_field<-list()
@@ -721,7 +728,7 @@ for(compound_and_crop in 1:length(foliar_soil_datasets)){
   foliar_soil_data_on_field$day<-0:150
   foliar_soil_data_on_field$soil_concentration<- foliar_soil_data_on_field$air_drift_conc * (1/10000) #convert to ug/cm2
   conc_from_drift<- (foliar_soil_data_on_field$soil_concentration/2 * 1/1.95) *exp(-(foliar_soil_data_on_field$k_values*foliar_soil_data_on_field$day)) #assume 2cm mixing depth, here we use soil bulk density to estimate ug per g of soil
-  conc_from_application<-( ((0.368*100) /(1.95*0.05*1000))*exp(0-seed_soil_data_on_field$KdissSoil * seed_soil_data_on_field$day)) *seed_soil_data_on_field$AvgRate*1.12085 #now add that amount to the amount in soil using Li (converting AR to kg/ha)estimate for soil concentration. I modified mass fraction to be 40%, and soil bulk density to be 1.44 to match 
+  conc_from_application<-( ((0.368*100) /(1.95*0.05*1000))*exp(0-foliar_soil_data_on_field$k_values * foliar_soil_data_on_field$day)) *foliar_soil_data_on_field$AvgRate*1.12085 #now add that amount to the amount in soil using Li (converting AR to kg/ha)estimate for soil concentration. I modified mass fraction to be 40%, and soil bulk density to be 1.44 to match 
   
   #here we combine the deposition from drift with the concentration already in the soil from the foliar treatment 
   foliar_soil_data_on_field$Soil_concentration_ug_g_from_foliar<-conc_from_dust+conc_from_application
@@ -779,7 +786,7 @@ foliar_treatments_nectar<-foliar_nectarpollen_conc[foliar_nectarpollen_conc$Type
 foliar_pollen_datasets<-split(foliar_treatments_pollen, list(foliar_treatments_pollen$Compound, foliar_treatments_pollen$ApplicationType,foliar_treatments_pollen$Commodity), drop=T)
 
 daily_conc_on_field<-list()
-#x<-foliar_pollen_datasets[[2]]
+#x<-foliar_pollen_datasets[[10]]
 
 # If running for scenarios:
 # residues_in_nectar_and_pollen_from_foliar<-function(x){
@@ -804,7 +811,7 @@ daily_conc_on_field<-list()
 # 
 # }
 
-
+x<-foliar_pollen_datasets[[10]]
 # If running for figures:
 residues_in_nectar_and_pollen_from_foliar<-function(x){
   output<- matrix(data=0, nrow=151, ncol=2)
@@ -812,10 +819,11 @@ residues_in_nectar_and_pollen_from_foliar<-function(x){
   t<-n:150
   output[(n+1):151,2]<-t
   for(i in (n+1):nrow(output)){
+   #i<-n+1
     # units will be ug per g of pollen
-    pollen_rud <-( ((x$`Kp-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(-x$KdissSoil*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-(n-1)+6))) )  +
+    pollen_rud <-( (x$`Kp-L`*x$fsoil*x$cf1/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(0-x$KdissSoil*(i-n+6)) - exp(0-(x$KelAir+x$KelDeg+x$KelGrow)*(i-n+6))) )  +
 
-      ( ((x$`Kp-L`*x$fsurface*x$cf1)/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-(n-1)+6))) )
+      ( (x$`Kp-L`*x$fsurface*x$cf1/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-n+6))) )
 
     output[i,1]<-(pollen_rud*x$kg_ha)
   }
@@ -886,9 +894,9 @@ residues_in_nectar_and_pollen_from_foliar<-function(x){
   output[(n+1):151,2]<-t
   for(i in (n+1):nrow(output)){
     # units will be ug per g of pollen
-    nectar_rud <-( ((x$`Kn-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(-x$KdissSoil*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-(n-1)+6))) )  +
+    nectar_rud <-( ((x$`Kn-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(0-x$KdissSoil*(i-n+6)) - exp(0-(x$KelAir+x$KelDeg+x$KelGrow)*(i-n+6))) )  +
 
-      ( ((x$`Kn-L`*x$fsurface*x$cf1)/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-(n-1)+6))) )
+      ( ((x$`Kn-L`*x$fsurface*x$cf1)/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-n+6))) )
 
     output[i,1]<-(nectar_rud*x$kg_ha)
   }
@@ -923,8 +931,9 @@ set_names_in_list<-function(x){
 
 #apply over list
 on_field_residue_list<-lapply(on_field_residue_list,set_names_in_list)
-
-#testy<-on_field_residue_list[[2]]
+# 
+# imidaseed<-on_field_residue_list[[14]]
+# imidafol<-on_field_residue_list[[5]]
 
 
 ######## Plots ###########

@@ -22,24 +22,45 @@ scenarios<- lapply(scenarios, setNames, colnamesnew)
 df<-scenarios[[16]] #get 2014
 df<-df[!is.na(df$applicationday),] #remove all the unassigned compound/application types
 
+# epsg <- rgdal::make_EPSG()
+# i <- grep("France", epsg$note, ignore.case=TRUE)
+
+
+# st_crs(df)
+# df<-st_transform(df,4269) # transform to standard NAD83
+# st_is_longlat(df) #check if in lat/long for area calculation
+
+#head(st_coordinates(df))
+
 ### the first thing we want to do is extract the fields that are within the RPBB habitat zones. So we'll need to read thsoe in first. 
 bomb_h <- st_read(bombus_dir, layer = "RPBB_High_Potential_Zones_03172021")
 bomb_h<- st_transform(bomb_h, crs(df)) #reproject to match extent of DF
 
+crs(bomb_h)
+crs(df)
+
+sf_use_s2(FALSE)
+
 #let's clip the field scenario within the bombus affinis habitat
 on_field_area<-st_intersection(df, bomb_h)
 
+
 #remove smaller fields
-on_field_area$shapearea<-as.numeric(st_area(on_field_area))
-on_field_area<-on_field_area[!on_field_area$shapearea < 62500,] #remove smaller fields that are less than 500m2
-#st_write(on_field_area, paste0(root_data_out, "/all_bombus/modified_sampled_fields/testing_intersection_delete_after.shp"), driver = "ESRI Shapefile")
+on_field_area$shapearea<-as.numeric(st_area(on_field_area)) #should be in meters
+on_field_area<-on_field_area[!on_field_area$shapearea < 62500,] #remove smaller fields that are less than 250m2 (1 quarter km squared)
+#st_write(on_field_area, paste0(root_data_out, "/all_bombus/modified_sampled_fields/on_field_area.shp"), driver = "ESRI Shapefile")
 
 #off-field buffer
 off_field_area<-st_buffer(on_field_area,90)
-#st_write(off_field_area, paste0(root_data_out, "/all_bombus/modified_sampled_fields/testing_off_field_delete_after_f.shp"), driver = "ESRI Shapefile")
+off_field_area<-st_intersection(off_field_area, bomb_h)
+#st_write(off_field_area, paste0(root_data_out, "/all_bombus/modified_sampled_fields/off_field_area.shp"), driver = "ESRI Shapefile")
 
 
+plot(off_field_area$geometry, add=T)
+plot(bomb_h$geometry,add=T)
 
+
+st_read(bombus_dir, layer = paste0(root_data_in, "MapData/RPBB_High_Potential_Zones_03172021"))
 
 
 
@@ -71,11 +92,12 @@ f<-paste0(root_data_out, "/all_NLCD/Illinois")
 print(list.files(path=f, pattern='studyarea', all.files=TRUE, full.names=FALSE))
 nlcd_ill<- file.path(f, list.files(path=f, pattern='studyarea', all.files=TRUE, full.names=FALSE))
 nlcd_ill<-setNames(lapply(nlcd_ill, raster), tools::file_path_sans_ext(basename(nlcd_ill)))
-habitat<-nlcd_ill[[7]] #get 2019
+habitat<-nlcd_ill[[5]] #get 2013
 
 #let's get the NLCD habitat within the RPBB habitat zones 
 habitat<-rast(habitat)
 habitat<-classify(habitat, cbind(NA, 80)) #80 is both pasture and general crop
+ crs(habitat)<-crs(bomb_h)
 habitat <- mask(habitat, bomb_h) #get non-crop habtiat within the
 #plot(habitat)
  

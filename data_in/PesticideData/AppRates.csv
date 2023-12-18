@@ -1,8 +1,8 @@
 Compound,Type,AvgRate,Units,ApplicationType,Commodity,ApplicationTiming (d),Notes,Source,Fnote,Note,k_values
-Imidacloprid,Neonicotinoid,0.05,lb a.i./acre,Seed,SOYBEANS,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,,191
-Imidacloprid,Neonicotinoid,0.0975,lb a.i./acre,FoliarI,SOYBEANS,49,Emergence,"Label, 4F",Average or standard reported rate for pest,,191
-Imidacloprid,Neonicotinoid,0.048,lb a.i./acre,Seed,CORN,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,,191
-Clothianidin,Neonicotinoid,0.05,lb a.i./acre,Seed,CORN,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,,545
+Imidacloprid,Neonicotinoid,0.05,lb a.i./acre,Seed,SOYBEANS,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,,40
+Imidacloprid,Neonicotinoid,0.0975,lb a.i./acre,FoliarI,SOYBEANS,49,Emergence,"Label, 4F",Average or standard reported rate for pest,,40
+Imidacloprid,Neonicotinoid,0.048,lb a.i./acre,Seed,CORN,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,,40
+Clothianidin,Neonicotinoid,0.05,lb a.i./acre,Seed,CORN,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,,150
 Thiamethoxam,Neonicotinoid,0.05,lb a.i./acre,Seed,CORN,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,,50
 Thiamethoxam,Neonicotinoid,0.03,lb a.i./acre,Seed,SOYBEANS,0,At-plant,Douglas and Tooker,Average or standard reported rate for pest,,50
 Chlorpyrifos,Organophosphate,0.5,lb a.i./acre,FoliarI,CORN,60,Broadcast,"Label, 4E",Average or standard reported rate for pest,,7

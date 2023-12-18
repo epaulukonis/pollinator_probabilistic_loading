@@ -1,6 +1,6 @@
 ### Probabilistic Crop Loading 
 
-### 08b Initial Offsite Model Outputs
+### 08d Initial Offsite Model Outputs by distance
 
 # Edited by E. Paulukonis August 2023
 library(stringdist)
@@ -1208,380 +1208,174 @@ off_field_residue_list<-lapply(off_field_residue_list,set_names_in_list)
 
 ######## Extract Quantiles ###########----
 
-get_quantiles<-function(x){
-#trying to get the percentiles of the distance 
+off_field_subset<- off_field_residue_list[grep(c("IMIDACLOPRID|BIFENTHRIN|CARBARYL|GLYPHOSATE|CHLORPYRIFOS|THIAMETHOXAM"), names(off_field_residue_list))]
 
- x<-gather(x, "Media", "Value", 6:ncol(x))
- x$Value<-ifelse(x$Media == "Air_concentration_ug_m2_from_foliar" & x$day > 0 | x$Media == "Dust_concentration_ug_m2_from_seed" & x$day > 0, NA, x$Value)
- x<-na.omit(x)
- 
-
- # x<- x %>% group_by(distance, Media) %>% summarise(avg = mean(Value))
- 
- x<-x[x$day<=7,] # get first 7 days post application
- 
-quantile_distances<-x%>%
-   group_by(Media,distance) %>%
-   summarize(quant5 = quantile(Value, probs = 0.95), 
-             quant50 = quantile(Value, probs = 0.50),
-             quant95 = quantile(Value, probs = 0.05))
-#%>%gather("percentile","value",3:5)
-
-
-#outputs<-split(quantile_distances, quantile_distances$Media)
-
-  ggplot(quantile_distances, aes(distance,log(quant50)))+
-    geom_ribbon(aes(ymin=log(quant5),ymax=log(quant95)), fill='grey', alpha=.5)+
-    geom_line(aes(color="darkred"))+
-    facet_wrap(~Media, scales="free_y") +
-    ggtitle(paste0(x$Compound,"-", x$Commodity,"-", x$ApplicationType, "-30 days")) +
-    theme_minimal()
-  
-
-
- 
-}
-  
-plots<-lapply(off_field_residue_list,get_quantiles)
-
-
-
-
-######## Plots ###########
-#### Daily outputs by application type----
-
-foliar<-off_field_residue_list[1:10]
-soil<-off_field_residue_list[11:12]
-seed<-off_field_residue_list[13:18]
-
-
-#simple function to arrange data
-gather_data<-function(x){
-  df<-x
-  df<-gather(df, "Media", "Value", 5:ncol(df))
-  df
-  
+gather_distance_dataset<-function(x){
+  x<-gather(x, "Media", "Value", 6:ncol(x))
+  x$Value<-ifelse(x$Media == "Air_concentration_ug_m2_from_foliar" & x$day > 0 | x$Media == "Dust_concentration_ug_m2_from_seed" & x$day > 0, NA, x$Value)
+  #Add in specific media for grouping
+  x$MediaSub<- sub("_.*", "", x$Media)
+  x$Value<-ifelse(x$Value == 0,NA,x$Value)
+  x<-na.omit(x)
+  x
 }
 
-#Create a custom color scale
-library(RColorBrewer)
-myColors <- brewer.pal(8,"Dark2")
-names(myColors) <- unique(apprates$Compound)
-colScale <- scale_colour_manual(name = "Compound",values = myColors)
 
-##Get foliar output
-foliar_data<-lapply(foliar,gather_data)
-foliar_data<-do.call(rbind,foliar_data)
-foliar_data$Value<-ifelse(foliar_data$Value == 0,NA,foliar_data$Value)
-
-foliar <- ggplot(foliar_data, aes(day, Value, color=Compound)) +
-  geom_point(aes(shape=Commodity), size=1.6)+
-  scale_y_continuous(expand = c(0.1,0))+
-  colScale+
-  facet_wrap(~Media,scales = "free", nrow=1)+
-  ylab("Residues")+
-  xlab("Day")+
-  theme_bw()
-#theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"),  axis.title=element_text(size=14,face="bold"))
-
-foliar
+formatted_offield<-lapply(off_field_subset,gather_distance_dataset)
 
 
-##Get seed output
-seed_data<-lapply(seed,gather_data)
-seed_data<-do.call(rbind,seed_data)
-seed_data$Value<-ifelse(seed_data$Value == 0,NA,seed_data$Value)
+#Split by application type
+seed<- formatted_offield[grep(c("Seed"), names(formatted_offield))]
+soil<-  formatted_offield[grep(c("Soil"), names(formatted_offield))]
+foliar<-  formatted_offield[grep(c("Foliar"), names(formatted_offield))]
 
-seed <- ggplot(seed_data, aes(day, Value,color=Compound)) +
-  geom_point(aes(shape=Commodity), size=1.6)+
-  scale_y_continuous(expand = c(0.1,0))+
-  colScale+
-  facet_wrap(~Media,scales = "free", nrow=1)+
-  ylab("Residues")+
-  xlab("Day")+
-  theme_bw()+
-  theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"),  axis.title=element_text(size=14,face="bold"))
+seed_data<-do.call(rbind,seed)
+soil_data<-do.call(rbind,soil)
+foliar_data<-do.call(rbind,foliar)
 
-seed
-
-##Get soil output
-soil_data<-lapply(soil,gather_data)
-soil_data<-do.call(rbind,soil_data)
-soil_data$Value<-ifelse(soil_data$Value == 0,NA,soil_data$Value)
-
-soil <- ggplot(soil_data, aes(day, Value, color=Compound)) +
-  geom_point(aes(shape=Commodity), size=1.6)+
-  scale_y_continuous(expand = c(0.1,0))+
-  colScale+
-  facet_wrap(~Media,scales = "free", nrow=1)+
-  ylab("Residues")+
-  xlab("Day")+
-  theme_bw()+
-  theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"),  axis.title=element_text(size=14,face="bold"))
-
-soil
-
-compare_between_application_type<-plot_grid(foliar, seed, soil,  ncol = 1, hjust=1, vjust=-0.5,rel_widths = c(2,2,2))
-compare_between_application_type
-
-#labels = c('Foliar', 'Seed','Soil'),
-
-#function to extract legend 
-get_only_legend <- function(plot) { 
-  plot_table <- ggplot_gtable(ggplot_build(plot)) 
-  legend_plot <- which(sapply(plot_table$grobs, function(x) x$name) == "guide-box") 
-  legend <- plot_table$grobs[[legend_plot]] 
-  return(legend) 
-} 
-
-
-all_data<-lapply(off_field_residue_list,gather_data)
-all_data<-do.call(rbind,all_data)
-all_data$Value<-ifelse(all_data$Value == 0,NA,all_data$Value)
-
-all_plot_legend <- ggplot(all_data, aes(day, Value, color=Compound)) +
-  geom_point(aes(shape=Commodity), size=1.6)+
-  colScale+
-  facet_wrap(~Media,scales = "free", nrow=1)+
-  ylab("Residues")+
-  xlab("Day")+
-  theme_bw()
-
-
-legend<-get_only_legend(all_plot_legend)
-
-compare_between_application_type<-plot_grid(compare_between_application_type, legend,ncol = 2, rel_widths = c(6,1))
-compare_between_application_type
-
-#### Daily outputs by media type ----
-
-#First designate type
+#Designate type
 foliar_data$ApplicationType<-"Foliar"
 soil_data$ApplicationType<-"Soil"
 seed_data$ApplicationType<-"Seed"
 
-#Add in specific media for grouping
-foliar_data$MediaSub<- sub("_.*", "", foliar_data$Media)
-soil_data$MediaSub<- sub("_.*", "", soil_data$Media)
-seed_data$MediaSub<- sub("_.*", "", seed_data$Media)
+combine_all<-rbind(foliar_data,seed_data,soil_data)
 
 
-#combine all 3 types
-combine_all<-rbind(foliar_data,soil_data,seed_data)
+#ingestion rate for oral
+IR<-0.292 #g/day
 
-#extract air/dust
-air_df<-combine_all[combine_all$MediaSub == 'Air', ]
-#extract air/dust
-dust_df<-combine_all[combine_all$MediaSub == 'Dust', ]
-#extract soil
-soil_df<-combine_all[combine_all$MediaSub == 'Soil', ]
-#extract pollen
-pollen_df<-combine_all[combine_all$MediaSub == 'Pollen', ]
-#extract nectar
-nectar_df<-combine_all[combine_all$MediaSub == 'Nectar', ]
-
-#Create a custom color scale
-library(RColorBrewer)
-myColors <- brewer.pal(8,"Dark2")
-names(myColors) <- unique(apprates$Compound)
-colScale <- scale_colour_manual(name = "Compound",values = myColors)
+#surface area of a bumblebee
+SA<-2.216 #cm2
 
 
-# airn<- ggplot(air_df, aes(day, Value, group=Compound, color=Compound)) +
-#   geom_point(aes(shape=ApplicationType), size=3)+
-#   #scale_shape_manual(values=c(16,4,8))+
-#   colScale+
-#   facet_wrap(~Commodity,scales = "free", nrow=1)+
-#   ylab(expression(paste("Residues [ug/", m^{2},"]")))+
-#   xlab("Days Post-Application")+
-#  # geom_text(x=125, y=4000, label="Air", color="black", size=6)+
-#   theme_bw() +
-# #  theme(plot.margin = unit(c(1,1,1,1), "cm"))+
-#   theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"),  axis.title=element_text(size=14,face="bold"))
-# 
-# airn
-# 
-# 
-# dustn<- ggplot(dust_df, aes(day, Value, group=Compound, color=Compound)) +
-#   geom_point(aes(shape=ApplicationType), size=3)+
-#   scale_shape_manual(values=c(16,4,8))+
-#   facet_wrap(~Commodity,scales = "free", nrow=1)+
-#   ylab(expression(paste("Residues [ug/", m^{2},"]")))+
-#   xlab("Days Post-Application")+
-# # geom_text(x=125, y=5.5, label="Dust", color="black", size=6)+
-#   theme_bw() +
-#  # theme(plot.margin = unit(c(1,1,1,1), "cm"))+
-#   theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"),  axis.title=element_text(size=14,face="bold"))
-# 
-# dustn
+list_by_application_type<-split(combine_all, list(combine_all$ApplicationType))
 
+x<-list_by_application_type[[1]]
+x<-NULL
 
-soiln<- ggplot(soil_df, aes(day, (Value), color=Compound)) +
-  geom_line(aes(linetype = ApplicationType), size=1)+
-  colScale+
-  #geom_point(aes(shape=ApplicationType))+
-  #scale_shape_manual(values=c(1,4,8))+
-  scale_x_continuous(limits=c(0, 30), breaks=seq(0,30, by=5))+
-  # facet_wrap(~Commodity,scales = "free", nrow=1)+
-  facet_grid(rows = vars(MediaSub), cols = vars(Commodity), scales="free_y")+
-  ylab("Residues [ug/g]")+
-  xlab("Days Post-Application")+
-  #geom_text(x=125, y=0.05, label="Soil", color="black", size=6)+
-  theme_bw()+
-  theme()+
-  #theme(plot.margin = unit(c(1,1,1,1), "cm"))
-  theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"),  axis.title=element_text(size=14,face="bold"))
-soiln
+get_quantiles<-function(x){
 
-
-pollenn<- ggplot(pollen_df, aes(day, Value, color=Compound)) +
-  geom_line(aes(linetype = ApplicationType), size=1)+
-  colScale+
-  #scale_x_continuous(limits=c(60, 130), breaks=seq(60,130, by=10),labels =c("0","7","17","27","37","47","57","67"))+
-  # ifelse(pollen_df$Commodity == "CORN",
-  # scale_x_continuous(limits=c(70, 130), breaks=seq(70,130, by=10),labels =c("7","17","27","37","47","57","67")),
-  # scale_x_continuous(limits=c(60, 120), breaks=seq(60,120, by=10),labels =c("7","17","27","37","47","57","67"))
-  # )+
-  # geom_point(aes(shape=ApplicationType))+
-  #scale_shape_manual(values=c(1,4,8))+
-  #facet_wrap(Commodity ~ .,scales = "free", nrow=1)+
-  facet_grid(rows = vars(MediaSub), cols = vars(Commodity), scales="free_y")+
-  ylab("")+
-  xlab("Days Post-Application")+
-  # geom_text(x=125, y=7.5, label="Pollen", color="black", size=6)+
-  theme_bw()+
-  theme()+
-  #  theme(plot.margin = unit(c(1,1,1,1), "cm"))+
-  theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"),  axis.title=element_text(size=14,face="bold"))
-pollenn
-
-# c<-seq(70,130, by=10)
-# s<-seq(60,120, by=10)
-# 
-# pollenn<-pollenn + facetted_pos_scales(
-#   x = list(
-#     Commodity == "CORN" ~ scale_x_continuous(limits=c(70, 130), breaks=c,labels =c("0","7","17","27","37","47","57")),
-#     Commodity == "SOYBEANS" ~ scale_x_continuous(limits=c(60, 120),breaks=s,labels =c("0","7","17","27","37","47","57"))
-#   )
-# )
-# 
-
-
-nectarn<- ggplot(nectar_df, aes(day, Value, color=Compound)) +
-  geom_line(aes(linetype = ApplicationType), size=1)+
-  colScale+
-  #scale_x_continuous(limits=c(60, 120), breaks=seq(60,120, by=10),labels =c("0","7","17","27","37","47","57"))+
-  #geom_point(aes(shape=ApplicationType))+
-  #scale_shape_manual(values=c(1,4,8))+
-  # facet_wrap(~Commodity,scales = "free", nrow=1)+
-  facet_grid(rows = vars(MediaSub), cols = vars(Commodity), scales="free_y")+
-  ylab("")+
-  xlab("Days Post-Application")+
-  #geom_text(x=125, y=0.9, label="Nectar", color="black", size=6)+
-  theme_bw()+
-  # theme(plot.margin = unit(c(1,1,1,1), "cm"))+
-  theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"),  axis.title=element_text(size=14,face="bold"))
-nectarn
-
-# nectarn<-nectarn + facetted_pos_scales(
-#   x = list(
-#     Commodity == "SOYBEANS" ~ scale_x_continuous(limits=c(60, 120),breaks=s,labels =c("0","7","17","27","37","47","57"))
-#   )
-# )
-# 
-
-compare_between_media<-plot_grid(
-  soiln,
-  pollenn,
-  nectarn, 
-  # labels = c('Air', 'Dust','Soil','Pollen','Nectar'),
+  #subset to first 30 days
+  #x<-x[x$day<=30,] 
   
-  hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow = 1,rel_widths = c(3,3,3))
-compare_between_media
-
-
-
-
-all_plot_legend <- ggplot(combine_all, aes(day, Value, color=Compound)) +
-  geom_line(aes(linetype=ApplicationType), size=1)+
-  colScale+
-  facet_wrap(~Commodity,scales = "free", nrow=1)+
-  ylab("Residues")+
-  xlab("Day")+ 
-  theme_bw()+
-  theme( legend.key.size = unit(1, 'cm'), #change legend key size
-         legend.key.height = unit(1, 'cm'), #change legend key height
-         legend.key.width = unit(1, 'cm'), #change legend key width
-         legend.title = element_text(size=16), #change legend title font size
-         legend.text = element_text(size=14))
-
-
-
-legend<-get_only_legend(all_plot_legend)
-
-compare_between_mediaoff<-plot_grid(compare_between_media, legend,ncol = 2, rel_widths = c(7,1))
-compare_between_mediaoff
-
-
-### get deposition data for table
-
-air_and_dust<-combine_all[combine_all$MediaSub ==  "Air" | combine_all$MediaSub ==  "Dust",]
-air_and_dust<-air_and_dust[air_and_dust$day == 0,]
-
-
-
-### the 3rd type is by compound
-list_by_compound<-split(combine_all, f= combine_all$Compound)
-
-create_plot_by_compound<-function(x){
-  df<-x
   
-  out<-ggplot(df, aes(day, Value, color=ApplicationType)) +
-    geom_point()+
-    geom_line(aes(linetype = Commodity), size=0.8)+
-    facet_grid(rows = vars(MediaSub), cols = vars(Commodity), 
-               scales="free_y", switch = 'y')+
-    ylab("Residues")+
-    xlab("Days Post-Planting")+
-    ggtitle(paste0(x$Compound)) +
-    theme_bw()
-  out
+  #subset to just nectar, pollen, soil; we'll add a separate figure for those curves
+  
+  x<-x[!c(x$MediaSub == "Dust" | x$MediaSub == "Air"),]
+  
+  #mutate to EECs
+  x<- x %>% mutate(EEC = case_when(MediaSub == "Soil" ~ Value/10000*SA,
+                                     MediaSub == "Air" || MediaSub == "Dust"~ Value/10000*SA,
+                                     TRUE ~ Value*IR))
+  #calculate 5th, 50th, and 95th based on distance
+  quantile_distances<-x%>%
+    group_by(Compound, Commodity, MediaSub,distance) %>%
+    summarize(quant5 = quantile(EEC, probs = 0.95), 
+              quant50 = quantile(EEC, probs = 0.50),
+              quant95 = quantile(EEC, probs = 0.05))
+  #%>%gather("percentile","value",3:5)
+  
+  #join with beetox data
+  quantile_distances<-left_join(quantile_distances,beetox[,c(1:3)])
+  
+  #format as endpoint
+  quantile_distances<-gather( quantile_distances, "ExposureLevel", "Endpoint", 8:9)
+ 
+  #remove endpoint for certain combinations
+  quantile_distances<-quantile_distances[!(  
+               quantile_distances$MediaSub == "Air" & quantile_distances$ExposureLevel == "Oral_LD50_ug_bee" |
+               quantile_distances$MediaSub == "Dust" & quantile_distances$ExposureLevel == "Oral_LD50_ug_bee" |
+               quantile_distances$MediaSub == "Soil" & quantile_distances$ExposureLevel == "Oral_LD50_ug_bee"|
+               quantile_distances$MediaSub == "Nectar" & quantile_distances$ExposureLevel == "Contact_LD50_ug_bee"|
+               quantile_distances$MediaSub == "Pollen" & quantile_distances$ExposureLevel == "Contact_LD50_ug_bee") ,]
+  
+  list_by_compound<-split(quantile_distances,list(quantile_distances$MediaSub))
+  # compound<-list_by_compound[[3]]
+  library(scales)
+  options(scipen=0)
+  
+  plot_by_compound<-function(compound){
+    
+    # ticks <-seq(from=min(compound$quant50), to=max(compound$quant50), length.out=10)
+    # logticks <- log(ticks)
+    
+    by_comp<- ggplot(compound, aes(distance,(quant50)))+
+      geom_ribbon(aes(ymin=(quant5),ymax=(quant95)), fill='grey', alpha=.5)+
+      geom_line(aes(color="darkblue"))+
+      # scale_y_continuous(
+      #   breaks=~log(seq(min(.x), max(.x), length.out=10)),
+      #   labels=~format(seq(min(.x), max(.x), length.out=10),2)
+      #   
+      #   
+      #       )+
+      # breaks=logticks, labels=format(ticks,2))+
+      #facet_grid(.~ Compound + Commodity + MediaSub, scales="free_y")+
+      facet_nested_wrap(.~Commodity + Compound,  nrow=ifelse(length(unique(compound$Commodity))==2, 2, 1), scales="free_y")+
+      scale_y_continuous(trans=log_trans(),
+                         labels = format_format(scientific=T))+
+      ylab("")+
+      xlab("")+
+      ggtitle(paste0(str_to_title(compound$MediaSub))) +
+      theme_minimal()+
+      theme(legend.position="none")
+    by_comp
+    
+    # by_comp +  geom_hline(aes(yintercept=(Endpoint)),col="darkred", linetype="dashed")
+    
+    # by_comp + 
+    #   ggh4x::facetted_pos_scales(y = list(
+    #     cyl == 4 ~ scale_y_continuous(limits = c(0, NA)),
+    #     cyl == 6 ~ scale_y_continuous(breaks = c(2.9, 3, 3.1)),
+    #     cyl == 8 ~ scale_y_continuous(trans = "reverse")
+    #   ))
+  }
+  
+  plots<-lapply(list_by_compound, plot_by_compound)
+  n <- length(plots)
+  nrow <- floor(sqrt(n))
+  compare_distance<-do.call("grid.arrange", c(plots, nrow=n))
+  
+  
+  y.grob <- textGrob("Rate-Adjusted EEC [ug/bee]", 
+                     gp=gpar(fontface="bold", col="black", fontsize=15), rot=90)
+  
+  x.grob <- textGrob("Distance [m]", 
+                     gp=gpar(fontface="bold", col="black", fontsize=15))
+  
+  grid.arrange(arrangeGrob(compare_distance, left = y.grob, bottom = x.grob))
+  
+  
+  
   
 }
 
-list_of_plots<-lapply(list_by_compound,create_plot_by_compound)
+plots<-lapply(list_by_application_type,get_quantiles)
+
+# plots[[1]]
+# plots[[2]]
+# plots[[3]]
 
 
-### The 4th is similar to Li et al.2022
+#### AgDRIFT curves as a plot 
+
+agdrift<-gather(ag_drift, "Curve","deposition", 2:ncol(ag_drift))
+colnames(air_krupke)[1]<-"distance"
+
+air_krupke$Curve<-"Krupke_seed_dust"
+
+krupke<-air_krupke[,c(1,4,3)]
+
+deposition<-rbind(agdrift,krupke)
 
 
-list_by_compound<-split(combine_all, f= combine_all$Compound)
+library(pals)
+deposition_curves<-ggplot(deposition, aes(x=distance,y=deposition, group=Curve, color=Curve))+
+  geom_line(size=1.2)+
+  scale_colour_manual(values=unname(cols25()))+
+  ylab("Deposition [Fraction of AR]")+
+  xlab("Distance [m]")+
+  ggtitle("Deposition Curves") +
+  theme_minimal()
 
+deposition_curves
 
-create_plot_by_compound<-function(x){
-  df<-x
-  df<-df[!(df$MediaSub=="Air" | df$MediaSub=="Dust"),]
-  
-  out<-ggplot(df, aes(day, Value, group=interaction(ApplicationType,MediaSub), color=MediaSub)) +
-    # geom_point()+
-    geom_line( size=0.8)+
-    facet_grid(rows=vars(ApplicationType),cols = vars(Commodity), 
-               scales="free",switch = 'y')+
-    ylab("Residues")+
-    xlab("Days Post-Application")+
-    ggtitle(paste0(x$Compound)) +
-    theme_bw()
-  out
-  
-}
-
-list_of_plots<-lapply(list_by_compound,create_plot_by_compound)
-
-
-
-
-
-
-#get 5th, 50th, and 95th, percentile
-set<-quantile(seed_dust_data_off_fieldf$dust_drift_conc, c(.95, .50, .05))  
-seed_dust_data_off_field<- seed_dust_data_off_fieldf[which.min(abs(seed_dust_data_off_fieldf$dust_drift_con - set[[quant]])),]
