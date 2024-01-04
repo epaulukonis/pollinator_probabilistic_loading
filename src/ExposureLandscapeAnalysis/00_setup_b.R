@@ -4,6 +4,8 @@
 
 # Edited by E. Paulukonis October 2022
 
+rm(list=ls())
+gc()
 
 #Install and load supporting libraries.
 print("stepping into 00_setup.R")
