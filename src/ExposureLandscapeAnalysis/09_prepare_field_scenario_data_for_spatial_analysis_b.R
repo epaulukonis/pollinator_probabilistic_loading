@@ -21,6 +21,7 @@ scenarios<- lapply(scenarios, setNames, colnamesnew)
 #let's get our primary data source
 df<-scenarios[[16]] #get 2014
 df<-df[!is.na(df$applicationday),] #remove all the unassigned compound/application types
+rm(scenarios)
 
 # epsg <- rgdal::make_EPSG()
 # i <- grep("France", epsg$note, ignore.case=TRUE)
@@ -36,14 +37,9 @@ df<-df[!is.na(df$applicationday),] #remove all the unassigned compound/applicati
 bomb_h <- st_read(bombus_dir, layer = "RPBB_High_Potential_Zones_03172021")
 bomb_h<- st_transform(bomb_h, crs(df)) #reproject to match extent of DF
 
-crs(bomb_h)
-crs(df)
-
-sf_use_s2(FALSE)
 
 #let's clip the field scenario within the bombus affinis habitat
 on_field_area<-st_intersection(df, bomb_h)
-
 
 #remove smaller fields
 on_field_area$shapearea<-as.numeric(st_area(on_field_area)) #should be in meters
@@ -55,14 +51,32 @@ off_field_area<-st_buffer(on_field_area,90)
 off_field_area<-st_intersection(off_field_area, bomb_h)
 #st_write(off_field_area, paste0(root_data_out, "/all_bombus/modified_sampled_fields/off_field_area.shp"), driver = "ESRI Shapefile")
 
+# get habitat points 
+habpnt<-st_read(paste0(root_data_in, "/MapData/"), layer = "habitatpoints")
+habpnt<-st_transform(habpnt, crs(df)) 
 
-plot(off_field_area$geometry, add=T)
-plot(bomb_h$geometry,add=T)
+# #check they overlap
+# plot(st_geometry(on_field_area))
+# plot(st_geometry(st_centroid(habpnt)), pch = 3, col = 'red', add = TRUE)
+
+#add buffer
+buf_hab<-st_buffer(habpnt, 1000)
+
+#get NLCD
+nlcd<-raster(paste0(root_data_in, "/MapData/NLCD/Illinois/nlcd2013.tiff"))
+crs(nlcd)<-crs(buf_hab)
+habitat <- mask(crop(nlcd, buf_hab), buf_hab) #get nlcd within habitat
+habitat<-rast(habitat)
+#rm(nlcd)
+
+# habitat[21:24,] <- 20
+# habitat[3:9,] <- NA
+# rc3[c(1:3,6:9),] <- NA
 
 
-st_read(bombus_dir, layer = paste0(root_data_in, "MapData/RPBB_High_Potential_Zones_03172021"))
 
-
+plot(habitat)
+plot(st_geometry(on_field_area), add=T)
 
 
 #### I'm not actually sure we'll need this yet, hence sticking it down here ----
@@ -100,7 +114,6 @@ habitat<-classify(habitat, cbind(NA, 80)) #80 is both pasture and general crop
  crs(habitat)<-crs(bomb_h)
 habitat <- mask(habitat, bomb_h) #get non-crop habtiat within the
 #plot(habitat)
- 
  
 
 
