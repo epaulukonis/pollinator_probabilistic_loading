@@ -34,6 +34,41 @@ county_pestx %>%
 
 
 #### What does the overall usage look like by class for a selected subset of insecticides + 3 herbicides? ----
+#county data
+county_pest<-list()
+county_pest[1:17]<-file.path(paste0(pest_dir,"/PNSP/County"), list.files(paste0(pest_dir,"/PNSP/County"), pattern='.txt', all.files=TRUE, full.names=FALSE))
+county_pest_list<-lapply(county_pest, function(x) read.table(x, header=TRUE, sep ='\t'))
+
+#here, we add in the county codes as well as the specific compounds we'd like to focus on  
+codes<-c(7, 111, 201)
+Compound<-c(
+  "CLOTHIANIDIN",
+  "CHLORPYRIFOS",
+  "CARBOFURAN",
+  "IMIDACLOPRID",
+  "THIAMETHOXAM",
+  "BIFENTHRIN",
+  "CARBARYL",
+  "GLYPHOSATE",
+  
+)
+
+#get state, county, and compounds
+get_data<-function(x){
+  x<-x[x$STATE_FIPS_CODE == 17,]
+  x<-x[x$COUNTY_FIPS_CODE %in% codes,]
+  x<-x[x$COMPOUND %in% Compound,] 
+}
+county_pest<-lapply(county_pest_list, get_data)
+county_pest<-do.call(rbind,county_pest)
+county_pest<-county_pest %>% group_by(COMPOUND, YEAR) %>% summarise(sumx=sum(EPEST_HIGH_KG))
+
+
+
+
+
+
+
 #let's look at the useage history of the chosen compounds
 county_pestt<- county_pest %>% group_by(COMPOUND,YEAR) %>% summarise(sumx = sum(EPEST_HIGH_KG))
 class <-read.csv(paste0(pest_dir, "/PestClass.csv"))
@@ -64,7 +99,7 @@ county_pestt %>%
   ggplot(aes(x=YEAR, y=(sumx), group=COMPOUND, color=COMPOUND)) +
   geom_point()+
   geom_line()+
-  facet_wrap(~Class, nrow=3, ncol=2, scales="free_y")+
+  facet_wrap(~Class, nrow=3, ncol=1, scales="free_y")+
   xlab("Year") + ylab("Total kg")+
   scale_color_manual(values=c(c25))+
   scale_x_continuous(breaks=seq(1999,2021,1))+

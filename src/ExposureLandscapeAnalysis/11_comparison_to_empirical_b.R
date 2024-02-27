@@ -11,6 +11,13 @@ apprates$Compound<-toupper(apprates$Compound)
 apprates$k_values<-log((apprates$AvgRate/2)/apprates$AvgRate)/-(apprates$k_values)
 
 
+#these are the only residues we'll measure as ug/m2
+ag_drift <-read.csv(paste0(pest_dir, "/Models/agdrift_database.csv"))
+
+#convert to meters
+ag_drift$distance<-ag_drift$distance*0.3048
+
+
 #### Set up and read in variables for models:
 ## Foliar
 Li<-read.csv(paste0(pest_dir,"/Models/LiParam.csv"))
@@ -29,6 +36,8 @@ emp<-read.csv(paste0(pest_dir,"/Residues/EmpiricalComp.csv"))
 emp$Compound<-toupper(emp$Compound)
 emp<-merge(x = emp, y = apprates[ , c("Compound","k_values")], by = "Compound", all.x=TRUE)
 emp<-emp[!duplicated(emp), ]
+
+emp$DaysPostApplication<-ifelse(emp$DaysPostApplication == 0, 0.0833, emp$DaysPostApplication)
 by_application_type<-split(emp,list(emp$ApplicationType))
 
 
@@ -53,10 +62,12 @@ colnames(s_soil)[21]<-"Estimated"
 colnames(s_soil)[22]<-"Empirical"
 s_soil<-gather(s_soil, "Source", "Value", 21:ncol(s_soil))
 
-s_soil$Source<-factor(s_soil$Source, levels = c("Estimated","Empirical"))
+s_soil$Source<-factor(s_soil$Source, levels = c("Empirical","Estimated"))
 
 ssoil_comp<- ggplot(s_soil, aes(DaysPostApplication, Value, color=Source)) +
-  geom_point(aes(shape=Plant), size=2)+
+  geom_point(aes(shape=Plant), size=2.5)+
+  geom_smooth(se = FALSE)+
+
   #scale_shape_manual(values=c(1,4,8))+
   scale_x_continuous()+
   # facet_wrap(~Commodity,scales = "free", nrow=1)+
@@ -106,10 +117,11 @@ TSCF<- 0.7*exp(-((s_pol$logKow-3.07)^2/2.44))
   colnames(s_pol)[39]<-"Empirical"
   s_pol<-gather(s_pol, "Source", "Value", 38:ncol(s_pol))
   
-  s_pol$Source<-factor(s_soil$pol, levels = c("Estimated","Empirical"))
+  s_pol$Source<-factor(s_pol$Source, levels = c("Empirical","Estimated"))
   
   spol_comp<- ggplot(s_pol, aes(DaysPostApplication, Value, color=Source)) +
-    geom_point(aes(shape=Plant), size=2)+
+    geom_point(aes(shape=Plant), size=2.5)+
+    geom_smooth(se = FALSE)+
     #scale_shape_manual(values=c(1,4,8))+
     scale_x_continuous()+
     # facet_wrap(~Commodity,scales = "free", nrow=1)+
@@ -150,10 +162,11 @@ colnames(f_soil)[17]<-"Estimated"
 colnames(f_soil)[18]<-"Empirical"
 f_soil<-gather(f_soil, "Source", "Value", 17:ncol(f_soil))
 
-f_soil$Source<-factor(f_soil$Source, levels = c("Estimated","Empirical"))
+f_soil$Source<-factor(f_soil$Source, levels = c("Empirical","Estimated"))
 
 fsoil_comp<- ggplot(f_soil, aes(DaysPostApplication, Value, color=Source)) +
-  geom_point(aes(shape=Plant), size=2)+
+  geom_point(aes(shape=Plant), size=2.5)+
+  geom_smooth(se = FALSE)+
   #scale_shape_manual(values=c(1,4,8))+
   scale_x_continuous()+
   # facet_wrap(~Commodity,scales = "free", nrow=1)+
@@ -187,10 +200,12 @@ colnames(f_pol)[33]<-"Estimated"
 colnames(f_pol)[34]<-"Empirical"
 f_pol<-gather(f_pol, "Source", "Value", 33:ncol(f_pol))
 
-f_pol$Source<-factor(f_pol$Source, levels = c("Estimated","Empirical"))
+f_pol$Source<-factor(f_pol$Source, levels = c("Empirical","Estimated"))
+f_pol<-f_pol[f_pol$Application.Rate == 0.032,]
 
-fpol_comp<- ggplot(f_pol, aes(DaysPostApplication, Value, color=Source)) +
-  geom_point(aes(shape=Plant), size=2)+
+fpol_comp<- ggplot(f_pol, aes(DaysPostApplication, Value, color=interaction(Source))) +
+  geom_point(aes(shape=Plant), size=2.5)+
+  geom_smooth(se = FALSE)+
   #scale_shape_manual(values=c(1,4,8))+
   scale_x_continuous()+
   # facet_wrap(~Commodity,scales = "free", nrow=1)+
@@ -222,7 +237,7 @@ emp_vs_est<-plot_grid(
 emp_vs_est
 
 
-y.grob <- textGrob("Residues [ug/g]", 
+y.grob <- textGrob("Residue Concentrations [ug/g]", 
                    gp=gpar(fontface="bold", col="black", fontsize=15), rot=90)
 
 x.grob <- textGrob("Days Post Application", 

@@ -124,13 +124,13 @@ final_vector<-paste0(paste0(root_data_out, "/all_tif/ILLINOIS/bombus/modified_fi
 if(file.exists(final_vector)){
   print(list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/bombus/modified_final_vectors"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
   fv<- file.path(paste0(root_data_out, "/all_tif/ILLINOIS/bombus/modified_final_vectors"), list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/bombus/modified_final_vectors"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-  fv<-setNames(lapply(fv, readOGR), tools::file_path_sans_ext(basename(fv)))
+  fv<-setNames(lapply(fv, st_read), tools::file_path_sans_ext(basename(fv)))
   fv<-fv[(mixedsort(as.character(names(fv))))]
   
 }else{
 print(list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/bombus/final_vectors"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
 fv<- file.path(paste0(root_data_out, "/all_tif/ILLINOIS/bombus/final_vectors"), list.files(path=paste0(root_data_out, "/all_tif/ILLINOIS/bombus/final_vectors"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-fv<-setNames(lapply(fv, readOGR), tools::file_path_sans_ext(basename(fv)))
+fv<-setNames(lapply(fv, st_read), tools::file_path_sans_ext(basename(fv)))
 fv<-fv[(mixedsort(as.character(names(fv))))]
 
 #let's choose 2011 as our 'true' layer

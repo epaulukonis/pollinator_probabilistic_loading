@@ -61,6 +61,8 @@ foliar_data$MediaSub<- sub("_.*", "", foliar_data$Media)
 soil_data$MediaSub<- sub("_.*", "", soil_data$Media)
 seed_data$MediaSub<- sub("_.*", "", seed_data$Media)
 
+#imida<-foliar_data[foliar_data$Compound == "IMIDACLOPRID",]
+
 combine_all<-rbind(foliar_data,soil_data,seed_data)
 
 
@@ -373,7 +375,7 @@ plot_all_applications_by_timeseries<-function(x){
   x$MediaSub<-factor(x$MediaSub,levels=c("Soil","Pollen","Nectar"))
   
   #surface area of a bumblebee
-  SA<-2.216 #cm2
+  SA<-5 #cm2/bee
   
   # depo<-x[x$MediaSub == "Air" |x$MediaSub == "Dust" , ]
   # micro<-x[x$MediaSub == "Pollen" | x$MediaSub == "Nectar"| x$MediaSub == "Soil", ]
@@ -383,10 +385,19 @@ plot_all_applications_by_timeseries<-function(x){
   # x<-rbind(micro,depo)
   
   
-  x<- x%>% mutate(EEC = case_when(MediaSub == "Soil" ~ Value/10000*SA,
-                         MediaSub == "Air" || MediaSub == "Dust"~ Value/10000*SA,
+  
+  
+  #value = ug/g OR ug/m2 if deposition
+  
+  x<- x%>% mutate(EEC = case_when(MediaSub == "Soil" ~ Value,
+                         MediaSub == "Air" || MediaSub == "Dust"~ (Value/10000)*SA,
                          MediaSub == "Nectar" ~ Value * 0.400, #ingestion rate foraging bee
                          TRUE ~ Value*0.030))
+  
+  
+  
+  
+
 
   split_by_commodity<-split(x,list(x$Compound), drop=T)
   all<-seq(0,150,by=25)
@@ -395,7 +406,7 @@ plot_all_applications_by_timeseries<-function(x){
  plot_base_plots<- function(crop){
     
   output<- ggplot(crop) +
-    geom_line(aes(day, (EEC), linetype=ID, color=ApplicationType),size=1.2)+
+    geom_line(aes(day, (Value), linetype=ID, color=ApplicationType),size=1.2)+
     facet_nested_wrap(~MediaSub, scales="free",nrow=1)+
    # facet_grid(~MediaSub+Commodity)+
     scale_x_continuous(limits=c(0, 150),breaks=all)+
@@ -480,7 +491,7 @@ warnings()
 daily_time_step_corn<-plot_grid(supplementary_daily_plots[[1]], legend, rel_widths = c(5,1))
 daily_time_step_soy<-plot_grid(supplementary_daily_plots[[2]], legend, rel_widths = c(5,1))
 
-y.grob <- textGrob("Rate-Adjusted EEC [ug/bee]", 
+y.grob <- textGrob("Residue Concentrations [ug/g]", 
                    gp=gpar(fontface="bold", col="black", fontsize=15), rot=90)
 
 x.grob <- textGrob("Days Post-Planting", 
@@ -500,72 +511,98 @@ grid.arrange(arrangeGrob(daily_time_step_soy, left = y.grob, bottom = x.grob))
 beetox <-read.csv(paste0(pest_dir, "/BeeTox.csv"))
 beetox$Compound<-toupper(beetox$Compound)
 
+#### App rates and timing:
+apprates <-read.csv(paste0(pest_dir, "/AppRates.csv"))
+apprates$Compound<-toupper(apprates$Compound)
+apprates$k_values<-log((apprates$AvgRate/2)/apprates$AvgRate)/-(apprates$k_values)
 
-### First we need to get the EPA specific values for each compound for nectar/pollen/soil
+#apprates<-crossing(apprates, type=c("Pollen","Nectar"))
 
-#### Nectar/Pollen
-#seed
-Seed<-1 #mg/kg
+### We want to compare the EECs we've simulated against the EPA specific EEC estimation methods for day 1
+#there are a number of approaches the EPA uses to estimate EEC based on application type. We'll divide by type first
 
-#soil
+foliar<-apprates %>% filter(ApplicationType == "FoliarI" | ApplicationType == "FoliarH" )
+seed<-apprates %>% filter(ApplicationType == "Seed"  )
+soil<-apprates %>% filter(ApplicationType == "Soil"  )
+
+## calculate contact and diet EEC foliar
+foliar$Contact<-foliar$AvgRate*2.7
+foliar$Diet<-foliar$AvgRate*110*0.292
+foliar$ApplicationType<-"Foliar"
+foliar<-foliar[,c(1,3,5,6,13:14)]
+foliar<-gather(foliar, "Route", "EEC", 5:ncol(foliar))
+foliar$Media<-ifelse(foliar$Route == "Contact", "Air","Pollen")
+foliar<-unique(foliar)
+foliar<-rbind(foliar,foliar[11:20,])
+foliar[21:30,7]<-"Nectar"
+
+#for concentrations in soil, I used the etterson reference and calculated a bee surface area value
+# foliar<-rbind(foliar,foliar[21:30,])
+# foliar[31:40,8]<-"Soil"
+# foliar[31:40,7]<-((foliar[31:40,2]*1.12085)/15)*exp(-foliar[31:40,5]*7)/10000*2.216
+
+names(foliar)
+
+## calculate diet EEC seed
+seed$Route<-"Diet"
+seed$EEC<-1*0.292
+seed$Media<-"Pollen"
+seed<-seed[,c(1,3,5,6,13,14,15)]
+seed<-rbind(seed,seed[1:6,])
+seed[7:12,7]<-"Nectar"
+
+## calculate diet EEC soil  
 koc <-read.csv(paste0(pest_dir, "/Models/Koc.csv"))
 koc$Compound<-toupper(koc$Compound)
 TSCF<-Li[,c(1,18)]
 TSCF<-merge(TSCF,koc)
 TSCF$TSCF<- 0.7*exp(-((TSCF$logKow-3.07)^2/2.44))  
-TSCF$Soil<-( (10^(0.95*TSCF$logKow-2.05)+0.82) * TSCF$TSCF *(1.95/(0.2+1.95*TSCF$Koc*0.01)) )
+TSCF$EEC<-( (10^(0.95*TSCF$logKow-2.05)+0.82) * TSCF$TSCF *(1.95/(0.2+1.95*TSCF$Koc*0.01)) )
+TSCF<-TSCF[,c(1,5)]
+soil<-merge(soil,TSCF)
+soil$Route<-"Diet"
+soil$Media<-"Pollen"
+soil<-soil[,c(1,3,5,6,14,13,15)]
+soil<-rbind(soil,soil[1:2,])
+soil[3:4,7]<-"Nectar"
 
-#foliar
-Foliar<-36 #mg/kg
+names(foliar)
+names(soil)
+names(seed)
 
-epa_value<-TSCF[,c(1,5)]
-epa_value$Foliar<-Foliar
-epa_value$Seed<-Seed
-epa_value<-gather(epa_value, "ApplicationType", "ug_g", 2:ncol(epa_value))
-
-epa_value$Media<-"Nectar"
-
-epa_value<-rbind(epa_value,epa_value)
-epa_value[25:48,4]<-"Pollen"
-epa_value$Commodity<-"CORN"
-
-epa_value<-rbind(epa_value,epa_value)
-epa_value[48:96,5]<-"SOYBEANS"
+epa_value<-rbind(foliar,seed,soil)
+epa_value<-epa_value[,c(1,3,4,6,7)]
 
 
-soil_conc<-epa_value[c(1:8,48:56),]
-soil_conc$Media<-"Soil"
 
-epa_value<-rbind(epa_value,soil_conc)
+##################Old code for soil calculations
+# conc_soil<-apprates[,c(1,3,5,6,12)]
+# foliar_soil<-unique(conc_soil[conc_soil$ApplicationType == "FoliarI" |conc_soil$ApplicationType == "FoliarH", ])
+# foliar_soil$ApplicationType<-"Foliar"
+# 
+# foliar_soil$ug_g<-((foliar_soil$AvgRate*1.12085)/15)*exp(-foliar_soil$k_values*7)
+# foliar_soil$Media<-"Soil"
+# foliar_soil<-foliar_soil[,c(1,3:4,6:7)]
+# 
+# epa_value<-rbind(epa_value, foliar_soil)
+# 
+# seed_soil<-unique(conc_soil[conc_soil$ApplicationType == "Seed" , ])
+# seed_soil$ApplicationType<-"Seed"
+# 
+# seed_soil$ug_g<-((seed_soil$AvgRate*1.12085)/15)*exp(-seed_soil$k_values*7)
+# seed_soil$Media<-"Soil"
+# seed_soil<-seed_soil[,c(1,3:4,6:7)]
+# epa_value<-rbind(epa_value, seed_soil)
 
-conc_soil<-apprates[,c(1,3,5,6,12)]
-foliar_soil<-unique(conc_soil[conc_soil$ApplicationType == "FoliarI" |conc_soil$ApplicationType == "FoliarH", ])
-foliar_soil$ApplicationType<-"Foliar"
-
-foliar_soil$ug_g<-((foliar_soil$AvgRate*1.12085)/15)*exp(-foliar_soil$k_values*7)
-foliar_soil$Media<-"Soil"
-foliar_soil<-foliar_soil[,c(1,3:4,6:7)]
-
-epa_value<-rbind(epa_value, foliar_soil)
-
-seed_soil<-unique(conc_soil[conc_soil$ApplicationType == "Seed" , ])
-seed_soil$ApplicationType<-"Seed"
-
-seed_soil$ug_g<-((seed_soil$AvgRate*1.12085)/15)*exp(-seed_soil$k_values*7)
-seed_soil$Media<-"Soil"
-seed_soil<-seed_soil[,c(1,3:4,6:7)]
-epa_value<-rbind(epa_value, seed_soil)
-
-
-names(epa_value)[3]<-"EPA"
-names(epa_value)[4]<-"MediaSub"
+names(epa_value)[4]<-"EPA"
+names(epa_value)[5]<-"MediaSub"
 epa_value$ID<-"On-field"
 
 
 
 combine_all<-na.omit(combine_all)
 #surface area of a bumblebee
-SA<-2.216 #cm2
+SA<-5 #cm2
 
 #combine with beetox and set units
 combine_all$units<-ifelse(combine_all$MediaSub == "Dust" | combine_all$MediaSub == "Air", "ug/m2","ug/g" )
@@ -577,10 +614,23 @@ combine_all<- gather(combine_all, "ExposureLevel", "Endpoint", 10:11)
 testy<-left_join(combine_all,epa_value)
 combine_all<-testy
 
+##read in HC5 data from cassandra; this represents fractions of SSDs 
+
+hc5 <-read.csv(paste0(pest_dir, "/HC5.csv"))
+hc5$Compound<-toupper(hc5$Compound)
+
+testy<-left_join(combine_all,hc5)
+combine_all<-testy
+
+
+#look<-combine_all[combine_all$Compound == "CARBARYL",]
+
+combine_all$Value = ifelse(combine_all$Value <= 1E-6,1E-6,combine_all$Value)
+
 
 #customize colors
 library(RColorBrewer)
-myColors <- brewer.pal(5,"Dark2")
+myColors <- brewer.pal(8,"Dark2")
 names(myColors) <- unique(combine_all$MediaSub)
 colScale <- scale_colour_manual(name = "MediaSub",values = myColors)
 fillScale <- scale_fill_manual(name = "MediaSub",values = myColors)
@@ -594,11 +644,19 @@ create_plot_of_rq<-function(x){
  # df<-na.omit(df)
   
 
-  #calculate ingestion/contact based eecs
-df<- df %>% mutate(EEC = case_when(MediaSub == "Soil" ~ Value/10000*SA,
-                        MediaSub == "Air" || MediaSub == "Dust"~ Value/10000*SA,
-                        MediaSub == "Nectar" ~ Value * 0.400,
-                        TRUE ~ Value*0.030))
+#calculate ingestion/contact based eecs
+df<- df %>% mutate(EEC = Value * case_when(
+                        MediaSub == "Air"  ~ SA/10000,
+                        MediaSub == "Dust" ~ SA/10000,
+                        MediaSub == "Soil" ~ 1/SA,
+                        MediaSub == "Nectar" ~ 0.400,
+                        MediaSub == "Pollen" ~  0.030))
+
+
+
+
+#look<-df[df$Compound =="IMIDACLOPRID",]
+
 
 
 #remove rows where the condition for concentration is expressed twice
@@ -614,31 +672,62 @@ df<- df %>% mutate(EEC = case_when(MediaSub == "Soil" ~ Value/10000*SA,
   
   #split by crop
   df_list<-split(df, list(df$Commodity), drop=T)
- # crop<-df_list[[2]]
+  #crop<-df_list[[2]]
 
   plot_by_crop<-function(crop){
     
     # ticks <- (seq(-35,15, by=10))
     # logticks <- exp(ticks)
     
+   crop<-crop[,c(1:10,15,11:13)]
+   crop<-gather(crop, "Comparison", "Endpoint", 12:ncol(crop))
+   
+  
+   crop$Comparison<-ifelse(crop$Comparison == "Endpoint","LC50/LD50",crop$Comparison)
+   crop$Comparison<-ifelse(crop$Comparison == "HC5","HC5",crop$Comparison)
+   crop$Comparison<-ifelse(crop$Comparison == "EPA","EPA Tier I Dose",crop$Comparison)
+   
+
+   #crop$col <-myColors[match(crop$MediaSub, names(myColors))]
+   
+
   #create plot
-  out<-ggplot(crop) +
-    geom_boxplot(aes(MediaSub, (EEC), color=MediaSub, fill=MediaSub),show.legend = FALSE)+
-    geom_point(aes(x=MediaSub, y=(Endpoint)), pch=4,size=3,shape=4, fill="darkred")+
-    geom_point(aes(x=MediaSub, y=(EPA)),pch=21,size=3,shape=1,fill="darkblue")+
+  out<-ggplot(crop, aes(x=MediaSub)) +
+    geom_boxplot(aes(y=EEC), fill="lightgrey", show.legend = FALSE)+
+    geom_point(aes(y=Endpoint, shape=Comparison, colour=Comparison, fill=Comparison), size=3)+
+
+    # geom_point(aes(x=MediaSub, y=(Endpoint), colour=Endpoint), pch=4,size=3,shape=4, fill="darkred")+
+    # geom_point(aes(x=MediaSub, y=(EPA), colour=EPA),pch=21,size=3,shape=1,fill="darkblue")+
+    # geom_point(aes(x=MediaSub, y=(HC5), colour=HC5), size=3,shape=5, fill="lightgreen")+
    
     scale_y_continuous(trans=scales::log_trans(),
-                       labels = scales::format_format())+
+                       labels = scales::format_format(digits=3))+
 
+    
     facet_nested_wrap(~Compound +ID,nrow=1)+
-    colScale+
-    fillScale+
+    scale_colour_manual(values=c('darkblue','darkgreen',"firebrick"))+
+    scale_shape_manual(values = c(4,16,17))+
+    # colScale+
+    # fillScale+
+    
     #ylab(ifelse(df$ApplicationType == "Foliar","Hazard Quotient", ""))+
     theme_bw()+
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
     ggtitle(paste0(crop$ApplicationType,"-", crop$Commodity)) +
-    theme(legend.position="right",axis.title=element_text(size=14,face="bold"),axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"), axis.title.y=element_blank(), axis.title.x=element_blank())
+    theme(legend.position="none",
+          axis.title=element_text(size=14,face="bold"),
+          axis.text.y = element_text(size=12,face="bold"),
+          axis.text.x = element_text(size=12,face="bold", colour=
+                                     
+                                     ifelse(crop$ApplicationType=="Soil",
+                                            c("#66A61E","#7570B3","#D95F02"),
+                                            c("#E6AB02","#66A61E","#7570B3","#D95F02"))
+                                     
+                                     ),
+          axis.title.y=element_blank(), axis.title.x=element_blank())
   out
+  
+  
   
   }
   
@@ -666,6 +755,7 @@ df<- df %>% mutate(EEC = case_when(MediaSub == "Soil" ~ Value/10000*SA,
   # 
   # legend<-get_only_legend(all_plot_legend)
   
+  
 
   final_plots
 
@@ -676,8 +766,8 @@ list_of_plots<-lapply(split_datasets_for_HQ,  create_plot_of_rq)
 
 compare_risk_top<-plot_grid(
   list_of_plots[[1]],
-  # labels = c('Air', 'Dust','Soil','Pollen','Nectar'),
-  hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow=1, rel_widths = c(4))
+
+  hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow=1, rel_widths = c(5))
 compare_risk_top
 
 
@@ -685,18 +775,23 @@ compare_risk_bottom<-plot_grid(
   list_of_plots[[2]],
   list_of_plots[[3]],
   # labels = c('Air', 'Dust','Soil','Pollen','Nectar'),
-  hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow=1, rel_widths = c(3,2))
+  hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow=1, rel_widths = c(3,1.8))
 compare_risk_bottom
 
-final<-plot_grid(compare_risk_top,compare_risk_bottom, hjust=0, vjust=0,  align= "h",ncol=2)
+final<-plot_grid(compare_risk_top,compare_risk_bottom, hjust=0, vjust=0,  align= "h",nrow=2)
 
-y.grob <- textGrob("Rate-Adjusted EEC [ug/bee]", 
+
+
+
+
+y.grob <- textGrob("Rate-Adjusted Environmmental Exposure Dose [ug/bee;ug/g]", 
                    gp=gpar(fontface="bold", col="black", fontsize=15), rot=90)
 
 x.grob <- textGrob("Media Type", 
                    gp=gpar(fontface="bold", col="black", fontsize=15))
 
-grid.arrange(arrangeGrob(final, left = y.grob, bottom = x.grob))
+grid.arrange(arrangeGrob(compare_risk_top, left = y.grob, bottom = x.grob))
+grid.arrange(arrangeGrob(compare_risk_bottom, left = y.grob, bottom = x.grob))
 
 # legend_plot<-ggplot(eec_df, aes(MediaSub, Value, fill=MediaSub)) +
 #   geom_hline(yintercept=log(0.4))+
@@ -828,7 +923,7 @@ logticks <- exp(ticks)
   out<-ggplot(mediasub, aes(Source, log(Residues_ugg),fill=Source)) +
     geom_boxplot() +
     geom_hline(yintercept=log(3e-5))+
-    colScale+
+    #colScale+
     # scale_y_continuous(trans=scales::log_trans(),
     #                    labels = scales::format_format())+
     scale_y_continuous(breaks=ticks, labels=format(as.numeric(logticks),scientific=T, digits=3))+
@@ -853,10 +948,7 @@ logticks <- exp(ticks)
 
 list_of_estimate_plots<-lapply(list_by_applciationtype,create_plot_of_fieldcompare)
 
-compare_field_est<-
-  
-plot_grid(
-
+compare_field_est<-plot_grid(
   list_of_estimate_plots[[1]],
   list_of_estimate_plots[[2]],
   hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow=2, ncol=1, rel_widths = c(6,6))
@@ -866,7 +958,7 @@ plot_grid(
 
 
 
-y.grob <- textGrob("Rate-Adjusted EEC", 
+y.grob <- textGrob("Residue Concentrations [ug/g]", 
                    gp=gpar(fontface="bold", col="black", fontsize=15), rot=90)
 
 x.grob <- textGrob("", 
