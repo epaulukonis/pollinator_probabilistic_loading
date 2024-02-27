@@ -4,7 +4,7 @@
 
 # Edited by E. Paulukonis November 2023
 
-### Read in simulated scenarios; we're going to focus on 2021 for this chapter. 
+### Read in simulated scenarios; we're going to focus on 2014 for this chapter. 
 print(list.files(path=paste0(root_data_out, "/all_bombus/sampled_fields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
 scenarios<- file.path(paste0(root_data_out, "/all_bombus/sampled_fields"), list.files(path=paste0(root_data_out, "/all_bombus/sampled_fields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
 scenarios<-setNames(lapply(scenarios, st_read), tools::file_path_sans_ext(basename(scenarios)))
@@ -19,9 +19,9 @@ colnamesnew<-c("Compound","Commodity","Year","ApplicationType", "crop","area",  
 scenarios<- lapply(scenarios, setNames, colnamesnew)
 
 #let's get our primary data source
-df<-scenarios[[16]] #get 2014
+df<-scenarios[[14]] #get 2012
 df<-df[!is.na(df$applicationday),] #remove all the unassigned compound/application types
-rm(scenarios)
+#rm(scenarios)
 
 # epsg <- rgdal::make_EPSG()
 # i <- grep("France", epsg$note, ignore.case=TRUE)
@@ -35,7 +35,7 @@ rm(scenarios)
 
 ### the first thing we want to do is extract the fields that are within the RPBB habitat zones. So we'll need to read thsoe in first. 
 bomb_h <- st_read(bombus_dir, layer = "RPBB_High_Potential_Zones_03172021")
-bomb_h<- st_transform(bomb_h, crs(df)) #reproject to match extent of DF
+bomb_h <- st_transform(bomb_h, crs(df)) #reproject to match extent of DF
 
 
 #let's clip the field scenario within the bombus affinis habitat
@@ -46,14 +46,21 @@ on_field_area$shapearea<-as.numeric(st_area(on_field_area)) #should be in meters
 on_field_area<-on_field_area[!on_field_area$shapearea < 62500,] #remove smaller fields that are less than 250m2 (1 quarter km squared)
 #st_write(on_field_area, paste0(root_data_out, "/all_bombus/modified_sampled_fields/on_field_area.shp"), driver = "ESRI Shapefile")
 
+#st_write(on_field_area,paste0(root_data_in,"/OutputData/on_field_hab.shp"),driver = "ESRI Shapefile")
+
 #off-field buffer
 off_field_area<-st_buffer(on_field_area,90)
 off_field_area<-st_intersection(off_field_area, bomb_h)
 #st_write(off_field_area, paste0(root_data_out, "/all_bombus/modified_sampled_fields/off_field_area.shp"), driver = "ESRI Shapefile")
 
 # get habitat points 
-habpnt<-st_read(paste0(root_data_in, "/MapData/"), layer = "habitatpoints")
+habpnt<-st_read(paste0(root_data_in, "/MapData/"), layer = "habitatpointsf")
+plot(habpnt$geometry)
+  
+ # st_read(paste0(bombus_dir, "/"), layer = "studypoints")
 habpnt<-st_transform(habpnt, crs(df)) 
+
+
 
 # #check they overlap
 # plot(st_geometry(on_field_area))
@@ -61,6 +68,7 @@ habpnt<-st_transform(habpnt, crs(df))
 
 #add buffer
 buf_hab<-st_buffer(habpnt, 1000)
+#st_write(buf_hab, paste0(root_data_out, "/buf_hab.shp"), driver = "ESRI Shapefile")
 
 #get NLCD
 nlcd<-raster(paste0(root_data_in, "/MapData/NLCD/Illinois/nlcd2013.tiff"))

@@ -5,23 +5,41 @@
 # Edited by E. Paulukonis March 2023
 
 
-scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/sampled_fields_2021.shp")
+scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/sampled_fields_2021_1.shp")
+#scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/sampled_fields_2021.shp") for original individual run
 
 
 if(file.exists(scenario)){
   
-  print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-  scenarios<- file.path(paste0(root_data_out, "/all_bombus/modified_sampled_fields"), list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  scenarios<- file.path(paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC"), list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
   scenarios<-setNames(lapply(scenarios, st_read), tools::file_path_sans_ext(basename(scenarios)))
   scenarios<-scenarios[(mixedsort(as.character(names(scenarios))))]
+  
+  # print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  # scenarios<- file.path(paste0(root_data_out, "/all_bombus/modified_sampled_fields"), list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  # scenarios<-setNames(lapply(scenarios, st_read), tools::file_path_sans_ext(basename(scenarios)))
+  # scenarios<-scenarios[(mixedsort(as.character(names(scenarios))))]
+  
   
   #change column names to fix 'emerged date' as application date
   colnamesog <- colnames(scenarios[[1]])
   colnamesnew<-c("Compond","Commdty","Year","ApplctT", "crop","area",  "id", "plntddt","applddt", "AvgRt_k","geometry")
-  
   scenarios<- lapply(scenarios, setNames, colnamesnew)
   
 }else{
+  
+  
+  ### the first thing we want to do is extract the fields that are within the RPBB habitat zones. So we'll need to read those in first. 
+  bomb_h <- st_read(bombus_dir, layer = "RPBB_High_Potential_Zones_03172021")
+  bomb_h<- st_transform(bomb_h, crs(fv[[1]])) #reproject to match extent of DF
+  
+  # plot(fv$CDL_1999_17_fieldoutput_fieldoutput$geometry)
+  # plot(bomb_h, col="red",add=T)
+  
+  #Let's clip the field scenario data within the bombus affinis habitat, and read out to be the sampled fields
+  fv<-lapply(fv, function(x) st_intersection(x,bomb_h) )
+
 
 
 
@@ -29,6 +47,9 @@ options(scipen = 999) #remove exponent options, throws R off
 #par(mfrow=c(1,1))
 
 #note; much of this data works with years from 1999-2021, but for the purposes of trying to match reported data, we end up with data from 2004-2019
+
+
+
 
 ##### Crop and pesticide reported data preparation ----
 ## 1. get pesticide data
@@ -220,6 +241,7 @@ pest_prop_by_cropc<- pest_prop_by_cropc %>%
 
 # code to test output; sum of probs_application should = 1
 #test<-pest_prop_by_cropc[pest_prop_by_cropc$Year == 2015 & pest_prop_by_cropc$ApplicationType == "Seed" & pest_prop_by_cropc$Commodity == "CORN",]
+#sum(test$probs_application)
 #test<-pest_prop_by_cropc[pest_prop_by_cropc$Year == 2018 & pest_prop_by_cropc$ApplicationType == "FoliarH" & pest_prop_by_cropc$Commodity == "CORN",]
 #test<-pest_prop_by_cropc[pest_prop_by_cropc$ApplicationType == "Foliar" & pest_prop_by_cropc$Commodity == "SOYBEANS",]
 
@@ -303,7 +325,7 @@ names(pest_crop) #just make sure that the columns below include acres_f, avgrate
 
 #first, let's get the temporal timing right
 pest_crop<-pest_crop[!pest_crop$Year < 1999,] #remove years below 1999
-pest_crop<-pest_crop[,-c(4:7,10:15,17:20,22)] #remove extraneous columnsn #NOTE: IF YOU RE-RUN, YOU NEED TO FIX THESE COLUMNS YOU EXCLUDE
+pest_crop<-pest_crop[,-c(4:7,10:15,18:21,23)] #remove extraneous columnsn #NOTE: IF YOU RE-RUN, YOU NEED TO FIX THESE COLUMNS YOU EXCLUDE
 pest_crop<-pest_crop %>% group_by(Compound) %>% arrange(Year)
 
 #impute back where years missing for relevant crops
@@ -340,200 +362,216 @@ list_of_sampled_fields_by_year<-list()
 ### in this section, we sample what applications occur to each field and of those, which specific compounds will be used. we also join the application rate data. 
 ### there are two layers of sampling. First, we sample the individual application types based on compound proportion. then, we sample the actual proportion of treated fields by compound. 
 
-for(Year in 1:length(fv)){
-field<-fv[[Year]]
-field<-st_as_sf(field) #convert to SF
-field$id<-as.numeric(row.names(field))+1
-field$year<-names(fv[Year])
-field_cornsoy<-field[field$crop %in% c(1,5),]
-field_other<-field[!field$crop %in% c(1,5),]
-
-
-#we have several different compounds, so we need to group by compound and do for each field set and do the individual probability sets
-treatment_probabilities_soy<-pest_cropf[pest_cropf$Year == names(fv[Year]) & pest_cropf$Commodity == "SOYBEANS",]
-treatment_probabilities_corn<-pest_cropf[pest_cropf$Year == names(fv[Year]) & pest_cropf$Commodity == "CORN",]
-
-
-# #remove carbofuran post 2009 (done above)
-# ind <- with(treatment_probabilities_corn,(Compound == "CARBOFURAN" & Year > 2009))
-# treatment_probabilities_corn <- treatment_probabilities_corn[!ind, ]       
-
-
-#here, we add the no application option, and take the probabilities by compound to sample
-add_summary_rows <- function(.data, ...) {
-  group_modify(.data, function(x, y) bind_rows(x, summarise(x, ...)))
-}
-
-treatment_probabilities_corn <-treatment_probabilities_corn %>% 
-  group_by(Compound) %>% 
-  add_summary_rows(
-  ApplicationType = "None",
-  probs_treated = 1-sum(probs_treated)) %>%
-  fill(Commodity,Year,ApplicationTiming..d.,acres_f,AvgRate_kgacre, .direction = "downup")
-
-
-treatment_probabilities_soy<-treatment_probabilities_soy %>% 
-  group_by(Compound) %>% 
-  add_summary_rows(
-    ApplicationType = "None",
-    probs_treated = 1-sum(probs_treated)) %>%
-  fill(Commodity,Year,ApplicationTiming..d.,acres_f,AvgRate_kgacre, .direction = "downup")
-
-
-#assign unique treatment type IDs
-treat<-c("Seed","FoliarI","FoliarH","Soil","None")
-id<-1:5
-treatmentid<-as.data.frame(cbind(treat,id))
-names(treatmentid)<-c("ApplicationType","ID")
-#match id values
-treatment_probabilities_corn$ID <- as.numeric(treatmentid$ID[match(treatment_probabilities_corn$ApplicationType, treatmentid$ApplicationType)])
-treatment_probabilities_soy$ID <- as.numeric(treatmentid$ID[match(treatment_probabilities_soy$ApplicationType, treatmentid$ApplicationType)])
-
-#order to make sure that each application type is paired with its correct 'none' prob
-# treatment_probabilities_corn<-treatment_probabilities_corn[with(treatment_probabilities_corn, order(ApplicationTiming..d.)), ]
-# treatment_probabilities_soy<-treatment_probabilities_soy[with(treatment_probabilities_soy, order(ApplicationTiming..d.)), ]
-
-
-#### we sample the actual treated fields      
-#because for some compounds, we may have more than one application type, we need to break out the compounds that are double by adding a unique identifier
-treatment_probabilities_corn<-treatment_probabilities_corn %>%
-  group_by(Compound) %>%
-  mutate(compID = paste(Compound, gl(n()/2, 2), sep = "."))
-
-treatment_probabilities_soy<-treatment_probabilities_soy %>%
-  group_by(Compound) %>%
-  mutate(compID = paste(Compound, gl(n()/2, 2), sep = "."))
-
-corn_samp<-as.data.frame(t(do.call(rbind, 
-                           lapply(split(treatment_probabilities_corn, treatment_probabilities_corn$compID), 
-                                  function(x) sample(unique(x$ID),size=nrow(field_cornsoy[field_cornsoy$crop==1,]),replace=T, prob=x$probs_treated)))))
-      
-soy_samp<-as.data.frame(t(do.call(rbind, 
-                           lapply(split(treatment_probabilities_soy, treatment_probabilities_soy$compID), 
-                                  function(x) sample(unique(x$ID),size=nrow(field_cornsoy[field_cornsoy$crop==5,]),replace=T, prob=x$probs_treated)))))
-#combine 
-sampled<-bind_rows(corn_samp, soy_samp)
-      
-#order as needed for rows to match sampled compounds
-fcs<-field_cornsoy[order(field_cornsoy$crop),]
-fcs<-cbind(fcs,sampled)
-      
-crop_probs_corn<-corn[which(corn$Year == names(fv[Year])), ] 
-crop_probs_soy<-soy[which(soy$Year == names(fv[Year])), ] 
-
-    sample_date_fields<-function(x){
-        output<-sample(nrow(x),size=nrow(fcs[fcs$crop==x$Crop,]),replace=T, prob=x$prob)
-         output<-x$Week.Ending[match(output,x$SampleP)]
-        }
-      
-sampled_corn_dates<-sample_date_fields(crop_probs_corn)
-sampled_soy_dates<-sample_date_fields(crop_probs_soy)
-        
-#add back to field layer and assign NA if 'none'
-fcs$planteddates<-ifelse(fcs$crop ==1, sampled_corn_dates, sampled_soy_dates)
-
-#gather to one column, add type  
-fcs<- gather(fcs, "Compound", "n", (contains(c("BIFENTHRIN","CLOTHIANIDIN","CHLORPYRIFOS","CARBOFURAN","GLYPHOSATE","THIAMETHOXAM","CARBARYL","IMIDACLOPRID"))))
-
-#align names and values with pest_cropf
-fcs$Commodity<-ifelse(fcs$crop == 1, "CORN","SOYBEANS")
-colnames(fcs)[4]<-"Year"
-
-#match treatment IDs to names
-fcs$ApplicationType<-treatmentid$ApplicationType[match(fcs$n, as.numeric(treatmentid$ID))]
-
-#need to remove unique identifier from sampled compimds
-fcs$Compound<- gsub("\\..*","",fcs$Compound)
-
-#add emerged dates (days) from planting
-fcs<-merge(fcs, apprates[ , c("Compound","Commodity","ApplicationType","ApplicationTiming..d.")], by = c("Compound","Commodity", "ApplicationType"), all.x=T)
-
-#change name
-colnames(fcs)[10]<-'applicationday'
-
-#final emerged dates
-fcs$applicationday<- as.Date(fcs$planteddates)+fcs$applicationday
-
-#remove NA
-fcs<-fcs[!is.na(fcs$ApplicationType),]
-
-# head(fcs)
-# head(pest_cropf)
-
-#merge to get application rates and prepare to sample
-fcst<-merge(fcs, pest_cropf[ , c("Compound","Commodity","Year","ApplicationType","AvgRate_kgacre","probs_application")], by = c("Compound","Commodity","Year","ApplicationType"), all.x=TRUE)
-
-
-###finally, I need to select the applications that have more than one compound type. 
-#I created a function to do this:
-
-#sample based on 'probs application', i.e., the column based on the relative usage proportion by group of insecticides
-sample_by_compound<-function(data,x) {filter(data,ApplicationType == x) %>% 
-  group_by(id,crop) %>%
-  filter(n()>1)%>%
-  mutate(pick= sample(Compound, size = 1, prob = probs_application))%>%
-  filter(Compound !=pick)%>%
-  mutate(Compound=pick)
-}
-
-
-#sample foliar insecticides
-fcst_sampled_foliar<- sample_by_compound(fcst,"FoliarI")
-#drop pick
-fcst_sampled_foliar<-fcst_sampled_foliar[,1:13]
-#drop ids in the final field-corn dataset with more than 1 sample of foliar
-fcstf<-fcst[!fcst$id %in% fcst_sampled_foliar$id,]
-#add back with new assignment
-fcstf<-rbind(fcstf,fcst_sampled_foliar)
-
-#sample seed treatment
-#if seed treatments are available (starting 2006), sample seed as well 
-fcstf<-if(Year>=8){ 
+for(n in 1:100){
   
-  fcst_sampled_seed<- sample_by_compound(fcst,"Seed")
-  fcst_sampled_seed<- fcst_sampled_seed[,1:13]
-  fcstf<-fcstf[!fcstf$id %in% fcst_sampled_seed$id,]
-  fcstf<-rbind(fcstf,fcst_sampled_seed)
+  #n<-n
   
-  }else{fcstf}
-
-
-fcstf<-fcstf[with(fcstf, order(crop, id)), ]
-
-#head(fcstf)
-
-fcstf<-fcstf[,c(1:8,10:11,13)]
-
-#some optional code to make sure everything works correctly; use testy to pick a combo of id, crop, and application type
-# testy<-filter(fcst,ApplicationType == "FoliarI") %>%
-#   group_by(id,crop) %>%
-#   filter(n()>1)
-# #pick an id from the old batch and compare against new; below I used id 210
-# testorig<-fcst[fcst$id == 210 & fcst$ApplicationType =='FoliarI' & fcst$crop== 1,]
-# testnew<-fcstf[fcstf$id == 210 & fcstf$ApplicationType =='FoliarI'& fcstf$crop== 1,]
-
-#also double check that there are no repeats on herbicide applications; should be 0
-# testy<-filter(fcstf,ApplicationType == "FoliarH") %>%
-#   group_by(id,crop) %>%
-#   filter(n()>1)
-
-
-#add back to list   
-list_of_sampled_fields_by_year[[Year]]<-fcstf
-
-}
+# for(Year in 1:length(fv)){
+  Year<-16
+  
+    field<-fv[[Year]]
+    field<-st_as_sf(field) #convert to SF
+    field$id<-as.numeric(row.names(field))+1
+    field$year<-names(fv[Year])
+    field_cornsoy<-field[field$crop %in% c(1,5),]
+    field_other<-field[!field$crop %in% c(1,5),]
+    
+    
+    #we have several different compounds, so we need to group by compound and do for each field set and do the individual probability sets
+    treatment_probabilities_soy<-pest_cropf[pest_cropf$Year == names(fv[Year]) & pest_cropf$Commodity == "SOYBEANS",]
+    treatment_probabilities_corn<-pest_cropf[pest_cropf$Year == names(fv[Year]) & pest_cropf$Commodity == "CORN",]
+    
+    
+    # #remove carbofuran post 2009 (done above)
+    # ind <- with(treatment_probabilities_corn,(Compound == "CARBOFURAN" & Year > 2009))
+    # treatment_probabilities_corn <- treatment_probabilities_corn[!ind, ]       
+    
+    
+    #here, we add the no application option, and take the probabilities by compound to sample
+    add_summary_rows <- function(.data, ...) {
+      group_modify(.data, function(x, y) bind_rows(x, summarise(x, ...)))
+    }
+    
+    treatment_probabilities_corn <-treatment_probabilities_corn %>% 
+      group_by(Compound) %>% 
+      add_summary_rows(
+      ApplicationType = "None",
+      probs_treated = 1-sum(probs_treated)) %>%
+      fill(Commodity,Year,ApplicationTiming..d.,acres_f,AvgRate_kgacre, .direction = "downup")
+    
+    
+    treatment_probabilities_soy<-treatment_probabilities_soy %>% 
+      group_by(Compound) %>% 
+      add_summary_rows(
+        ApplicationType = "None",
+        probs_treated = 1-sum(probs_treated)) %>%
+      fill(Commodity,Year,ApplicationTiming..d.,acres_f,AvgRate_kgacre, .direction = "downup")
+    
+    
+    #assign unique treatment type IDs
+    treat<-c("Seed","FoliarI","FoliarH","Soil","None")
+    id<-1:5
+    treatmentid<-as.data.frame(cbind(treat,id))
+    names(treatmentid)<-c("ApplicationType","ID")
+    #match id values
+    treatment_probabilities_corn$ID <- as.numeric(treatmentid$ID[match(treatment_probabilities_corn$ApplicationType, treatmentid$ApplicationType)])
+    treatment_probabilities_soy$ID <- as.numeric(treatmentid$ID[match(treatment_probabilities_soy$ApplicationType, treatmentid$ApplicationType)])
+    
+    #order to make sure that each application type is paired with its correct 'none' prob
+    # treatment_probabilities_corn<-treatment_probabilities_corn[with(treatment_probabilities_corn, order(ApplicationTiming..d.)), ]
+    # treatment_probabilities_soy<-treatment_probabilities_soy[with(treatment_probabilities_soy, order(ApplicationTiming..d.)), ]
+    
+    
+    #### we sample the actual treated fields      
+    #because for some compounds, we may have more than one application type, we need to break out the compounds that are double by adding a unique identifier
+    treatment_probabilities_corn<-treatment_probabilities_corn %>%
+      group_by(Compound) %>%
+      mutate(compID = paste(Compound, gl(n()/2, 2), sep = "."))
+    
+    treatment_probabilities_soy<-treatment_probabilities_soy %>%
+      group_by(Compound) %>%
+      mutate(compID = paste(Compound, gl(n()/2, 2), sep = "."))
+    
+    corn_samp<-as.data.frame(t(do.call(rbind, 
+                               lapply(split(treatment_probabilities_corn, treatment_probabilities_corn$compID), 
+                                      function(x) sample(unique(x$ID),size=nrow(field_cornsoy[field_cornsoy$crop==1,]),replace=T, prob=x$probs_treated)))))
+          
+    soy_samp<-as.data.frame(t(do.call(rbind, 
+                               lapply(split(treatment_probabilities_soy, treatment_probabilities_soy$compID), 
+                                      function(x) sample(unique(x$ID),size=nrow(field_cornsoy[field_cornsoy$crop==5,]),replace=T, prob=x$probs_treated)))))
+    #combine 
+    sampled<-bind_rows(corn_samp, soy_samp)
+          
+    #order as needed for rows to match sampled compounds
+    fcs<-field_cornsoy[order(field_cornsoy$crop),]
+    fcs<-cbind(fcs,sampled)
+          
+    crop_probs_corn<-corn[which(corn$Year == names(fv[Year])), ] 
+    crop_probs_soy<-soy[which(soy$Year == names(fv[Year])), ] 
+    
+        sample_date_fields<-function(x){
+            output<-sample(nrow(x),size=nrow(fcs[fcs$crop==x$Crop,]),replace=T, prob=x$prob)
+             output<-x$Week.Ending[match(output,x$SampleP)]
+            }
+          
+    sampled_corn_dates<-sample_date_fields(crop_probs_corn)
+    sampled_soy_dates<-sample_date_fields(crop_probs_soy)
+            
+    #add back to field layer and assign NA if 'none'
+    fcs$planteddates<-ifelse(fcs$crop ==1, sampled_corn_dates, sampled_soy_dates)
+    
+    #gather to one column, add type  
+    fcs<- gather(fcs, "Compound", "n", (contains(c("BIFENTHRIN","CLOTHIANIDIN","CHLORPYRIFOS","CARBOFURAN","GLYPHOSATE","THIAMETHOXAM","CARBARYL","IMIDACLOPRID"))))
+    
+    #align names and values with pest_cropf
+    fcs$Commodity<-ifelse(fcs$crop == 1, "CORN","SOYBEANS")
+    colnames(fcs)[11]<-"Year"
+    
+    #match treatment IDs to names
+    fcs$ApplicationType<-treatmentid$ApplicationType[match(fcs$n, as.numeric(treatmentid$ID))]
+    
+    #need to remove unique identifier from sampled compounds
+    fcs$Compound<- gsub("\\..*","",fcs$Compound)
+    
+    #add emerged dates (days) from planting
+    fcs<-merge(fcs, apprates[ , c("Compound","Commodity","ApplicationType","ApplicationTiming..d.")], by = c("Compound","Commodity", "ApplicationType"), all.x=T)
+    
+    #change name
+    colnames(fcs)[17]<-'applicationday'
+    
+    #final emerged dates
+    fcs$applicationday<- as.Date(fcs$planteddates)+fcs$applicationday
+    
+    #remove NA
+    fcs<-fcs[!is.na(fcs$ApplicationType),]
+    
+    # head(fcs)
+    # head(pest_cropf)
+    
+    #merge to get application rates and prepare to sample
+    fcst<-merge(fcs, pest_cropf[ , c("Compound","Commodity","Year","ApplicationType","AvgRate_kgacre","probs_application")], by = c("Compound","Commodity","Year","ApplicationType"), all.x=TRUE)
+    
+    
+    ###finally, I need to select the applications that have more than one compound type. 
+    #I created a function to do this:
+    
+    #sample based on 'probs application', i.e., the column based on the relative usage proportion by group of insecticides
+    sample_by_compound<-function(data,x) {filter(data,ApplicationType == x) %>% 
+      group_by(id,crop) %>%
+      filter(n()>1)%>%
+      mutate(pick= sample(Compound, size = 1, prob = probs_application))%>%
+      filter(Compound !=pick)%>%
+      mutate(Compound=pick)
+    }
+    
+    
+    #sample foliar insecticides
+    fcst_sampled_foliar<- sample_by_compound(fcst,"FoliarI")
+    #drop pick
+    #fcst_sampled_foliar<-fcst_sampled_foliar[,c(1:13,)]
+    #drop ids in the final field-corn dataset with more than 1 sample of foliar
+    fcstf<-fcst[!fcst$id %in% fcst_sampled_foliar$id,]
+    fcst_sampled_foliar<-fcst_sampled_foliar[,c(1:20)]
+     
+    
+    #add back with new assignment
+    fcstf<-rbind(fcstf,fcst_sampled_foliar)
+    
+    #sample seed treatment
+    #if seed treatments are available (starting 2006), sample seed as well 
+    fcstf<-if(Year>=8){ 
       
+      fcst_sampled_seed<- sample_by_compound(fcst,"Seed")
+      #fcst_sampled_seed<- fcst_sampled_seed[,1:13]
+      fcstf<-fcstf[!fcstf$id %in% fcst_sampled_seed$id,]
+      fcst_sampled_seed<-fcst_sampled_seed[,c(1:20)]
+      fcstf<-rbind(fcstf,fcst_sampled_seed)
+      
+      }else{fcstf}
+    
+    
+    fcstf<-fcstf[with(fcstf, order(crop, id)), ]
+    
+    fcstf<-fcstf[,c(1:8,15,17:20)]
+    
+    #some optional code to make sure everything works correctly; use testy to pick a combo of id, crop, and application type
+    # testy<-filter(fcst,ApplicationType == "FoliarI") %>%
+    #   group_by(id,crop) %>%
+    #   filter(n()>1)
+    # #pick an id from the old batch and compare against new; below I used id 210
+    # testorig<-fcst[fcst$id == 210 & fcst$ApplicationType =='FoliarI' & fcst$crop== 1,]
+    # testnew<-fcstf[fcstf$id == 210 & fcstf$ApplicationType =='FoliarI'& fcstf$crop== 1,]
+    
+    #also double check that there are no repeats on herbicide applications; should be 0
+    # testy<-filter(fcstf,ApplicationType == "FoliarH") %>%
+    #   group_by(id,crop) %>%
+    #   filter(n()>1)
+    
+    
+    #add back to list   
+    list_of_sampled_fields_by_year[[Year]]<-fcstf
+    
+   # } #end to 23 year loop
+          
 
-###Finally, here we write everything out to ESRI shapefile 
-#this contains the list of all treated fields by year, for each of 3 foliar/soil scenarios. 
-names(list_of_sampled_fields_by_year)<-names(fv)
- 
-for(i in names(list_of_sampled_fields_by_year)){
-  st_write(list_of_sampled_fields_by_year[[i]], paste0(root_data_out, "/all_bombus/modified_sampled_fields/sampled_fields_",i,".shp"), driver = "ESRI Shapefile")
-}
 
 
-}
+    ###Finally, here we write everything out to ESRI shapefile 
+    #this contains the list of all treated fields by year, for each of 3 foliar/soil scenarios. 
+    names(list_of_sampled_fields_by_year)<-names(fv)
+    #testy<-list_of_sampled_fields_by_year[[1]]
+     
+    i<-"2014"
+    # for(i in names(list_of_sampled_fields_by_year)){
+      st_write(list_of_sampled_fields_by_year[[i]], paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/","sampledfields_",i,"_",n,".shp"), driver = "ESRI Shapefile")
+    #}
+
+
+
+  } #end to MC iterations, replication
+
+
+} #end to ifelse
 
  
  ##### Examine the output ----

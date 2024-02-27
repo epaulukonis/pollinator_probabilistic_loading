@@ -312,3 +312,636 @@ test_df<-testy[[3]]
 test_df2<-testy[[8]]
 
 plot(test_df2["geometry"])
+
+
+
+##### hab map scraps ----
+#### Foliar ----
+sub_foloff<-offfield_tox_thresh[offfield_tox_thresh$Compound == "CHLORPYRIFOS",]
+sub_folon<-onfield_tox_thresh[onfield_tox_thresh$Compound == "CHLORPYRIFOS",]
+
+sub_foloff<-sub_foloff[!sub_foloff$MediaSub=="Air",]
+sub_folon<-sub_folon[!sub_folon$MediaSub=="Air",]
+
+sub_foloff<-sub_foloff[sub_foloff$Commodity == "SOYBEANS",]
+sub_folon<-sub_folon[sub_folon$Commodity == "SOYBEANS",]
+
+hab_fol<-buf_hab_sub[buf_hab_sub$id == 1,]
+# bbox_new<-st_bbox(hab_seed)
+# 
+# xrange <- bbox_new$xmax - bbox_new$xmin # range of x values
+# yrange <- bbox_new$ymax - bbox_new$ymin # range of y values
+# 
+# bbox_new[1] <- bbox_new[1] - (0.25 * xrange) # xmin - left
+# bbox_new[3] <- bbox_new[3] + (0.25 * xrange) # xmax - right
+# bbox_new[2] <- bbox_new[2] - (0.25 * yrange) # ymin - bottom
+# bbox_new[4] <- bbox_new[4] + (0.25 * yrange) # ymax - top
+# 
+# bbox_new <- bbox_new %>%  # take the bounding box ...
+#   st_as_sfc() # ... and make it a sf polygon
+
+
+off_field<-st_intersection(sub_foloff, hab_fol)   
+plot(off_field["MediaSub"])
+# off_field[nrow(off_field)+1,]<-off_field[nrow(off_field),]
+# off_field[nrow(off_field),1]<-"Habitat"
+# off_field[nrow(off_field),16]<-NA
+# off_field[nrow(off_field),21]<-NA
+
+on_field<-st_intersection(sub_folon, hab_fol)
+plot(st_geometry(on_field))
+# on_field[nrow(on_field)+1,]<-on_field[nrow(on_field),]
+# on_field[nrow(on_field),1]<-"Habitat"
+# on_field[nrow(on_field),16]<-NA
+
+
+
+# sc_fill_breaks<-as.numeric(format(c(min(off_field$EEC)-min(off_field$EEC)*0.05, max(off_field$EEC), min(on_field$EEC), max(on_field$EEC)+max(on_field$EEC)*0.05),digits=2))
+# lims<-c(min(off_field$EEC)-min(off_field$EEC)*0.05, max(on_field$EEC)+max(on_field$EEC)*0.05)
+
+#get visual buffer
+hab_buff<-st_buffer(hab_fol, 10)
+habitat<-mask(crop(nlcd, hab_fol), hab_fol) 
+habitat<-as.data.frame(habitat,xy = TRUE)
+habitat$Layer_1<-as.factor(habitat$Layer_1)
+habitat<-na.omit(habitat)
+
+
+#### Habitat 
+habitat$title<-"Habitat"
+habplot<-ggplot()+
+  geom_tile(data=habitat, aes(x=x,y=y,fill=Layer_1))+
+  colScale+
+  geom_sf(data = hab_buff, fill = NA) +
+  facet_grid(.~title) +
+  theme_bw() +
+  theme(
+    legend.title.align=0.5,
+    strip.text.x = element_text(size = 14, colour = "black", angle = 0),
+    legend.position = "none",
+    axis.text.x=element_blank(), 
+    axis.ticks.x=element_blank(), 
+    axis.text.y=element_blank(), 
+    axis.ticks.y=element_blank(),
+    axis.title.x=element_blank(),
+    axis.title.y=element_blank(),
+    legend.background = element_rect(fill="lightgrey",
+                                     size=0.5, linetype="solid", 
+                                     colour ="black")
+  )
+
+
+
+habitat<-habitat[,-4]
+
+mediaplot<-ggplot()+
+  geom_tile(data=habitat, aes(x=x,y=y,fill=Layer_1), alpha=0.4)+
+  scale_fill_grey(guide = "none") +
+  ggnewscale:::new_scale_fill() +
+  geom_sf(data = off_field, aes(fill = EEC)) +
+  geom_sf(data = on_field, aes(fill = EEC),colour="white") +
+  scale_fill_viridis_b(option = "D", 
+                       name= "EEC [ug/bee]",
+                       
+                       # limits=lims,
+                       # breaks=sc_fill_breaks
+  )+
+  facet_grid(.~MediaSub) +
+  geom_sf(data = hab_buff, fill = NA) +
+  theme_bw() +
+  ylab("Foliar Application")+
+  theme(
+    legend.title.align=0.5,
+    strip.text.x = element_text(size = 14, colour = "black", angle = 0),
+    legend.position = "right",
+    axis.text.x=element_blank(), 
+    axis.ticks.x=element_blank(), 
+    axis.text.y=element_blank(), 
+    axis.ticks.y=element_blank(),
+    
+    axis.title.x=element_blank()
+  )
+
+foliar<-plot_grid(
+  habplot,
+  mediaplot,
+  # labels = c('Air', 'Dust','Soil','Pollen','Nectar'),
+  hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow=1, rel_widths = c(1,4))
+foliar
+
+
+
+
+
+#### Soil ----
+sub_soff<-offfield_tox_thresh[offfield_tox_thresh$Compound == "BIFENTHRIN" & offfield_tox_thresh$ApplicationType == "Soil",]
+sub_son<-onfield_tox_thresh[onfield_tox_thresh$Compound == "BIFENTHRIN" & onfield_tox_thresh$ApplicationType == "Soil",]
+
+hab_s<-buf_hab_sub[buf_hab_sub$id == 7,]
+# bbox_new<-st_bbox(hab_seed)
+# 
+# xrange <- bbox_new$xmax - bbox_new$xmin # range of x values
+# yrange <- bbox_new$ymax - bbox_new$ymin # range of y values
+# 
+# bbox_new[1] <- bbox_new[1] - (0.25 * xrange) # xmin - left
+# bbox_new[3] <- bbox_new[3] + (0.25 * xrange) # xmax - right
+# bbox_new[2] <- bbox_new[2] - (0.25 * yrange) # ymin - bottom
+# bbox_new[4] <- bbox_new[4] + (0.25 * yrange) # ymax - top
+# 
+# bbox_new <- bbox_new %>%  # take the bounding box ...
+#   st_as_sfc() # ... and make it a sf polygon
+
+
+off_field<-st_intersection(sub_soff, hab_s)   
+plot(off_field["MediaSub"])
+# off_field[nrow(off_field)+1,]<-off_field[nrow(off_field),]
+# off_field[nrow(off_field),1]<-"Habitat"
+# off_field[nrow(off_field),16]<-NA
+# off_field[nrow(off_field),21]<-NA
+
+on_field<-st_intersection(sub_son, hab_s)
+plot(st_geometry(on_field))
+# on_field[nrow(on_field)+1,]<-on_field[nrow(on_field),]
+# on_field[nrow(on_field),1]<-"Habitat"
+# on_field[nrow(on_field),16]<-NA
+
+
+
+# sc_fill_breaks<-as.numeric(format(c(min(off_field$EEC)-min(off_field$EEC)*0.05, max(off_field$EEC), min(on_field$EEC), max(on_field$EEC)+max(on_field$EEC)*0.05),digits=2))
+# lims<-c(min(off_field$EEC)-min(off_field$EEC)*0.05, max(on_field$EEC)+max(on_field$EEC)*0.05)
+
+#get visual buffer
+hab_buff<-st_buffer(hab_s, 10)
+habitat<-mask(crop(nlcd, hab_s), hab_s) 
+habitat<-as.data.frame(habitat,xy = TRUE)
+habitat$Layer_1<-as.factor(habitat$Layer_1)
+habitat<-na.omit(habitat)
+
+
+#### Habitat 
+habitat$title<-"Habitat"
+habplot<-ggplot()+
+  geom_tile(data=habitat, aes(x=x,y=y,fill=Layer_1))+
+  colScale+
+  # scale_fill_manual(
+  #   values=c(nlcdpalette), name="NLCD",
+  #   labels = c('Water',
+  #              'Developed, Open Space ',
+  #              'Developed, Low Intensity',
+  #              'Developed, Medium Intensity',
+  #              "Developed, High Intensity",
+  #              "Deciduous Forest", 
+  #              "Evergreen Forest",
+  #              "Mixed Forest",
+  #              "Barren",
+#              "Shrub",
+#              "Grassland", 
+#              "Pasture/Hay","Cultivated",
+#              "Woody Wetlands",
+#              "Herbaceous Wetlands")) +
+
+geom_sf(data = hab_buff, fill = NA) +
+  facet_grid(.~title) +
+  theme_bw() +
+  theme(
+    legend.title.align=0.5,
+    strip.text.x = element_text(size = 14, colour = "black", angle = 0),
+    legend.position = "none",
+    axis.text.x=element_blank(), 
+    axis.ticks.x=element_blank(), 
+    axis.text.y=element_blank(), 
+    axis.ticks.y=element_blank(),
+    axis.title.x=element_blank(),
+    axis.title.y=element_blank(),
+    legend.background = element_rect(fill="lightgrey",
+                                     size=0.5, linetype="solid", 
+                                     colour ="black")
+  )
+
+
+habitat<-habitat[,-4]
+
+mediaplot<-ggplot()+
+  geom_tile(data=habitat, aes(x=x,y=y,fill=Layer_1), alpha=0.4)+
+  scale_fill_grey(guide = "none") +
+  ggnewscale:::new_scale_fill() +
+  geom_sf(data = off_field, aes(fill = EEC)) +
+  geom_sf(data = on_field, aes(fill = EEC), colour="white") +
+  scale_fill_viridis_b(option = "D", 
+                       name= "EEC [ug/bee]"
+                       
+                       # limits=lims,
+                       # breaks=sc_fill_breaks
+  )+
+  facet_grid(.~MediaSub) +
+  geom_sf(data = hab_buff, fill = NA) +
+  theme_bw() +
+  ylab("Soil Application")+
+  theme(
+    legend.title.align=0.5,
+    strip.text.x = element_text(size = 14, colour = "black", angle = 0),
+    legend.position = "right",
+    axis.text.x=element_blank(), 
+    axis.ticks.x=element_blank(), 
+    axis.text.y=element_blank(), 
+    axis.ticks.y=element_blank(),
+    axis.title.x=element_blank()
+    
+  )
+
+soil<-plot_grid(
+  habplot,
+  mediaplot,
+  # labels = c('Air', 'Dust','Soil','Pollen','Nectar'),
+  hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow=1, rel_widths = c(1,4))
+soil
+
+
+
+
+####OG fig 4 script
+#### Seed ----
+sub_seedoff<-offfield_tox_thresh[offfield_tox_thresh$Compound == "IMIDACLOPRID" & offfield_tox_thresh$ApplicationType == "Seed" ,]
+sub_seedon<-onfield_tox_thresh[onfield_tox_thresh$Compound == "IMIDACLOPRID" & onfield_tox_thresh$ApplicationType == "Seed" ,]
+
+#st_write(sub_seedon , paste0(root_data_out, "/all_bombus/outputforshiny/imidaclopridref.shp"),overwrite=T, driver = "ESRI Shapefile")
+
+sub_seedoff<-sub_seedoff[!sub_seedoff$MediaSub=="Air",]
+sub_seedon<-sub_seedon[!sub_seedon$MediaSub=="Air",]
+
+hab_seed<-buf_hab_sub[buf_hab_sub$id == 1,]
+plot(hab_seed)
+
+# bbox_new<-st_bbox(hab_seed)
+# 
+# xrange <- bbox_new$xmax - bbox_new$xmin # range of x values
+# yrange <- bbox_new$ymax - bbox_new$ymin # range of y values
+# 
+# bbox_new[1] <- bbox_new[1] - (0.25 * xrange) # xmin - left
+# bbox_new[3] <- bbox_new[3] + (0.25 * xrange) # xmax - right
+# bbox_new[2] <- bbox_new[2] - (0.25 * yrange) # ymin - bottom
+# bbox_new[4] <- bbox_new[4] + (0.25 * yrange) # ymax - top
+# 
+# bbox_new <- bbox_new %>%  # take the bounding box ...
+#   st_as_sfc() # ... and make it a sf polygon
+
+
+off_field<-st_intersection(sub_seedoff, hab_seed)   
+plot(st_geometry(off_field))
+# off_field[nrow(off_field)+1,]<-off_field[nrow(off_field),]
+# off_field[nrow(off_field),1]<-"Habitat"
+# off_field[nrow(off_field),16]<-NA
+# off_field[nrow(off_field),21]<-NA
+
+on_field<-st_intersection(sub_seedon, hab_seed)
+plot(st_geometry(on_field))
+# on_field[nrow(on_field)+1,]<-on_field[nrow(on_field),]
+# on_field[nrow(on_field),1]<-"Habitat"
+# on_field[nrow(on_field),16]<-NA
+
+
+
+# sc_fill_breaks<-as.numeric(format(c(min(off_field$EEC)-min(off_field$EEC)*0.05, max(off_field$EEC), min(on_field$EEC), max(on_field$EEC)+max(on_field$EEC)*0.05),digits=2))
+# lims<-c(min(off_field$EEC)-min(off_field$EEC)*0.05, max(on_field$EEC)+max(on_field$EEC)*0.05)
+
+#get visual buffer
+hab_buff<-st_buffer(hab_seed, 10)
+habitat<-mask(crop(nlcd, hab_seed), hab_seed) 
+habitat<-as.data.frame(habitat,xy = TRUE)
+habitat$Layer_1<-as.factor(habitat$Layer_1)
+habitat<-na.omit(habitat)
+
+
+#### Habitat 
+habitat$title<-"Mixed Developed Habitat"
+habplot<-ggplot()+
+  geom_tile(data=habitat, aes(x=x,y=y,fill=Layer_1))+
+  colScale+
+  geom_sf(data = hab_buff, fill = NA) +
+  facet_grid(.~title) +
+  theme_bw() +
+  theme(
+    legend.title.align=0.5,
+    strip.text.x = element_text(size = 14, colour = "black", angle = 0),
+    legend.position = "none",
+    axis.text.x=element_blank(), 
+    axis.ticks.x=element_blank(), 
+    axis.text.y=element_blank(), 
+    axis.ticks.y=element_blank(),
+    axis.title.x=element_blank(),
+    axis.title.y=element_blank(),
+    legend.background = element_rect(fill="lightgrey",
+                                     size=0.5, linetype="solid", 
+                                     colour ="black")
+  )
+
+
+
+habitat<-habitat[,-4]
+
+mediaplot<-ggplot()+
+  geom_tile(data=habitat, aes(x=x,y=y,fill=Layer_1), alpha=0.4)+
+  scale_fill_grey(guide = "none") +
+  ggnewscale:::new_scale_fill() +
+  geom_sf(data = off_field, aes(fill = EEC)) +
+  geom_sf(data = on_field, aes(fill = EEC),colour="white") +
+  scale_fill_viridis_b(option = "D", 
+                       name= "EED [ug/bee;ug/g]",
+                       
+                       # limits=lims,
+                       # breaks=sc_fill_breaks
+  )+
+  facet_grid(.~MediaSub) +
+  geom_sf(data = hab_buff, fill = NA) +
+  theme_bw() +
+  ylab("Seed Application")+
+  xlab("")+
+  ggtitle("Imidacloprid - Soybeans")+
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.title.align=0.5,
+    strip.text.x = element_text(size = 14, colour = "black", angle = 0),
+    legend.position = "right",
+    axis.text.x=element_blank(), 
+    axis.ticks.x=element_blank(), 
+    axis.text.y=element_blank(), 
+    axis.ticks.y=element_blank(),
+    
+    axis.title.x=element_blank()
+  )
+
+seed<-plot_grid(
+  habplot,
+  mediaplot,
+  # labels = c('Air', 'Dust','Soil','Pollen','Nectar'),
+  hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow=1, rel_widths = c(2,4))
+seed
+
+
+#seed calculations
+just_area_on<-on_field[on_field$MediaSub=="Soil",]
+just_area_off<-off_field[off_field$MediaSub=="Soil",]
+
+paste0("total area of fields:",sum(st_area(just_area_on))/st_area(hab_seed)*100) 
+paste0("total area of fields:",sum(st_area(just_area_off))/st_area(hab_seed)*100 - sum(st_area(just_area_on))/st_area(hab_seed)*100) 
+
+
+#### Foliar ----
+#unique(offfield_tox_thresh$Compound)
+sub_foloff<-offfield_tox_thresh[offfield_tox_thresh$Compound == "CARBARYL",]
+sub_folon<-onfield_tox_thresh[onfield_tox_thresh$Compound == "CARBARYL",]
+
+#st_write(sub_folon , paste0(root_data_out, "/all_bombus/outputforshiny/carbref.shp"),overwrite=T, driver = "ESRI Shapefile")
+
+sub_foloff<-sub_foloff[!sub_foloff$MediaSub=="Air",]
+sub_folon<-sub_folon[!sub_folon$MediaSub=="Air",]
+
+# sub_foloff<-sub_foloff[sub_foloff$Commodity == "SOYBEANS",]
+# sub_folon<-sub_folon[sub_folon$Commodity == "SOYBEANS",]
+
+hab_fol<-buf_hab_sub[buf_hab_sub$id == 1,]
+# bbox_new<-st_bbox(hab_seed)
+# 
+# xrange <- bbox_new$xmax - bbox_new$xmin # range of x values
+# yrange <- bbox_new$ymax - bbox_new$ymin # range of y values
+# 
+# bbox_new[1] <- bbox_new[1] - (0.25 * xrange) # xmin - left
+# bbox_new[3] <- bbox_new[3] + (0.25 * xrange) # xmax - right
+# bbox_new[2] <- bbox_new[2] - (0.25 * yrange) # ymin - bottom
+# bbox_new[4] <- bbox_new[4] + (0.25 * yrange) # ymax - top
+# 
+# bbox_new <- bbox_new %>%  # take the bounding box ...
+#   st_as_sfc() # ... and make it a sf polygon
+
+
+off_field<-st_intersection(sub_foloff, hab_fol)   
+plot(st_geometry(off_field))
+# off_field[nrow(off_field)+1,]<-off_field[nrow(off_field),]
+# off_field[nrow(off_field),1]<-"Habitat"
+# off_field[nrow(off_field),16]<-NA
+# off_field[nrow(off_field),21]<-NA
+
+on_field<-st_intersection(sub_folon, hab_fol)
+plot(st_geometry(on_field))
+# on_field[nrow(on_field)+1,]<-on_field[nrow(on_field),]
+# on_field[nrow(on_field),1]<-"Habitat"
+# on_field[nrow(on_field),16]<-NA
+
+
+
+# sc_fill_breaks<-as.numeric(format(c(min(off_field$EEC)-min(off_field$EEC)*0.05, max(off_field$EEC), min(on_field$EEC), max(on_field$EEC)+max(on_field$EEC)*0.05),digits=2))
+# lims<-c(min(off_field$EEC)-min(off_field$EEC)*0.05, max(on_field$EEC)+max(on_field$EEC)*0.05)
+
+#get visual buffer
+hab_buff<-st_buffer(hab_fol, 10)
+habitat<-mask(crop(nlcd, hab_fol), hab_fol) 
+habitat<-as.data.frame(habitat,xy = TRUE)
+habitat$Layer_1<-as.factor(habitat$Layer_1)
+habitat<-na.omit(habitat)
+
+
+#### Habitat 
+habitat$title<-"Majority Agriculture Habitat"
+habplot<-ggplot()+
+  geom_tile(data=habitat, aes(x=x,y=y,fill=Layer_1))+
+  colScale+
+  geom_sf(data = hab_buff, fill = NA) +
+  facet_grid(.~title) +
+  theme_bw() +
+  theme(
+    legend.title.align=0.5,
+    strip.text.x = element_text(size = 14, colour = "black", angle = 0),
+    legend.position = "none",
+    axis.text.x=element_blank(), 
+    axis.ticks.x=element_blank(), 
+    axis.text.y=element_blank(), 
+    axis.ticks.y=element_blank(),
+    axis.title.x=element_blank(),
+    axis.title.y=element_blank(),
+    legend.background = element_rect(fill="lightgrey",
+                                     size=0.5, linetype="solid", 
+                                     colour ="black")
+  )
+
+
+
+habitat<-habitat[,-4]
+
+mediaplot<-ggplot()+
+  geom_tile(data=habitat, aes(x=x,y=y,fill=Layer_1), alpha=0.4)+
+  scale_fill_grey(guide = "none") +
+  ggnewscale:::new_scale_fill() +
+  geom_sf(data = off_field, aes(fill = EEC)) +
+  geom_sf(data = on_field, aes(fill = EEC),colour="white") +
+  scale_fill_viridis_b(option = "D", 
+                       name= "EED [ug/bee;ug/g]",
+                       
+                       # limits=lims,
+                       # breaks=sc_fill_breaks
+  )+
+  facet_grid(.~MediaSub) +
+  geom_sf(data = hab_buff, fill = NA) +
+  theme_bw() +
+  ylab("Foliar Application")+
+  ggtitle("Carbaryl - Corn")+
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.title.align=0.5,
+    strip.text.x = element_text(size = 14, colour = "black", angle = 0),
+    legend.position = "right",
+    axis.text.x=element_blank(), 
+    axis.ticks.x=element_blank(), 
+    axis.text.y=element_blank(), 
+    axis.ticks.y=element_blank(),
+    
+    axis.title.x=element_blank()
+  )
+
+foliar<-plot_grid(
+  habplot,
+  mediaplot,
+  # labels = c('Air', 'Dust','Soil','Pollen','Nectar'),
+  hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow=1, rel_widths = c(2,4))
+foliar
+
+#foliar calculations
+just_area_on<-on_field[on_field$MediaSub=="Soil",]
+just_area_off<-off_field[off_field$MediaSub=="Soil",]
+
+paste0("total area of fields: ",sum(st_area(just_area_on))/st_area(hab_fol)*100) 
+paste0("total area of fields: ",sum(st_area(just_area_off))/st_area(hab_fol)*100 - sum(st_area(just_area_on))/st_area(hab_fol)*100) 
+
+
+
+#### Soil ----
+sub_soff<-offfield_tox_thresh[offfield_tox_thresh$Compound == "BIFENTHRIN" & offfield_tox_thresh$ApplicationType == "Soil",]
+sub_son<-onfield_tox_thresh[onfield_tox_thresh$Compound == "BIFENTHRIN" & onfield_tox_thresh$ApplicationType == "Soil",]
+
+#st_write(sub_son , paste0(root_data_out, "/all_bombus/outputforshiny/bifref.shp"),overwrite=T, driver = "ESRI Shapefile")
+
+hab_s<-buf_hab_sub[buf_hab_sub$id == 2,]
+# bbox_new<-st_bbox(hab_seed)
+# 
+# xrange <- bbox_new$xmax - bbox_new$xmin # range of x values
+# yrange <- bbox_new$ymax - bbox_new$ymin # range of y values
+# 
+# bbox_new[1] <- bbox_new[1] - (0.25 * xrange) # xmin - left
+# bbox_new[3] <- bbox_new[3] + (0.25 * xrange) # xmax - right
+# bbox_new[2] <- bbox_new[2] - (0.25 * yrange) # ymin - bottom
+# bbox_new[4] <- bbox_new[4] + (0.25 * yrange) # ymax - top
+# 
+# bbox_new <- bbox_new %>%  # take the bounding box ...
+#   st_as_sfc() # ... and make it a sf polygon
+
+
+off_field<-st_intersection(sub_soff, hab_s)   
+plot(st_geometry(off_field))
+# off_field[nrow(off_field)+1,]<-off_field[nrow(off_field),]
+# off_field[nrow(off_field),1]<-"Habitat"
+# off_field[nrow(off_field),16]<-NA
+# off_field[nrow(off_field),21]<-NA
+
+on_field<-st_intersection(sub_son, hab_s)
+plot(st_geometry(on_field))
+# on_field[nrow(on_field)+1,]<-on_field[nrow(on_field),]
+# on_field[nrow(on_field),1]<-"Habitat"
+# on_field[nrow(on_field),16]<-NA
+
+
+
+# sc_fill_breaks<-as.numeric(format(c(min(off_field$EEC)-min(off_field$EEC)*0.05, max(off_field$EEC), min(on_field$EEC), max(on_field$EEC)+max(on_field$EEC)*0.05),digits=2))
+# lims<-c(min(off_field$EEC)-min(off_field$EEC)*0.05, max(on_field$EEC)+max(on_field$EEC)*0.05)
+
+#get visual buffer
+hab_buff<-st_buffer(hab_s, 10)
+habitat<-mask(crop(nlcd, hab_s), hab_s) 
+habitat<-as.data.frame(habitat,xy = TRUE)
+habitat$Layer_1<-as.factor(habitat$Layer_1)
+habitat<-na.omit(habitat)
+
+
+#### Habitat 
+habitat$title<-"Mixed Developed Habitat"
+habplot<-ggplot()+
+  geom_tile(data=habitat, aes(x=x,y=y,fill=Layer_1))+
+  colScale+
+  # scale_fill_manual(
+  #   values=c(nlcdpalette), name="NLCD",
+  #   labels = c('Water',
+  #              'Developed, Open Space ',
+  #              'Developed, Low Intensity',
+  #              'Developed, Medium Intensity',
+  #              "Developed, High Intensity",
+  #              "Deciduous Forest", 
+  #              "Evergreen Forest",
+  #              "Mixed Forest",
+  #              "Barren",
+#              "Shrub",
+#              "Grassland", 
+#              "Pasture/Hay","Cultivated",
+#              "Woody Wetlands",
+#              "Herbaceous Wetlands")) +
+
+geom_sf(data = hab_buff, fill = NA) +
+  facet_grid(.~title) +
+  theme_bw() +
+  theme(
+    legend.title.align=0.5,
+    strip.text.x = element_text(size = 14, colour = "black", angle = 0),
+    legend.position = "none",
+    axis.text.x=element_blank(), 
+    axis.ticks.x=element_blank(), 
+    axis.text.y=element_blank(), 
+    axis.ticks.y=element_blank(),
+    axis.title.x=element_blank(),
+    axis.title.y=element_blank(),
+    legend.background = element_rect(fill="lightgrey",
+                                     size=0.5, linetype="solid", 
+                                     colour ="black")
+  )
+
+
+habitat<-habitat[,-4]
+
+mediaplot<-ggplot()+
+  geom_tile(data=habitat, aes(x=x,y=y,fill=Layer_1), alpha=0.4)+
+  scale_fill_grey(guide = "none") +
+  ggnewscale:::new_scale_fill() +
+  geom_sf(data = off_field, aes(fill = EEC)) +
+  geom_sf(data = on_field, aes(fill = EEC), colour="white") +
+  scale_fill_viridis_b(option = "D", 
+                       name= "EED [ug/bee;ug/g]"
+                       
+                       # limits=lims,
+                       # breaks=sc_fill_breaks
+  )+
+  facet_grid(.~MediaSub) +
+  geom_sf(data = hab_buff, fill = NA) +
+  theme_bw() +
+  ylab("Soil Application")+
+  ggtitle("Bifenthrin - Corn")+
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    strip.text.x = element_text(size = 14, colour = "black", angle = 0),
+    legend.position = "right",
+    axis.text.x=element_blank(), 
+    axis.ticks.x=element_blank(), 
+    axis.text.y=element_blank(), 
+    axis.ticks.y=element_blank(),
+    axis.title.x=element_blank()
+    
+  )
+
+soil<-plot_grid(
+  habplot,
+  mediaplot,
+  # labels = c('Air', 'Dust','Soil','Pollen','Nectar'),
+  hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow=1, rel_widths = c(2,4))
+soil
+
+#soil calculations
+just_area_on<-on_field[on_field$MediaSub=="Soil",]
+just_area_off<-off_field[off_field$MediaSub=="Soil",]
+
+paste0("total area of fields: ",sum(st_area(just_area_on))/st_area(hab_s)*100) 
+paste0("total area of fields: ",sum(st_area(just_area_off))/st_area(hab_s)*100 - sum(st_area(just_area_on))/st_area(hab_s)*100) 

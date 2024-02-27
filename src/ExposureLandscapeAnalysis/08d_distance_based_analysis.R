@@ -166,7 +166,6 @@ set_names_in_list<-function(x){
 #apply over list, which will automatically repopulate back to the matrix we set up. 
 off_field_residue_list<-lapply(off_field_residue_list,set_names_in_list)
 
-
 ## Soil----
 #get the seed treatment data and estimate soil concentration in dust for each seed type
 seed_treatments<-apprates[apprates$ApplicationType == "Seed",]
@@ -699,7 +698,7 @@ off_field_residue_list<-lapply(off_field_residue_list,set_names_in_list)
 
 #x<-soil_nectar_datasets[[1]]
 ## Nectar
-residues_in_pollen_from_soil<-function(x){
+residues_in_nectar_from_soil<-function(x){
   
   distance_sets<-list()
   for(distance in 1:90){
@@ -858,11 +857,20 @@ set_names_in_list<-function(x){
 #apply over list, which will automatically repopulate back to the matrix we set up. 
 off_field_residue_list<-lapply(off_field_residue_list,set_names_in_list) 
 
+
+
 ## Soil ----
-#these are the only residues we'll measure as ug/m2
 ag_drift <-read.csv(paste0(pest_dir, "/Models/agdrift_database.csv"))
 #convert to meters
-ag_drift$distance<-ag_drift$distance*0.3048
+ag_drift$distance<-round(ag_drift$distance*0.3048,1)
+
+#reduce to only 90 meter intervals of 1
+new_ag<-list()
+ag_drift<-for(num in 1:90){
+  new_ag[[num]]<-ag_drift[which.min(abs(ag_drift$distance  - num)),]
+}
+
+ag_drift<-do.call(rbind,new_ag)
 agdrift_data<-ag_drift[,c(1,7)] #use ground spray, very fine to fine
 
 #get the seed treatment data and estimate concentration in dust for each seed type
@@ -891,12 +899,12 @@ for(compound_and_crop in 1:length(foliar_soil_datasets)){
   distance_sets<-list()
   for(distance in 1:90){
   #remove on-field
-  foliar_air_data_off_field<-  foliar_air_dataf[!foliar_air_dataf$d == 0,]
-  foliar_air_data_off_field$distance<-1:90
-  foliar_air_data_off_field$Air_concentration_ug_m2_from_foliar<-foliar_air_data_off_field$air_drift_conc #retain as ug/m2
+  foliar_soil_data_off_field<-  foliar_soil_dataf[!foliar_soil_dataf$d == 0,]
+  foliar_soil_data_off_field$distance<-1:90
+  foliar_soil_data_off_field$Air_concentration_ug_m2_from_foliar<-foliar_soil_data_off_field$air_drift_conc #retain as ug/m2
     
   #extract unique distance, turn into own data-frame
-  foliar_soil_data_off_field<-foliar_air_data_off_field[foliar_air_data_off_field$d == distance,]
+  foliar_soil_data_off_field<-foliar_soil_data_off_field[foliar_soil_data_off_field$d == distance,]
  
   
   foliar_soil_data_off_field<- foliar_soil_data_off_field[rep(seq_len(nrow(foliar_soil_data_off_field)), 151),]
@@ -945,6 +953,8 @@ for(compound_and_crop in 1:length(foliar_soil_datasets)){
   
   
 }
+
+test<-daily_conc_off_field[[1]]
 
 #first put OG names 
 names(daily_conc_off_field)<-names(foliar_soil_datasets)
@@ -1241,17 +1251,19 @@ seed_data$ApplicationType<-"Seed"
 combine_all<-rbind(foliar_data,seed_data,soil_data)
 
 
-#ingestion rate for oral
-IR<-0.292 #g/day
-
 #surface area of a bumblebee
-SA<-2.216 #cm2
+SA<-5 #cm2
 
 
 list_by_application_type<-split(combine_all, list(combine_all$ApplicationType))
 
-x<-list_by_application_type[[1]]
-x<-NULL
+#x<-list_by_application_type[[1]]
+
+#### Hazard quotient info
+beetox <-read.csv(paste0(pest_dir, "/BeeTox.csv"))
+beetox$Compound<-toupper(beetox$Compound)
+
+
 
 get_quantiles<-function(x){
 
@@ -1264,9 +1276,15 @@ get_quantiles<-function(x){
   x<-x[!c(x$MediaSub == "Dust" | x$MediaSub == "Air"),]
   
   #mutate to EECs
-  x<- x %>% mutate(EEC = case_when(MediaSub == "Soil" ~ Value/10000*SA,
-                                     MediaSub == "Air" || MediaSub == "Dust"~ Value/10000*SA,
-                                     TRUE ~ Value*IR))
+  # x<- x%>% mutate(EEC = Value * case_when(
+  #   MediaSub == "Air"  ~ SA/10000,
+  #   MediaSub == "Dust" ~ SA/10000,
+  #   MediaSub == "Soil" ~ 1/SA,
+  #   MediaSub == "Nectar" ~ 0.400,
+  #   MediaSub == "Pollen" ~  0.030))
+  
+  x$EEC<-x$Value
+  
   #calculate 5th, 50th, and 95th based on distance
   quantile_distances<-x%>%
     group_by(Compound, Commodity, MediaSub,distance) %>%
@@ -1336,7 +1354,7 @@ get_quantiles<-function(x){
   compare_distance<-do.call("grid.arrange", c(plots, nrow=n))
   
   
-  y.grob <- textGrob("Rate-Adjusted EEC [ug/bee]", 
+  y.grob <- textGrob("Environmental Exposure Concentration [ug/g]", 
                      gp=gpar(fontface="bold", col="black", fontsize=15), rot=90)
   
   x.grob <- textGrob("Distance [m]", 
