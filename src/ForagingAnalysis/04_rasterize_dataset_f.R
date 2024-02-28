@@ -17,7 +17,7 @@ nlcd<-rast(paste0(root_data_in, "/MapData/NLCD/Illinois/nlcd2013_f.tiff"))
 # writeRaster(nlcd,paste0(root_data_in, "/MapData/NLCD/Illinois/nlcd2013_f.tiff"), filetype = "GTiff", overwrite = TRUE)
 
 habitat <- mask(crop(nlcd, colony), colony) #get nlcd within habitat
-plot(habitat)
+#plot(habitat)
 
 values(habitat)<-values(habitat)+1000 #add high values to CDL hab classes to differentiate between actual concentrations
 
