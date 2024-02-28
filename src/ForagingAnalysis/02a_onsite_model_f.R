@@ -4,6 +4,7 @@
 
 # Edited by E. Paulukonis Feb 2024
 
+print("stepping into 02: onsite modeling")
 #Code for modeling on-site field concentrations from applications in 4 media types
 library(stringdist)
 library(cowplot)

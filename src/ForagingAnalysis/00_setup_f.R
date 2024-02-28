@@ -192,7 +192,10 @@ print(list.files(path=pest_dir, all.files=TRUE, full.names=FALSE))
 
 
 #run illinois subdelineations here
-#source(file.path(root_src, "01_illinois_read_cdl_b.R"))
-# source(file.path(root_src, "04_illinois_get_subdelineations_b.R"))
-#source(file.path(root_src, "05_illinois_vectorization_b.R"))
+source(file.path(root_src, "01_formatting_spatial_data_f.R"))
+source(file.path(root_src, "02a_onsite_model_f.R"))
+source(file.path(root_src, "02b_offsite_model_f.R"))
+source(file.path(root_src, "03_merging_data_f.R"))
+source(file.path(root_src, "04_reasterize_dateset_f.R"))
+
 
