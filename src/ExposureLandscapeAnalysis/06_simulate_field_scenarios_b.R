@@ -362,7 +362,7 @@ list_of_sampled_fields_by_year<-list()
 ### in this section, we sample what applications occur to each field and of those, which specific compounds will be used. we also join the application rate data. 
 ### there are two layers of sampling. First, we sample the individual application types based on compound proportion. then, we sample the actual proportion of treated fields by compound. 
 
-for(n in 1:100){
+for(n in 101:1000){
   
   #n<-n
   

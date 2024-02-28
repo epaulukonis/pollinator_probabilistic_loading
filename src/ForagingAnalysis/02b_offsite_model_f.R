@@ -2,6 +2,8 @@
 
 ### 02b Initial Offsite Model Outputs
 
+print("stepping into 02: offsite modeling")
+
 # Edited by E. Paulukonis Feb 2024
 library(stringdist)
 library(cowplot)

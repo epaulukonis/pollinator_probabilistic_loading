@@ -2,6 +2,9 @@
 
 ### 04 rasterize the field scenario outputs
 
+print("stepping into 04: processing and rasterizing data")
+
+
 # Edited by E. Paulukonis Feb 2024
 
 #### Rasterize the datasets ----
@@ -14,7 +17,7 @@ nlcd<-rast(paste0(root_data_in, "/MapData/NLCD/Illinois/nlcd2013_f.tiff"))
 # writeRaster(nlcd,paste0(root_data_in, "/MapData/NLCD/Illinois/nlcd2013_f.tiff"), filetype = "GTiff", overwrite = TRUE)
 
 habitat <- mask(crop(nlcd, colony), colony) #get nlcd within habitat
-plot(habitat)
+#plot(habitat)
 
 values(habitat)<-values(habitat)+1000 #add high values to CDL hab classes to differentiate between actual concentrations
 
@@ -84,13 +87,11 @@ scenario_clip_off60<-  gather(scenario_clip_off60, "Media", "Value", 15:ncol(sce
 scenario_clip_off90<-  gather(scenario_clip_off90, "Media", "Value", 15:ncol(scenario_clip_off90))
 
 
-#unique(scenario_clip_on$id)
+# unique(scenario_clip_on$id)
 
 # head(scenario_clip_off)
 # head(scenario_clip_on)
 
-
-#### notes for 2.20: almost good to go, except I'm running into an issue with the subtracttion of buffer 30 and 60
 
 
 scenario_clip<-rbind(scenario_clip_on,scenario_clip_off30,scenario_clip_off60,scenario_clip_off90)
