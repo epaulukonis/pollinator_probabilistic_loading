@@ -31,14 +31,42 @@ values(habitat)<-values(habitat)+1000 #add high values to CDL hab classes to dif
 
 
 #### Process BOTH on and off-field model outputs and rasterize them into a stack organized by, in layers, 1.Day, 2.Medium, 3.Field ---- 
-#pull out clip
+
+#### BETA TESTING CODE
+# final_on_field_history<-final_on_field_history_list[[sim]]
+# final_off_field_history_30m<-final_off_field_history_30m_list[[sim]]
+# final_off_field_history_60m<-final_off_field_history_60m_list[[sim]]
+# final_off_field_history_90m<-final_off_field_history_90m_list[[sim]]
+# 
+# #this removes any scenarios for which we don't have data, thus it throws off the function
+# final_on_field_history      <-keep(final_on_field_history, ~all(ncol(.x) >= 14))
+# final_off_field_history_30m <-keep(final_off_field_history_30m, ~all(ncol(.x) >= 14))
+# final_off_field_history_60m      <-keep(final_off_field_history_60m, ~all(ncol(.x) >= 14))
+# final_off_field_history_90m      <-keep(final_off_field_history_90m, ~all(ncol(.x) >= 14))
+# 
+# 
+# # #we're not going to include any soil applications; hence we remove them. in the future this will likely need to be modified
+# final_on_field_history<-purrr::discard(final_on_field_history, ~any(.x$ApplicationType == "Soil"))
+# final_off_field_history_30m <-purrr::discard(final_off_field_history_30m , ~any(.x$ApplicationType == "Soil"))
+# final_off_field_history_60m <-purrr::discard(final_off_field_history_90m , ~any(.x$ApplicationType == "Soil"))
+# final_off_field_history_90m <-purrr::discard(final_off_field_history_90m , ~any(.x$ApplicationType == "Soil"))
+# 
+# 
+# #pull out clip
 # scenario_clip_on<-final_on_field_history[[1]]
 # scenario_clip_off30<-final_off_field_history_30m[[1]]
 # scenario_clip_off60<-final_off_field_history_60m[[1]]
 # scenario_clip_off90<-final_off_field_history_90m[[1]]
+# 
+# unique(scenario_clip_on$Compound)
 
-#LIST FOR SCENARIO
+
+######BIFENTHRIN ISSUE
+
+
+#This function processes the list for each scenario and splits by media
 rasterize_by_day<-function(a,x,y,z){
+
   
 scenario_clip_on<-a
 scenario_clip_off30<-x
@@ -54,6 +82,10 @@ scenario_clip_on<-scenario_clip_on[,c(1:13,ncol(scenario_clip_on),14:(ncol(scena
 scenario_clip_off30<-scenario_clip_off30[,c(1:13,ncol(scenario_clip_off30),14:(ncol(scenario_clip_off30)-1))]
 scenario_clip_off60<-scenario_clip_off60[,c(1:13,ncol(scenario_clip_off60),14:(ncol(scenario_clip_off60)-1))]
 scenario_clip_off90<-scenario_clip_off90[,c(1:13,ncol(scenario_clip_off90),14:(ncol(scenario_clip_off90)-1))]
+
+print(paste0("this is simulation ", sim))
+print(paste0("this is compound ",unique(scenario_clip_on$Compound) ))
+
 
 #remove any rows that are filler from the multi-year run
 # scenario_clip_on<-scenario_clip_on %>% group_by(Compound) %>%
@@ -87,11 +119,10 @@ scenario_clip_off60<-  gather(scenario_clip_off60, "Media", "Value", 15:ncol(sce
 scenario_clip_off90<-  gather(scenario_clip_off90, "Media", "Value", 15:ncol(scenario_clip_off90))
 
 
-# unique(scenario_clip_on$id)
+print(paste0("this is compound ",unique(scenario_clip_on$Compound) ))
 
 # head(scenario_clip_off)
 # head(scenario_clip_on)
-
 
 
 scenario_clip<-rbind(scenario_clip_on,scenario_clip_off30,scenario_clip_off60,scenario_clip_off90)
@@ -102,8 +133,10 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
 
         #function by each media 
         process_by_media<-function(media){
-        #by_media<-by_media_list[[3]]
+        #media<-by_media_list[[3]]
         by_media<-media
+        
+        print(paste0("this media is ",unique(by_media$Media) ))
         
         #this function will allow us to erase each subsequent polygon from its matched buffer at the appropriate size (i.e., distance from field)
         erase_poly<-function(x,y){
@@ -402,90 +435,100 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
       
       by_media_list_fin<-lapply(by_media_list,process_by_media) #apply over all media
 
-      
       by_media_and_compound <-do.call(rbind,by_media_list_fin)
       by_media_and_compound
 
 } #end rasterize_by_day
 
 
+for(sim in 1:length(final_on_field_history_list)){
 
-#takes approximately 30 minutes to run
-system.time(dailymediasets_by_compound<-mapply(rasterize_by_day, final_on_field_history, final_off_field_history_30m,final_off_field_history_60m,final_off_field_history_90m, SIMPLIFY = FALSE))
-
-dailymediasets_by_compound_fin<-list()
-for(n in 1:ncol(dailymediasets_by_compound)){
-  dailymediasets_by_compound_fin[[n]]<-as.data.frame(do.call(cbind,dailymediasets_by_compound[,n]))
+  final_on_field_history<-final_on_field_history_list[[sim]]
+  final_off_field_history_30m<-final_off_field_history_30m_list[[sim]]
+  final_off_field_history_60m<-final_off_field_history_60m_list[[sim]]
+  final_off_field_history_90m<-final_off_field_history_90m_list[[sim]]
   
-}
-
-compounds<-unlist(lapply(dailymediasets_by_compound_fin,function(x) unique(x$Compound)))
-names(dailymediasets_by_compound_fin)<-compounds
-
-
-for(n in 1:length(dailymediasets_by_compound_fin)){
-  write.csv(dailymediasets_by_compound_fin[[n]], paste0(root_data_out,'/all_forage/media_tables/',names(dailymediasets_by_compound_fin[n]), '.csv')  , row.names=F)
+  #this removes any scenarios for which we don't have data, thus it throws off the function
+  final_on_field_history      <-keep(final_on_field_history, ~all(ncol(.x) >= 14))
+  final_off_field_history_30m <-keep(final_off_field_history_30m, ~all(ncol(.x) >= 14))
+  final_off_field_history_60m      <-keep(final_off_field_history_60m, ~all(ncol(.x) >= 14))
+  final_off_field_history_90m      <-keep(final_off_field_history_90m, ~all(ncol(.x) >= 14))
   
+    #takes approximately 30 minutes to run
+    system.time(dailymediasets_by_compound<-mapply(rasterize_by_day, final_on_field_history, final_off_field_history_30m,final_off_field_history_60m,final_off_field_history_90m, SIMPLIFY = FALSE))
+    
+    # dailymediasets_by_compound_fin<-list()
+    # for(n in 1:ncol(dailymediasets_by_compound)){
+    #   dailymediasets_by_compound_fin[[n]]<-as.data.frame(do.call(cbind,dailymediasets_by_compound[,n]))
+    #   
+    # }
+    
+    dailymediasets_by_compound_fin<-dailymediasets_by_compound
+    
+    compounds<-unlist(lapply(dailymediasets_by_compound_fin,function(x) unique(x$Compound)))
+    names(dailymediasets_by_compound_fin)<-compounds
+
+
+      for(n in 1:length(dailymediasets_by_compound_fin)){
+        write.csv(dailymediasets_by_compound_fin[[n]], paste0(root_data_out,'/all_forage/media_tables/',names(dailymediasets_by_compound_fin[n]),sim, '.csv')  , row.names=F)
+        
+      }
+
 }
-
-
-
-
-
 
 #### Plot example ----
-testy<-list_by_media[[2]]
-testx<-testy[[200]]
-m<-testx
-m<-as.data.frame(m,xy = TRUE)
-m$Layer_1<-as.factor(m$layer)
-m<-na.omit(m)
-
-
-nlcdpalette<-c("darkgrey","cornflowerblue","bisque","lightsalmon","firebrick","darkred","darkolivegreen3","darkkhaki","lemonchiffon3","khaki1","chocolate4","cadetblue2","cadetblue4")
-
-namey<-sort(unique(m$Layer_1))
-names(nlcdpalette)<-(namey)
-
-colScale<- scale_fill_manual(
-  values=nlcdpalette, name="NLCD",
-  labels = c('Pesticide',
-             'Water',
-             'Developed, Open Space ',
-             'Developed, Low Intensity',
-             'Developed, Medium Intensity',
-             "Developed, High Intensity",
-             "Deciduous Forest", 
-             "Shrub",
-             "Grassland",
-             "Pasture/Hay",
-             "Cultivated",
-             "Woody Wetlands",
-             "Herbaceous Wetlands"),
-  drop = FALSE) 
-
-
-
-m$title<-"Example Exposure Landsca[e"
-habplot<-ggplot()+
-  geom_tile(data=m, aes(x=x,y=y,fill=Layer_1))+
-  colScale+
-  theme_bw() +
-  theme(
-    legend.title.align=0.5,
-    strip.text.x = element_text(size = 14, colour = "black", angle = 0),
-    legend.position = "Right",
-    axis.text.x=element_blank(), 
-    axis.ticks.x=element_blank(), 
-    axis.text.y=element_blank(), 
-    axis.ticks.y=element_blank(),
-    axis.title.x=element_blank(),
-    axis.title.y=element_blank(),
-    legend.background = element_rect(fill="lightgrey",
-                                     size=0.5, linetype="solid", 
-                                     colour ="black")
-  )
-habplot
-
-
+# testy<-list_by_media[[2]]
+# testx<-testy[[200]]
+# m<-testx
+# m<-as.data.frame(m,xy = TRUE)
+# m$Layer_1<-as.factor(m$layer)
+# m<-na.omit(m)
+# 
+# 
+# nlcdpalette<-c("darkgrey","cornflowerblue","bisque","lightsalmon","firebrick","darkred","darkolivegreen3","darkkhaki","lemonchiffon3","khaki1","chocolate4","cadetblue2","cadetblue4")
+# 
+# namey<-sort(unique(m$Layer_1))
+# names(nlcdpalette)<-(namey)
+# 
+# colScale<- scale_fill_manual(
+#   values=nlcdpalette, name="NLCD",
+#   labels = c('Pesticide',
+#              'Water',
+#              'Developed, Open Space ',
+#              'Developed, Low Intensity',
+#              'Developed, Medium Intensity',
+#              "Developed, High Intensity",
+#              "Deciduous Forest", 
+#              "Shrub",
+#              "Grassland",
+#              "Pasture/Hay",
+#              "Cultivated",
+#              "Woody Wetlands",
+#              "Herbaceous Wetlands"),
+#   drop = FALSE) 
+# 
+# 
+# 
+# m$title<-"Example Exposure Landsca[e"
+# habplot<-ggplot()+
+#   geom_tile(data=m, aes(x=x,y=y,fill=Layer_1))+
+#   colScale+
+#   theme_bw() +
+#   theme(
+#     legend.title.align=0.5,
+#     strip.text.x = element_text(size = 14, colour = "black", angle = 0),
+#     legend.position = "Right",
+#     axis.text.x=element_blank(), 
+#     axis.ticks.x=element_blank(), 
+#     axis.text.y=element_blank(), 
+#     axis.ticks.y=element_blank(),
+#     axis.title.x=element_blank(),
+#     axis.title.y=element_blank(),
+#     legend.background = element_rect(fill="lightgrey",
+#                                      size=0.5, linetype="solid", 
+#                                      colour ="black")
+#   )
+# habplot
+# 
+# 
 
