@@ -17,7 +17,7 @@ final_off_field_history_90m_list<-list()
 
 
 for(simulation in 1:length(scenario_daily_list)){
-simulation<-3
+#simulation<-3
  
 #### this will loop through and merge the on and off field outputs to the model scenarios
   #for a single field:

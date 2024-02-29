@@ -44,7 +44,7 @@ library(fasterize)
 library(purrr)
 library(fuzzyjoin)
 library(stringdist)
-library(cowplot)
+#library(cowplot)
 library(gt)
 library(plotly)
 library(magick)
@@ -67,12 +67,12 @@ library(ggridges)
 
 
 # install.packages("tmap", repos = c("https://r-tmap.r-universe.dev",
-#                                    "https://cloud.r-project.org"))
+#                                  "https://cloud.r-project.org"))
 
 
 #install.packages('spDataLarge')
 library(spData)
-library(tmap)
+#library(tmap)
 library(scales)
 #library(spDataLarge)
 
