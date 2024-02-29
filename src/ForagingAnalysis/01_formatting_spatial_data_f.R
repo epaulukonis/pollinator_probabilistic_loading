@@ -26,10 +26,7 @@ if(file.exists(scenario)){
 
   scenario_daily_list<-list()
   
-  #here, we'll pull out the 2012 data sets and extract that layer to a single colony location. then all code that follows will just be the field histories in that spot. 
-  colony<- st_read(paste0(bombus_dir,"/foraging/"), layer = "colonylocation")
-  colony<- st_transform(colony, crs(sim)) #reproject to match extent of DF
-  colony<-st_buffer(colony, 1000)
+
   
   for(scene in 1:length(scenarios)){
     sim<-scenarios[[scene]]
@@ -37,6 +34,11 @@ if(file.exists(scenario)){
     sim <- sim %>% 
     st_transform(., crs = 26916) %>% 
     st_make_valid()
+    
+    #here, we'll pull out the 2012 data sets and extract that layer to a single colony location. then all code that follows will just be the field histories in that spot. 
+    colony<- st_read(paste0(bombus_dir,"/foraging/"), layer = "colonylocation")
+    colony<- st_transform(colony, crs(sim)) #reproject to match extent of DF
+    colony<-st_buffer(colony, 1000)
   
   
   scenarios_f<-st_intersection(sim,colony)
