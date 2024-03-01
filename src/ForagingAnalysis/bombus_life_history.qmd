@@ -1,0 +1,120 @@
+---
+title: "bombus_life_history"
+format: html
+editor: visual
+---
+
+## Bombus spp. life history model
+
+We are creating a R model for Bombus spp. that provides estimates of annual colony success. Requirements include that the model incorporates the effects of daily exposures to time-varying chemical contamination in a range of environmental medias (surface water, soil, pollen, nectar, air) and accepts seasonally changing foraging suitability maps. A population consists of an initial queen and daily cohorts for larvae, workers, and drones.
+
+The implementation is similar to BeePop+ (DGH, Garber) and Banks et al (2020), with a daily difference equation approach to feasibly incorporate daily forcing variables that include exposure media concentrations; weather variables that affect foraging and thermoregulation; and spatially defined foraging quality. Exposures for Bombus spp. differ due to consumption rates, life history parameters, and chemical concentrations in nesting materials (soil, leaves, wax). Three Bombus species are parameterized (B. affinis, B. impatiens, B. terrestris). Multiple metrics for evaluating annual colony viability are considered. 
+
+## Life history timeline parameters
+
+For simplicity, we will specify deterministic queen emergence and other major life history transition dates within a Bombus colony season. However, it is important to note that degree-day accumulation approaches are strong options and also important for determining intersections between pesticide exposures and important Bombus life history events due to their utility in estimating crop phenology and pest insect phenomena.
+
+We begin with a presumed successful emergence of a queen from the prior year (not connected to prior year's overwintering success). She must then establish a nesting site in a suitable location, typically dense grassland or an underground burrow. The queen then starts laying eggs at a species-defined rate, these eggs develop into the first daily cohorts of worker bees while also foraging for herself and larval resources. After maturation of the first worker cohort, the female workers take over pollen/nectar foraging, brood/larval care, and nest expansion duties.
+
+Although requeening events are possible, we do not consider them. Initial competition for nest locations from competing emergent queens does occur and late emergent queens can steal colonies from existing queens or take over queenless colonies. These event probabilities are a function of emergent queen densities and available habitat (Darvill et al 2004; Knight et al 2005; Najamitsu and Yamagiahi 2009; OConnor et al 2012; Osborne et al 2007).
+
+```{r}
+#| echo: false
+library(gt)
+df_life_history_events <- data.frame(
+    Parameters = c("Queen emergence", "Initial nest construction", "Worker egg laying initiation", 
+                   "Gyne/male egg laying initiation", "End egg laying"),
+    "B affinis" = c("", "", "", "", ""),
+    "B impatiens" = c("", "", "", "", ""),
+    "B terrestris" = c("", "", "", "", "")
+)
+table_life_history_events <- gt(df_life_history_events)
+table_life_history_events |> as_raw_html()
+```
+
+## Bombus traits
+It will be necessary to borrow parameters from other Bombus species. B. affinis is part of the subgenus Bombus, therefore priority will be given to other species within this same subgenus, principally B. occidentalis (Western bumble bee), B. terricola (Yellow-banded bumble bee). Other species include cryptarum, franklini, ignitus, lucorum, and magnus. For toxicity data we will rely primarily on Bombus terrestris and Bombus impatiens.
+
+
+## Bombus life history
+Bombus classes.
+
+### Foundress
+The simulation begins on January 1 (calendar day 1) with a hibernating queen. She emerges from hibernation on a specified day and begins to forage and search for a nesting site. She is exposed to pollen, nectar and air concentrations as she forages and soil concentrations during nest building activities.
+
+She is assumed to emerge on a day given by n(100,10), rounded (McVicker 2023, Szymanski et al 2016); though Prys-Jones gives N(91,28) for B. terrestris. 
+
+```{r}
+#| echo: false
+
+num_simulations <- 1000
+foundress_emergence_date <- rnorm(num_simulations, mean = 100, sd = 10)
+```
+
+We can define the successful establishment of a nest by the production of brood. After emerging, she is assumed to have a ~60% chance of successfully establishing a nest (B. occidentalis 119/201 = 59.2% nest initiation success rate, Strange et al. 2023) in the absence of any external stressors. If she does not establish a nest by 21 days after emergence then it is assumed that she has failed. Therefore we can estimate a daily probability of nest initiation success over a 21 day period that approximates the observed nest initiation failure rate of 40.8%. This can be derived by specifying a daily nest initiation success rate of 4%, giving an overall probability of failure given by (1-0.04)^21 = 42.4% after 21 days, which is reasonably close to 40.8% from Strange et al. (2023). We also precede this calculation with an initial 4 day post-emergent period with a 0% daily chance of nest initiation to give the foundress time to forage and to better match the average time to first brood given by Strange et al (2023) of 13.7 with a standard deviation of 9.2 days.
+
+Simulate time to nest initiation for a 1000 foundresses.
+```{r}
+#| echo: false
+# Function to simulate time to success over multiple days
+simulate_time_to_success <- function(p) {
+  days <- 0
+  success <- FALSE
+  while(!success) {
+    days <- days + 1
+    success <- runif(1) < p
+  }
+  return(days)
+}
+
+# Simulate time to success over multiple days
+p <- 0.04
+nest_initiation_results <- replicate(num_simulations, simulate_time_to_success(p))
+nest_failure_rate = length(nest_initiation_results[which(nest_initiation_results>21)])/num_simulations
+nest_initiation_results[which(nest_initiation_results>21)] <- NA
+nest_initiation_results <- nest_initiation_results + 4
+mean_initiation_time <- mean(nest_initiation_results, na.rm=T)
+sd_initiation_time <- sd(nest_initiation_results, na.rm=T)
+# Visualize the distribution of time to success
+hist(nest_initiation_results, xlab = "Days to nest initiation", main = paste0("N=", num_simulations, "; failure rate = ", nest_failure_rate, 
+                                                                              "; initiation time = ", round(mean_initiation_time,2), " +/- ", 
+                                                                              round(sd_initiation_time,2), " days"))
+```
+
+We can further define the establishment of a nest with the successful production of at least one worker from the brood, at this point the foundress becomes a queen. From Strange et al. (2023), of the 119/201 foundresses who successfully initiated a nest, 70 of them successfully produced workers. Giving a conditional establishment success rate of 58.8% (34.8% overall). From these values, we can see that each queen needs to produce more than 3 fertilized gynes at the end of the season to maintain population numbers over multiple years.
+
+Strange et al. (2023) also observed 35.0 +/- 7.1 days to the emergence of a worker, an average of 21.3 days post nest initiation and associated brood production. We therefore apply a binomial probability to each successfully initiated nest to determine if workers are produced and then sample from a rounded N(21.3,3) time variable to give the discrete number of days after initiation for nests that are successfully established.
+
+```{r}
+#| echo: false
+nest_establishment_results <- rnorm(num_simulations, mean = 21.3, sd = 4)
+worker_emergence_results <- nest_initiation_results + nest_establishment_results
+nest_establishment_failure_rate <- 0.412
+nest_establishment_failures <- rbinom(num_simulations, 1, (1-nest_establishment_failure_rate))
+worker_emergence_results <- worker_emergence_results * nest_establishment_failures
+worker_emergence_results[which(worker_emergence_results==0)] <- NA
+mean(worker_emergence_results, na.rm=T)
+sd(worker_emergence_results, na.rm=T)
+```
+
+## Load media concentrations
+
+
+## Exposure calculations
+She consumes pollen at a rate of 
+
+
+## Foraging
+Accounting for foraging days based on weather.
+
+## Toxicity data
+
+Contact LD50 for honey bees is 43.9 ng/bee (EPA 2003). Oral LD50 of 25.4 ng/bee (Yao et al. 2018).
+
+## Converting hazard ratios to mortality probabilities
+Normalized to 24 hours.
+
+## Results
+
+
+

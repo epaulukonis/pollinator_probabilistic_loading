@@ -68,7 +68,7 @@ library(scales)
 
 
 
-library(NCmisc) #this package lets me look at see what I'm using
+#library(NCmisc) #this package lets me look at see what I'm using
 
 
 who_is_running<-'eap'
