@@ -92,25 +92,14 @@ print(paste0("this is compound ",unique(scenario_clip_on$Compound) ))
 #   filter(!(is.na(Soil) & sum(is.na(Soil)) > 300)) %>%
 #   ungroup
 
-scenario_clip_on<-scenario_clip_on %>% group_by(id) %>%
-  filter(!(is.na(Soil) & sum(is.na(Soil)) > 300)) %>%
-  ungroup
+remove_filler<- function(x) {x %>% group_by(id) %>%
+    filter(!(is.na(Soil) & sum(is.na(Soil)) > 300)) %>%
+    ungroup}
 
-
-#remove any rows that are filler from the multi-year run
-scenario_clip_off30<-scenario_clip_off30 %>% group_by(id) %>%
-  filter(!(is.na(Soil) & sum(is.na(Soil)) > 300)) %>%
-  ungroup
-
-#remove any rows that are filler from the multi-year run
-scenario_clip_off60<-scenario_clip_off60 %>% group_by(id) %>%
-  filter(!(is.na(Soil) & sum(is.na(Soil)) > 300)) %>%
-  ungroup
-
-#remove any rows that are filler from the multi-year run
-scenario_clip_off90<-scenario_clip_off90 %>% group_by(id) %>%
-  filter(!(is.na(Soil) & sum(is.na(Soil)) > 300)) %>%
-  ungroup
+scenario_clip_on<-remove_filler(scenario_clip_on)
+scenario_clip_off30<-remove_filler(scenario_clip_off30)
+scenario_clip_off60<-remove_filler(scenario_clip_off60)
+scenario_clip_off90<-remove_filler(scenario_clip_off90)
 
 
 scenario_clip_on<-     gather(scenario_clip_on, "Media", "Value", 15:ncol(scenario_clip_on))
