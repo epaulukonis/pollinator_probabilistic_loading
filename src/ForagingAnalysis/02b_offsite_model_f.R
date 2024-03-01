@@ -8,7 +8,7 @@ print("stepping into 02: offsite modeling")
 library(stringdist)
 library(cowplot)
 library(tidyverse)
-library(ggh4x)
+#library(ggh4x)
 ##### Read in data for models ----
 #### App rates and timing:
 apprates <-read.csv(paste0(pest_dir, "/AppRates.csv"))
