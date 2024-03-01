@@ -158,7 +158,6 @@ final_output_by_field_history_func_OFF<-function(x,df){
   
 }
 
-
 start.time<-Sys.time()
 final_off_field_history_30m<-sapply(dl,final_output_by_field_history_func_OFF,df=off_model_data_30m)
 end.time<-Sys.time()

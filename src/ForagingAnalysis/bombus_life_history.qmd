@@ -8,7 +8,7 @@ editor: visual
 
 We are creating a R model for Bombus spp. that provides estimates of annual colony success. Requirements include that the model incorporates the effects of daily exposures to time-varying chemical contamination in a range of environmental medias (surface water, soil, pollen, nectar, air) and accepts seasonally changing foraging suitability maps. A population consists of an initial queen and daily cohorts for larvae, workers, and drones.
 
-The implementation is similar to BeePop+ (DGH, Garber) and Banks et al (2020), with a daily difference equation approach to feasibly incorporate daily forcing variables that include exposure media concentrations; weather variables that affect foraging and thermoregulation; and spatially defined foraging quality. Exposures for Bombus spp. differ due to consumption rates, life history parameters, and chemical concentrations in nesting materials (soil, leaves, wax). Three Bombus species are parameterized (B. affinis, B. impatiens, B. terrestris). Multiple metrics for evaluating annual colony viability are considered. 
+The implementation is similar to BeePop+ (DGH, Garber) and Banks et al (2020), with a daily difference equation approach to feasibly incorporate daily forcing variables that include exposure media concentrations; weather variables that affect foraging and thermoregulation; and spatially defined foraging quality. Exposures for Bombus spp. differ due to consumption rates, life history parameters, and chemical concentrations in nesting materials (soil, leaves, wax). Three Bombus species are parameterized (B. affinis, B. impatiens, B. terrestris). Multiple metrics for evaluating annual colony viability are considered.
 
 ## Life history timeline parameters
 
@@ -33,16 +33,18 @@ table_life_history_events |> as_raw_html()
 ```
 
 ## Bombus traits
+
 It will be necessary to borrow parameters from other Bombus species. B. affinis is part of the subgenus Bombus, therefore priority will be given to other species within this same subgenus, principally B. occidentalis (Western bumble bee), B. terricola (Yellow-banded bumble bee). Other species include cryptarum, franklini, ignitus, lucorum, and magnus. For toxicity data we will rely primarily on Bombus terrestris and Bombus impatiens.
 
-
 ## Bombus life history
+
 Bombus classes.
 
 ### Foundress
+
 The simulation begins on January 1 (calendar day 1) with a hibernating queen. She emerges from hibernation on a specified day and begins to forage and search for a nesting site. She is exposed to pollen, nectar and air concentrations as she forages and soil concentrations during nest building activities.
 
-She is assumed to emerge on a day given by n(100,10), rounded (McVicker 2023, Szymanski et al 2016); though Prys-Jones gives N(91,28) for B. terrestris. 
+She is assumed to emerge on a day given by n(100,10), rounded (McVicker 2023, Szymanski et al 2016); though Prys-Jones gives N(91,28) for B. terrestris.
 
 ```{r}
 #| echo: false
@@ -51,9 +53,10 @@ num_simulations <- 1000
 foundress_emergence_date <- rnorm(num_simulations, mean = 100, sd = 10)
 ```
 
-We can define the successful establishment of a nest by the production of brood. After emerging, she is assumed to have a ~60% chance of successfully establishing a nest (B. occidentalis 119/201 = 59.2% nest initiation success rate, Strange et al. 2023) in the absence of any external stressors. If she does not establish a nest by 21 days after emergence then it is assumed that she has failed. Therefore we can estimate a daily probability of nest initiation success over a 21 day period that approximates the observed nest initiation failure rate of 40.8%. This can be derived by specifying a daily nest initiation success rate of 4%, giving an overall probability of failure given by (1-0.04)^21 = 42.4% after 21 days, which is reasonably close to 40.8% from Strange et al. (2023). We also precede this calculation with an initial 4 day post-emergent period with a 0% daily chance of nest initiation to give the foundress time to forage and to better match the average time to first brood given by Strange et al (2023) of 13.7 with a standard deviation of 9.2 days.
+We can define the successful establishment of a nest by the production of brood. After emerging, she is assumed to have a \~60% chance of successfully establishing a nest (B. occidentalis 119/201 = 59.2% nest initiation success rate, Strange et al. 2023) in the absence of any external stressors. If she does not establish a nest by 21 days after emergence then it is assumed that she has failed. Therefore we can estimate a daily probability of nest initiation success over a 21 day period that approximates the observed nest initiation failure rate of 40.8%. This can be derived by specifying a daily nest initiation success rate of 4%, giving an overall probability of failure given by (1-0.04)\^21 = 42.4% after 21 days, which is reasonably close to 40.8% from Strange et al. (2023). We also precede this calculation with an initial 4 day post-emergent period with a 0% daily chance of nest initiation to give the foundress time to forage and to better match the average time to first brood given by Strange et al (2023) of 13.7 with a standard deviation of 9.2 days.
 
-Simulate time to nest initiation for a 1000 foundresses.
+Simulate time to nest initiation for 1000 foundresses.
+
 ```{r}
 #| echo: false
 # Function to simulate time to success over multiple days
@@ -99,12 +102,12 @@ sd(worker_emergence_results, na.rm=T)
 
 ## Load media concentrations
 
-
 ## Exposure calculations
-She consumes pollen at a rate of 
 
+She consumes pollen at a rate of
 
 ## Foraging
+
 Accounting for foraging days based on weather.
 
 ## Toxicity data
@@ -112,9 +115,7 @@ Accounting for foraging days based on weather.
 Contact LD50 for honey bees is 43.9 ng/bee (EPA 2003). Oral LD50 of 25.4 ng/bee (Yao et al. 2018).
 
 ## Converting hazard ratios to mortality probabilities
+
 Normalized to 24 hours.
 
 ## Results
-
-
-
