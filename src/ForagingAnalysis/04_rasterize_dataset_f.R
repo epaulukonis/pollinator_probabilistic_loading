@@ -129,10 +129,12 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
         
         #this function will allow us to erase each subsequent polygon from its matched buffer at the appropriate size (i.e., distance from field)
         erase_poly<-function(x,y){
-          buffer <-x
-          og <-y
+          buffer <-st_union(x)
+          og <-st_union(y)
           output <- ms_erase(as_Spatial(buffer),as_Spatial(og)) #subtract original polygon
-          output
+          getbuf<-st_as_sfc(output) # set the sf geometry as the new buffer
+          outputf <- st_set_geometry(y, rep(getbuf, length=nrow(y)))# set geometry in old df, return sf
+          outputf
         }
 
         if (any(by_media$loc == "On") ){ #if there are on-field values...
@@ -155,7 +157,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                     #split
                     buffer30<-split(buffer30,list(buffer30$id))
                     offdf30<-split(offdf30,list(offdf30$id))
-                    buf30<-mapply(erase_poly,buffer30,offdf30) #subtract from OG field
+                    buf30<-mapply(erase_poly,buffer30,offdf30,SIMPLIFY=FALSE) #subtract from OG field
                     buf30<- st_as_sf(do.call(rbind,buf30))
                     #plot
                     #plot(buf30$geometry,add=T,col="red")
@@ -169,7 +171,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                     buffer60<-st_buffer(offdf60,60)
                     #split
                     buffer60<-split(buffer60,list(buffer60$id))
-                    buf60<-mapply(erase_poly,buffer60,buffer30) #subtract 30m from field
+                    buf60<-mapply(erase_poly,buffer60,buffer30,SIMPLIFY=FALSE) #subtract 30m from field
                     buf60<- st_as_sf(do.call(rbind,buf60))
                     #plot
                     #plot(buf60$geometry, add=T, col="purple")
@@ -183,7 +185,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                     buffer90<-st_buffer(offdf90,90)
                     #split
                     buffer90<-split(buffer90,list(buffer90$id))
-                    buf90<-mapply(erase_poly,buffer90,buffer60) #subtract 60m from field
+                    buf90<-mapply(erase_poly,buffer90,buffer60,SIMPLIFY=FALSE) #subtract 60m from field
                     buf90<- st_as_sf(do.call(rbind,buf90))
                     #plot
                     #plot(buf90$geometry, add=T, col="green")
@@ -298,7 +300,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
               #split
               buffer30<-split(buffer30,list(buffer30$id))
               offdf30<-split(offdf30,list(offdf30$id))
-              buf30<-mapply(erase_poly,buffer30,offdf30) #subtract from OG field
+              buf30<-mapply(erase_poly,buffer30,offdf30,SIMPLIFY=FALSE) #subtract from OG field
               buf30<- st_as_sf(do.call(rbind,buf30))
               #plot
              # plot(buf30$geometry,add=T,col="red")
@@ -312,7 +314,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
               buffer60<-st_buffer(offdf60,60)
               #split
               buffer60<-split(buffer60,list(buffer60$id))
-              buf60<-mapply(erase_poly,buffer60,buffer30) #subtract 30m from field
+              buf60<-mapply(erase_poly,buffer60,buffer30,SIMPLIFY=FALSE) #subtract 30m from field
               buf60<- st_as_sf(do.call(rbind,buf60))
               #plot
               #plot(buf60$geometry, add=T, col="purple") 
@@ -326,7 +328,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
               buffer90<-st_buffer(offdf90,90)
               #split
               buffer90<-split(buffer90,list(buffer90$id)) 
-              buf90<-mapply(erase_poly,buffer90,buffer60) #subtract 60m from field
+              buf90<-mapply(erase_poly,buffer90,buffer60,SIMPLIFY=FALSE) #subtract 60m from field
               buf90<- st_as_sf(do.call(rbind,buf90))
               #plot
               #plot(buf90$geometry, add=T, col="green")
@@ -460,6 +462,7 @@ for(sim in 1:length(final_on_field_history_list)){
 
       for(n in 1:length(dailymediasets_by_compound_fin)){
         write.csv(dailymediasets_by_compound_fin[[n]], paste0(root_data_out,'/all_forage/media_tables/',names(dailymediasets_by_compound_fin[n]),sim, '.csv')  , row.names=F)
+        print(paste0("simulation ", names(dailymediasets_by_compound_fin[n])," ", sim," is done"))
         
       }
 
