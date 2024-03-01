@@ -28,31 +28,30 @@ library(abind)
 library(dplyr)
 library(ggplot2)
 library(cowplot)
-library(grid)
+#library(grid)*
 library(foreign)
-library(progress)
+#library(progress)
 library(parallel)
-library(foreach)
-library(gridExtra)
+# library(foreach)
+# library(gridExtra)
 library(stringr)
-library(smoothr)
+#library(smoothr)
 library(exactextractr)
 library(data.table)
 library(gtools)
 library(gstat)
-library(fasterize)
+library(fasterize) 
 library(purrr)
-library(fuzzyjoin)
+#library(fuzzyjoin)
 library(stringdist)
-#library(cowplot)
-library(gt)
+library(cowplot)
+#library(gt)
 library(plotly)
-library(magick)
-library(webshot2)
+# library(magick)
+# library(webshot2)
 library(ggpubr)
 library(rmapshaper)
 #webshot2::install_chromote()
-
 library(tidyverse)
 #library(beecoSp)
 # library(cdlTools)
@@ -60,21 +59,16 @@ library(tidyverse)
 # library(TraMineR)
 # library(geosphere)
 library(ggridges)
-# library(ghibli)
-# library(tidyverse)
-# library(progress)
-#library(pfm)
+library(spData)
+library(scales)
 
 
 # install.packages("tmap", repos = c("https://r-tmap.r-universe.dev",
 #                                  "https://cloud.r-project.org"))
 
 
-#install.packages('spDataLarge')
-library(spData)
-#library(tmap)
-library(scales)
-#library(spDataLarge)
+
+library(NCmisc) #this package lets me look at see what I'm using
 
 
 who_is_running<-'eap'
@@ -191,11 +185,18 @@ print(list.files(path=pest_dir, all.files=TRUE, full.names=FALSE))
 
 
 
-#run illinois subdelineations here
+#run  all code on hpc here
 source(file.path(root_src, "01_formatting_spatial_data_f.R"))
 source(file.path(root_src, "02a_onsite_model_f.R"))
 source(file.path(root_src, "02b_offsite_model_f.R"))
 source(file.path(root_src, "03_merging_data_f.R"))
-source(file.path(root_src, "04_reasterize_dateset_f.R"))
+source(file.path(root_src, "04_rasterize_dataset_f.R"))
 
+
+#this allows me to see which packages I actually need to run the line of scripts on the hpc
+# list.functions.in.file(paste0(root_src, "/01_formatting_spatial_data_f.R"), alphabetic = TRUE)
+# list.functions.in.file(paste0(root_src, "/02a_onsite_model_f.R"), alphabetic = TRUE)
+# list.functions.in.file(paste0(root_src, "/02b_offsite_model_f.R"), alphabetic = TRUE)
+# list.functions.in.file(paste0(root_src, "/03_merging_data_f.R"), alphabetic = TRUE)
+# list.functions.in.file(paste0(root_src, "/04_rasterize_dataset_f.R"), alphabetic = TRUE)
 
