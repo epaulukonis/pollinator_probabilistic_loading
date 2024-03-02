@@ -31,8 +31,8 @@ values(habitat)<-values(habitat)+1000 #add high values to CDL hab classes to dif
 
 
 #### Process BOTH on and off-field model outputs and rasterize them into a stack organized by, in layers, 1.Day, 2.Medium, 3.Field ---- 
-
-#### BETA TESTING CODE
+# sim<-3
+# #### BETA TESTING CODE
 # final_on_field_history<-final_on_field_history_list[[sim]]
 # final_off_field_history_30m<-final_off_field_history_30m_list[[sim]]
 # final_off_field_history_60m<-final_off_field_history_60m_list[[sim]]
@@ -50,6 +50,8 @@ values(habitat)<-values(habitat)+1000 #add high values to CDL hab classes to dif
 # final_off_field_history_30m <-purrr::discard(final_off_field_history_30m , ~any(.x$ApplicationType == "Soil"))
 # final_off_field_history_60m <-purrr::discard(final_off_field_history_90m , ~any(.x$ApplicationType == "Soil"))
 # final_off_field_history_90m <-purrr::discard(final_off_field_history_90m , ~any(.x$ApplicationType == "Soil"))
+# 
+# ###FORGOT TO PUT THIS IN YOU CODE BELOW
 # 
 # 
 # #pull out clip
@@ -444,6 +446,12 @@ for(sim in 1:length(final_on_field_history_list)){
   final_off_field_history_30m <-keep(final_off_field_history_30m, ~all(ncol(.x) >= 14))
   final_off_field_history_60m      <-keep(final_off_field_history_60m, ~all(ncol(.x) >= 14))
   final_off_field_history_90m      <-keep(final_off_field_history_90m, ~all(ncol(.x) >= 14))
+  
+  final_on_field_history<-purrr::discard(final_on_field_history, ~any(.x$ApplicationType == "Soil"))
+  final_off_field_history_30m <-purrr::discard(final_off_field_history_30m , ~any(.x$ApplicationType == "Soil"))
+  final_off_field_history_60m <-purrr::discard(final_off_field_history_90m , ~any(.x$ApplicationType == "Soil"))
+  final_off_field_history_90m <-purrr::discard(final_off_field_history_90m , ~any(.x$ApplicationType == "Soil"))
+  
   
     #takes approximately 30 minutes to run
     system.time(dailymediasets_by_compound<-mapply(rasterize_by_day, final_on_field_history, final_off_field_history_30m,final_off_field_history_60m,final_off_field_history_90m, SIMPLIFY = FALSE))
