@@ -146,10 +146,12 @@ scenario_clip_off90<-final_off_field_history_90m[[2]]
       crs(roff.raster90)<-crs(buf90)
       res(roff.raster90) <- 30
       
+      
+    
+      
       # rasterize by day and stack, then read to an additional list
       daily_scenario<-list()
       for(day in 1:365){
-        day<-210
         dateon<-ondf[ondf$Day ==day,]
         
         offdf30<-buf30[buf30$Day ==day,]
@@ -172,7 +174,7 @@ scenario_clip_off90<-final_off_field_history_90m[[2]]
         plot(output_off60,add=T)
         plot(output_off90,add=T)
         
-        m <-merge(output_on,habitat) #merge on
+        m <-(output_on) #merge on
         plot(m)
         m <-merge(output_off30,m) #merge off
         plot(m)
@@ -183,68 +185,155 @@ scenario_clip_off90<-final_off_field_history_90m[[2]]
         
         m<- mask(crop(m, colony), colony)
         
-        mrec_weight <- c(1e-60,1011,0.5,
-                         1011,1012,0,
-                         1012,1024,0.5,
-                         1024,1025, 0.1,
-                         1025,1032, 0,
-                         1032,1042,1,
-                         1042,1043,0.5,
-                         1043,1044,0.75,
-                         1044,1073,1,
-                         1073,1083,0.5,
-                         1083,1096, 0.25
-        )
         
-        rclmat_weight <- matrix(mrec_weight, ncol=3, byrow=TRUE)
-        rweight<-terra::classify(x=m, rcl=rclmat_weight, include.lowest=TRUE)
-        plot(rweight)
-        
-        weight_df<-as.data.frame(values(rweight))
-        sums<-as.data.frame(table(weight_df))
-        sums$value_of_weights<-as.numeric(levels(sums$layer))*sums$Freq
-        class_total<-sum(sums$value_of_weights)
-        
-        #quick code to make sure the 
-        sums$test<-sums$value_of_weights/class_total
-        sum(sums$test)
-        
-        rweight<-rweight/class_total
-        plot(rweight) #plot class-weighted habitat values
-        
-        
-        mrec_conc <- c(
-          1011,1096, 0)
-        rclmat_conc <- matrix(mrec_conc, ncol=3, byrow=TRUE)
-        rconc<-terra::classify(x=m, rcl=rclmat_conc, include.lowest=TRUE)
-        plot(rconc) #plot original concentration
-        
-        
-        rweightedmean<- rweight*rconc #multiply the weight value times the concentrations 
-        plot(rweightedmean) #plot the area weighted concentration values 
-        
-        weightmean_df<-as.data.frame(values(rweightedmean))
-        sumswm<-as.data.frame(table(weightmean_df))
-        sumswm$sum_of_conc<-as.numeric(levels(sumswm$layer))*sumswm$Freq
-        weightedmean<-sum(sumswm$sum_of_conc)
-        #weightedmean #ug/g
-        
-        df<-as.data.frame(cbind(weightedmean,day))
-        colnames(df)<-c("Conc","Day")
-        df$Media<-paste0(unique(by_media$Media))
-        df$Compound<-unique(by_media$Compound)
-        
-        daily_scenario[[day]] <- df
+        # mrec_weight <- c(1e-60,1011,0.5,
+        #                  1011,1012,0,
+        #                  1012,1024,0.5,
+        #                  1024,1025, 0.1,
+        #                  1025,1032, 0,
+        #                  1032,1042,1,
+        #                  1042,1043,0.5,
+        #                  1043,1044,0.75,
+        #                  1044,1073,1,
+        #                  1073,1083,0.5,
+        #                  1083,1096, 0.25
+        # )
+        # 
+        # rclmat_weight <- matrix(mrec_weight, ncol=3, byrow=TRUE)
+        # rweight<-terra::classify(x=m, rcl=rclmat_weight, include.lowest=TRUE)
+        # plot(rweight)
+        # 
+        # weight_df<-as.data.frame(values(rweight))
+        # sums<-as.data.frame(table(weight_df))
+        # sums$value_of_weights<-as.numeric(levels(sums$layer))*sums$Freq
+        # class_total<-sum(sums$value_of_weights)
+        # 
+        # #quick code to make sure the 
+        # sums$test<-sums$value_of_weights/class_total
+        # sum(sums$test)
+        # 
+        # rweight<-rweight/class_total
+        # plot(rweight) #plot class-weighted habitat values
+        # 
+        # 
+        # mrec_conc <- c(
+        #   1011,1096, 0)
+        # rclmat_conc <- matrix(mrec_conc, ncol=3, byrow=TRUE)
+        # rconc<-terra::classify(x=m, rcl=rclmat_conc, include.lowest=TRUE)
+        # plot(rconc) #plot original concentration
+        # 
+        # 
+        # rweightedmean<- rweight*rconc #multiply the weight value times the concentrations 
+        # plot(rweightedmean) #plot the area weighted concentration values 
+        # 
+        # weightmean_df<-as.data.frame(values(rweightedmean))
+        # sumswm<-as.data.frame(table(weightmean_df))
+        # sumswm$sum_of_conc<-as.numeric(levels(sumswm$layer))*sumswm$Freq
+        # weightedmean<-sum(sumswm$sum_of_conc)
+        # #weightedmean #ug/g
+        # 
+        # df<-as.data.frame(cbind(weightedmean,day))
+        # colnames(df)<-c("Conc","Day")
+        # df$Media<-paste0(unique(by_media$Media))
+        # df$Compound<-unique(by_media$Compound)
+        # 
+        daily_scenario[[day]] <- m
         
       }
       
       output<-do.call(rbind,daily_scenario)
+
+      output<-rast(daily_scenario)
+      values(output)
+      
+   
+      names(daily_scenario)<-1:365
+   
+      library(magick)
+      library(ggplot2)
+      
+      habitat <- mask(crop(nlcd, colony), colony)
+      
+      habitat<-as.data.frame(habitat,xy = TRUE)
+      habitat$Layer_1<-as.factor(habitat$Layer_1)
+      habitat<-na.omit(habitat)
+      
+      
+      # Loop to create plots for each image
+      sapply(daily_scenario, function(x){
+        x<-daily_scenario[[202]]
+        # Get image names
+        im_name <- names(x)
+        
+        # Load image as raster
+        im <- raster::raster(x)
+        # Transform to df
+        im<-as.data.frame(im,xy = TRUE)
+        im$layer<-ifelse(is.nan(im$layer), NA, im$layer)
+        im$layer<-as.factor(im$layer)
+        im<-na.omit(im)
+        
+        
+        # Make plot
+        ggplot() +      
+          geom_tile(data=habitat, aes(x=x,y=y,fill=Layer_1), alpha=0.4)+
+          scale_fill_grey(guide = "none") +
+          ggnewscale:::new_scale_fill() +# plotting the map
+          geom_tile(data=im, aes(x=x, y=y, fill=layer), alpha=0.8) + 
+          # Added fill_distiller to define filling palette
+          # scale_fill_distiller(type = "seq",
+          #                      palette = "Greys") +
+          coord_equal()  
+        
+        # Save plot
+        ggsave(paste0(im_name, ".png"),
+               device = "png",
+               width = 10,
+               height = 10,
+               units = "cm",
+               dpi = 150)
+      })
+      
+      # Create gif
+      # List plots files
+      plots <- list.files(pattern = ".png")
+      # Read the plots as image
+      plots_list <- lapply(plots, image_read)
+      
+      # Join the list of plots
+      plot_joined <- image_join(plots_list)
+      
+      # Create animation, defining the frames per second (fps)
+      plot_animated <- image_animate(plot_joined, fps = 1)
+      
+      # Write animation as gif
+      image_write(image = plot_animated,
+                  path = paste0(root_data_out,"/plots_anim.gif") )
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
     }else{ #if there are not on-field values... (i.e., nectar only off-field)
       offfield30<-by_media[by_media$loc == "Off30",]
       offfield60<-by_media[by_media$loc == "Off60",]
       offfield90<-by_media[by_media$loc == "Off90",]
-      
       
       #set up each off scenario as an sf, and set raster conditions based on that sf, 30m
       offdf30<-st_as_sf(offfield30)
