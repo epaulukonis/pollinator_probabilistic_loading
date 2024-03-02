@@ -490,14 +490,14 @@ for(sim in 1:length(final_on_field_history_list)){
 #              'Developed, Low Intensity',
 #              'Developed, Medium Intensity',
 #              "Developed, High Intensity",
-#              "Deciduous Forest", 
+#              "Deciduous Forest",
 #              "Shrub",
 #              "Grassland",
 #              "Pasture/Hay",
 #              "Cultivated",
 #              "Woody Wetlands",
 #              "Herbaceous Wetlands"),
-#   drop = FALSE) 
+#   drop = FALSE)
 # 
 # 
 # 
@@ -510,17 +510,17 @@ for(sim in 1:length(final_on_field_history_list)){
 #     legend.title.align=0.5,
 #     strip.text.x = element_text(size = 14, colour = "black", angle = 0),
 #     legend.position = "Right",
-#     axis.text.x=element_blank(), 
-#     axis.ticks.x=element_blank(), 
-#     axis.text.y=element_blank(), 
+#     axis.text.x=element_blank(),
+#     axis.ticks.x=element_blank(),
+#     axis.text.y=element_blank(),
 #     axis.ticks.y=element_blank(),
 #     axis.title.x=element_blank(),
 #     axis.title.y=element_blank(),
 #     legend.background = element_rect(fill="lightgrey",
-#                                      size=0.5, linetype="solid", 
+#                                      size=0.5, linetype="solid",
 #                                      colour ="black")
 #   )
 # habplot
-# 
-# 
+
+
 
