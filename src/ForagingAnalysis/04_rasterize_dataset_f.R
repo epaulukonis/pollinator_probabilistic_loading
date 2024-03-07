@@ -469,8 +469,8 @@ for(sim in 1:length(final_on_field_history_list)){
 
 
       for(n in 1:length(dailymediasets_by_compound_fin)){
-        write.csv(dailymediasets_by_compound_fin[[n]], paste0(root_data_out,'/all_forage/media_tables/',names(dailymediasets_by_compound_fin[n]),sim, '.csv')  , row.names=F)
-        print(paste0("simulation ", names(dailymediasets_by_compound_fin[n])," ", sim," is done"))
+        write.csv(dailymediasets_by_compound_fin[[n]], paste0(root_data_out,'/all_forage/media_tables/',names(dailymediasets_by_compound_fin[n]),sim + 347, '.csv')  , row.names=F)
+        print(paste0("simulation ", names(dailymediasets_by_compound_fin[n])," ", sim + 347," is done"))
         
       }
 
