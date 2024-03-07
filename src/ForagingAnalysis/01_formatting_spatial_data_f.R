@@ -122,7 +122,7 @@ if(file.exists(scenario)){
    dailylist[[n]]<-out
   }
   
-  print(paste0("Formatting of simulation ", scene, " done"))
+  print(paste0("Formatting of simulation ", scene + 347, " done"))
   
   scenario_daily_list[[scene]]<-dailylist
   
