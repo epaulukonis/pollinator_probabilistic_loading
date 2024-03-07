@@ -42,7 +42,7 @@ Bombus classes.
 
 ### Foundress
 
-The simulation begins on January 1 (calendar day 1) with a hibernating queen. She emerges from hibernation on a specified day and begins to forage and search for a nesting site. She is exposed to pollen, nectar and air concentrations as she forages and soil concentrations during nest building activities.
+The simulation begins on January 1 (calendar day 1) with a hibernating queen. She emerges from hibernation on a specified day (April 10th) and begins to forage and search for a nesting site. She is exposed to pollen, nectar and air concentrations as she forages and soil concentrations during nest building activities.
 
 She is assumed to emerge on a day given by n(100,10), rounded (McVicker 2023, Szymanski et al 2016); though Prys-Jones gives N(91,28) for B. terrestris.
 
@@ -100,11 +100,75 @@ mean(worker_emergence_results, na.rm=T)
 sd(worker_emergence_results, na.rm=T)
 ```
 
+Colony size: 250-1341 bees (Boone et al. 2022)
+
+Average maximum flight distance: 991m (Boone et al. 2022)
+
+Day emerging: April 10th (100, sd:10) (Symanski et al, 2016)
+
+Day of hibernation: October 10th (283, sd:10) (Symanski et al, 2016)
+
+Days Queen active: April 10th-May 31st (Goulson et al. 2003)
+
+Day Queen establishes nest and does not leave: May 31st? (Symanski et al, 2016)
+
 ## Load media concentrations
 
 ## Exposure calculations
 
-She consumes pollen at a rate of
+We need to translate the media concentrations brought back by the queen and/or encountered in the landscape to tangible exposure metrics. We want estimates for toxicity via oral ingestion of nectar and pollen, as well as contact from soil and depsoition. We have to consider queen ingestion rates per day depending on timing, as well as per day soil contact exposure. Results for approximate surface area come from worker size from Kuhsel et al. 2017, and ingestion rates for workers are from Gradish et al. 2019. Daily foraging trip and vertical dispersal heights come from Krupke et al. 2017. Estimates for surface area are adapted by increasing the supposed surface area by the average increase in size between worker and queen bumblebee).
+
+***CONTACT:***
+
+**\--Aerial Deposition Contact:**
+
+Krupke et al. 2017: 'the final estimate for the flight time portion of a day of foraging was the product of the proportion of planting time spent in 10 round trips across a field and surrounding zones, the volume of air encountered by a forager per square meter the distance of 10 round trips, and the concentration for a given dust cloud height." We will negate the specific field area, and instead, assume that the bee has the potential to fly through the dust or drift cloud across the entire distance in a single foraging trip, accounting for a bumblebee specific 'flight tube' representing the volume of air passed through per m. We will do a conservative estimate, and assume that the dust cloud is distributed
+
+To calculate the area of the 'flight tube', we adjusted the approach used by krupke et al. (2017).
+
+The flight tube represents the hypothetical volume of 'air' that a forager passes through in flights to and from colony. We calculate it by taking an approximate diameter and horizontal surface area that includes the wing length.
+
+HW: 9mm (bombus affinis queen, from Xerces)
+
+Wing surface area: 197mm2 (bombus terrestris, Nagamitsu et al. 2006)
+
+As follows similarly in Krupke et al. (2017), we calculate the volume of air passed through per m as the diameter of a circle representing the head width, plus half of the total wing area, across 1 meter of flight.
+
+Wing area, in mm: 197mm2/2 = 98.5mm2 (divide by two for a single side)
+
+98.5mm2 + pi(4.5 mm)\^2 = area of cross-sectional cylinder
+
+area of cross-sectional cylinder converted to meters2 \* 1m length = volume (m3) / per meter distance traveled
+
+We have the distance traveled in a single foraging bee estimated as 991m per day (per Boone et al. 2022, close to the estimate of 82 mins and 5m/s flight speed, assuming a more resource scarce environment from Westphal et al. 2006, in line with noted behavior of staying close to nest observed in RPBB)
+
+We have the deposition distributed throguh 2m height as Deposition X (ug/m2)/2m dispersal height = Deposition X (ug/m3)
+
+We calculate the ug/bee in a day as:
+
+**Individual Drift Contact (ug/bee) = Deposition (ug/m3) \* Volume of flight tube (1.6 E-4 m3) / m \* Distance traveled (991 m/bee )**
+
+**\--Flower Deposition Contact:**
+
+Krupke et al. assume that the deposition on dandelions is relative to the deposition off-field per cm2
+
+We will calculate the exposure to per plant deposition simply as the repeat exposure to deposition off-field, some n number of times. We use the value from Heinrich 1976 for Bombus impatiens, where an individual foraging bee visited approximately 15 flowers per trip, with 6 trips, i.e., 90 repeat events (Heinrich 1976).
+
+**Individual Flower Contact (ug/bee) = Deposition (ug/m2) \* *0.0001* \* 6.5cm2 (surface area of individual bee) \* 90**
+
+**\--Soil Contact:**
+
+5cm2 surface area of bumblebee \~+ 1.5 (based on average increase in size from worker to queen length)
+
+Can we used soil depth and bulk density to estimate a ug/cm2? and multiple that times the surface area? This is basically back calculating the way we converted the ug/g to that concentration in the first place,
+
+X ug/g soil concentration x 2 cm depth of soil spread x 1.95 g/cm3 x 5cm2/bee = X ug/bee contact?
+
+***INGESTION:***
+
+\--FORAGING WORKER: 0.400g/bee/day for nectar
+
+\--FORAGING WORKER: 0.030g/bee/day for pollen
 
 ## Foraging
 
@@ -112,7 +176,17 @@ Accounting for foraging days based on weather.
 
 ## Toxicity data
 
-Contact LD50 for honey bees is 43.9 ng/bee (EPA 2003). Oral LD50 of 25.4 ng/bee (Yao et al. 2018).
+Contact LD50 for Clothiandin to honey bees is 43.9 ng/bee (EPA 2003). Oral LD50 of 25.4 ng/bee (Yao et al. 2018).
+
+From the RPBB risk assessment/lit review/general:
+
+```{r}
+#| echo: false
+library(gt)
+table_params<-read.csv(paste0(root_data_in,"/PesticideData/BeeTox.csv"))
+table_params <- gt(table_params)
+table_params |> as_raw_html()
+```
 
 ## Converting hazard ratios to mortality probabilities
 
