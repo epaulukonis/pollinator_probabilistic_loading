@@ -6,7 +6,7 @@
 
 
 #scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/only_active_appssampled_fields_1999_apps.shp") original
-scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/missed/sampledfields_2014_500.shp")
+scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/missed/sampledfields_2014_501.shp")
 
 print("stepping into 01: formatting spatial date")
 
@@ -122,7 +122,7 @@ if(file.exists(scenario)){
    dailylist[[n]]<-out
   }
   
-  print(paste0("Formatting of simulation ", scene + 347, " done"))
+  print(paste0("Formatting of simulation ", scene + 500, " done"))
   
   scenario_daily_list[[scene]]<-dailylist
   
