@@ -26,7 +26,6 @@ if(file.exists(scenario)){
 
   scenario_daily_list<-list()
   
-
   
   for(scene in 1:length(scenarios)){
     sim<-scenarios[[scene]]
@@ -44,7 +43,9 @@ if(file.exists(scenario)){
   scenarios_f<-st_intersection(sim,colony)
   
   # plot(colony$geometry,col="red")
-  #plot(scenarios_f$geometry)
+  # plot(scenarios_f$geometry)
+  
+  print(paste0("this is scenario ", scene + 500))
     
     #this function addresses any polygons that are of the same field but were separated due to area calculations in the intersection analysis; 
     combine_by_id_if_needed<-function(x){
