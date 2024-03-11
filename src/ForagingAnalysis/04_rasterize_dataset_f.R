@@ -63,7 +63,6 @@ values(habitat)<-values(habitat)+1000 #add high values to CDL hab classes to dif
 # unique(scenario_clip_on$Compound)
 
 
-######BIFENTHRIN ISSUE
 
 
 #This function processes the list for each scenario and splits by media

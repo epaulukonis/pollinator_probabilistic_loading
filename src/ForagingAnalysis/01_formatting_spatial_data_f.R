@@ -6,7 +6,7 @@
 
 
 #scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/only_active_appssampled_fields_1999_apps.shp") original
-scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/missed/sampledfields_2014_501.shp")
+scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/500-750/sampledfields_2014_501.shp")
 
 print("stepping into 01: formatting spatial date")
 
@@ -19,8 +19,8 @@ if(file.exists(scenario)){
   
   
 
-  print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/missed"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-  scenarios<- file.path(paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/missed"), list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/missed"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/500-750"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  scenarios<- file.path(paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/500-750"), list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/500-750"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
   scenarios<-setNames(lapply(scenarios, st_read), tools::file_path_sans_ext(basename(scenarios)))
   scenarios<-scenarios[(mixedsort(as.character(names(scenarios))))]
 
