@@ -7,6 +7,7 @@ print("stepping into 05: visualizing exposure landscape")
 
 
 library(purrr)
+library(magick)
 
 nlcd<-rast(paste0(root_data_in, "/MapData/NLCD/Illinois/nlcd2013_f.tiff"))
 
@@ -196,6 +197,6 @@ by_media<-scenario_clip
 list.files(path = paste0(root_data_out,"/animations/"), pattern = "*.png", full.names = T) %>% 
   map(image_read) %>% # reads each path file
   image_join() %>% # joins image
-  image_animate(fps=5) %>% # animates, can opt for number of loops
-  image_write(paste0(root_data_out,"/animations/gif", "conc_clothianidin.gif")) # write to current dir
+  image_animate(fps=8) %>% # animates, can opt for number of loops
+  image_write(paste0(root_data_out,"/animations/gif", "conc_clothianidin_faster.gif")) # write to current dir
 

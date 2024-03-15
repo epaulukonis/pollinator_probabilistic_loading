@@ -1,4 +1,5 @@
 ---
+norm---
 title: "bombus_life_history"
 format: html
 editor: visual
@@ -160,7 +161,7 @@ We will calculate the exposure to per plant deposition simply as the repeat expo
 
 5cm2 surface area of bumblebee \~+ 1.5 (based on average increase in size from worker to queen length)
 
-Can we used soil depth and bulk density to estimate a ug/cm2? and multiple that times the surface area? This is basically back calculating the way we converted the ug/g to that concentration in the first place,
+Can we use soil depth and bulk density to estimate a ug/cm2? and multiple that times the surface area? This is basically back calculating the way we converted the ug/g to that concentration in the first place,
 
 X ug/g soil concentration x 2 cm depth of soil spread x 1.95 g/cm3 x 5cm2/bee = X ug/bee contact?
 
