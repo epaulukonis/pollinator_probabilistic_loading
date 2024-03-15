@@ -6,7 +6,7 @@
 
 
 #scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/only_active_appssampled_fields_1999_apps.shp") original
-scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/500-750/sampledfields_2014_501.shp")
+scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/751-1000/sampledfields_2014_751.shp")
 
 print("stepping into 01: formatting spatial date")
 
@@ -19,8 +19,8 @@ if(file.exists(scenario)){
   
   
 
-  print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/500-750"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-  scenarios<- file.path(paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/500-750"), list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/500-750"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/751-1000"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  scenarios<- file.path(paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/751-1000"), list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/751-1000"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
   scenarios<-setNames(lapply(scenarios, st_read), tools::file_path_sans_ext(basename(scenarios)))
   scenarios<-scenarios[(mixedsort(as.character(names(scenarios))))]
 
@@ -34,7 +34,7 @@ if(file.exists(scenario)){
     st_transform(., crs = 26916) %>% 
     st_make_valid()
     
-    #here, we'll pull out the 2012 data sets and extract that layer to a single colony location. then all code that follows will just be the field histories in that spot. 
+    #here, we'll pull out the 2014 data sets and extract that layer to a single colony location. then all code that follows will just be the field histories in that spot. 
     colony<- st_read(paste0(bombus_dir,"/foraging/"), layer = "colonylocation")
     colony<- st_transform(colony, crs(sim)) #reproject to match extent of DF
     colony<-st_buffer(colony, 1000)
@@ -45,7 +45,7 @@ if(file.exists(scenario)){
   # plot(colony$geometry,col="red")
   # plot(scenarios_f$geometry)
   
-  print(paste0("this is scenario ", scene + 500))
+  print(paste0("this is scenario ", scene + 751))
     
     #this function addresses any polygons that are of the same field but were separated due to area calculations in the intersection analysis; 
     combine_by_id_if_needed<-function(x){
@@ -74,9 +74,9 @@ if(file.exists(scenario)){
    # scenarios_edited<-lapply(scenarios,combine_by_id_if_needed) #if all years and fields
   
   
+  ##most of this section is only necessary if we have multiple years of data
     
-    
-   #for each individual field, let's group together and organize the land-use history by year
+   #for each individual field, let's group together and organize the land-use history by compound
    group_by_compound <-bind_rows(scenarios_edited, .id = 'grp')%>% group_split(Compond) #replace with ID if needed
     
    #create a function to insert years where needed; leave most things blank so if needed, we can back fill
@@ -123,7 +123,7 @@ if(file.exists(scenario)){
    dailylist[[n]]<-out
   }
   
-  print(paste0("Formatting of simulation ", scene + 500, " done"))
+  print(paste0("Formatting of simulation ", scene + 751, " done"))
   
   scenario_daily_list[[scene]]<-dailylist
   
