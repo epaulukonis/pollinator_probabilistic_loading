@@ -203,6 +203,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                    # rasterize by day and stack, then read to an additional list
                   daily_scenario<-list()
                     for(day in 1:365){
+                      day<-207
                       dateon<-ondf[ondf$Day ==day,]
 
                       offdf30<-buf30[buf30$Day ==day,]
@@ -232,7 +233,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                       m <-merge(output_off60,m) #merge off
                       #plot(m)
                       m <-merge(output_off90,m) #merge off
-                     #plot(m)
+                      #plot(m)
                       
                       m<- mask(crop(m, colony), colony)
                    
@@ -257,7 +258,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                       
                       weight_df<-as.data.frame(values(rweight)) #first, convert the raster into a dataframe so we can get the sum of the weights
                       sums<-as.data.frame(table(weight_df)) #the frequency of each time of classification
-                      sums$value_of_weights<-as.numeric(levels(sums$layer))*sums$Freq #get the individual values associtaed with the frequency
+                      sums$value_of_weights<-as.numeric(levels(sums$layer))*sums$Freq #get the individual values associated with the frequency
                       class_total<-sum(sums$value_of_weights) #this represents the total sum of the weights!
                       
                       #quick code to make sure the total is 1
@@ -266,7 +267,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                       
                       #this gives us a raster that accurately reflects the individual raster weights associated with that habitat class
                       rweight<-rweight/class_total
-                     # plot(rweight) #plot class-weighted habitat values
+                      #plot(rweight) #plot class-weighted habitat values
                       
 
                       #convert it so that any ncld values are not included in the calculation of concentration
