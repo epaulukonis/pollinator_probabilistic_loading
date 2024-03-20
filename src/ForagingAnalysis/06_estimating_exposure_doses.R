@@ -11,36 +11,48 @@ apprates$Compound<-toupper(apprates$Compound)
 apprates$k_values<-log((apprates$AvgRate/2)/apprates$AvgRate)/-(apprates$k_values)
 apprates<-apprates %>% distinct(k_values, .keep_all = T)
 
+#get endpoints
+endp<-read.csv(paste0(root_data_in,"/PesticideData/BeeTox.csv"))
+endp$Compound<-toupper(endp$Compound)
+endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, all.y=F)
 
 
-#### Calculate daily exposure doses based on a seperate system for contact and oral; doses are assumed to be additive under worst case scenarios
+
+#### Calculate daily exposure doses based on a separate system for contact and oral; doses are assumed to be additive under worst case scenarios
 
   print(list.files(path=paste0(root_data_out,'/all_forage/media_tables'), pattern='.csv', all.files=TRUE, full.names=FALSE))
   scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables'), list.files(path=paste0(root_data_out,'/all_forage/media_tables'), pattern='.csv', all.files=TRUE, full.names=FALSE))
   scenarios<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
   
-  
-  #example
-  scenario<-scenarios[[6]]
-  
-  #get endpoints
-  endp<-read.csv(paste0(root_data_in,"/PesticideData/BeeTox.csv"))
-  endp$Compound<-toupper(endp$Compound)
-  endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, all.y=F)
+
+ #split by compound
+ bifenthrin<- scenarios[grep("BIFENTHRIN", names(scenarios))]  
+ clothianidin<- scenarios[grep("CLOTHIANIDIN", names(scenarios))] 
+ chlorpyrifos<- scenarios[grep("CHLORPYRIFOS", names(scenarios))] 
+ imidacloprid<- scenarios[grep("IMIDACLOPRID", names(scenarios))]
+ carbaryl<- scenarios[grep("CARBARYL", names(scenarios))]
+ thiamethoxam<- scenarios[grep("THIAMETHOXAM", names(scenarios))]
+ 
+
+list_of_compound_scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
     
+
+  get_exposure_dose<-function(x){
+    
+  scenarios<-x
   
   daily_exposure_list<-list()
-  
-  for(scenario in 1:length(scenario)){
+  for(n in 1:length(scenarios)){
+    scenario<-scenarios[[n]]
     scenarion<-merge(x = scenario, y = endp[ , c("Compound",  "Contact_LD50_ug_bee", "Oral_LD50_ug_bee","k_values")], by = "Compound", all.x=TRUE)
     
     #add in a new media for 'flower' for contact
-   flower<-scenarion[scenarion$Media =="Dust"|scenarion$Media == "Air",]
-   flower$Media<-"Flower"
-   scenarion<-rbind(scenarion, flower)
+   # flower<-scenarion[scenarion$Media =="Dust"|scenarion$Media == "Air",]
+   # flower$Media<-"Flower"
+   # scenarion<-rbind(scenarion, flower)
    
    
-   contact<-scenarion[scenarion$Media =="Dust"|scenarion$Media == "Air"| scenarion$Media =="Soil"|scenarion$Media == "Flower", ]
+   contact<-scenarion[scenarion$Media =="Dust"|scenarion$Media == "Air"| scenarion$Media =="Soil", ] #|scenarion$Media == "Flower"
       oral<-scenarion[scenarion$Media == "Pollen" | scenarion$Media == "Nectar" , ]
  
       ### CONTACT ---
@@ -50,31 +62,30 @@ apprates<-apprates %>% distinct(k_values, .keep_all = T)
         aerial$exp_dose<- (aerial$Conc/2) *1.6E-4*991 #calculated as the dose experienced from single-day contact with aerial deposition within a hypothetical 'flight tube'
       
 
-        #daily dose for flower contact from deposition
-        flower<-contact[contact$Media == "Flower",]
-        
-        flower<-flower %>%
-        group_by(id = cumsum(!Conc==0)) %>%
-          mutate(Concf = ifelse(Conc==0, first(Conc), Conc)) %>%
-          mutate(dayn = ifelse(Conc>0, Day - first(Day)+1, Day))
-          ind <- which(flower$Concf != lag(flower$Concf))
-          flower$Concf[ind] <- sapply(ind, function(i) with(flower, sum(c(Concf[i-1], Concf[i+1]))))
-          ind <- which(flower$Concf < lag(flower$Concf))
-          flower$Concf[ind:nrow(flower)] <- sapply(ind, function(i) with(flower, Concf[ind-1]))
-
-         flower$exp_dose<-(flower$Concf * 1e-04 * 6.5)* 90 * exp(-(flower$k_values*flower$Day))#calculated as the dose experienced from contact with deposition on flowers, assuming a visit of 90 repeat events, degrades over time
-        
-         flower<-subset(flower, select=-c(id,dayn,Concf))
+        # #daily dose for flower contact from deposition
+        # flower<-contact[contact$Media == "Flower",]
+        # 
+        # flower<-flower %>%
+        # group_by(id = cumsum(!Conc==0)) %>%
+        #   mutate(Concf = ifelse(Conc==0, first(Conc), Conc)) %>%
+        #   mutate(dayn = ifelse(Conc>0, Day - first(Day)+1, Day))
+        # 
+        #   ind <- which(flower$Concf != lag(flower$Concf))
+        #   flower$Concf[ind] <- sapply(ind, function(i) with(flower, sum(c(Concf[i-1], Concf[i+1]))))
+        #   ind <- which(flower$Concf > lag(flower$Concf))
+        #   flower$Concf[ind:nrow(flower)] <- sapply(ind, function(i) with(flower, Concf[ind-1]))
+        # 
+        #  flower$exp_dose<-(flower$Concf * 1e-04 * 6.5)* 90 * exp(-(flower$k_values*flower$Day))#calculated as the dose experienced from contact with deposition on flowers, assuming a visit of 90 repeat events, degrades over time
+        #  flower<-subset(flower, select=-c(id,dayn,Concf))
    
         #daily dose for soil exposures
          soil<-contact[contact$Media == "Soil",]
          soil$exp_dose <- (soil$Conc * 1.95 * 2 ) * 6.5 #surface area of bumblebee queen
-     
       
-      contact<-rbind(aerial,flower,soil)
+      contact<-rbind(aerial,soil)
       
       #sum all contact doses from different sources
-      contactf<-contact %>% group_by(Day) %>% mutate(exp_dose_total = sum(exp_dose))
+      contactf<-contact %>% group_by(Day) %>% mutate(Dose = sum(exp_dose))
       contactf<-contactf[1:365,c(1:3,5:6,9)] #just get overall daily contact exposure
       contactf$type<-"Contact"
       
@@ -85,27 +96,35 @@ apprates<-apprates %>% distinct(k_values, .keep_all = T)
        ### ORAL ---
       
         #daily dose for oral exposures
-         oral<-oral %>%
+       oral<-oral %>%
            mutate(exp_dose = Conc * case_when(
              Media == "Pollen" ~ 0.0485,
              Media == "Nectar" ~  0.7565
            ))
     
-         oralf<-oral %>% group_by(Day) %>% mutate(exp_dose_total = sum(exp_dose))
-         oralf<-oralf[1:365,c(1:3,5:6,9)] #just get overall daily oral exposure
-         oralf$type<-"Oral"
+        oralf<-oral %>% group_by(Day) %>% mutate(Dose = sum(exp_dose))
+        oralf<-oralf[1:365,c(1:3,5:6,9)] #just get overall daily oral exposure
+        oralf$type<-"Oral"
 
       
   daily_exposures<-rbind(contactf,oralf)
   
-  daily_exposure_list[[scenario]]<-daily_exposure
+  daily_exposures<-daily_exposures[daily_exposures$Day <283,] #remove values from end of season 
+  
+  daily_exposure_list[[n]]<-daily_exposures
     
   }
   
   names(daily_exposure_list)<-names(scenarios)
+  daily_exposure_list
+  }
+
+  
+  output<-lapply(list_of_compound_scenarios, get_exposure_dose)  
   
   
   
+
   
   
   

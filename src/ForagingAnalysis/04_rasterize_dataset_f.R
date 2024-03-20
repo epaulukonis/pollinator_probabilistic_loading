@@ -31,7 +31,7 @@ values(habitat)<-values(habitat)+1000 #add high values to CDL hab classes to dif
 
 
 #### Process BOTH on and off-field model outputs and rasterize them into a stack organized by, in layers, 1.Day, 2.Medium, 3.Field ---- 
-# sim<-3
+# sim<-7
 # #### BETA TESTING CODE
 # final_on_field_history<-final_on_field_history_list[[sim]]
 # final_off_field_history_30m<-final_off_field_history_30m_list[[sim]]
@@ -51,15 +51,15 @@ values(habitat)<-values(habitat)+1000 #add high values to CDL hab classes to dif
 # final_off_field_history_60m <-purrr::discard(final_off_field_history_90m , ~any(.x$ApplicationType == "Soil"))
 # final_off_field_history_90m <-purrr::discard(final_off_field_history_90m , ~any(.x$ApplicationType == "Soil"))
 # 
-# ###FORGOT TO PUT THIS IN YOU CODE BELOW
+# ###FORGOT TO PUT THIS IN YOUr CODE BELOW
 # 
 # 
 # #pull out clip
-# scenario_clip_on<-final_on_field_history[[1]]
-# scenario_clip_off30<-final_off_field_history_30m[[1]]
-# scenario_clip_off60<-final_off_field_history_60m[[1]]
-# scenario_clip_off90<-final_off_field_history_90m[[1]]
-# 
+# scenario_clip_on<-final_on_field_history[[4]]
+# scenario_clip_off30<-final_off_field_history_30m[[4]]
+# scenario_clip_off60<-final_off_field_history_60m[[4]]
+# scenario_clip_off90<-final_off_field_history_90m[[4]]
+# # 
 # unique(scenario_clip_on$Compound)
 
 
@@ -84,7 +84,7 @@ scenario_clip_off30<-scenario_clip_off30[,c(1:13,ncol(scenario_clip_off30),14:(n
 scenario_clip_off60<-scenario_clip_off60[,c(1:13,ncol(scenario_clip_off60),14:(ncol(scenario_clip_off60)-1))]
 scenario_clip_off90<-scenario_clip_off90[,c(1:13,ncol(scenario_clip_off90),14:(ncol(scenario_clip_off90)-1))]
 
-print(paste0("this is simulation ", sim+751))
+print(paste0("this is simulation ", sim))
 print(paste0("this is compound ",unique(scenario_clip_on$Compound) ))
 
 
@@ -123,7 +123,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
 
         #function by each media 
         process_by_media<-function(media){
-        #media<-by_media_list[[3]]
+        #media<-by_media_list[[2]]
         by_media<-media
         
         print(paste0("this media is ",unique(by_media$Media) ))
@@ -146,7 +146,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                   
                     #set up each on scenario as an sf, and set raster conditions based on that sf, on-field
                     ondf<-st_as_sf(onfield)
-                   # plot(ondf$geometry,col="grey")
+                    #plot(ondf$geometry,col="grey")
                     ron.raster <- raster()
                     extent(ron.raster) <- extent(ondf)
                     crs(ron.raster)<-crs(ondf)
@@ -198,7 +198,6 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                    # rasterize by day and stack, then read to an additional list
                   daily_scenario<-list()
                     for(day in 1:365){
-                      #day<-195
                       dateon<-ondf[ondf$Day ==day,]
 
                       offdf30<-buf30[buf30$Day ==day,]
@@ -215,7 +214,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                       output_off30<- rast(rasterize(x = offdf30, y = roff.raster30, field = "Value")) #spatraster
                       output_off60<- rast(rasterize(x = offdf60, y = roff.raster60, field = "Value")) #spatraster
                       output_off90<- rast(rasterize(x = offdf90, y = roff.raster90, field = "Value")) #spatraster
-                      
+
                       # plot(output_on)
                       # plot(output_off30)
                       # plot(output_off60)
@@ -228,7 +227,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                       m <-merge(output_off60,m) #merge off
                       #plot(m)
                       m <-merge(output_off90,m) #merge off
-                      #plot(m)
+                      plot(m)
                       
                       m<- mask(crop(m, colony), colony)
                    
@@ -247,35 +246,48 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                       
                       rclmat_weight <- matrix(mrec_weight, ncol=3, byrow=TRUE)
                       rweight<-terra::classify(x=m, rcl=rclmat_weight, include.lowest=TRUE)
-                      #plot(rweight)
-
-                      weight_df<-as.data.frame(values(rweight))
-                      sums<-as.data.frame(table(weight_df))
-                      sums$value_of_weights<-as.numeric(levels(sums$layer))*sums$Freq
-                      class_total<-sum(sums$value_of_weights)
+                      plot(rweight)
                       
-                      #quick code to make sure the 
+                      #here, we're calculating the weighted mean: here are the steps
+                      
+                      weight_df<-as.data.frame(values(rweight)) #first, convert the raster into a dataframe so we can get the sum of the weights
+                      sums<-as.data.frame(table(weight_df)) #the frequency of each time of classification
+                      sums$value_of_weights<-as.numeric(levels(sums$layer))*sums$Freq #get the individual values associtaed with the frequency
+                      class_total<-sum(sums$value_of_weights) #this represents the total sum of the weights!
+                      
+                      #quick code to make sure the total is 1
                       sums$test<-sums$value_of_weights/class_total
                       sum(sums$test)
                       
+                      #this gives us a raster that accurately reflects the individual raster weights associated with that habitat class
                       rweight<-rweight/class_total
-                      #plot(rweight) #plot class-weighted habitat values
+                     # plot(rweight) #plot class-weighted habitat values
                       
-                      
-                      mrec_conc <- c(
-                        1011,1096, 0)
-                      rclmat_conc <- matrix(mrec_conc, ncol=3, byrow=TRUE)
-                      rconc<-terra::classify(x=m, rcl=rclmat_conc, include.lowest=TRUE)
-                      #plot(rconc) #plot original concentration
-                      
+
+                      #convert it so that any ncld values are not included in the calculation of concentration
+                      habarea<-habitat
+                      habarea[habarea>1]<-0
+
+                      m <-merge(output_on,habarea) #merge on
+                      #plot(m)
+                      m <-merge(output_off30,m) #merge off
+                      #plot(m)
+                      m <-merge(output_off60,m) #merge off
+                      #plot(m)
+                      m <-merge(output_off90,m) #merge off
+                      #plot(m)
+
+                      rconc<- mask(crop(m, colony), colony)
+
                       
                       rweightedmean<- rweight*rconc #multiply the weight value times the concentrations 
                       #plot(rweightedmean) #plot the area weighted concentration values 
-                      
+    
                       weightmean_df<-as.data.frame(values(rweightedmean))
                       sumswm<-as.data.frame(table(weightmean_df))
                       sumswm$sum_of_conc<-as.numeric(levels(sumswm$layer))*sumswm$Freq
-                      weightedmean<-sum(sumswm$sum_of_conc)
+                      
+                      weightedmean<-sum(sumswm$sum_of_conc) #this reflects the total weighted mean exposure dose once habitat preferences are factored in. 
                       #weightedmean #ug/g
                       
                       df<-as.data.frame(cbind(weightedmean,day))
@@ -394,13 +406,20 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                 rweight<-rweight/class_total
                 #plot(rweight)
   
-                mrec_conc <- c(
-                  1011,1096, 0)
-                rclmat_conc <- matrix(mrec_conc, ncol=3, byrow=TRUE)
-                rconc<-terra::classify(x=m, rcl=rclmat_conc, include.lowest=TRUE)
-                rconc<- mask(crop(rconc, colony), colony)
-                #plot(rconc)
+                #convert it so that any ncld values are not included in the calculation of concentration
+                habarea<-habitat
+                habarea[habarea>1]<-0
                 
+                m <-merge(output_on,habarea) #merge on
+                #plot(m)
+                m <-merge(output_off30,m) #merge off
+                #plot(m)
+                m <-merge(output_off60,m) #merge off
+                #plot(m)
+                m <-merge(output_off90,m) #merge off
+                #plot(m)
+                
+                rconc<- mask(crop(m, colony), colony)
                 
                 rweightedmean<- rweight*rconc #multiply the weight value times the concentrations 
                 #plot(rweightedmean)
@@ -468,66 +487,13 @@ for(sim in 1:length(final_on_field_history_list)){
 
 
       for(n in 1:length(dailymediasets_by_compound_fin)){
-        write.csv(dailymediasets_by_compound_fin[[n]], paste0(root_data_out,'/all_forage/media_tables/',names(dailymediasets_by_compound_fin[n]),sim + 751, '.csv')  , row.names=F)
-        print(paste0("simulation ", names(dailymediasets_by_compound_fin[n])," ", sim + 751," is done"))
+        write.csv(dailymediasets_by_compound_fin[[n]], paste0(root_data_out,'/all_forage/media_tables/',names(dailymediasets_by_compound_fin[n]),sim, '.csv')  , row.names=F)
+        print(paste0("simulation ", names(dailymediasets_by_compound_fin[n])," ", sim," is done"))
         
       }
 
 }
 
-#### Plot example ----
-# testy<-list_by_media[[2]]
-# testx<-testy[[200]]
-# m<-testx
-# m<-as.data.frame(m,xy = TRUE)
-# m$Layer_1<-as.factor(m$layer)
-# m<-na.omit(m)
-# 
-# 
-# nlcdpalette<-c("darkgrey","cornflowerblue","bisque","lightsalmon","firebrick","darkred","darkolivegreen3","darkkhaki","lemonchiffon3","khaki1","chocolate4","cadetblue2","cadetblue4")
-# 
-# namey<-sort(unique(m$Layer_1))
-# names(nlcdpalette)<-(namey)
-# 
-# colScale<- scale_fill_manual(
-#   values=nlcdpalette, name="NLCD",
-#   labels = c('Pesticide',
-#              'Water',
-#              'Developed, Open Space ',
-#              'Developed, Low Intensity',
-#              'Developed, Medium Intensity',
-#              "Developed, High Intensity",
-#              "Deciduous Forest",
-#              "Shrub",
-#              "Grassland",
-#              "Pasture/Hay",
-#              "Cultivated",
-#              "Woody Wetlands",
-#              "Herbaceous Wetlands"),
-#   drop = FALSE)
-# 
-# 
-# 
-# m$title<-"Example Exposure Landsca[e"
-# habplot<-ggplot()+
-#   geom_tile(data=m, aes(x=x,y=y,fill=Layer_1))+
-#   colScale+
-#   theme_bw() +
-#   theme(
-#     legend.title.align=0.5,
-#     strip.text.x = element_text(size = 14, colour = "black", angle = 0),
-#     legend.position = "Right",
-#     axis.text.x=element_blank(),
-#     axis.ticks.x=element_blank(),
-#     axis.text.y=element_blank(),
-#     axis.ticks.y=element_blank(),
-#     axis.title.x=element_blank(),
-#     axis.title.y=element_blank(),
-#     legend.background = element_rect(fill="lightgrey",
-#                                      size=0.5, linetype="solid",
-#                                      colour ="black")
-#   )
-# habplot
 
 
 

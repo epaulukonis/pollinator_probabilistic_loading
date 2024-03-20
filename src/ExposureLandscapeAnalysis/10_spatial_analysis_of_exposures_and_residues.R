@@ -439,7 +439,7 @@ mediaplot<-ggplot()+
   theme_bw() +
   ylab(paste0(unique(off_field_n$ApplicationType)," Application"))+
   xlab("")+
-  ggtitle(paste0(str_to_title(unique(off_field_n$Compound))))+
+  ggtitle(paste0(str_to_title(unique(off_field_n$Compound)),"-",off_field_n$Commodity))+
   theme(
     plot.title = element_text(hjust = 0.5),
     legend.title.align=0.5,
@@ -470,7 +470,10 @@ ag
 
 
 #Ag calculations
-just_area_on<-on_field[on_field$Compound == "IMIDACLOPRID",]
+
+#get area by total habitat
+just_area_on<-on_field[on_field$MediaSub=="Soil",]
+#just_area_on<-on_field[on_field$Compound == "IMIDACLOPRID",]
 just_area_on$area <- st_area(just_area_on)
 
 area_out_on<-just_area_on %>%
@@ -481,6 +484,7 @@ area_out_on<-just_area_on %>%
 print(sum(area_out_on$area_per))
 
 just_area_off<-off_field[off_field$MediaSub=="Soil",]
+#just_area_off<-off_field[off_field$Compound == "IMIDACLOPRID",]
 just_area_off$area <- st_area(just_area_off)
 
 area_out_off<-just_area_off %>%
@@ -489,6 +493,27 @@ area_out_off<-just_area_off %>%
   mutate(area_per = (area/st_area(hab_ag))*100 )
 
 print(sum(area_out_off$area_per)-sum(area_out_on$area_per))
+
+
+#get area by specific compound
+by_compound<-on_field[on_field$Compound=="CARBARYL",]
+by_compound$area <- st_area(by_compound)
+by_compound<-by_compound[1,]
+area_out_on<-by_compound %>%
+  mutate(area_per = (area/st_area(hab_ag))*100 )
+
+print(sum(area_out_on$area_per))
+
+
+by_compound<-off_field[off_field$Compound=="CARBARYL",]
+by_compound$area <- st_area(by_compound)
+by_compound<-by_compound[1,]
+area_out_off<-by_compound %>%
+  mutate(area_per = (area/st_area(hab_ag))*100 )
+
+print(sum(area_out_off$area_per))
+
+
 
 
 #### Mixed Natural ----
@@ -565,7 +590,7 @@ for(compound in 1:length(split_off)){
     theme_bw() +
     ylab(paste0(unique(off_field_n$ApplicationType)," Application"))+
     xlab("")+
-    ggtitle(paste0(str_to_title(unique(off_field_n$Compound))))+
+    ggtitle(paste0(str_to_title(unique(off_field_n$Compound)),"-",off_field_n$Commodity))+
     theme(
       plot.title = element_text(hjust = 0.5),
       legend.title.align=0.5,
@@ -594,9 +619,10 @@ nat<-plot_grid(
 nat
 
 
-
-#Ag calculations
+#mixed calculations
+#get area by total habitat
 just_area_on<-on_field[on_field$MediaSub=="Soil",]
+#just_area_on<-on_field[on_field$Compound == "IMIDACLOPRID",]
 just_area_on$area <- st_area(just_area_on)
 
 area_out_on<-just_area_on %>%
@@ -607,6 +633,7 @@ area_out_on<-just_area_on %>%
 print(sum(area_out_on$area_per))
 
 just_area_off<-off_field[off_field$MediaSub=="Soil",]
+#just_area_off<-off_field[off_field$Compound == "IMIDACLOPRID",]
 just_area_off$area <- st_area(just_area_off)
 
 area_out_off<-just_area_off %>%
@@ -615,6 +642,25 @@ area_out_off<-just_area_off %>%
   mutate(area_per = (area/st_area(hab_ag))*100 )
 
 print(sum(area_out_off$area_per)-sum(area_out_on$area_per))
+
+
+#get area by specific compound
+by_compound<-on_field[on_field$Compound=="CARBARYL",]
+by_compound$area <- st_area(by_compound)
+by_compound<-by_compound[1,]
+area_out_on<-by_compound %>%
+  mutate(area_per = (area/st_area(hab_ag))*100 )
+
+print(sum(area_out_on$area_per))
+
+
+by_compound<-off_field[off_field$Compound=="CARBARYL",]
+by_compound$area <- st_area(by_compound)
+by_compound<-by_compound[1,]
+area_out_off<-by_compound %>%
+  mutate(area_per = (area/st_area(hab_ag))*100 )
+
+print(sum(area_out_off$area_per))
 
 
 
@@ -699,7 +745,7 @@ for(compound in 1:length(split_off)){
     theme_bw() +
     ylab(paste0(unique(off_field_n$ApplicationType)," Application"))+
     xlab("")+
-    ggtitle(paste0(str_to_title(unique(off_field_n$Compound))))+
+    ggtitle(paste0(str_to_title(unique(off_field_n$Compound)),"-",off_field_n$Commodity))+
     theme(
       plot.title = element_text(hjust = 0.5),
       legend.title.align=0.5,
@@ -730,7 +776,9 @@ dev
 
 
 #dev calculations
+#get area by total habitat
 just_area_on<-on_field[on_field$MediaSub=="Soil",]
+#just_area_on<-on_field[on_field$Compound == "IMIDACLOPRID",]
 just_area_on$area <- st_area(just_area_on)
 
 area_out_on<-just_area_on %>%
@@ -741,6 +789,7 @@ area_out_on<-just_area_on %>%
 print(sum(area_out_on$area_per))
 
 just_area_off<-off_field[off_field$MediaSub=="Soil",]
+#just_area_off<-off_field[off_field$Compound == "IMIDACLOPRID",]
 just_area_off$area <- st_area(just_area_off)
 
 area_out_off<-just_area_off %>%
@@ -749,6 +798,26 @@ area_out_off<-just_area_off %>%
   mutate(area_per = (area/st_area(hab_ag))*100 )
 
 print(sum(area_out_off$area_per)-sum(area_out_on$area_per))
+
+
+#get area by specific compound
+by_compound<-on_field[on_field$Compound=="IMIDACLOPRID",]
+by_compound$area <- st_area(by_compound)
+by_compound<-by_compound[1,]
+area_out_on<-by_compound %>%
+  mutate(area_per = (area/st_area(hab_ag))*100 )
+
+print(sum(area_out_on$area_per))
+
+
+by_compound<-off_field[off_field$Compound=="IMIDACLOPRID",]
+by_compound$area <- st_area(by_compound)
+by_compound<-by_compound[1,]
+area_out_off<-by_compound %>%
+  mutate(area_per = (area/st_area(hab_ag))*100 )
+
+print(sum(area_out_off$area_per))
+
 
 
 

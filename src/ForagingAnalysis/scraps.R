@@ -231,3 +231,71 @@ for(i in 1:length(on_fieldrasters)){
   st_write(habitat_zone_fields[[i]], paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/",names(habitat_zone_fields)[[i]],"_hab.shp"), driver = "ESRI Shapefile")
 }
 
+
+
+
+
+
+
+#this version of the reclassification of the nlcd when calculating the weighted mean resulted in fuckery!
+###     # mrec_conc <- c(
+#   1011,1096, 0)
+# rclmat_conc <- matrix(mrec_conc, ncol=3, byrow=TRUE)
+# rconc<-terra::classify(x=m, rcl=rclmat_conc, include.lowest=TRUE)
+# plot(rconc) #plot original concentration
+
+
+#### Plot example ----
+# testy<-list_by_media[[2]]
+# testx<-testy[[200]]
+# m<-testx
+# m<-as.data.frame(m,xy = TRUE)
+# m$Layer_1<-as.factor(m$layer)
+# m<-na.omit(m)
+# 
+# 
+# nlcdpalette<-c("darkgrey","cornflowerblue","bisque","lightsalmon","firebrick","darkred","darkolivegreen3","darkkhaki","lemonchiffon3","khaki1","chocolate4","cadetblue2","cadetblue4")
+# 
+# namey<-sort(unique(m$Layer_1))
+# names(nlcdpalette)<-(namey)
+# 
+# colScale<- scale_fill_manual(
+#   values=nlcdpalette, name="NLCD",
+#   labels = c('Pesticide',
+#              'Water',
+#              'Developed, Open Space ',
+#              'Developed, Low Intensity',
+#              'Developed, Medium Intensity',
+#              "Developed, High Intensity",
+#              "Deciduous Forest",
+#              "Shrub",
+#              "Grassland",
+#              "Pasture/Hay",
+#              "Cultivated",
+#              "Woody Wetlands",
+#              "Herbaceous Wetlands"),
+#   drop = FALSE)
+# 
+# 
+# 
+# m$title<-"Example Exposure Landsca[e"
+# habplot<-ggplot()+
+#   geom_tile(data=m, aes(x=x,y=y,fill=Layer_1))+
+#   colScale+
+#   theme_bw() +
+#   theme(
+#     legend.title.align=0.5,
+#     strip.text.x = element_text(size = 14, colour = "black", angle = 0),
+#     legend.position = "Right",
+#     axis.text.x=element_blank(),
+#     axis.ticks.x=element_blank(),
+#     axis.text.y=element_blank(),
+#     axis.ticks.y=element_blank(),
+#     axis.title.x=element_blank(),
+#     axis.title.y=element_blank(),
+#     legend.background = element_rect(fill="lightgrey",
+#                                      size=0.5, linetype="solid",
+#                                      colour ="black")
+#   )
+# habplot
+
