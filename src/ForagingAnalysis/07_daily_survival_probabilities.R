@@ -24,7 +24,7 @@ library(drc)
 library(ordinal)
 library(EnvStats)
 library(ExtDist)
-grab_quantiles <- seq(0.001, 0.999, 0.001) #what's the associted mortality %?
+grab_quantiles <- seq(0.001, 0.999, 0.001) #what's the associated mortality %?
 # times 3 for Haber's rule (n=1) assuming derived relationships are for 72 hours and we want 24
 
 

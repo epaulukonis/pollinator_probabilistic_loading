@@ -15,16 +15,20 @@ final_off_field_history_30m_list<-list()
 final_off_field_history_60m_list<-list()
 final_off_field_history_90m_list<-list()
 
-
-for(simulation in 1:length(scenario_daily_list)){
-#simulation<-3
- 
 #### this will loop through and merge the on and off field outputs to the model scenarios
+for(simulation in 1:length(scenario_daily_list)){
+#simulation<-9
+ 
+
   #for a single field:
-  #ex<-dailylist[[4]]
-  # ex<-ex[ex$Year == 2012,]
+  # ex<-dailylist[[7]]
+  # ex<-ex[ex$Year == 2014,]
 
  dl<-scenario_daily_list[[simulation]]
+ # ex<-dl[[7]]
+ # unique(ex$ApplctT)
+ # unique(ex$crop)
+
 
 #### On-field ----
 final_output_by_field_history_func_ON<-function(x){
@@ -46,7 +50,7 @@ list_by_id<-split(ex,list(ex$id))
 
 
 join_media_data_by_application_date<- function(chem){
-# x<-list_by_id[[1]]
+# x<-list_by_id[[2]]
 # chem<-x
 
 if(is.na(chem$applctn)[1] == T){ #if all application days are NA...
@@ -186,5 +190,9 @@ final_off_field_history_90m_list[[simulation]]<-final_off_field_history_90m
 print(paste0("Simulation ", simulation, " done"))
 
 }
+
+
+
+
 
 

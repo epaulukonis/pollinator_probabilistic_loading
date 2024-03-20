@@ -33,9 +33,31 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
  carbaryl<- scenarios[grep("CARBARYL", names(scenarios))]
  thiamethoxam<- scenarios[grep("THIAMETHOXAM", names(scenarios))]
  
+ list_of_compound_scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
+ 
+ 
+ 
+ #### first let's do some quality checking 
+ 
+ QA<-function(compound){
+  
+ compound<- Map(cbind, compound, index = seq_along(compound))
+ 
+ comp<-as.data.frame(do.call(rbind, compound))
+ comp<-comp %>% group_by(index, Media) %>%
+   mutate(max = max(Conc)) %>%
+   mutate(min = min(Conc)) 
+   
+ comp<-comp[comp$Day == 1,]
+ comp<- comp[order(comp$Media),,drop=FALSE]
+ comp
+ }
+ 
+ 
+ qa_test<-lapply( list_of_compound_scenarios,QA) #look at the mins/maxs; are they very high? they should not be much higher than those reported for single days in Ch. 2
+ 
+ 
 
-list_of_compound_scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
-    
 
   get_exposure_dose<-function(x){
     

@@ -791,51 +791,51 @@ daily_conc_on_field<-list()
 #x<-foliar_pollen_datasets[[10]]
 
 # If running for scenarios:
-# residues_in_nectar_and_pollen_from_foliar<-function(x){
-#   output<- matrix(data=0, nrow=151, ncol=2)
-#   n<-1
-#   t<-n:150
-#   output[(n+1):151,2]<-t
-#   for(i in 7:nrow(output)){
-#     # units will be ug per g of pollen
-# 
-#     pollen_rud <-( ((x$`Kp-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(-x$KdissSoil*(i)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i))) )  +
-# 
-#                  ( ((x$`Kp-L`*x$fsurface*x$cf1)/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i))) )
-# 
-#     output[i,1]<-(pollen_rud*x$kg_ha)
-# 
-#   }
-#   output<-as.data.frame(output)
-# 
-#   names(output)<-c(paste0(x$Type,'_concentration_ug_g_from_foliar'),"day")
-#   output
-# 
-# }
+residues_in_nectar_and_pollen_from_foliar<-function(x){
+  output<- matrix(data=0, nrow=151, ncol=2)
+  n<-1
+  t<-n:150
+  output[(n+1):151,2]<-t
+  for(i in 7:nrow(output)){
+    # units will be ug per g of pollen
+
+    pollen_rud <-( ((x$`Kp-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(-x$KdissSoil*(i)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i))) )  +
+
+                 ( ((x$`Kp-L`*x$fsurface*x$cf1)/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i))) )
+
+    output[i,1]<-(pollen_rud*x$kg_ha)
+
+  }
+  output<-as.data.frame(output)
+
+  names(output)<-c(paste0(x$Type,'_concentration_ug_g_from_foliar'),"day")
+  output
+
+}
 
 #x<-foliar_pollen_datasets[[3]]
 # If running for figures:
-residues_in_nectar_and_pollen_from_foliar<-function(x){
-  output<- matrix(data=0, nrow=151, ncol=2)
-  n<-ifelse(x$Commodity == "CORN", 67,56)
-  t<-n:150
-  output[(n+1):151,2]<-t
-  for(i in (n+1):nrow(output)){
-    #i<-n+1
-    # units will be ug per g of pollen
-    pollen_rud <-( (x$`Kp-L`*x$fsoil*x$cf1/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(0-x$KdissSoil*(i-n+6)) - exp(0-(x$KelAir+x$KelDeg+x$KelGrow)*(i-n+6))) )  +
-      
-      ( (x$`Kp-L`*x$fsurface*x$cf1/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-n+6))) )
-    
-    output[i,1]<-(pollen_rud*x$kg_ha)
-  }
-  
-  output<-as.data.frame(output)
-  
-  names(output)<-c(paste0(x$Type,'_concentration_ug_g_from_foliar'),"day")
-  output
-  
-}
+# residues_in_nectar_and_pollen_from_foliar<-function(x){
+#   output<- matrix(data=0, nrow=151, ncol=2)
+#   n<-ifelse(x$Commodity == "CORN", 67,56)
+#   t<-n:150
+#   output[(n+1):151,2]<-t
+#   for(i in (n+1):nrow(output)){
+#     #i<-n+1
+#     # units will be ug per g of pollen
+#     pollen_rud <-( (x$`Kp-L`*x$fsoil*x$cf1/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(0-x$KdissSoil*(i-n+6)) - exp(0-(x$KelAir+x$KelDeg+x$KelGrow)*(i-n+6))) )  +
+#       
+#       ( (x$`Kp-L`*x$fsurface*x$cf1/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-n+6))) )
+#     
+#     output[i,1]<-(pollen_rud*x$kg_ha)
+#   }
+#   
+#   output<-as.data.frame(output)
+#   
+#   names(output)<-c(paste0(x$Type,'_concentration_ug_g_from_foliar'),"day")
+#   output
+#   
+# }
 
 
 #apply function to estimate nectar/pollen residues in ug per g after x number of days
@@ -867,47 +867,47 @@ daily_conc_on_field<-list()
 #x<-foliar_nectar_datasets[[1]]
 
 # # If running for scenarios:
-# residues_in_nectar_and_pollen_from_foliar<-function(x){
-#   output<- matrix(data=0, nrow=151, ncol=2)
-#   n<-1
-#   t<-n:150
-#   output[(n+1):151,2]<-t
-#   for(i in 7:nrow(output)){
-#     # units will be ug per g of pollen
-#     pollen_rud <-( ((x$`Kn-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(-x$KdissSoil*(i)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i))) )  +
-# 
-#       ( ((x$`Kn-L`*x$fsurface*x$cf1)/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i))) )
-# 
-#     output[i,1]<-(pollen_rud*x$kg_ha)
-# 
-#   }
-#   output<-as.data.frame(output)
-#   names(output)<-c(paste0(x$Type,'_concentration_ug_g_from_foliar'),"day")
-#   output
-# 
-# }
-
-# If running for figures:
 residues_in_nectar_and_pollen_from_foliar<-function(x){
   output<- matrix(data=0, nrow=151, ncol=2)
-  n<-ifelse(x$Commodity == "CORN", 67,56)
+  n<-1
   t<-n:150
   output[(n+1):151,2]<-t
-  for(i in (n+1):nrow(output)){
+  for(i in 7:nrow(output)){
     # units will be ug per g of pollen
-    nectar_rud <-( ((x$`Kn-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(0-x$KdissSoil*(i-n+6)) - exp(0-(x$KelAir+x$KelDeg+x$KelGrow)*(i-n+6))) )  +
-      
-      ( ((x$`Kn-L`*x$fsurface*x$cf1)/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-n+6))) )
-    
-    output[i,1]<-(nectar_rud*x$kg_ha)
+    pollen_rud <-( ((x$`Kn-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(-x$KdissSoil*(i)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i))) )  +
+
+      ( ((x$`Kn-L`*x$fsurface*x$cf1)/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i))) )
+
+    output[i,1]<-(pollen_rud*x$kg_ha)
+
   }
-  
   output<-as.data.frame(output)
-  
   names(output)<-c(paste0(x$Type,'_concentration_ug_g_from_foliar'),"day")
   output
-  
+
 }
+
+# If running for figures:
+# residues_in_nectar_and_pollen_from_foliar<-function(x){
+#   output<- matrix(data=0, nrow=151, ncol=2)
+#   n<-ifelse(x$Commodity == "CORN", 67,56)
+#   t<-n:150
+#   output[(n+1):151,2]<-t
+#   for(i in (n+1):nrow(output)){
+#     # units will be ug per g of pollen
+#     nectar_rud <-( ((x$`Kn-L`*x$fsoil*x$cf1)/(x$Psoil*x$Hsoil*x$cf2)) * (x$KupSoil/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSoil)) * (exp(0-x$KdissSoil*(i-n+6)) - exp(0-(x$KelAir+x$KelDeg+x$KelGrow)*(i-n+6))) )  +
+#       
+#       ( ((x$`Kn-L`*x$fsurface*x$cf1)/(x$LAI*x$LMA*(1/(1-x$Wleaf))*1000)) * (x$KupSurface/(x$KelAir+x$KelDeg+x$KelGrow - x$KdissSurface)) * ( exp(-x$KdissSurface*(i-n+6)) - exp(-(x$KelAir+x$KelDeg+x$KelGrow)*(i-n+6))) )
+#     
+#     output[i,1]<-(nectar_rud*x$kg_ha)
+#   }
+#   
+#   output<-as.data.frame(output)
+#   
+#   names(output)<-c(paste0(x$Type,'_concentration_ug_g_from_foliar'),"day")
+#   output
+#   
+# }
 
 
 
@@ -954,4 +954,6 @@ on_model_data$MediaSub<- sub("_.*", "", on_model_data$Media)
 on_model_data$ApplicationType<- str_to_title(sub('.*\\_', "", on_model_data$Media))
 
 
+
+#test<-on_model_data[on_model_data$Compound == "IMIDACLOPRID" & on_model_data$ApplicationType == "Foliar",  ]
 
