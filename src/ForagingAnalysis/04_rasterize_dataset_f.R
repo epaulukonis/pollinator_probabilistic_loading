@@ -416,9 +416,8 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                 habarea<-habitat
                 habarea[habarea>1]<-0
                 
-                m <-merge(output_on,habarea) #merge on
-                #plot(m)
-                m <-merge(output_off30,m) #merge off
+              
+                m <-merge(output_off30,habarea) #merge off
                 #plot(m)
                 m <-merge(output_off60,m) #merge off
                 #plot(m)

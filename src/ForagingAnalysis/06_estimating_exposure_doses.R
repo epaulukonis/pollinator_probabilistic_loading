@@ -38,7 +38,6 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
  
  
  #### first let's do some quality checking 
- 
  QA<-function(compound){
   
  compound<- Map(cbind, compound, index = seq_along(compound))
@@ -52,8 +51,7 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
  comp<- comp[order(comp$Media),,drop=FALSE]
  comp
  }
- 
- 
+
  qa_test<-lapply( list_of_compound_scenarios,QA) #look at the mins/maxs; are they very high? they should not be much higher than those reported for single days in Ch. 2
  
  
@@ -142,7 +140,7 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
   }
 
   
-  output<-lapply(list_of_compound_scenarios, get_exposure_dose)  
+  exp_dose_output<-lapply(list_of_compound_scenarios, get_exposure_dose)  
   
   
   
