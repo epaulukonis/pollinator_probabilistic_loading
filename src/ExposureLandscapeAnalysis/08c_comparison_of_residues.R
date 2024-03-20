@@ -66,6 +66,13 @@ seed_data$MediaSub<- sub("_.*", "", seed_data$Media)
 combine_all<-rbind(foliar_data,soil_data,seed_data)
 
 
+#get depo table
+#surface area of a bumblebee
+SA<-5 #cm2
+depo<-combine_all %>% filter(MediaSub == "Air" | MediaSub == "Dust" ) %>% filter(!is.na(Value)) %>% mutate(contactexp =  (Value *SA)/10000 )
+write.csv(depo,paste0(pest_dir,"/depositiontable.csv"))
+
+
 #function to extract legend 
 get_only_legend <- function(plot) { 
   plot_table <- ggplot_gtable(ggplot_build(plot)) 
