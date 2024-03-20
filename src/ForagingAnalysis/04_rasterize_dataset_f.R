@@ -31,8 +31,9 @@ values(habitat)<-values(habitat)+1000 #add high values to CDL hab classes to dif
 
 
 #### Process BOTH on and off-field model outputs and rasterize them into a stack organized by, in layers, 1.Day, 2.Medium, 3.Field ---- 
-# sim<-7
-# #### BETA TESTING CODE
+
+#### BETA TESTING CODE
+# sim<-9
 # final_on_field_history<-final_on_field_history_list[[sim]]
 # final_off_field_history_30m<-final_off_field_history_30m_list[[sim]]
 # final_off_field_history_60m<-final_off_field_history_60m_list[[sim]]
@@ -51,16 +52,19 @@ values(habitat)<-values(habitat)+1000 #add high values to CDL hab classes to dif
 # final_off_field_history_60m <-purrr::discard(final_off_field_history_90m , ~any(.x$ApplicationType == "Soil"))
 # final_off_field_history_90m <-purrr::discard(final_off_field_history_90m , ~any(.x$ApplicationType == "Soil"))
 # 
-# ###FORGOT TO PUT THIS IN YOUr CODE BELOW
-# 
+# #we also don't haev DR data for this compound
+# final_on_field_history<-purrr::discard(final_on_field_history, ~any(.x$Compound == "GLYPHOSATE"))
+# final_off_field_history_30m <-purrr::discard(final_off_field_history_30m , ~any(.x$Compound == "GLYPHOSATE"))
+# final_off_field_history_60m <-purrr::discard(final_off_field_history_90m , ~any(.x$Compound == "GLYPHOSATE"))
+# final_off_field_history_90m <-purrr::discard(final_off_field_history_90m , ~any(.x$Compound == "GLYPHOSATE"))
 # 
 # #pull out clip
 # scenario_clip_on<-final_on_field_history[[4]]
 # scenario_clip_off30<-final_off_field_history_30m[[4]]
 # scenario_clip_off60<-final_off_field_history_60m[[4]]
 # scenario_clip_off90<-final_off_field_history_90m[[4]]
-# # 
-# unique(scenario_clip_on$Compound)
+# #
+# # unique(scenario_clip_on$Compound)
 
 
 
@@ -115,6 +119,7 @@ print(paste0("this is compound ",unique(scenario_clip_on$Compound) ))
 # head(scenario_clip_on)
 
 
+
 scenario_clip<-rbind(scenario_clip_on,scenario_clip_off30,scenario_clip_off60,scenario_clip_off90)
 
 
@@ -123,7 +128,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
 
         #function by each media 
         process_by_media<-function(media){
-        #media<-by_media_list[[2]]
+         #media<-by_media_list[[3]]
         by_media<-media
         
         print(paste0("this media is ",unique(by_media$Media) ))
@@ -227,7 +232,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                       m <-merge(output_off60,m) #merge off
                       #plot(m)
                       m <-merge(output_off90,m) #merge off
-                      plot(m)
+                     #plot(m)
                       
                       m<- mask(crop(m, colony), colony)
                    
@@ -246,7 +251,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                       
                       rclmat_weight <- matrix(mrec_weight, ncol=3, byrow=TRUE)
                       rweight<-terra::classify(x=m, rcl=rclmat_weight, include.lowest=TRUE)
-                      plot(rweight)
+                      #plot(rweight)
                       
                       #here, we're calculating the weighted mean: here are the steps
                       
@@ -285,7 +290,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
     
                       weightmean_df<-as.data.frame(values(rweightedmean))
                       sumswm<-as.data.frame(table(weightmean_df))
-                      sumswm$sum_of_conc<-as.numeric(levels(sumswm$layer))*sumswm$Freq
+                      sumswm$sum_of_conc<-as.numeric(levels(sumswm$layer))*sumswm$Freq #get the total sum by weight
                       
                       weightedmean<-sum(sumswm$sum_of_conc) #this reflects the total weighted mean exposure dose once habitat preferences are factored in. 
                       #weightedmean #ug/g
@@ -470,6 +475,10 @@ for(sim in 1:length(final_on_field_history_list)){
   final_off_field_history_60m <-purrr::discard(final_off_field_history_90m , ~any(.x$ApplicationType == "Soil"))
   final_off_field_history_90m <-purrr::discard(final_off_field_history_90m , ~any(.x$ApplicationType == "Soil"))
   
+  final_on_field_history<-purrr::discard(final_on_field_history, ~any(.x$Compound == "GLYPHOSATE"))
+  final_off_field_history_30m <-purrr::discard(final_off_field_history_30m , ~any(.x$Compound == "GLYPHOSATE"))
+  final_off_field_history_60m <-purrr::discard(final_off_field_history_90m , ~any(.x$Compound == "GLYPHOSATE"))
+  final_off_field_history_90m <-purrr::discard(final_off_field_history_90m , ~any(.x$Compound == "GLYPHOSATE"))
   
     #takes approximately 30 minutes to run
     system.time(dailymediasets_by_compound<-mapply(rasterize_by_day, final_on_field_history, final_off_field_history_30m,final_off_field_history_60m,final_off_field_history_90m, SIMPLIFY = FALSE))
@@ -487,7 +496,7 @@ for(sim in 1:length(final_on_field_history_list)){
 
 
       for(n in 1:length(dailymediasets_by_compound_fin)){
-        write.csv(dailymediasets_by_compound_fin[[n]], paste0(root_data_out,'/all_forage/media_tables/',names(dailymediasets_by_compound_fin[n]),sim, '.csv')  , row.names=F)
+        write.csv(dailymediasets_by_compound_fin[[n]], paste0(root_data_out,'/all_forage/fixed_media_tables/1-250',names(dailymediasets_by_compound_fin[n]),sim, '.csv')  , row.names=F)
         print(paste0("simulation ", names(dailymediasets_by_compound_fin[n])," ", sim," is done"))
         
       }
