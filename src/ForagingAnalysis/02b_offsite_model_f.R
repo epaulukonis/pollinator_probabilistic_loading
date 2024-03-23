@@ -565,7 +565,7 @@ for(compound_and_crop in 1:length(foliar_soil_datasets)){
   
 }
 
-test<-daily_conc_off_field[[1]]
+#test<-daily_conc_off_field[[1]]
 
 #first put OG names 
 names(daily_conc_off_field)<-names(foliar_soil_datasets)
@@ -770,7 +770,7 @@ off_field_residue_list<-lapply(off_field_residue_list,set_names_in_list)
 
 off_field_residue_list<-off_field_residue_list[1:16]
 
-test<-off_field_residue_list[[1]]
+#test<-off_field_residue_list[[1]]
 
 # combine data -----
 #simple function to arrange data
