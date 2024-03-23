@@ -1,8 +1,9 @@
 ### Foraging Landscape
 
-### 06 Estimating probability of survival
+### 06 Estimating exposure doses
 
 print("stepping into 06: estimating probability of survival")
+library(readr)
 
 
 #get k values for flower contact
@@ -24,6 +25,7 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
   scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables'), list.files(path=paste0(root_data_out,'/all_forage/media_tables'), pattern='.csv', all.files=TRUE, full.names=FALSE))
   scenarios<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
   
+ ##Two ways to split, if needed:
 
  #split by compound
  bifenthrin<- scenarios[grep("BIFENTHRIN", names(scenarios))]  
@@ -36,7 +38,25 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
  list_of_compound_scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
  
  
+ #split by scenario number
+ scenario_numbers<-parse_number(names(scenarios))
+ names(scenarios)<-scenario_numbers
+ scenarios<-map2(scenarios, names(scenarios), ~ mutate(.x, new_col = .y)) #add new column for scenario number
+ scenario_numbers<-as.character(1:9)
+       list_by_gen_number<-list()
+     for(number in 1:length(scenario_numbers)){
+       value<-scenario_numbers[[number]]
+       output<-scenarios[grep(value, names(scenarios))]
+       get_gen_scenario<-do.call(rbind,output)
+       list_by_gen_number[[number]]<-get_gen_scenario
+     }
+       
+      output<-do.call(rbind,list_by_gen_number)
+      
+ list_of_individual_scenarios<-split(output, output$new_col)
+     
  
+
  #### first let's do some quality checking 
  QA<-function(compound){
   
@@ -46,13 +66,14 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
  comp<-comp %>% group_by(index, Media) %>%
    mutate(max = max(Conc)) %>%
    mutate(min = min(Conc)) 
+   mutate(median = median(Conc)) 
    
  comp<-comp[comp$Day == 1,]
  comp<- comp[order(comp$Media),,drop=FALSE]
  comp
  }
 
- qa_test<-lapply( list_of_compound_scenarios,QA) #look at the mins/maxs; are they very high? they should not be much higher than those reported for single days in Ch. 2
+ qa_test<-lapply(list_of_compound_scenarios,QA) #look at the median/maxs; are they very high? they should not be much higher than those reported for single days in Ch. 2. if so, something is iffy. 
  
  
 

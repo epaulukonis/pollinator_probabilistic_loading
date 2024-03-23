@@ -1,6 +1,6 @@
 ### Foraging Landscape
 
-### 04 rasterize the field scenario outputs
+### 04 rasterize the field scenario outputs and get weighted mean based on foraging quality
 
 print("stepping into 04: processing and rasterizing data")
 
@@ -203,7 +203,6 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                    # rasterize by day and stack, then read to an additional list
                   daily_scenario<-list()
                     for(day in 1:365){
-                      day<-207
                       dateon<-ondf[ondf$Day ==day,]
 
                       offdf30<-buf30[buf30$Day ==day,]
@@ -496,7 +495,7 @@ for(sim in 1:length(final_on_field_history_list)){
 
 
       for(n in 1:length(dailymediasets_by_compound_fin)){
-        write.csv(dailymediasets_by_compound_fin[[n]], paste0(root_data_out,'/all_forage/fixed_media_tables/1-250',names(dailymediasets_by_compound_fin[n]),sim, '.csv')  , row.names=F)
+        write.csv(dailymediasets_by_compound_fin[[n]], paste0(root_data_out,'/all_forage/fixed_media_tables/1-250/',names(dailymediasets_by_compound_fin[n]),sim, '.csv')  , row.names=F)
         print(paste0("simulation ", names(dailymediasets_by_compound_fin[n])," ", sim," is done"))
         
       }
