@@ -7,7 +7,7 @@
 
 #scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/only_active_appssampled_fields_1999_apps.shp") original
 #scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/1-250/sampledfields_2014_1.shp")
-scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/1-250/sampledfields_2014_251.shp")
+scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/251-500/sampledfields_2014_251.shp")
 
 print("stepping into 01: formatting spatial date")
 
