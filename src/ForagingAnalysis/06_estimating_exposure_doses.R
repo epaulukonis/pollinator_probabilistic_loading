@@ -21,8 +21,8 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
 
 #### Calculate daily exposure doses based on a separate system for contact and oral; doses are assumed to be additive under worst case scenarios
 
-  print(list.files(path=paste0(root_data_out,'/all_forage/media_tables'), pattern='.csv', all.files=TRUE, full.names=FALSE))
-  scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables'), list.files(path=paste0(root_data_out,'/all_forage/media_tables'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  print(list.files(path=paste0(root_data_out,'/all_forage/media_tables/1-250'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables/1-250'), list.files(path=paste0(root_data_out,'/all_forage/media_tables/1-250'), pattern='.csv', all.files=TRUE, full.names=FALSE))
   scenarios<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
   
  ##Two ways to split, if needed:
@@ -37,27 +37,30 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
  
  list_of_compound_scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
  
+ visual<-clothianidin[[1]]
+ 
  
  #split by scenario number
- scenario_numbers<-parse_number(names(scenarios))
- names(scenarios)<-scenario_numbers
- scenarios<-map2(scenarios, names(scenarios), ~ mutate(.x, new_col = .y)) #add new column for scenario number
- scenario_numbers<-as.character(1:9)
-       list_by_gen_number<-list()
-     for(number in 1:length(scenario_numbers)){
-       value<-scenario_numbers[[number]]
-       output<-scenarios[grep(value, names(scenarios))]
-       get_gen_scenario<-do.call(rbind,output)
-       list_by_gen_number[[number]]<-get_gen_scenario
-     }
-       
-      output<-do.call(rbind,list_by_gen_number)
-      
- list_of_individual_scenarios<-split(output, output$new_col)
+ # scenario_numbers<-parse_number(names(scenarios))
+ # names(scenarios)<-scenario_numbers
+ # scenarios<-map2(scenarios, names(scenarios), ~ mutate(.x, new_col = .y)) #add new column for scenario number
+ # scenario_numbers<-as.character(1:9)
+ #       list_by_gen_number<-list()
+ #     for(number in 1:length(scenario_numbers)){
+ #       value<-scenario_numbers[[number]]
+ #       output<-scenarios[grep(value, names(scenarios))]
+ #       get_gen_scenario<-do.call(rbind,output)
+ #       list_by_gen_number[[number]]<-get_gen_scenario
+ #     }
+ #       
+ #      output<-do.call(rbind,list_by_gen_number)
+ #      
+ # list_of_individual_scenarios<-split(output, output$new_col)
      
  
 
  #### first let's do some quality checking 
+ options(scipen = 999)
  QA<-function(compound){
   
  compound<- Map(cbind, compound, index = seq_along(compound))
@@ -65,7 +68,7 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
  comp<-as.data.frame(do.call(rbind, compound))
  comp<-comp %>% group_by(index, Media) %>%
    mutate(max = max(Conc)) %>%
-   mutate(min = min(Conc)) 
+   mutate(min = min(Conc)) %>%
    mutate(median = median(Conc)) 
    
  comp<-comp[comp$Day == 1,]
@@ -73,8 +76,7 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
  comp
  }
 
- qa_test<-lapply(list_of_compound_scenarios,QA) #look at the median/maxs; are they very high? they should not be much higher than those reported for single days in Ch. 2. if so, something is iffy. 
- 
+ qa_test<-lapply(list_of_compound_scenarios,QA) #look at the median/maxs; are they very high? they should not be much higher than those reported for single days in Ch. 2. If so, something is iffy. 
  
 
 

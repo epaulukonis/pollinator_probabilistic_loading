@@ -938,6 +938,9 @@ on_field_residue_list<-lapply(on_field_residue_list,set_names_in_list)
 # imidafol<-on_field_residue_list[[5]]
 
 
+
+
+
 ######## Plots ###########
 #### Daily outputs by application type----
 
