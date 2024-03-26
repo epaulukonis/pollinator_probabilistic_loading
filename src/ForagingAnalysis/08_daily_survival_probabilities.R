@@ -20,6 +20,7 @@ library(ordinal)
 library(EnvStats)
 library(ExtDist)
 library(ggpmisc) 
+library(stats)
 grab_quantiles <- seq(0.001, 0.999, 0.001) #what's the associated mortality %?
 # times 3 for Haber's rule (n=1) assuming derived relationships are for 72 hours and we want 24
 
@@ -36,7 +37,7 @@ grab_quantiles <- seq(0.001, 0.999, 0.001) #what's the associated mortality %?
 
 #### Oral ----
 # generate daily survival
-##### oral
+
 # bifenthrin gumbel -0.6375, 1.1569, log10
 bifenthrin_tox_quantileso <- ((10^(qgumbel(grab_quantiles, -0.6375, 1.1569)))*3)/1000
 # carbaryl gumbel 0.9888, 0.9538, log10
@@ -75,44 +76,60 @@ ggplot(dr, aes(x = (Dose), y = Mortality)) +
 
 
 
-### implement beepop+ way 
+#we want to extract the slope from the line, and use that to center our LD50
 
-seq_data <- seq(0.00005, 0.05, 0.0001) #what's the associated mortality %?
+
 
 #imidacloprid
 imidaslope<-as.data.frame(cbind(grab_quantiles,imidacloprid_tox_quantileso))
 colnames(imidaslope)<-c("y","x")
 riserun <-  diff(imidaslope$y)/diff(imidaslope$x)
-slope<-max(riserun)
+slope<-log10(max(riserun))
 # [1] 487.7172
 which.max(riserun)
 # [1] 168
 
 imidaslope[531,] #look right?
 
-eecs<-imidacloprid_tox_quantileso
 
+#eec <- 0.006
 
-eec<-0.0006
-ld50<-0.006
-slope<-2
-z<-(slope)*(log(eec)-log(ld50)) #
+slope <- 4.5
+eec<-seq(from=0.00001, to=0.01, by=0.00001)
+ld50 <- 0.006
+# looks like this gives kernel density and not cumulative
+# density and needs to be converted
+z<-(slope)*(log(eec)-log(ld50))
 phat<-(1/(2*pi)^0.5)*exp(-(z^2)/2)
-print(phat)
+phat
+
+ggplot(data = data.frame(x = eec, y = phat), aes(x = x, y = y)) +
+  geom_line()
 
 
 
-test_df<-as.data.frame(cbind(eecs,phat,ldx))
+min(phat)
+max(phat)
+
+# combine concentration and added mortality
+df <- data.frame(x = eec, y = phat)
+
+# ld50 point
+ld50_point <- data.frame(x = 0.006, y = 0.5)
+
+# plot the cdf using ggplot2
+ggplot(df, aes(x)) + 
+  stat_ecdf(geom = "step") +
+  scale_x_log10() +
+  geom_point(data = ld50_point, aes(x = x, y = y), color = "red", size = 3)
 
 
 
-p1 <- ggplot(data = test_df,
-             aes(x = (eecs), y = 1-phat)) +
-  geom_point() +
-  geom_smooth(method = "glm",
-              method.args = list(family = binomial(link = "probit")),
-              colour = "#FF0000", se = TRUE)
-p1
+
+
+
+
+
 
 
 

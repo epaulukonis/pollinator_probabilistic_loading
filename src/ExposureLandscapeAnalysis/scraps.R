@@ -945,3 +945,267 @@ just_area_off<-off_field[off_field$MediaSub=="Soil",]
 
 paste0("total area of fields: ",sum(st_area(just_area_on))/st_area(hab_s)*100) 
 paste0("total area of fields: ",sum(st_area(just_area_off))/st_area(hab_s)*100 - sum(st_area(just_area_on))/st_area(hab_s)*100) 
+
+
+
+
+
+
+###OLDER PLOTS
+#### Comparison of application type residues ----
+# read in residues from DER
+res<-read.csv(paste0(pest_dir,"/Residues/DER_ResidueData.csv"))
+res<-na.omit(res)
+residues<-res
+residues$Residues_DER_ugg<-((as.numeric(residues$Mean_ng_g_normalized_1.3mg_seed)*as.numeric(residues$Original_treatment_mg_seed))/residues$Normalized)/1000
+residues$Chemical<-toupper(residues$Chemical)
+residues$Plant<-toupper(residues$Plant)
+residues$Plant<-ifelse(residues$Plant == "SOY","SOYBEANS",residues$Plant)
+residues<-residues[,c(4,11,12,14)]
+colnames(residues)<-c("Compound","Commodity","MediaSub","Residues_ugg")
+residues$ApplicationType<-"Seed"
+residues$Source<-"Reported"
+residues$Location<-"On-field"
+
+
+# read in residues from lit review
+litres<-read.csv(paste0(pest_dir,"/Residues/Lit_ResidueData_Ethan.csv"))
+
+litres<-litres[,c(1:5)]
+litres<-na.omit(litres)
+litres$Commodity<-"Other"
+litres$Source<-"Reported"
+
+litres<-litres[,c(1,6,2,3,5,7,4)]
+colnames(litres)<-colnames(residues)
+litres$Compound<-toupper(litres$Compound)
+
+residues<-rbind(residues,litres)
+residues<-residues[!residues$Commodity =="COTTON",]
+
+# get the estimated data
+combine_all<-na.omit(combine_all)
+combine_all$Source<-"Estimated"
+
+names(combine_all)
+names(residues)
+
+combine_all<-combine_all[,c(2:4,6:9)]
+colnames(combine_all)[4]<-"Residues_ugg"
+
+residues<-residues[,c(1:2,7,4:5,3,6)]
+#residues<-residues[residues$Compound == "BIFENTHRIN" |residues$Compound == "IMIDACLOPRID",  ]
+names(residues)[3]<-"ID"
+
+#combine all together
+combine_all<- rbind(combine_all,residues)
+
+names(combine_all)
+names(residues)
+
+
+forcomparisons<-combine_all[combine_all$MediaSub == "Pollen" | combine_all$MediaSub == "Nectar"| combine_all$MediaSub == "Soil", ]
+forcomparisons<-na.omit(forcomparisons)
+compare_outputs<-split(forcomparisons, list(forcomparisons$Compound), drop=T)
+
+
+
+library(RColorBrewer)
+myColors <- brewer.pal(3,"Dark2")
+names(myColors) <- unique(combine_all$ApplicationType)
+colScale <- scale_colour_manual(name = "ApplicationType",values = myColors)
+fillScale <- scale_fill_manual(name = "ApplicationType",values = myColors)
+
+x<-compare_outputs[[7]]
+
+create_plot_of_methodcompare<-function(x){
+  df<-x
+  
+  df$Value<-(as.numeric(df$Residues_ugg))
+  df$IDf= factor(df$ID, levels=c('On-field','Off-field'))
+  
+  
+  df<-df[!df$Value < 3e-5,]
+  
+  out<-ggplot(df, aes(ApplicationType, log(Value),color=ApplicationType, fill=ApplicationType)) +
+    geom_boxplot()+
+    colScale+
+    fillScale+
+    #scale_y_continuous(breaks=ticks, labels=format(logticks,3))+
+    # facet_grid(rows = vars(MediaSub), cols = vars(IDf), scales="free_y")+
+    
+    ggh4x::facet_nested(MediaSub ~ IDf + Source, scales="free_y")+
+    
+    ylab("Log Residues [ug/g]")+
+    xlab("Application Type")+
+    theme_bw()+
+    theme(legend.position="none", axis.text.y = element_text(size=14,face="bold"), axis.text.x = element_text(size=14,face="bold"),  axis.title=element_text(size=14,face="bold"))+
+    ggtitle(paste0(x$Compound))
+  out
+  
+}
+
+
+out_plots<-lapply(compare_outputs, create_plot_of_methodcompare)
+
+compare_app_methods<-plot_grid(
+  out_plots[[1]],
+  out_plots[[2]],
+  hjust=0, vjust=0, align= "h",  label_x = 0.01, ncol= 2,rel_widths = c(3,3))
+compare_app_methods
+
+
+#### Daily Time-step organized by on/off-field ----
+combine_all$ID<-factor(combine_all$ID,levels=c("On-field","Off-field"))
+
+#extract air/dust
+air_df<-combine_all[combine_all$MediaSub == 'Air', ]
+#extract air/dust
+dust_df<-combine_all[combine_all$MediaSub == 'Dust', ]
+#extract soil
+soil_df<-combine_all[combine_all$MediaSub == 'Soil', ]
+#extract pollen
+pollen_df<-combine_all[combine_all$MediaSub == 'Pollen', ]
+#extract nectar
+nectar_df<-combine_all[combine_all$MediaSub == 'Nectar', ]
+
+#Create a custom color scale
+library(RColorBrewer)
+myColors <- brewer.pal(7,"Dark2")
+names(myColors) <- unique(combine_all$Compound)
+colScale <- scale_colour_manual(name = "Compound",values = myColors)
+
+
+# airn<- ggplot(air_df, aes(day, Value, group=Compound, color=Compound)) +
+#   geom_point(aes(shape=ApplicationType), size=3)+
+#   #scale_shape_manual(values=c(16,4,8))+
+#   colScale+
+#   facet_wrap(~Commodity,scales = "free", nrow=1)+
+#   ylab(expression(paste("Residues [ug/", m^{2},"]")))+
+#   xlab("Days Post-Application")+
+#  # geom_text(x=125, y=4000, label="Air", color="black", size=6)+
+#   theme_bw() +
+# #  theme(plot.margin = unit(c(1,1,1,1), "cm"))+
+#   theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"),  axis.title=element_text(size=14,face="bold"))
+# 
+# airn
+# 
+# 
+# dustn<- ggplot(dust_df, aes(day, Value, group=Compound, color=Compound)) +
+#   geom_point(aes(shape=ApplicationType), size=3)+
+#   scale_shape_manual(values=c(16,4,8))+
+#   facet_wrap(~Commodity,scales = "free", nrow=1)+
+#   ylab(expression(paste("Residues [ug/", m^{2},"]")))+
+#   xlab("Days Post-Application")+
+# # geom_text(x=125, y=5.5, label="Dust", color="black", size=6)+
+#   theme_bw() +
+#  # theme(plot.margin = unit(c(1,1,1,1), "cm"))+
+#   theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"),  axis.title=element_text(size=14,face="bold"))
+# 
+# dustn
+
+
+soiln<- ggplot(soil_df, aes(day, (Value), color=Compound)) +
+  geom_line(aes(linetype = ApplicationType), size=1)+
+  colScale+
+  
+  scale_x_continuous(limits=c(0, 150), breaks=seq(0,150, by=20))+
+  facet_wrap(~Commodity + ID,scales = "free", nrow=2)+
+  #facet_grid(rows = vars(Commodity), cols = vars(ID), scales="free")+
+  ylab("Residues [ug/g]")+
+  xlab("Days Post-Application")+
+  theme_bw()+
+  theme()+
+  theme(legend.position="none",axis.text.y = element_text(size=12,face="bold"), 
+        axis.text.x = element_text(size=12,face="bold"), 
+        axis.title=element_text(size=14,face="bold"),
+        plot.background = element_rect(color = "black"))
+soiln
+
+
+pollenn<- ggplot(pollen_df, aes(day, Value, color=Compound)) +
+  geom_line(aes(linetype = ApplicationType), size=1)+
+  colScale+
+  facet_wrap(~Commodity + ID,scales = "free", nrow=2)+
+  #facet_grid(rows = vars(Commodity), cols = vars(ID), scales="free")+
+  ylab("")+
+  xlab("Days After Pollen Emergence")+
+  theme_bw()+
+  theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"), 
+        axis.text.x = element_text(size=12,face="bold"),  
+        axis.title=element_text(size=14,face="bold"),
+        plot.background = element_rect(color = "black"))
+pollenn
+
+c<-seq(67,150, by=10)
+s<-seq(56,140, by=10)
+
+pollenn<-pollenn + facetted_pos_scales(
+  x = list(
+    Commodity == "CORN" & ID == "On-field" ~ scale_x_continuous(limits=c(67, 150), breaks=c,labels =c("0","10","20","30","40","50","60","70","80")),
+    Commodity == "SOYBEANS" & ID == "On-field"~ scale_x_continuous(limits=c(56, 140),breaks=s,labels =c("0","10","20","30","40","50","60","70","80"))
+  )
+)
+
+
+nectarn<- ggplot(nectar_df, aes(day, Value, color=Compound)) +
+  geom_line(aes(linetype = ApplicationType), size=1)+
+  colScale+
+  facet_wrap(~Commodity + ID,scales = "free", nrow=3)+
+  #facet_grid(rows = vars(Commodity), cols = vars(ID), scales="free_y")+
+  ylab("")+
+  xlab("Days After Nectar Emergence")+
+  theme_bw()+
+  theme(legend.position="none", axis.text.y = element_text(size=12,face="bold"),
+        axis.text.x = element_text(size=12,face="bold"),  
+        axis.title=element_text(size=14,face="bold"),
+        plot.background = element_rect(color = "black"))
+nectarn
+
+c<-seq(67,150, by=10)
+s<-seq(56,140, by=10)
+
+nectarn<-nectarn + facetted_pos_scales(
+  x = list(
+    
+    Commodity == "CORN" & ID == "On-field" ~ scale_x_continuous(limits=c(67, 150), breaks=c,labels =c("0","10","20","30","40","50","60","70","80")),
+    Commodity == "SOYBEANS" & ID == "On-field"~ scale_x_continuous(limits=c(56, 140),breaks=s,labels =c("0","10","20","30","40","50","60","70","80"))
+  )
+)
+
+
+compare_between_media<-plot_grid(
+  soiln,
+  pollenn,
+  nectarn, 
+  labels = c('Soil','Pollen','Nectar'),
+  
+  hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow = 1,rel_widths = c(4,4,3))
+compare_between_media
+
+
+all_plot_legend <- ggplot(combine_all, aes(day, Value, color=Compound)) +
+  geom_line(aes(linetype=ApplicationType), size=1)+
+  colScale+
+  facet_wrap(~Commodity,scales = "free", nrow=1)+
+  ylab("Residues")+
+  xlab("Day")+ 
+  theme_bw()+
+  theme( legend.key.size = unit(1, 'cm'), #change legend key size
+         legend.key.height = unit(1, 'cm'), #change legend key height
+         legend.key.width = unit(1, 'cm'), #change legend key width
+         legend.title = element_text(size=16), #change legend title font size
+         legend.text = element_text(size=14))
+
+
+
+legend<-get_only_legend(all_plot_legend)
+
+compare_between_media<-plot_grid(compare_between_media, legend,ncol = 2, rel_widths = c(7,1))
+compare_between_media
+
+
+
+
+
+
