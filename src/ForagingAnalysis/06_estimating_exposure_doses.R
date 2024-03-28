@@ -18,6 +18,13 @@ endp$Compound<-toupper(endp$Compound)
 endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, all.y=F)
 
 
+weather <-read.csv(paste0(bombus_dir, "/foraging/weather.csv"))
+weather<-weather[weather$Year == 2014,]
+colnames(weather)[4:8]<-c("Precip","Evap","TempC","Windcmsec",'Solar')
+weather$Day<-1:365
+
+
+
 
 #### Calculate daily exposure doses based on a separate system for contact and oral; doses are assumed to be additive under worst case scenarios
 
@@ -37,7 +44,7 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
  
  list_of_compound_scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
  
- visual<-clothianidin[[1]]
+ #visual<-clothianidin[[1]]
  
  
  #split by scenario number
@@ -60,7 +67,7 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
  
 
  #### first let's do some quality checking 
- options(scipen = 999)
+# options(scipen = 999)
  QA<-function(compound){
   
  compound<- Map(cbind, compound, index = seq_along(compound))
@@ -80,6 +87,8 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
  
 
 
+ 
+ options(scipen = 0)
   get_exposure_dose<-function(x){
     
   scenarios<-x
@@ -89,7 +98,7 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
     scenario<-scenarios[[n]]
     scenarion<-merge(x = scenario, y = endp[ , c("Compound",  "Contact_LD50_ug_bee", "Oral_LD50_ug_bee","k_values")], by = "Compound", all.x=TRUE)
     
-    #add in a new media for 'flower' for contact
+   # add in a new media for 'flower' for contact
    # flower<-scenarion[scenarion$Media =="Dust"|scenarion$Media == "Air",]
    # flower$Media<-"Flower"
    # scenarion<-rbind(scenarion, flower)
@@ -150,9 +159,12 @@ endp<-merge(endp, apprates[,c("Compound", "k_values")], by="Compound", all.x=T, 
         oralf$type<-"Oral"
 
       
-  daily_exposures<-rbind(contactf,oralf)
+  daily_exposures<-as.data.frame(rbind(contactf,oralf))
+
+  daily_exposures<-merge(x = daily_exposures, y = weather[ , c("Day", "Precip","Evap","TempC","Windcmsec",'Solar')], by = "Day", all.x=TRUE)
   
-  daily_exposures<-daily_exposures[daily_exposures$Day <283,] #remove values from end of season 
+  
+  #daily_exposures<-daily_exposures[daily_exposures$Day <283,] #remove values from end of season 
   
   daily_exposure_list[[n]]<-daily_exposures
     

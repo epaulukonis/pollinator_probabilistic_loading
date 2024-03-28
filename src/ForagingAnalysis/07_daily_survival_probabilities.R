@@ -61,8 +61,24 @@ colnames(dr)[1]<-"Mortality"
 dr$Compound<- str_to_title(sub("\\_.*", "", dr$Compound))
 
 dr<-merge(x = dr, y = tox[ , c("Compound",  "Contact_LD50_ug_bee", "Oral_LD50_ug_bee")], by = "Compound", all.x=TRUE)
+
+
+ec90s<-dr[dr$Mortality == 0.90,]
+ec10s<-dr[dr$Mortality == 0.10,]
+
+slope<-log10(81)/(log10(ec90s$Dose/ec10s$Dose)) #calculates slope from the hill equation 
+slopedf<-as.data.frame(cbind(ec90s$Compound,slope))
+names(slopedf)<-c("Compound","Slope")
+slopedf$Slope<-as.numeric(slopedf$Slope)
+
+
+dr<-merge(dr,slopedf,by="Compound")
+
+dr <- dr %>% group_by(Compound) %>% mutate(phat = 1/(1+(Dose/Oral_LD50_ug_bee)^Slope)) #again using hill equation
+
+
 #look at DR curves
-ggplot(dr, aes(x = (Dose), y = Mortality)) + 
+ggplot(dr, aes(x = (Dose), y = 1-phat)) + 
   # geom_line(aes(xmax=max,xmin=min, y=0.5), alpha = 0.7, col = "darkred")+
   geom_line(aes(color = Compound), size=1.2) +
   geom_point(aes(x=Oral_LD50_ug_bee, y=0.5), shape=19)+
@@ -76,68 +92,11 @@ ggplot(dr, aes(x = (Dose), y = Mortality)) +
 
 
 
-#we want to extract the slope from the line, and use that to center our LD50
-
-
-
-#imidacloprid
-imidaslope<-as.data.frame(cbind(grab_quantiles,imidacloprid_tox_quantileso))
-colnames(imidaslope)<-c("y","x")
-riserun <-  diff(imidaslope$y)/diff(imidaslope$x)
-slope<-log10(max(riserun))
-# [1] 487.7172
-which.max(riserun)
-# [1] 168
-
-imidaslope[531,] #look right?
-
-
-#eec <- 0.006
-
-slope <- 4.5
-eec<-seq(from=0.00001, to=0.01, by=0.00001)
-ld50 <- 0.006
-# looks like this gives kernel density and not cumulative
-# density and needs to be converted
-z<-(slope)*(log(eec)-log(ld50))
-phat<-(1/(2*pi)^0.5)*exp(-(z^2)/2)
-phat
-
-ggplot(data = data.frame(x = eec, y = phat), aes(x = x, y = y)) +
-  geom_line()
-
-
-
-min(phat)
-max(phat)
-
-# combine concentration and added mortality
-df <- data.frame(x = eec, y = phat)
-
-# ld50 point
-ld50_point <- data.frame(x = 0.006, y = 0.5)
-
-# plot the cdf using ggplot2
-ggplot(df, aes(x)) + 
-  stat_ecdf(geom = "step") +
-  scale_x_log10() +
-  geom_point(data = ld50_point, aes(x = x, y = y), color = "red", size = 3)
-
-
-
-
-
-
-
-
-
-
-
 
 function(x){
   ind_compound<-x
+  ind_compound<-exp_dose_output[[1]]
  
-  ind_compound<-exp_dose_output[[2]]
   ind_compound<- Map(cbind, ind_compound, index = seq_along(ind_compound))
   ind_compound<-as.data.frame(do.call(rbind, ind_compound))
   ind_compound$Compound<-str_to_title(ind_compound$Compound)
@@ -148,29 +107,44 @@ function(x){
   
   ### oral
   oral<-ind_compound[ind_compound$type == "Oral",]
-  colnames(oral)[6]<-"Dosen"
-
-
-  test = curve %>% left_join(oral , by='Compound') %>%
-    mutate(dif = abs(Dosen - Dose)) %>%
-    group_by(Day) %>% filter(dif == min(dif))
-
+ # oral$Dose_original<-oral$Dose #if needed, you can compare the OG with these
+ 
   
-  daily_prob<-test[order(test$index,test$Day),,drop=FALSE]
+ # oral<-oral[oral$index == 1 | oral$index ==2,]
+  
+  #use datatabl;e to get the rolling nearest value
+  require( data.table )
+  sim <- data.table(oral)
+  dr <- data.table(curve)
+  setkey(sim, Dose)
+  setkey(dr, Dose)
+  
+  daily_prob<-dr[sim , on="Dose", roll = "nearest" ][order(index,Day)] #this gives us, for each day and index, the closest match to the associated mortality on the DR
+  
+  
+  #order by index and day
+  daily_prob<- daily_prob[order( daily_prob$index, daily_prob$Day),,drop=FALSE]
+
   daily_prob$Survival<-1-daily_prob$Mortality
   daily_prob$Survival <- ifelse(daily_prob$Survival >= 0.999, 1,daily_prob$Survival)
   
+  #ifelse for weather
   
-daily_prob_plot<-  ggplot(daily_prob, aes(x = (Day), y = Survival)) + 
-    geom_line(aes(color = index), size=1.2) +
+
+  
+  
+daily_prob_plot<-  ggplot(daily_prob, aes(x = (Day), y = Survival, group=index)) + 
+    geom_line(size=1, alpha=0.2) +
     geom_vline(xintercept = 100,col="darkgreen")+
     geom_vline(xintercept = 121,col="darkblue")+
     geom_vline(xintercept = 151,col="darkred")+
-    
-    geom_segment(aes(x=90,xend=110,y=0.60,yend=0.60), alpha = 0.5)+
-    geom_segment(aes(x=111,xend=131,y=0.60,yend=0.60), alpha = 0.5)+
-    geom_segment(aes(x=141,xend=161,y=0.60,yend=0.60), alpha = 0.5)+
   
+   scale_y_continuous(limits = c(0, 1))+
+    
+    # geom_segment(aes(x=90,xend=110,y=0.60,yend=0.60), alpha = 0.5)+
+    # geom_segment(aes(x=111,xend=131,y=0.60,yend=0.60), alpha = 0.5)+
+    # geom_segment(aes(x=141,xend=161,y=0.60,yend=0.60), alpha = 0.5)+
+    # 
   
     geom_text(aes(x=103, label="Emergence", y=0.25), colour="darkgreen", angle=90, text=element_text(size=11)) +
     geom_text(aes(x=124, label="Nest Initiation", y=0.25), colour="darkblue", angle=90, text=element_text(size=11))+
@@ -186,7 +160,8 @@ daily_prob_plot
 
 cumulative_survival<- apply(daily_prob[1:365,14], 2, prod) #but need to actually cut off at end of foraging!
   
-  }
+}
+
 ### Contact ----
 # generate daily survival
 # bifenthrin weibull
@@ -202,34 +177,51 @@ imidacloprid_tox_quantilesd <- ((10^qnorm(grab_quantiles, -2.0408, 1.1062))*3)/1
 # thiamethoxam logistic -0.0566, 0.3559, log10
 thiamethoxam_tox_quantilesd <- ((10^qtri(grab_quantiles, min = -3.4085, max = -0.3356, mode = (-3.4085 + -0.3356)/2))*3)/1000
 
-tox_quantilesd <- cbind(grab_quantiles, bifenthrin_tox_quantilesd, carbaryl_tox_quantilesd, chlorpyrifos_tox_quantilesd,
-                        clothianidin_tox_quantilesd, imidacloprid_tox_quantilesd, thiamethoxam_tox_quantilesd)
+tox_quantileso <- cbind(grab_quantiles, bifenthrin_tox_quantileso, carbaryl_tox_quantileso, chlorpyrifos_tox_quantileso,
+                        clothianidin_tox_quantileso, imidacloprid_tox_quantileso, thiamethoxam_tox_quantileso)
 
-tox_quantilesd<-as.data.frame(tox_quantilesd)
+tox_quantileso<-as.data.frame(tox_quantileso)
 
-dr<-gather(tox_quantilesd, "Compound","Dose", 2:7)
+dr<-gather(tox_quantileso, "Compound","Dose", 2:7)
 colnames(dr)[1]<-"Mortality"
 dr$Compound<- str_to_title(sub("\\_.*", "", dr$Compound))
 
 dr<-merge(x = dr, y = tox[ , c("Compound",  "Contact_LD50_ug_bee", "Oral_LD50_ug_bee")], by = "Compound", all.x=TRUE)
 
-ggplot(dr, aes(x = (Dose), y = Mortality)) + 
+
+ec90s<-dr[dr$Mortality == 0.90,]
+ec10s<-dr[dr$Mortality == 0.10,]
+
+slope<-log10(81)/(log10(ec90s$Dose/ec10s$Dose)) #calculates slope from the hill equation 
+slopedf<-as.data.frame(cbind(ec90s$Compound,slope))
+names(slopedf)<-c("Compound","Slope")
+slopedf$Slope<-as.numeric(slopedf$Slope)
+
+
+dr<-merge(dr,slopedf,by="Compound")
+
+dr <- dr %>% group_by(Compound) %>% mutate(phat = 1/(1+(Dose/Contact_LD50_ug_bee)^Slope)) #again using hill equation
+
+
+#look at DR curves
+ggplot(dr, aes(x = (Dose), y = 1-phat)) + 
   # geom_line(aes(xmax=max,xmin=min, y=0.5), alpha = 0.7, col = "darkred")+
   geom_line(aes(color = Compound), size=1.2) +
-  geom_point(aes(x=Contact_LD50_ug_bee, y=0.5), shape=19)+
+  geom_point(aes(x=Oral_LD50_ug_bee, y=0.5), shape=19)+
   facet_wrap(~Compound,scales = "free_x")+
   xlab("Dose (ug/bee)") +
   ylab("Mortality") +
-  # scale_x_continuous(trans=scales::log_trans(),
-  #                    labels = scales::format_format(digits=3))+
+  scale_x_continuous(trans=scales::log_trans(),
+                     labels = scales::format_format(digits=3))+
   theme_bw() +
   theme(legend.position = "none")
 
 
+
 function(x){
   ind_compound<-x
-  
   ind_compound<-exp_dose_output[[2]]
+  
   ind_compound<- Map(cbind, ind_compound, index = seq_along(ind_compound))
   ind_compound<-as.data.frame(do.call(rbind, ind_compound))
   ind_compound$Compound<-str_to_title(ind_compound$Compound)
