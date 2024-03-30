@@ -88,7 +88,7 @@ scenario_clip_off30<-scenario_clip_off30[,c(1:13,ncol(scenario_clip_off30),14:(n
 scenario_clip_off60<-scenario_clip_off60[,c(1:13,ncol(scenario_clip_off60),14:(ncol(scenario_clip_off60)-1))]
 scenario_clip_off90<-scenario_clip_off90[,c(1:13,ncol(scenario_clip_off90),14:(ncol(scenario_clip_off90)-1))]
 
-print(paste0("this is simulation ", sim))
+print(paste0("this is simulation ", sim+501))
 print(paste0("this is compound ",unique(scenario_clip_on$Compound) ))
 
 
@@ -495,8 +495,8 @@ for(sim in 1:length(final_on_field_history_list)){
 
 
       for(n in 1:length(dailymediasets_by_compound_fin)){
-        write.csv(dailymediasets_by_compound_fin[[n]], paste0(root_data_out,'/all_forage/fixed_media_tables/251-500/',names(dailymediasets_by_compound_fin[n]),sim+251, '.csv')  , row.names=F)
-        print(paste0("simulation ", names(dailymediasets_by_compound_fin[n])," ", sim+251," is done"))
+        write.csv(dailymediasets_by_compound_fin[[n]], paste0(root_data_out,'/all_forage/fixed_media_tables/501-750/',names(dailymediasets_by_compound_fin[n]),sim+501, '.csv')  , row.names=F)
+        print(paste0("simulation ", names(dailymediasets_by_compound_fin[n])," ", sim+501," is done"))
         
       }
 
