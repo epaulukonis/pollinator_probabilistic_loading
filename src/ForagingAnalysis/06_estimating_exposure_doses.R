@@ -93,7 +93,7 @@ weather$Day<-1:365
  get_exposure_dose<-function(x){
    
    scenario<-x
-   scenario<-list_of_individual_scenarios[[1]]
+  # scenario<-list_of_individual_scenarios[[1]]
    scenarios<-split(scenario,scenario$Compound)
    
    
