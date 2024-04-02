@@ -119,10 +119,10 @@ drd<-merge(x = drd, y = tox[ , c("Compound",  "Contact_LD50_ug_bee", "Oral_LD50_
 #   theme_bw() +
 #   theme(legend.position = "none")
 # 
-# dro$Type<-"Oral"
-# drd$Type<-"Contact"
-# 
-# dr<-rbind(dro,drd)
+dro$Type<-"Oral"
+drd$Type<-"Contact"
+
+dr<-rbind(dro,drd)
 
 
 
@@ -233,7 +233,8 @@ evaluate_by_scenario<-function(x){
   names(ind_scene)[[8]]<-"Type"
   
 
-  curve_sub<-curve[,c(6,9:10)] 
+  #curve_sub<-curve[,c(6,9:10)] 
+  curve_sub<-curve[,c(2,3,6)] 
   colnames(curve_sub)[2]<-"Survival"
   
   

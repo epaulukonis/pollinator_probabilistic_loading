@@ -25,7 +25,7 @@ if(file.exists(scenario)){
   # scenarios<-setNames(lapply(scenarios, st_read), tools::file_path_sans_ext(basename(scenarios)))
   # scenarios<-scenarios[(mixedsort(as.character(names(scenarios))))]
   # 
-  # scenario_daily_list<-list()
+  scenario_daily_list<-list()
   
   
   for(scene in 1:length(scenarios)){
