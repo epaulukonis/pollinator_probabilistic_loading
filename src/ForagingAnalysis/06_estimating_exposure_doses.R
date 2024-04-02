@@ -35,15 +35,15 @@ weather$Day<-1:365
  ##Two ways to split, if needed:
 
  #split by compound
- # bifenthrin<- scenarios[grep("BIFENTHRIN", names(scenarios))]  
- # clothianidin<- scenarios[grep("CLOTHIANIDIN", names(scenarios))] 
- # chlorpyrifos<- scenarios[grep("CHLORPYRIFOS", names(scenarios))] 
- # imidacloprid<- scenarios[grep("IMIDACLOPRID", names(scenarios))]
- # carbaryl<- scenarios[grep("CARBARYL", names(scenarios))]
- # thiamethoxam<- scenarios[grep("THIAMETHOXAM", names(scenarios))]
- # 
- # list_of_compound_scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
- # 
+ bifenthrin<- scenarios[grep("BIFENTHRIN", names(scenarios))]
+ clothianidin<- scenarios[grep("CLOTHIANIDIN", names(scenarios))]
+ chlorpyrifos<- scenarios[grep("CHLORPYRIFOS", names(scenarios))]
+ imidacloprid<- scenarios[grep("IMIDACLOPRID", names(scenarios))]
+ carbaryl<- scenarios[grep("CARBARYL", names(scenarios))]
+ thiamethoxam<- scenarios[grep("THIAMETHOXAM", names(scenarios))]
+
+ list_of_compound_scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
+
  #visual<-clothianidin[[1]]
  
  
@@ -85,6 +85,7 @@ weather$Day<-1:365
 
  qa_test<-lapply(list_of_compound_scenarios,QA) #look at the median/maxs; are they very high? they should not be much higher than those reported for single days in Ch. 2. If so, something is iffy. 
  
+
  
 #Calculate doses if by scenario ----
  
@@ -98,7 +99,6 @@ weather$Day<-1:365
    
    daily_exposure_list<-list()
    for(n in 1:length(scenarios)){
-     n<-3
      scenario<-scenarios[[n]]
      scenarion<-merge(x = scenario, y = endp[ , c("Compound",  "Contact_LD50_ug_bee", "Oral_LD50_ug_bee","k_values")], by = "Compound", all.x=TRUE)
      
@@ -115,7 +115,7 @@ weather$Day<-1:365
      
      #daily dose for aerial deposition
      aerial<-contact[contact$Media == "Dust"| contact$Media == "Air",]
-     aerial$exp_dose<- (aerial$Conc/2) *1.6E-4*991 #calculated as the dose experienced from single-day contact with aerial deposition within a hypothetical 'flight tube'
+     aerial$exp_dose<- (aerial$Conc/2) *1.6E-4*(10) #calculated as the dose experienced from single-day contact with aerial deposition within a hypothetical 'flight tube'; assume one flight through cloud
      
      
      # #daily dose for flower contact from deposition
@@ -134,15 +134,15 @@ weather$Day<-1:365
      #  flower$exp_dose<-(flower$Concf * 1e-04 * 6.5)* 90 * exp(-(flower$k_values*flower$Day))#calculated as the dose experienced from contact with deposition on flowers, assuming a visit of 90 repeat events, degrades over time
      #  flower<-subset(flower, select=-c(id,dayn,Concf))
      
-     #daily dose for soil exposures
+     #daily dose for soil exposures; #soil conc in ug/m2 needs to be converted to cm2
      soil<-contact[contact$Media == "Soil",]
-     soil$exp_dose <- (soil$Conc * 1.95 * 2 ) * 6.5 #surface area of bumblebee queen
+     soil$exp_dose <- (soil$Conc/10000 * 1.95 * 2 ) * 6.5 #surface area of bumblebee queen  # we assume that at some point, the foundress makes contact with contaminated soil
      
      contact<-rbind(aerial,soil)
      
      #sum all contact doses from different sources
      contactf<-contact %>% group_by(Day) %>% mutate(Dose = sum(exp_dose))
-     contactf<-contactf[1:365,c(1:3,6:7,10)] #just get overall daily contact exposure
+     contactf<-contactf[,c(1:4,6:7,10)] #just get overall daily contact exposure
      contactf$Type<-"Contact"
      
      ### calculate overall daily probability of survival from contact doses
@@ -154,12 +154,12 @@ weather$Day<-1:365
      #daily dose for oral exposures; let's assume for now that a bombus queen would hypothetically be getting 50% of her resources from contaminated areas
      oral<-oral %>%
        mutate(exp_dose = Conc * case_when(
-         Media == "Pollen" ~ (0.0485*0.50),
-         Media == "Nectar" ~  (0.75658*0.50)
+         Media == "Pollen" ~ (0.0485),
+         Media == "Nectar" ~  (0.75658)
        ))
      
      oralf<-oral %>% group_by(Day) %>% mutate(Dose = sum(exp_dose))
-     oralf<-oralf[1:365,c(1:3,6:7,10)] #just get overall daily oral exposure
+     oralf<-oralf[,c(1:4,6:7,10)] #just get overall daily oral exposure
      oralf$Type<-"Oral"
      
      
@@ -190,7 +190,7 @@ weather$Day<-1:365
 
 #Calculate doses if by compound ----
  options(scipen = 0)
-  get_exposure_dose<-function(x){
+  get_exposure_dose_compound<-function(x){
 
   scenarios<-x
   
@@ -212,7 +212,7 @@ weather$Day<-1:365
        
        #daily dose for aerial deposition
         aerial<-contact[contact$Media == "Dust"| contact$Media == "Air",]
-        aerial$exp_dose<- (aerial$Conc/2) *1.6E-4*991 #calculated as the dose experienced from single-day contact with aerial deposition within a hypothetical 'flight tube'
+        aerial$exp_dose<- (aerial$Conc/2) *1.6E-4*(20) #calculated as the dose experienced from single flight through aerial deposition within a hypothetical 'flight tube'
       
 
         # #daily dose for flower contact from deposition
@@ -233,7 +233,7 @@ weather$Day<-1:365
    
         #daily dose for soil exposures
          soil<-contact[contact$Media == "Soil",]
-         soil$exp_dose <- (soil$Conc * 1.95 * 2 ) * 6.5 #surface area of bumblebee queen
+         soil$exp_dose <- (soil$Conc/10000 * 1.95 * 2 ) * 6.5 #surface area of bumblebee queen
       
       contact<-rbind(aerial,soil)
       
@@ -276,7 +276,7 @@ weather$Day<-1:365
   }
 
   
-  exp_dose_output<-lapply(list_of_compound_scenarios, get_exposure_dose)  
+  exp_dose_output_compounds<-lapply(list_of_compound_scenarios, get_exposure_dose_compound)  
   
   
   

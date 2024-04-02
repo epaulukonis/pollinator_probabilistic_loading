@@ -16,12 +16,10 @@ library(EnvStats)
 library(ExtDist)
 library(ggpmisc) 
 library(stats)
-grab_quantiles <- seq(0.0001, 1, 0.0001) #what's the associated mortality %?
+grab_quantiles <- seq(0.00001, 1, 0.00001) #what's the associated mortality %?
 # times 3 for Haber's rule (n=1) assuming derived relationships are for 72 hours and we want 24
 
-#### Code for individual scenarios
-# generate daily survival
-
+#### Code for individual scenarios using Cassandra's data
 
 #### ORAL
 # bifenthrin gumbel -0.6375, 1.1569, log10
@@ -54,23 +52,22 @@ dro<-merge(x = dro, y = tox[ , c("Compound",  "Contact_LD50_ug_bee", "Oral_LD50_
 # slopedf$Slope<-as.numeric(slopedf$Slope)
 # dro<-merge(dro,slopedf,by="Compound")
 
-slope<-3.4 #from white paper, honeybee
-dro <- dro %>% group_by(Compound) %>% mutate(phat = 1/(1+(Dose/Oral_LD50_ug_bee)^Slope)) #again using hill equation
-
-
-
-#look at DR curves
-ggplot(dro, aes(x = (Dose), y = 1-phat)) + 
-  # geom_line(aes(xmax=max,xmin=min, y=0.5), alpha = 0.7, col = "darkred")+
-  geom_line(aes(color = Compound), size=1.2) +
-  geom_point(aes(x=Oral_LD50_ug_bee, y=0.5), shape=19)+
-  facet_wrap(~Compound,scales = "free_x")+
-  xlab("Dose (ug/bee)") +
-  ylab("Mortality") +
-  scale_x_continuous(trans=scales::log_trans(),
-                     labels = scales::format_format(digits=3))+
-  theme_bw() +
-  theme(legend.position = "none")
+# slope<-3.4 #from white paper, honeybee
+# dro <- dro %>% group_by(Compound) %>% mutate(phat = 1/(1+(Dose/Oral_LD50_ug_bee)^Slope)) #again using hill equation
+# 
+# 
+# #look at DR curves
+# ggplot(dro, aes(x = (Dose), y = 1-phat)) + 
+#   # geom_line(aes(xmax=max,xmin=min, y=0.5), alpha = 0.7, col = "darkred")+
+#   geom_line(aes(color = Compound), size=1.2) +
+#   geom_point(aes(x=Oral_LD50_ug_bee, y=0.5), shape=19)+
+#   facet_wrap(~Compound,scales = "free_x")+
+#   xlab("Dose (ug/bee)") +
+#   ylab("Mortality") +
+#   scale_x_continuous(trans=scales::log_trans(),
+#                      labels = scales::format_format(digits=3))+
+#   theme_bw() +
+#   theme(legend.position = "none")
 
 
 #### CONTACT
@@ -105,11 +102,82 @@ drd<-merge(x = drd, y = tox[ , c("Compound",  "Contact_LD50_ug_bee", "Oral_LD50_
 # slopedf$Slope<-as.numeric(slopedf$Slope)
 # drd<-merge(drd,slopedf,by="Compound")
 
+# slope<-3.9 #from white paper, honeybee
+# drd <- drd %>% group_by(Compound) %>% mutate(phat = 1/(1+(Dose/Contact_LD50_ug_bee)^slope)) #again using hill equation
+# 
+# 
+# #look at DR curves
+# ggplot(drd, aes(x = (Dose), y = 1-phat)) + 
+#   # geom_line(aes(xmax=max,xmin=min, y=0.5), alpha = 0.7, col = "darkred")+
+#   geom_line(aes(color = Compound), size=1.2) +
+#   geom_point(aes(x=Oral_LD50_ug_bee, y=0.5), shape=19)+
+#   facet_wrap(~Compound,scales = "free_x")+
+#   xlab("Dose (ug/bee)") +
+#   ylab("Mortality") +
+#   scale_x_continuous(trans=scales::log_trans(),
+#                      labels = scales::format_format(digits=3))+
+#   theme_bw() +
+#   theme(legend.position = "none")
+# 
+# dro$Type<-"Oral"
+# drd$Type<-"Contact"
+# 
+# dr<-rbind(dro,drd)
+
+
+
+#### this looks at the curves using the actual EEC data ----
+gettails<-function(compound){
+  #compound<-exp_dose_output_compounds[[2]]
+
+  compound<- Map(cbind, compound, index = seq_along(compound))
+  comp<-as.data.frame(do.call(rbind, compound))
+  comp<-comp[!comp$Dose ==0,]
+
+  comp<-comp %>% group_by(type) %>%
+    summarise_at(vars(starts_with("Dose")), funs(min,max,median))
+  
+  
+  #comp<-gather(comp, "Stat","EEC",2:4)
+  comp
+}
+
+eecs<-lapply(exp_dose_output_compounds,gettails) #look at the median/maxs; are they very high? they should not be much higher than those reported for single days in Ch. 2. If so, something is iffy. 
+
+names(eecs)<-c("BIFENTHRIN","CARBARYL","CLOTHIANIDIN","CHLORPYRIFOS","IMIDACLOPRID","THIAMETHOXAM")
+eecs<-dplyr::bind_rows(eecs, .id = "Compound")
+
+
+eecs_sim<-eecs %>% group_by(Compound,type) %>%  
+  mutate(Dose= map2(min, max, seq, length.out = 10000)) %>%
+  unnest(cols = Dose)
+
+eecs_sim$Compound<-str_to_title(eecs_sim$Compound)
+eecs_sim<-merge(x = eecs_sim, y = tox[ , c("Compound",  "Contact_LD50_ug_bee", "Oral_LD50_ug_bee")], by = "Compound", all.x=TRUE)
+
+eecs_contact<-eecs_sim[eecs_sim$type == "Contact",]
+eecs_oral<-eecs_sim[eecs_sim$type == "Oral",]
+
+
+slope<-3.4 #from white paper, honeybee
+dro <- eecs_oral %>% group_by(Compound) %>% mutate(phat = 1/(1+(Dose/Oral_LD50_ug_bee)^slope)) #again using hill equation
+
 slope<-3.9 #from white paper, honeybee
-drd <- drd %>% group_by(Compound) %>% mutate(phat = 1/(1+(Dose/Contact_LD50_ug_bee)^slope)) #again using hill equation
+drd <- eecs_contact %>% group_by(Compound) %>% mutate(phat = 1/(1+(Dose/Contact_LD50_ug_bee)^slope)) #again using hill equation
 
 
-
+#look at DR curves
+ggplot(dro, aes(x = (Dose), y = 1-phat)) + 
+  # geom_line(aes(xmax=max,xmin=min, y=0.5), alpha = 0.7, col = "darkred")+
+  geom_line(aes(color = Compound), size=1.2) +
+  geom_point(aes(x=Oral_LD50_ug_bee, y=0.5), shape=19)+
+  facet_wrap(~Compound,scales = "free_x")+
+  xlab("Dose (ug/bee)") +
+  ylab("Mortality") +
+  scale_x_continuous(trans=scales::log_trans(),
+                     labels = scales::format_format(digits=3))+
+  theme_bw() +
+  theme(legend.position = "none")
 
 #look at DR curves
 ggplot(drd, aes(x = (Dose), y = 1-phat)) + 
@@ -130,15 +198,21 @@ drd$Type<-"Contact"
 dr<-rbind(dro,drd)
 
 
+
+
+#### this looks at the curves using some raw sequence data ----
+
+#### Evaluate by scenario ----
 evaluate_by_scenario<-function(x){
   ind_scene<-x
   
   sim<-exp_dose_output[[1]]
-  
   sim<-split(sim, sim$Compound)
   
+  daily_prob_compound<-list()
+  
   for(compound in 1:length(sim)){
-    compound<-3
+    compound<-2
     
   ind_scene<-sim[[compound]]
   ind_scene$Compound<-str_to_title(ind_scene$Compound)
@@ -156,10 +230,11 @@ evaluate_by_scenario<-function(x){
   ind_scene[ind_scene$Day <=emergence, c("Dose")] <-0 #if day is less than emergence day, no exposure
  
   # names(ind_scene)[[6]]<-"Dose"
-  names(ind_scene)[[7]]<-"Type"
+  names(ind_scene)[[8]]<-"Type"
   
 
-  curve_sub<-curve[,c(2:3,8)] 
+  curve_sub<-curve[,c(6,9:10)] 
+  colnames(curve_sub)[2]<-"Survival"
   
   
   #Use datatable to get the rolling nearest value for mortality; we'll first establish that to decide how she moves forward
@@ -180,31 +255,64 @@ evaluate_by_scenario<-function(x){
   setkey(drsim)
   daily_probcont<-drsim[ind_scenen , on="Dose", roll = "nearest" ][order(Day)] #this gives us, for each day and index, the closest match to the associated mortality on the DR
   
+
+  initation<-sample((emergence+4):(emergence+25),1) #what hypothetical day does she initiate?
+  workerbrood<-sample((initation+22-7):(initation+22+7),1) #what hypothetical day does the first brood emerge? Banks gives 22 days, we add a 1-week SD
+  endqueenforaging<-workerbrood
   
-  
-  #then, let's assign a daily nectar collection and pollen collection starting at emergence; we'll hone down these values later
-  ind_scene<- ind_scene %>% group_by(Compound, type) %>% mutate(nectcoll = ifelse(Day >= emergence, 0.6*(Day-emergence), 0)) %>% mutate(pollcoll = ifelse(Day >= emergence, 0.4*(Day-emergence), 0))
-  
-  
-  
-  
-  #so let's say that if she's getting roughly 50% of her resources from contaminated sites, then 50% of the nectar/pollen brought back will be contaminated as well 
-  
-  
-  
-  initation<-sample(emergence+4:emergence+25,1) #what hypothetical day does she initiate?        
+  #let's assign a daily pollen and nectar storage that involves the contaminated residues for the queen starting at emergence; we'll hone down these values later
+  daily_proboral<- daily_proboral %>% group_by(Compound, Type, Media) %>% mutate(nect_store_res_ug_g = ifelse(Day >= initation & Media == "Nectar", 0.6*(Day-initation)* Dose, 0)) %>% mutate(poll_store_res_ug_g = ifelse(Day >= initation & Media == "Pollen", 0.4*(Day-initation) * Dose, 0))
+
+  daily_proboral<-gather()
   
   
   
-  #in how many scenarios does the queen die before initiation?
-  #what compounds resulted in deaths?
+  route<-route %>%
+  group_by(id = cumsum(!Conc==0)) %>%
+    mutate(Concf = ifelse(Conc==0, first(Conc), Conc)) %>%
+    mutate(dayn = ifelse(Conc>0, Day - first(Day)+1, Day))
+
+    ind <- which(flower$Concf != lag(flower$Concf))
+    flower$Concf[ind] <- sapply(ind, function(i) with(flower, sum(c(Concf[i-1], Concf[i+1]))))
+    ind <- which(flower$Concf > lag(flower$Concf))
+    flower$Concf[ind:nrow(flower)] <- sapply(ind, function(i) with(flower, Concf[ind-1]))
+
+   flower$exp_dose<-(flower$Concf * 1e-04 * 6.5)* 90 * exp(-(flower$k_values*flower$Day))#calculated as the dose experienced from contact with deposition on flowers, assuming a visit of 90 repeat events, degrades over time
+   flower<-subset(flower, select=-c(id,dayn,Concf))
+
   
   
   
+  
+  
+  
+  #now we can break this out into simple daily mortalities
+  daily_proboral<-daily_proboral[daily_proboral$Media == "Pollen",]
+  
+  prob_nest_initation<- apply(daily_proboral[1:365,14], 2, prod) #but need to actually cut off at end of foraging!
+
+
+  # in how many scenarios does the queen die before initiation? what is the threshold for survival to next day?
+  # cumulative mortality at:
+  # prob of nest initiation [emerge + random initiation] #if she dies in this period, no go
+  # prob of nest establishment [initiation + 2/3 weeks] #if she dies in this period, no go
+  # prob larval development # what survival do they have with consumption?
+  
+  
+  daily_prob<-rbind(daily_proboral,daily_probcont)
+  daily_prob_compound[[dim]]<-daily_prob
+  
+  }
   
   
   #order by index and day
-  daily_prob<- daily_prob[order( daily_prob$index, daily_prob$Day),,drop=FALSE]
+  #daily_prob<- daily_prob[order(daily_prob$Type, daily_prob$Day),,drop=FALSE]
+  
+  
+
+  
+  
+  
   
   daily_prob$Survival<-1-daily_prob$Mortality
   daily_prob$Survival <- ifelse(daily_prob$Survival >= 0.999, 1,daily_prob$Survival)
@@ -237,7 +345,7 @@ evaluate_by_scenario<-function(x){
   # daily_prob_plot
   
   
-  }
+
   
   
   cumulative_survival<- apply(daily_prob[1:365,14], 2, prod) #but need to actually cut off at end of foraging!
@@ -248,6 +356,8 @@ evaluate_by_scenario<-function(x){
 
 
 #### Code for individual compound groups
+
+####Evaluate by Compound----
 #### Oral ----
 # generate daily survival
 

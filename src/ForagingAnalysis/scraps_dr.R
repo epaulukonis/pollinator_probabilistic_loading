@@ -117,3 +117,10 @@ ggplot(dr, aes(x = (Dose), y = Mortality)) +
   #                    labels = scales::format_format(digits=3))+
   theme_bw() +
   theme(legend.position = "none")
+
+
+#### Another option is to just simulate some hypothetical ranges of doses and use the bombus LD50 and honeybee slope with those. 
+seq_doses <- seq(0.000001, 10, 0.0001) #what's the associated mortality %?
+
+drd<-drd %>% group_by(Compound) %>% mutate(Dose=seq_doses)
+dro<-dro %>% group_by(Compound) %>% mutate(Dose=seq_doses)

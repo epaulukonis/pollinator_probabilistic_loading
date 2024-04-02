@@ -4,16 +4,197 @@
 
 print("stepping into 05: visualizing exposure landscape")
 
-
+##### First get habitat layer ----
 
 library(purrr)
 library(magick)
 
-nlcd<-rast(paste0(root_data_in, "/MapData/NLCD/Illinois/nlcd2013_f.tiff"))
+nlcd<-rast(paste0(root_data_in, "/MapData/NLCD/Illinois/nlcd2013.tiff"))
+
+point<- st_read(paste0(bombus_dir,"/foraging/"), layer = "colonylocation")
+
+colony<- st_read(paste0(bombus_dir,"/foraging/"), layer = "colonylocation")
+colony<- st_transform(colony, crs(nlcd)) #reproject to match extent of DF
+colony<-st_buffer(colony, 1000)
 
 habitat <- mask(crop(nlcd, colony), colony) #get nlcd within habitat
 
-### pull out a single scenario to demonstrate both a static map for the manuscript and a gif for the defense
+
+nlcdpalette<-c("cornflowerblue","bisque","lightsalmon","firebrick","darkred","darkolivegreen3","darkkhaki","lemonchiffon3","khaki1","chocolate4","cadetblue2","cadetblue4")
+#namey<-c(11,21,22,23,24,41,42,43,52,71,81,82,90,95)
+
+
+nlcdlayer<-as.data.frame(habitat)
+names(nlcdpalette)<-sort(unique(nlcdlayer$Layer_1))
+
+colScale<- scale_fill_manual(
+  values=nlcdpalette, name="NLCD",
+  labels = c('Water',
+             'Developed, Open Space ',
+             'Developed, Low Intensity',
+             'Developed, Medium Intensity',
+             "Developed, High Intensity",
+             "Deciduous Forest", 
+             "Shrub",
+             "Grassland",
+             "Pasture/Hay",
+             "Cultivated",
+             "Woody Wetlands",
+             "Herbaceous Wetlands"),
+  drop = FALSE) 
+
+
+
+#get visual buffer
+hab_buff<-st_buffer(colony, 20)
+habitat<-as.data.frame(habitat,xy = TRUE)
+habitat$Layer_1<-ceiling(as.numeric(habitat$Layer_1))
+habitat$Layer_1<-as.factor(habitat$Layer_1)
+habitat<-na.omit(habitat)
+
+
+#### First, get Habitat tile 
+habitat$title<-"B. affinis Colony Location"
+habplot<-ggplot()+
+  geom_tile(data=habitat, aes(x=x,y=y,fill=Layer_1))+
+  colScale+
+  geom_sf(data = hab_buff, fill = NA) +
+  geom_sf(data = point, aes(size=1.8),fill = "grey",show.legend = FALSE)+
+  facet_grid(.~title) +
+  theme_bw() +
+  theme(
+    legend.title.align=0.5,
+    strip.text.x = element_text(size = 14, colour = "black", angle = 0),
+    legend.position = "left",
+    axis.text.x=element_blank(), 
+    axis.ticks.x=element_blank(), 
+    axis.text.y=element_blank(), 
+    axis.ticks.y=element_blank(),
+    axis.title.x=element_blank(),
+    axis.title.y=element_blank(),
+    legend.background = element_rect(fill="lightgrey",
+                                     size=0.5, linetype="solid", 
+                                     colour ="black")
+  )
+habplot
+
+
+########Now get simulation map ----
+
+nlcd<-rast(paste0(root_data_in, "/MapData/NLCD/Illinois/nlcd2013_f.tiff"))
+
+point<- st_read(paste0(bombus_dir,"/foraging/"), layer = "colonylocation")
+
+colony<- st_read(paste0(bombus_dir,"/foraging/"), layer = "colonylocation")
+colony<- st_transform(colony, crs(scenarios_f)) #reproject to match extent of DF
+colony<-st_buffer(colony, 1000)
+
+habitat <- mask(crop(nlcd, colony), colony) #get nlcd within habitat
+
+#get visual buffer
+hab_buff<-st_buffer(colony, 20)
+habitat<-as.data.frame(habitat,xy = TRUE)
+habitat$Layer_1<-ceiling(as.numeric(habitat$Layer_1))
+habitat$Layer_1<-as.factor(habitat$Layer_1)
+habitat<-na.omit(habitat)
+
+
+print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/sub"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+scenarios<- file.path(paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/sub"), list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/sub"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+scenarios<-setNames(lapply(scenarios, st_read), tools::file_path_sans_ext(basename(scenarios)))
+scenarios<-scenarios[(mixedsort(as.character(names(scenarios))))]
+
+sim<-scenarios[[2]]
+
+
+sim <- sim %>% 
+  st_transform(., crs = 26916) %>% 
+  st_make_valid()
+
+#here, we'll pull out the 2014 data sets and extract that layer to a single colony location. then all code that follows will just be the field histories in that spot. 
+colony<- st_read(paste0(bombus_dir,"/foraging/"), layer = "colonylocation")
+colony<- st_transform(colony, crs(sim)) #reproject to match extent of DF
+colony<-st_buffer(colony, 1000)
+
+scenarios_f<-st_intersection(sim,colony)
+
+#this addresses any polygons that are of the same field but were separated due to area calculations in the intersection analysis; 
+ x<-scenarios_f
+  output<- x %>%
+    group_by(id) %>%
+    filter(n()>1) %>%
+    group_by(id,Compond,  Commdty,  Year,     ApplctT,  crop,     area,    plntddt,  applctn) %>%
+    summarise(geometry = sf::st_union(geometry)) %>%
+    ungroup()
+  
+  x<-x[,-c(8,11:13)]
+  
+  originaldf<- x %>%
+    group_by(id) %>%
+    filter(!n()>1)
+  originaldf<-originaldf[,c(7,1:6,8:10)]
+  #names(originaldf)
+  
+  finaldf<-rbind(originaldf,output)
+  sim<-finaldf
+  sim<-na.omit(sim)
+  sim$Compond<-str_to_title(sim$Compond)
+
+
+  
+  
+  
+  
+  
+  
+#### Now put together ----
+  #sim$title<-"Example Exposure Landscape"
+mediaplot<-ggplot()+
+  geom_tile(data=habitat, aes(x=x,y=y,fill=Layer_1), alpha=0.4)+
+  scale_fill_grey(guide = "none") +
+  ggnewscale:::new_scale_fill() +
+  geom_sf(data = sim, aes(fill = Compond), alpha=0.8) +
+ # scale_fill_brewer(palette = "Set1")+
+  scale_fill_manual(values = c("goldenrod2", "darkcyan", "darkorange3", "seagreen4"))+
+
+  #facet_grid(.~title) +
+  theme_bw() +
+  xlab("")+
+  guides(fill=guide_legend(title="Compound"))+
+  ggtitle("Example Scenario")+
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.title.align=0.5,
+    strip.text.x = element_text(size = 14, colour = "black", angle = 0),
+    legend.position = "right",
+    axis.text.x=element_blank(), 
+    axis.ticks.x=element_blank(), 
+    axis.text.y=element_blank(), 
+    axis.ticks.y=element_blank(),
+    axis.title.y=element_blank(),
+    axis.title.x=element_blank())
+
+mediaplot
+
+
+
+
+colonyplot<-plot_grid(
+  habplot,
+  mediaplot,
+  hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow=1, rel_widths = c(3,4))
+colonyplot
+
+
+
+
+
+
+
+
+
+
+### pull out a single scenario to demonstrate both a static map for the manuscript and a gif for the defense ----
 
 sim<-3
 # #### BETA TESTING CODE

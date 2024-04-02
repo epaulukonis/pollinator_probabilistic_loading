@@ -1,7 +1,7 @@
 Compound,Contact_LD50_ug_bee,Oral_LD50_ug_bee,Oral_HC5,HC5 SSD Source,Source,k
 Bifenthrin,0.36,0.34,3.34E-02,All-insecta,Bumblebee,100
-Carbaryl,0.543,3.85,4.17E-03,Adult-hymenoptera,Bumblebee,3.55
-Chlorpyrifos,0.09,0.23,8.72E-06,All-insecta,Honeybee,7
+Carbaryl,41.2,3.85,4.17E-03,Adult-hymenoptera,Bumblebee,3.55
+Chlorpyrifos,1.53,0.23,8.72E-06,All-insecta,Bumblebee,7
 Imidacloprid,0.014,0.006,1.21E-06,Adult-hymenoptera,Bumblebee,40
 Thiamethoxam,0.028,0.005,8.49E-07,Adult-hymenoptera,Bumblebee,50
 Glyphosate,100,104,NA,NA,Bumblebee,30
