@@ -299,3 +299,116 @@ for(i in 1:length(on_fieldrasters)){
 #   )
 # habplot
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#old code for raster math
+
+
+daily_scenario<-list()
+for(day in 1:365){
+  
+  offdf30<-buf30[buf30$Day ==day,]
+  offdf30$Value<-as.numeric(offdf30$Value)
+  
+  offdf60<-buf60[buf60$Day ==day,]
+  offdf60$Value<-as.numeric(offdf60$Value)
+  
+  offdf90<-buf90[buf90$Day ==day,]
+  offdf90$Value<-as.numeric(offdf90$Value)
+  
+  
+  output_off30<- rast(rasterize(x = offdf30, y = roff.raster30, field = "Value")) #spatraster
+  output_off60<- rast(rasterize(x = offdf60, y = roff.raster60, field = "Value")) #spatraster
+  output_off90<- rast(rasterize(x = offdf90, y = roff.raster90, field = "Value")) #spatraster
+  
+  
+  # plot(output_off30)
+  # plot(output_off60)
+  # plot(output_off90)
+  
+  m <-merge(output_off30,habitat) #merge off
+  #plot(m)
+  m <-merge(output_off60,m) #merge off
+  #plot(m)
+  m <-merge(output_off90,m) #merge off
+  #plot(m)
+  
+  mrec_weight <- c(1e-60,1011,0.5,
+                   1011,1012,0,
+                   1012,1024,0.5,
+                   1024,1025, 0.1,
+                   1025,1032, 0,
+                   1032,1042,1,
+                   1042,1043,0.5,
+                   1043,1044,0.75,
+                   1044,1073,1,
+                   1073,1083,0.5,
+                   1083,1096, 0.25
+  )
+  
+  rclmat_weight <- matrix(mrec_weight, ncol=3, byrow=TRUE)
+  rweight<-terra::classify(x=m, rcl=rclmat_weight, include.lowest=TRUE)
+  rweight<- mask(crop(rweight, colony), colony)
+  #plot(rweight)
+  
+  weight_df<-as.data.frame(values(rweight))
+  sums<-as.data.frame(table(weight_df))
+  sums$value_of_weights<-as.numeric(levels(sums$layer))*sums$Freq
+  class_total<-sum(sums$value_of_weights)
+  
+  rweight<-rweight/class_total
+  #plot(rweight)
+  
+  #convert it so that any ncld values are not included in the calculation of concentration
+  habarea<-habitat
+  habarea[habarea>1]<-0
+  
+  
+  m <-merge(output_off30,habarea) #merge off
+  #plot(m)
+  m <-merge(output_off60,m) #merge off
+  #plot(m)
+  m <-merge(output_off90,m) #merge off
+  #plot(m)
+  
+  rconc<- mask(crop(m, colony), colony)
+  
+  rweightedmean<- rweight*rconc #multiply the weight value times the concentrations 
+  #plot(rweightedmean)
+  
+  weightmean_df<-as.data.frame(values(rweightedmean))
+  sumswm<-as.data.frame(table(weightmean_df))
+  sumswm$sum_of_conc<-as.numeric(levels(sumswm$layer))*sumswm$Freq
+  weightedmean<-sum(sumswm$sum_of_conc)
+  weightedmean #ug/g
+  
+  df<-as.data.frame(cbind(weightedmean,day))
+  colnames(df)<-c("Conc","Day")
+  df$Media<-paste0(unique(by_media$Media))
+  df$Compound<-unique(by_media$Compound)
+  
+  daily_scenario[[day]] <- df } #end for loop
+
+output<-do.call(rbind,daily_scenario)
+
+
