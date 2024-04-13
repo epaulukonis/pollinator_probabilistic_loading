@@ -7,9 +7,9 @@
 
 #scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/only_active_appssampled_fields_1999_apps.shp") original
 #scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/1-250/sampledfields_2014_1.shp")
-scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/751-1000/sampledfields_2014_1.shp")
+scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/1-250/sampledfields_2014_1.shp")
 
-print("stepping into 01: formatting spatial date")
+print("stepping into 01: formatting spatial data")
 
 
 if(file.exists(scenario)){
