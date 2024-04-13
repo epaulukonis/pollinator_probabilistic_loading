@@ -24,15 +24,33 @@ colnames(weather)[4:8]<-c("Precip","Evap","TempC","Windcmsec",'Solar')
 weather$Day<-1:365
 
 
+##Two ways to split, if needed:
 
 
 #### Calculate daily exposure doses based on a separate system for contact and oral; doses are assumed to be additive under worst case scenarios
 
   print(list.files(path=paste0(root_data_out,'/all_forage/media_tables/1-250'), pattern='.csv', all.files=TRUE, full.names=FALSE))
   scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables/1-250'), list.files(path=paste0(root_data_out,'/all_forage/media_tables/1-250'), pattern='.csv', all.files=TRUE, full.names=FALSE))
-  scenarios<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
+  scenarios1<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
   
- ##Two ways to split, if needed:
+  print(list.files(path=paste0(root_data_out,'/all_forage/media_tables/251-500'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables/251-500'), list.files(path=paste0(root_data_out,'/all_forage/media_tables/251-500'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  scenarios2<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
+  
+  print(list.files(path=paste0(root_data_out,'/all_forage/media_tables/501-750'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables/501-750'), list.files(path=paste0(root_data_out,'/all_forage/media_tables/501-750'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  scenarios3<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
+  
+  print(list.files(path=paste0(root_data_out,'/all_forage/media_tables/751-1000'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables/751-1000'), list.files(path=paste0(root_data_out,'/all_forage/media_tables/751-1000'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  scenarios4<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
+  
+  
+  
+  
+  scenarios<-c(scenarios1,scenarios2,scenarios3,scenarios4)
+  
+  
 
  #split by compound
  bifenthrin<- scenarios[grep("BIFENTHRIN", names(scenarios))]
@@ -76,7 +94,7 @@ weather$Day<-1:365
  comp<-comp %>% group_by(index, Media) %>%
    mutate(max = max(Conc)) %>%
    mutate(min = min(Conc)) %>%
-   mutate(median = median(Conc)) 
+   mutate(median = mean(Conc)) 
    
  comp<-comp[comp$Day == 1,]
  comp<- comp[order(comp$Media),,drop=FALSE]
@@ -85,6 +103,7 @@ weather$Day<-1:365
 
  qa_test<-lapply(list_of_compound_scenarios,QA) #look at the median/maxs; are they very high? they should not be much higher than those reported for single days in Ch. 2. If so, something is iffy. 
  
+ test<-qa_test[[2]]
 
  
 #Calculate doses if by scenario ----
@@ -93,7 +112,7 @@ weather$Day<-1:365
  get_exposure_dose<-function(x){
    
    scenario<-x
-  # scenario<-list_of_individual_scenarios[[1]]
+   #scenario<-list_of_individual_scenarios[[5]]
    scenarios<-split(scenario,scenario$Compound)
    
    
@@ -111,13 +130,18 @@ weather$Day<-1:365
      contact<-scenarion[scenarion$Media =="Dust"|scenarion$Media == "Air"| scenarion$Media =="Soil", ] #|scenarion$Media == "Flower"
      oral<-scenarion[scenarion$Media == "Pollen" | scenarion$Media == "Nectar" , ]
      
+     #there are instances, when we have more than one kind of application of a single compound (imidacloprid/bifenthrin), we need to remove duplicates
+     contact<-contact[!duplicated(contact), ]
+     oral<-oral[!duplicated(oral), ]
+     
      ### CONTACT ---
      
      #daily dose for aerial deposition
      aerial<-contact[contact$Media == "Dust"| contact$Media == "Air",]
-     aerial$exp_dose<- (aerial$Conc/2) *1.6E-4*(10) #calculated as the dose experienced from single-day contact with aerial deposition within a hypothetical 'flight tube'; assume one flight through cloud
+     aerial$exp_dose<- (aerial$Conc/2) *1.6E-4*(10) #calculated as the dose experienced from single-day contact with aerial deposition within a hypothetical 'flight tube'; assume one flight through cloud at 10m
      
-     
+     testy<-aerial[aerial$Conc > 0,]
+    
      # #daily dose for flower contact from deposition
      # flower<-contact[contact$Media == "Flower",]
      # 
@@ -136,7 +160,7 @@ weather$Day<-1:365
      
      #daily dose for soil exposures; #soil conc in ug/m2 needs to be converted to cm2
      soil<-contact[contact$Media == "Soil",]
-     soil$exp_dose <- (soil$Conc/10000 * 1.95 * 2 ) * 6.5 #surface area of bumblebee queen  # we assume that at some point, the foundress makes contact with contaminated soil
+     soil$exp_dose <- (soil$Conc/10000 * 1.95 * 2 ) * 6.5/2 #surface area of bumblebee queen  # we assume that at some point, the foundress makes contact with contaminated soil
      
      contact<-rbind(aerial,soil)
      
@@ -154,8 +178,8 @@ weather$Day<-1:365
      #daily dose for oral exposures; let's assume for now that a bombus queen would hypothetically be getting 50% of her resources from contaminated areas
      oral<-oral %>%
        mutate(exp_dose = Conc * case_when(
-         Media == "Pollen" ~ (0.0485),
-         Media == "Nectar" ~  (0.75658)
+         Media == "Pollen" ~ (0.0485) * 0.5,
+         Media == "Nectar" ~  (0.75658) * 0.5
        ))
      
      oralf<-oral %>% group_by(Day) %>% mutate(Dose = sum(exp_dose))
@@ -212,7 +236,7 @@ weather$Day<-1:365
        
        #daily dose for aerial deposition
         aerial<-contact[contact$Media == "Dust"| contact$Media == "Air",]
-        aerial$exp_dose<- (aerial$Conc/2) *1.6E-4*(20) #calculated as the dose experienced from single flight through aerial deposition within a hypothetical 'flight tube'
+        aerial$exp_dose<- (aerial$Conc/2) *1.6E-4*(10) #calculated as the dose experienced from single flight through aerial deposition within a hypothetical 'flight tube'
       
 
         # #daily dose for flower contact from deposition
@@ -233,7 +257,7 @@ weather$Day<-1:365
    
         #daily dose for soil exposures
          soil<-contact[contact$Media == "Soil",]
-         soil$exp_dose <- (soil$Conc/10000 * 1.95 * 2 ) * 6.5 #surface area of bumblebee queen
+         soil$exp_dose <- (soil$Conc/10000 * 1.95 * 2 ) * 6.5/2 #surface area of bumblebee queen
       
       contact<-rbind(aerial,soil)
       
@@ -251,8 +275,8 @@ weather$Day<-1:365
         #daily dose for oral exposures
        oral<-oral %>%
            mutate(exp_dose = Conc * case_when(
-             Media == "Pollen" ~ 0.0485,
-             Media == "Nectar" ~  0.7565
+             Media == "Pollen" ~ 0.0485 * 0.5,
+             Media == "Nectar" ~  0.7565 * 0.5
            ))
     
         oralf<-oral %>% group_by(Day) %>% mutate(Dose = sum(exp_dose))
