@@ -11,7 +11,7 @@ scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_with
 
 if(file.exists(scenario)){
   
-  print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/only_active_apps"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
   scenarios<- file.path(paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/only_active_apps"), list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/only_active_apps"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
   scenarios<-setNames(lapply(scenarios, st_read), tools::file_path_sans_ext(basename(scenarios)))
   scenarios<-scenarios[(mixedsort(as.character(names(scenarios))))]
@@ -130,7 +130,7 @@ apprates$Compound<-toupper(apprates$Compound)
 state_pest<-gather(state_pest, "Commodity", "kg", 6:15)
 state_pest$Commodity<-toupper(state_pest$Commodity)
 state_pest<-state_pest[state_pest$Commodity %in% crop_by_state$Commodity, ]
-pest_prop_by_crops<-left_join(state_pest, crop_by_state, by = c("Year","Commodity"))
+pest_prop_by_crops<-left_join(state_pest, crop_by_state, by = c("Year","Commodity")) #join the total reported pesticides by state/crop and the crops by state
 
 ##County
 #merge with apprates
@@ -192,6 +192,10 @@ pest_prop_by_crops<- pest_prop_by_crops %>% group_by(Compound,Commodity) %>% mut
 pest_prop_by_crops<- pest_prop_by_crops %>% group_by(Compound,Year) %>% mutate(sumx=sum(kg_f)) # sum total kg applied to all crops
 pest_prop_by_crops$prop_crop<- pest_prop_by_crops$kg_f/pest_prop_by_crops$sumx # proportion of total loading applied to each crop
 
+#sub_for_paper
+# sub_for_paper<-pest_prop_by_crops[pest_prop_by_crops$Year == 2014,]
+# write.csv(sub_for_paper, paste0(root_data_out,"/all_bombus/outputs_for_manuscript/pest_prob_by_state.csv"))
+
 #now that we have estimates of the proportion of crops by compound, join back to the county
 propjoin<-pest_prop_by_crops[,c(3,4,6,12)]
 pest_prop_by_cropc<- merge(pest_prop_by_cropc, propjoin, by=c("Compound", "Year", "Commodity"), all.x=T, all.y=F)
@@ -200,7 +204,7 @@ pest_prop_by_cropc<- merge(pest_prop_by_cropc, propjoin, by=c("Compound", "Year"
 pest_prop_by_cropc$sumx<-pest_prop_by_cropc$sumx*0.97
 
 #multiply that adjusted amount by the proportions calculated from the state data
-pest_prop_by_cropc$sumx_by_crop<-pest_prop_by_cropc$sumx*pest_prop_by_cropc$prop_crop
+pest_prop_by_cropc$sumx_by_crop<-pest_prop_by_cropc$sumx*pest_prop_by_cropc$prop_crop #reflects the amount of pesticide by county attributed to each crop
 
 #proportion of sumx (kg of x compound by tri-county area)
 pest_prop_by_cropc$acres_total<-pest_prop_by_cropc$sumx_by_crop/pest_prop_by_cropc$AvgRate_kgacre # divide the summed kg by kg/acre to get acres of treated fields based on the avg application rate
@@ -217,6 +221,7 @@ pest_prop_by_cropc$prop_treated_acresf<- ifelse(pest_prop_by_cropc$Compound == "
 
 
 ##we also need to add an additional layer of sampling based on which compound will be selected as a specific application type, as we assume only one of each kind EXCEPT glyphosate
+## this groups by year, crop, and application type, and sums the total amount of any compound (sum_by_app)
 pest_prop_by_cropc<-pest_prop_by_cropc %>% 
   group_by(Year, Commodity, ApplicationType) %>% 
   mutate(sum_by_app =sum(sumx_by_crop)) %>% 
@@ -364,7 +369,7 @@ list_of_sampled_fields_by_year<-list()
 
 for(n in 101:1000){
   
-  #n<-n
+  # n<-1
   
 # for(Year in 1:length(fv)){
   Year<-16
@@ -416,6 +421,10 @@ for(n in 101:1000){
     #match id values
     treatment_probabilities_corn$ID <- as.numeric(treatmentid$ID[match(treatment_probabilities_corn$ApplicationType, treatmentid$ApplicationType)])
     treatment_probabilities_soy$ID <- as.numeric(treatmentid$ID[match(treatment_probabilities_soy$ApplicationType, treatmentid$ApplicationType)])
+    
+    # write.csv(treatment_probabilities_corn, paste0(root_data_out,"/all_bombus/outputs_for_manuscript/treatment_probabilities_corn.csv"))
+    # write.csv(treatment_probabilities_soy, paste0(root_data_out,"/all_bombus/outputs_for_manuscript/treatment_probabilities_soy.csv"))
+
     
     #order to make sure that each application type is paired with its correct 'none' prob
     # treatment_probabilities_corn<-treatment_probabilities_corn[with(treatment_probabilities_corn, order(ApplicationTiming..d.)), ]
@@ -504,6 +513,8 @@ for(n in 101:1000){
       mutate(Compound=pick)
     }
     
+    
+    #If a field was assigned more than one application type, we used the proportion of each compound for the application type to select which compound was assigned to a field. 
     
     #sample foliar insecticides
     fcst_sampled_foliar<- sample_by_compound(fcst,"FoliarI")
