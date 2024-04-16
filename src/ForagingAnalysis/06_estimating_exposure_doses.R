@@ -31,27 +31,25 @@ weather$Day<-1:365
 
   print(list.files(path=paste0(root_data_out,'/all_forage/media_tables/1-250'), pattern='.csv', all.files=TRUE, full.names=FALSE))
   scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables/1-250'), list.files(path=paste0(root_data_out,'/all_forage/media_tables/1-250'), pattern='.csv', all.files=TRUE, full.names=FALSE))
-  scenarios1<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
+  scenarios<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
   
-  print(list.files(path=paste0(root_data_out,'/all_forage/media_tables/251-500'), pattern='.csv', all.files=TRUE, full.names=FALSE))
-  scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables/251-500'), list.files(path=paste0(root_data_out,'/all_forage/media_tables/251-500'), pattern='.csv', all.files=TRUE, full.names=FALSE))
-  scenarios2<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
-  
-  print(list.files(path=paste0(root_data_out,'/all_forage/media_tables/501-750'), pattern='.csv', all.files=TRUE, full.names=FALSE))
-  scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables/501-750'), list.files(path=paste0(root_data_out,'/all_forage/media_tables/501-750'), pattern='.csv', all.files=TRUE, full.names=FALSE))
-  scenarios3<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
-  
-  print(list.files(path=paste0(root_data_out,'/all_forage/media_tables/751-1000'), pattern='.csv', all.files=TRUE, full.names=FALSE))
-  scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables/751-1000'), list.files(path=paste0(root_data_out,'/all_forage/media_tables/751-1000'), pattern='.csv', all.files=TRUE, full.names=FALSE))
-  scenarios4<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
-  
-  
-  
-  
-  scenarios<-c(scenarios1,scenarios2,scenarios3,scenarios4)
+  # print(list.files(path=paste0(root_data_out,'/all_forage/media_tables/251-500'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  # scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables/251-500'), list.files(path=paste0(root_data_out,'/all_forage/media_tables/251-500'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  # scenarios2<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
+  # 
+  # print(list.files(path=paste0(root_data_out,'/all_forage/media_tables/501-750'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  # scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables/501-750'), list.files(path=paste0(root_data_out,'/all_forage/media_tables/501-750'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  # scenarios3<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
+  # 
+  # print(list.files(path=paste0(root_data_out,'/all_forage/media_tables/751-1000'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  # scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables/751-1000'), list.files(path=paste0(root_data_out,'/all_forage/media_tables/751-1000'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  # scenarios4<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
+  # 
   
   
-
+  
+  #scenarios<-c(scenarios1,scenarios2,scenarios3,scenarios4)
+ 
  #split by compound
  bifenthrin<- scenarios[grep("BIFENTHRIN", names(scenarios))]
  clothianidin<- scenarios[grep("CLOTHIANIDIN", names(scenarios))]
@@ -62,7 +60,17 @@ weather$Day<-1:365
 
  list_of_compound_scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
 
- #visual<-clothianidin[[1]]
+ 
+ #I think there are some double counting in the sims or some compounds are being simulated twice; to remedy this; I will add some code to adjust the proportions
+ imidacloprid<-sample(imidacloprid,100)
+ clothianidin<-sample(clothianidin,225)
+ chlorpyrifos<-sample(chlorpyrifos,90)
+ bifenthrin<-sample(bifenthrin,70)
+ #thia and carbaryl look good
+ 
+
+scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
+scenarios<-unlist(scenarios,recursive = FALSE)
  
  
  #split by scenario number
@@ -103,7 +111,7 @@ weather$Day<-1:365
 
  qa_test<-lapply(list_of_compound_scenarios,QA) #look at the median/maxs; are they very high? they should not be much higher than those reported for single days in Ch. 2. If so, something is iffy. 
  
- test<-qa_test[[2]]
+ #test<-qa_test[[2]]
 
  
 #Calculate doses if by scenario ----

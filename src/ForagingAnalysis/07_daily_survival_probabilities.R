@@ -619,12 +619,15 @@ eventssummax<-events %>% group_by(survival_to) %>% summarise(maximum = min(event
 
 
 ##### Table 2
-
 paths <- lapply(final_results,`[[`, 3)
 paths<- Map(cbind, paths, index = seq_along(paths))
 paths<-do.call(rbind,paths)
 paths$compound<-gsub("\\..*","",paths$compound)
 names(paths)
 
+#add code to add if foliar/seed
+
 paths_dose<-paths %>% group_by(compound, Media) %>% summarise(med = median(maxdose), std=sd(maxdose)) 
 paths_survival<-paths %>% group_by(compound, Media) %>% summarise(med = median(minsurvival)) 
+
+

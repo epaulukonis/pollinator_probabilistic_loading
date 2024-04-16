@@ -7,22 +7,22 @@
 
 #scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/only_active_appssampled_fields_1999_apps.shp") original
 #scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/1-250/sampledfields_2014_1.shp")
-scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/1-250/sampledfields_2014_1.shp")
+scenario<-paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/251-500/sampledfields_2014_251.shp")
 
 print("stepping into 01: formatting spatial data")
 
 
 if(file.exists(scenario)){
-  print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/1-250"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-  scenarios<- file.path(paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/1-250"), list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/1-250"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-  scenarios<-setNames(lapply(scenarios, st_read), tools::file_path_sans_ext(basename(scenarios)))
-  scenarios<-scenarios[(mixedsort(as.character(names(scenarios))))]
-
-
-  # print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/sub"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
-  # scenarios<- file.path(paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/sub"), list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/sub"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  # print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/1-250"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  # scenarios<- file.path(paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/1-250"), list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/1-250"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
   # scenarios<-setNames(lapply(scenarios, st_read), tools::file_path_sans_ext(basename(scenarios)))
   # scenarios<-scenarios[(mixedsort(as.character(names(scenarios))))]
+
+
+  print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/251-500"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  scenarios<- file.path(paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/251-500"), list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/251-500"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
+  scenarios<-setNames(lapply(scenarios, st_read), tools::file_path_sans_ext(basename(scenarios)))
+  scenarios<-scenarios[(mixedsort(as.character(names(scenarios))))]
 
   scenario_daily_list<-list()
   
@@ -42,10 +42,7 @@ if(file.exists(scenario)){
   
   scenarios_f<-st_intersection(sim,colony)
   
-  # plot(colony$geometry,col="red")
-  # plot(scenarios_f$geometry)
-  
-  print(paste0("this is scenario ", scene))
+  print(paste0("this is scenario ", scene+251))
     
     #this function addresses any polygons that are of the same field but were separated due to area calculations in the intersection analysis; 
     combine_by_id_if_needed<-function(x){
@@ -123,9 +120,10 @@ if(file.exists(scenario)){
    dailylist[[n]]<-out
   }
   
-  print(paste0("Formatting of simulation ", scene, " done"))
+  print(paste0("Formatting of simulation ", scene+251, " done"))
   
   scenario_daily_list[[scene]]<-dailylist
+  
   
   
   } #end for_loop by scenario
@@ -164,6 +162,16 @@ if(file.exists(scenario)){
 
 
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
