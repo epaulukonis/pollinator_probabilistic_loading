@@ -19,7 +19,7 @@ nlcd<-rast(paste0(root_data_in, "/MapData/NLCD/Illinois/nlcd2013_f.tiff"))
 habitat <- mask(crop(nlcd, colony), colony) #get nlcd within habitat
 #plot(habitat)
 
-values(habitat)<-values(habitat)+1000 #add high values to CDL hab classes to differentiate between actual concentrations
+values(habitat)<-values(habitat)+10000 #add high values to CDL hab classes to differentiate between actual concentrations
 
 
 # plot(habitat)
@@ -33,7 +33,7 @@ values(habitat)<-values(habitat)+1000 #add high values to CDL hab classes to dif
 #### Process BOTH on and off-field model outputs and rasterize them into a stack organized by, in layers, 1.Day, 2.Medium, 3.Field ---- 
 
 #### BETA TESTING CODE
-# sim<-9
+# sim<-1
 # final_on_field_history<-final_on_field_history_list[[sim]]
 # final_off_field_history_30m<-final_off_field_history_30m_list[[sim]]
 # final_off_field_history_60m<-final_off_field_history_60m_list[[sim]]
@@ -59,12 +59,12 @@ values(habitat)<-values(habitat)+1000 #add high values to CDL hab classes to dif
 # final_off_field_history_90m <-purrr::discard(final_off_field_history_90m , ~any(.x$Compound == "GLYPHOSATE"))
 # 
 # #pull out clip
-# scenario_clip_on<-final_on_field_history[[4]]
-# scenario_clip_off30<-final_off_field_history_30m[[4]]
-# scenario_clip_off60<-final_off_field_history_60m[[4]]
-# scenario_clip_off90<-final_off_field_history_90m[[4]]
-#
-# # unique(scenario_clip_on$Compound)
+# scenario_clip_on<-final_on_field_history[[1]]
+# scenario_clip_off30<-final_off_field_history_30m[[1]]
+# scenario_clip_off60<-final_off_field_history_60m[[1]]
+# scenario_clip_off90<-final_off_field_history_90m[[1]]
+
+# unique(scenario_clip_on$Compound)
 
 
 
@@ -88,7 +88,7 @@ scenario_clip_off30<-scenario_clip_off30[,c(1:13,ncol(scenario_clip_off30),14:(n
 scenario_clip_off60<-scenario_clip_off60[,c(1:13,ncol(scenario_clip_off60),14:(ncol(scenario_clip_off60)-1))]
 scenario_clip_off90<-scenario_clip_off90[,c(1:13,ncol(scenario_clip_off90),14:(ncol(scenario_clip_off90)-1))]
 
-print(paste0("this is simulation ", sim+251))
+print(paste0("this is simulation ", sim))
 print(paste0("this is compound ",unique(scenario_clip_on$Compound) ))
 
 
@@ -125,7 +125,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
         #function by each media 
         process_by_media<-function(media){
           
-        #media<-by_media_list[[3]]
+        #media<-by_media_list[[1]]
 
         by_media<-media
         
@@ -224,31 +224,31 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                  
                     #### Habitat and on/off-field weights
                       #create weight matrices for on-field; off-field will be multiplied by the habitat class it is associated with
-                      onfield_weight<- c(1e-60,150,0.005) #value reflects the proportion of species that were social bees found in corn/soybeans 
+                      onfield_weight<- c(1e-60,5000,0.005) #value reflects the proportion of species that were social bees found in corn/soybeans 
                       onfield_weight <- matrix(onfield_weight, ncol=3, byrow=TRUE)
                       onweight<-terra::classify(x=output_on, rcl=onfield_weight, include.lowest=TRUE)
                       #plot(onweight)
  
                       #reweight all other habitat types
                       mrec_weight <- c(
-                        1011,1012,0,
-                        1012,1024,0.5,
-                        1024,1025, 0.1,
-                        1025,1032, 0,
-                        1032,1042,1,
-                        1042,1043,0.5,
-                        1043,1044,0.75,
-                        1044,1073,1,
-                        1073,1083,0.5,
-                        1083,1096, 0.25
+                        10011,10012,0,
+                        10012,10024,0.5,
+                        10024,10025, 0.1,
+                        10025,10032, 0,
+                        10032,10042,1,
+                        10042,10043,0.5,
+                        10043,10044,0.75,
+                        10044,10073,1,
+                        10073,10083,0.5,
+                        10083,10096, 0.25
                       )
                       
                       rclmat_weight <- matrix(mrec_weight, ncol=3, byrow=TRUE)
                       habweight<-terra::classify(x=habitat, rcl=rclmat_weight, include.lowest=TRUE)
-                     # plot(habweight)
+                      #plot(habweight)
 
                       rweight<-merge(onweight,habweight)
-                     # plot(rweight)
+                      #plot(rweight)
 
                       
                       #here, we're calculating the weighted mean: here are the steps
@@ -284,7 +284,7 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
    
                       
                       rweightedmean<- rweight*rconc #multiply the weight value times the concentrations 
-                      #plot(rweightedmean) #plot the area weighted concentration values 
+                     #plot(rweightedmean) #plot the area weighted concentration values 
     
                       weightmean_df<-as.data.frame(values(rweightedmean))
                       sumswm<-as.data.frame(table(weightmean_df))
@@ -383,17 +383,17 @@ by_media_list<-split(scenario_clip,list(scenario_clip$Media))
                 m <-merge(output_off90,m) #merge off
                 #plot(m)
                 
-                mrec_weight <- c(1e-60,1011,0.5,
-                                 1011,1012,0,
-                                 1012,1024,0.5,
-                                 1024,1025, 0.1,
-                                 1025,1032, 0,
-                                 1032,1042,1,
-                                 1042,1043,0.5,
-                                 1043,1044,0.75,
-                                 1044,1073,1,
-                                 1073,1083,0.5,
-                                 1083,1096, 0.25
+                mrec_weight <- c(1e-60,10011,0.5,
+                                 10011,10012,0,
+                                 10012,10024,0.5,
+                                 10024,10025, 0.1,
+                                 10025,10032, 0,
+                                 10032,10042,1,
+                                 10042,10043,0.5,
+                                 10043,10044,0.75,
+                                 10044,10073,1,
+                                 10073,10083,0.5,
+                                 10083,10096, 0.25
                 )
                 
                 rclmat_weight <- matrix(mrec_weight, ncol=3, byrow=TRUE)
@@ -492,8 +492,8 @@ for(sim in 1:length(final_on_field_history_list)){
 
 
       for(n in 1:length(dailymediasets_by_compound_fin)){
-        write.csv(dailymediasets_by_compound_fin[[n]], paste0(root_data_out,'/all_forage/fixed_media_tables/adjusted251-500/',names(dailymediasets_by_compound_fin[n]),sim+251, '.csv')  , row.names=F)
-        print(paste0("simulation ", names(dailymediasets_by_compound_fin[n])," ", sim+251," is done"))
+        write.csv(dailymediasets_by_compound_fin[[n]], paste0(root_data_out,'/all_forage/fixed_media_tables/adjusted/',names(dailymediasets_by_compound_fin[n]),sim, '.csv')  , row.names=F)
+        print(paste0("simulation ", names(dailymediasets_by_compound_fin[n])," ", sim," is done"))
         
       }
 

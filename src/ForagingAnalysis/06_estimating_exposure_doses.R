@@ -29,8 +29,8 @@ weather$Day<-1:365
 
 #### Calculate daily exposure doses based on a separate system for contact and oral; doses are assumed to be additive under worst case scenarios
 
-  print(list.files(path=paste0(root_data_out,'/all_forage/media_tables/1-250'), pattern='.csv', all.files=TRUE, full.names=FALSE))
-  scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables/1-250'), list.files(path=paste0(root_data_out,'/all_forage/media_tables/1-250'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  print(list.files(path=paste0(root_data_out,'/all_forage/media_tables/adjusted'), pattern='.csv', all.files=TRUE, full.names=FALSE))
+  scenarios<- file.path(paste0(root_data_out,'/all_forage/media_tables/adjusted'), list.files(path=paste0(root_data_out,'/all_forage/media_tables/adjusted'), pattern='.csv', all.files=TRUE, full.names=FALSE))
   scenarios<-setNames(lapply(scenarios, read.csv), tools::file_path_sans_ext(basename(scenarios)))
   
   # print(list.files(path=paste0(root_data_out,'/all_forage/media_tables/251-500'), pattern='.csv', all.files=TRUE, full.names=FALSE))
@@ -60,18 +60,20 @@ weather$Day<-1:365
 
  list_of_compound_scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
 
+ set.seed(1992)
  
  #I think there are some double counting in the sims or some compounds are being simulated twice; to remedy this; I will add some code to adjust the proportions
- imidacloprid<-sample(imidacloprid,100)
- clothianidin<-sample(clothianidin,225)
- chlorpyrifos<-sample(chlorpyrifos,90)
- bifenthrin<-sample(bifenthrin,70)
- #thia and carbaryl look good
- 
+#  imidacloprid<-sample(imidacloprid,100)
+#  clothianidin<-sample(clothianidin,225)
+#  chlorpyrifos<-sample(chlorpyrifos,90)
+#  bifenthrin<-sample(bifenthrin,70)
+#  #thia and carbaryl look good
+#  list_of_compound_scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
+# 
+# 
+# scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
+# scenarios<-unlist(scenarios,recursive = FALSE)
 
-scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
-scenarios<-unlist(scenarios,recursive = FALSE)
- 
  
  #split by scenario number
  scenario_numbers<-parse_number(names(scenarios))
@@ -111,8 +113,10 @@ scenarios<-unlist(scenarios,recursive = FALSE)
 
  qa_test<-lapply(list_of_compound_scenarios,QA) #look at the median/maxs; are they very high? they should not be much higher than those reported for single days in Ch. 2. If so, something is iffy. 
  
- #test<-qa_test[[2]]
+# test<-qa_test[[5]]
 
+ 
+ 
  
 #Calculate doses if by scenario ----
  
@@ -120,7 +124,7 @@ scenarios<-unlist(scenarios,recursive = FALSE)
  get_exposure_dose<-function(x){
    
    scenario<-x
-   #scenario<-list_of_individual_scenarios[[5]]
+   #scenario<-list_of_individual_scenarios[[1]]
    scenarios<-split(scenario,scenario$Compound)
    
    
@@ -135,6 +139,8 @@ scenarios<-unlist(scenarios,recursive = FALSE)
      # scenarion<-rbind(scenarion, flower)
      
      
+     #scenarion<-distinct(scenarion)
+     
      contact<-scenarion[scenarion$Media =="Dust"|scenarion$Media == "Air"| scenarion$Media =="Soil", ] #|scenarion$Media == "Flower"
      oral<-scenarion[scenarion$Media == "Pollen" | scenarion$Media == "Nectar" , ]
      
@@ -146,9 +152,9 @@ scenarios<-unlist(scenarios,recursive = FALSE)
      
      #daily dose for aerial deposition
      aerial<-contact[contact$Media == "Dust"| contact$Media == "Air",]
-     aerial$exp_dose<- (aerial$Conc/2) *1.6E-4*(10) #calculated as the dose experienced from single-day contact with aerial deposition within a hypothetical 'flight tube'; assume one flight through cloud at 10m
+     aerial$exp_dose<- (aerial$Conc/2) *1.6E-4*(730) #calculated as the dose experienced from single-day contact with aerial deposition within a hypothetical 'flight tube'; assume one flight through cloud 991
      
-     testy<-aerial[aerial$Conc > 0,]
+     #testy<-aerial[aerial$Conc > 0,]
     
      # #daily dose for flower contact from deposition
      # flower<-contact[contact$Media == "Flower",]
@@ -168,13 +174,14 @@ scenarios<-unlist(scenarios,recursive = FALSE)
      
      #daily dose for soil exposures; #soil conc in ug/m2 needs to be converted to cm2
      soil<-contact[contact$Media == "Soil",]
-     soil$exp_dose <- (soil$Conc/10000 * 1.95 * 2 ) * 6.5/2 #surface area of bumblebee queen  # we assume that at some point, the foundress makes contact with contaminated soil
+     soil$exp_dose <- (soil$Conc/10000 * 1.95 * 2 ) * 6.5 #surface area of bumblebee queen  # we assume that at some point, the foundress makes contact with contaminated soil
      
      contact<-rbind(aerial,soil)
      
      #sum all contact doses from different sources
-     contactf<-contact %>% group_by(Day) %>% mutate(Dose = sum(exp_dose))
-     contactf<-contactf[,c(1:4,6:7,10)] #just get overall daily contact exposure
+     contactf<-contact %>% group_by(Day) %>% mutate(Dosesum = sum(exp_dose))
+     contactf<-contactf[,c(1:4,6:10)] #just get overall daily contact exposure
+     colnames(contactf)[8]<-"Dose"
      contactf$Type<-"Contact"
      
      ### calculate overall daily probability of survival from contact doses
@@ -186,14 +193,14 @@ scenarios<-unlist(scenarios,recursive = FALSE)
      #daily dose for oral exposures; let's assume for now that a bombus queen would hypothetically be getting 50% of her resources from contaminated areas
      oral<-oral %>%
        mutate(exp_dose = Conc * case_when(
-         Media == "Pollen" ~ (0.0485) * 0.5,
-         Media == "Nectar" ~  (0.75658) * 0.5
+         Media == "Pollen" ~ (0.0485),
+         Media == "Nectar" ~  (0.75658) 
        ))
      
-     oralf<-oral %>% group_by(Day) %>% mutate(Dose = sum(exp_dose))
-     oralf<-oralf[,c(1:4,6:7,10)] #just get overall daily oral exposure
+     oralf<-oral %>% group_by(Day) %>% mutate(Dosesum = sum(exp_dose))
+     oralf<-oralf[,c(1:4,6:10)] #just get overall daily contact exposure
+     colnames(oralf)[8]<-"Dose"
      oralf$Type<-"Oral"
-     
      
      daily_exposures<-as.data.frame(rbind(contactf,oralf))
      
@@ -217,7 +224,6 @@ scenarios<-unlist(scenarios,recursive = FALSE)
  
  exp_dose_output<-lapply(list_of_individual_scenarios, get_exposure_dose)  
  names(exp_dose_output)<-names(list_of_individual_scenarios)
- 
 
 
 #Calculate doses if by compound ----
@@ -244,7 +250,7 @@ scenarios<-unlist(scenarios,recursive = FALSE)
        
        #daily dose for aerial deposition
         aerial<-contact[contact$Media == "Dust"| contact$Media == "Air",]
-        aerial$exp_dose<- (aerial$Conc/2) *1.6E-4*(10) #calculated as the dose experienced from single flight through aerial deposition within a hypothetical 'flight tube'
+        aerial$exp_dose<- (aerial$Conc/2) *1.6E-4*(730) #calculated as the dose experienced from single flight through aerial deposition within a hypothetical 'flight tube'
       
 
         # #daily dose for flower contact from deposition
@@ -265,7 +271,7 @@ scenarios<-unlist(scenarios,recursive = FALSE)
    
         #daily dose for soil exposures
          soil<-contact[contact$Media == "Soil",]
-         soil$exp_dose <- (soil$Conc/10000 * 1.95 * 2 ) * 6.5/2 #surface area of bumblebee queen
+         soil$exp_dose <- (soil$Conc/10000 * 1.95 * 2 ) * 6.5 #surface area of bumblebee queen
       
       contact<-rbind(aerial,soil)
       
@@ -283,12 +289,12 @@ scenarios<-unlist(scenarios,recursive = FALSE)
         #daily dose for oral exposures
        oral<-oral %>%
            mutate(exp_dose = Conc * case_when(
-             Media == "Pollen" ~ 0.0485 * 0.5,
-             Media == "Nectar" ~  0.7565 * 0.5
+             Media == "Pollen" ~ 0.0485,
+             Media == "Nectar" ~  0.7565
            ))
     
         oralf<-oral %>% group_by(Day) %>% mutate(Dose = sum(exp_dose))
-        oralf<-oralf[1:365,c(1:3,5:6,9)] #just get overall daily oral exposure
+        oralf<-oralf[,c(1:3,5:6,9)] #just get overall daily oral exposure
         oralf$type<-"Oral"
 
       

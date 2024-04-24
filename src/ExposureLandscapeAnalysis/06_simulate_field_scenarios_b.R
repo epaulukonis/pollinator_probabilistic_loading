@@ -253,6 +253,7 @@ pest_prop_by_cropc<- pest_prop_by_cropc %>%
 
 ##### Planting data preparation ----
 
+
 ## 1.In this section, I read in the planting dates and structure the corn and soy planting and emerging dates
 #read in the crop planting probabilities
 print(list.files(path=paste0(root_data_in,"/bombus/exposuredata/plantingdates/NASS"), pattern='.csv', all.files=TRUE, full.names=FALSE))
@@ -265,8 +266,8 @@ corn<-pd[[1]]
 soy<-pd[[2]]
 
 #remove columns that are 5 year averages, previous years, or CV
-corn<- corn %>% select(-contains(c("5.YEAR","PREVIOUS","CV", "HARVESTED")))
-soy<- soy %>% select(-contains(c("5.YEAR","PREVIOUS","CV","HARVESTED")))
+corn<- corn %>% dplyr::select(-contains(c("5.YEAR","PREVIOUS","CV", "HARVESTED")))
+soy<- soy %>% dplyr::select(-contains(c("5.YEAR","PREVIOUS","CV","HARVESTED")))
 corn<-corn[,-c(8:18)] #drop other columns we don't need
 soy<-soy[,-c(8:18)] #drop other columns we don't need
 
@@ -546,13 +547,13 @@ for(n in 101:1000){
     fcstf<-fcstf[,c(1:8,15,17:20)]
     
     #some optional code to make sure everything works correctly; use testy to pick a combo of id, crop, and application type
-    # testy<-filter(fcst,ApplicationType == "FoliarI") %>%
-    #   group_by(id,crop) %>%
-    #   filter(n()>1)
-    # #pick an id from the old batch and compare against new; below I used id 210
-    # testorig<-fcst[fcst$id == 210 & fcst$ApplicationType =='FoliarI' & fcst$crop== 1,]
-    # testnew<-fcstf[fcstf$id == 210 & fcstf$ApplicationType =='FoliarI'& fcstf$crop== 1,]
-    
+    testy<-filter(fcst,ApplicationType == "FoliarI") %>%
+      group_by(id,crop) %>%
+      filter(n()>1)
+    #pick an id from the old batch and compare against new; below I used id 210
+    testorig<-fcst[fcst$id == 1360 & fcst$ApplicationType =='FoliarI' & fcst$crop== 1,]
+    testnew<-fcstf[fcstf$id == 1360 & fcstf$ApplicationType =='FoliarI'& fcstf$crop== 1,]
+
     #also double check that there are no repeats on herbicide applications; should be 0
     # testy<-filter(fcstf,ApplicationType == "FoliarH") %>%
     #   group_by(id,crop) %>%
