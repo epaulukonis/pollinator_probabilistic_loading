@@ -164,6 +164,11 @@ out
 
 
 
+plot_grid(
+  daily_prob_plot,
+  daily_survival_plot,
+  hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow=2, ncol=1, rel_widths = c(6,6))
+
 
 
 
