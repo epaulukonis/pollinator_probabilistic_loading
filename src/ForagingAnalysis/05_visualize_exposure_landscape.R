@@ -196,7 +196,7 @@ colonyplot
 
 ### pull out a single scenario to demonstrate both a static map for the manuscript and a gif for the defense ----
 
-sim<-3
+sim<-5
 # #### BETA TESTING CODE
 final_on_field_history<-final_on_field_history_list[[sim]]
 final_off_field_history_30m<-final_off_field_history_30m_list[[sim]]
@@ -356,7 +356,7 @@ by_media<-scenario_clip
             #                      limits=limits,
             #                      breaks=breaks,
             #                      name="EEC")+
-            theme(legend.position="none")+
+            #theme(legend.position="none")+
             ggtitle(paste0(ondf$date[ondf$Day == day][1]))+
                                  
           facet_wrap(~Media, ncol = 2,nrow=2)
@@ -369,7 +369,7 @@ by_media<-scenario_clip
           
           
           
-          seq(from = 1, to=365, by=1) %>% 
+          seq(from = 187, to=197, by=1) %>% 
             map_df(conc_map)
     
           
@@ -378,6 +378,6 @@ by_media<-scenario_clip
 list.files(path = paste0(root_data_out,"/animations/"), pattern = "*.png", full.names = T) %>% 
   map(image_read) %>% # reads each path file
   image_join() %>% # joins image
-  image_animate(fps=8) %>% # animates, can opt for number of loops
-  image_write(paste0(root_data_out,"/animations/gif", "conc_clothianidin_faster.gif")) # write to current dir
+  image_animate(fps=10) %>% # animates, can opt for number of loops
+  image_write(paste0(root_data_out,"/animations/gif", "conc_clothianidin_fastest.gif")) # write to current dir
 
