@@ -81,24 +81,6 @@ habplot
 
 ########Now get simulation map ----
 
-nlcd<-rast(paste0(root_data_in, "/MapData/NLCD/Illinois/nlcd2013_f.tiff"))
-
-point<- st_read(paste0(bombus_dir,"/foraging/"), layer = "colonylocation")
-
-colony<- st_read(paste0(bombus_dir,"/foraging/"), layer = "colonylocation")
-colony<- st_transform(colony, crs(scenarios_f)) #reproject to match extent of DF
-colony<-st_buffer(colony, 1000)
-
-habitat <- mask(crop(nlcd, colony), colony) #get nlcd within habitat
-
-#get visual buffer
-hab_buff<-st_buffer(colony, 20)
-habitat<-as.data.frame(habitat,xy = TRUE)
-habitat$Layer_1<-ceiling(as.numeric(habitat$Layer_1))
-habitat$Layer_1<-as.factor(habitat$Layer_1)
-habitat<-na.omit(habitat)
-
-
 print(list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/sub"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
 scenarios<- file.path(paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/sub"), list.files(path=paste0(root_data_out, "/all_bombus/modified_sampled_fields/fields_within_habitat/MC/only2014/sub"), pattern='.shp$', all.files=TRUE, full.names=FALSE))
 scenarios<-setNames(lapply(scenarios, st_read), tools::file_path_sans_ext(basename(scenarios)))
@@ -112,9 +94,23 @@ sim <- sim %>%
   st_make_valid()
 
 #here, we'll pull out the 2014 data sets and extract that layer to a single colony location. then all code that follows will just be the field histories in that spot. 
+
+
+nlcd<-rast(paste0(root_data_in, "/MapData/NLCD/Illinois/nlcd2013_f.tiff"))
+point<- st_read(paste0(bombus_dir,"/foraging/"), layer = "colonylocation")
+
 colony<- st_read(paste0(bombus_dir,"/foraging/"), layer = "colonylocation")
 colony<- st_transform(colony, crs(sim)) #reproject to match extent of DF
 colony<-st_buffer(colony, 1000)
+
+habitat <- mask(crop(nlcd, colony), colony) #get nlcd within habitat
+
+#get visual buffer
+hab_buff<-st_buffer(colony, 20)
+habitat<-as.data.frame(habitat,xy = TRUE)
+habitat$Layer_1<-ceiling(as.numeric(habitat$Layer_1))
+habitat$Layer_1<-as.factor(habitat$Layer_1)
+habitat<-na.omit(habitat)
 
 scenarios_f<-st_intersection(sim,colony)
 
@@ -145,7 +141,7 @@ scenarios_f<-st_intersection(sim,colony)
   
   
   
-  
+  sim<-sim[sim$Compond != "Glyphosate",]
   
 #### Now put together ----
   #sim$title<-"Example Exposure Landscape"
@@ -163,7 +159,7 @@ mediaplot<-ggplot()+
   guides(fill=guide_legend(title="Compound"))+
   ggtitle("Example Scenario")+
   theme(
-    plot.title = element_text(hjust = 0.5),
+    plot.title = element_text(hjust = 0.5, size=18),
     legend.title.align=0.5,
     strip.text.x = element_text(size = 14, colour = "black", angle = 0),
     legend.position = "right",
@@ -333,11 +329,10 @@ by_media<-scenario_clip
           
           
           
-          hist(ondfx$Value)
-          ondfx<-ondfx[!ondfx$Media == "Dust",]
+          # hist(ondfx$Value)
+          # ondfx<-ondfx[!ondfx$Media == "Dust",]
       
            limits<-c(0,6.075007)
-
            nbreaks<- seq(from = 0.00005, to = 0.30, length=11)
    
         conc_map<-function(day){    
@@ -352,32 +347,34 @@ by_media<-scenario_clip
             geom_sf(data = buf30[buf30$Day ==day,], aes(fill = Value),colour="lightgrey") +
             geom_sf(data = buf60[buf60$Day ==day,], aes(fill = Value),colour="lightgrey") +
             geom_sf(data = buf90[buf90$Day ==day,], aes(fill = Value),colour="lightgrey") +
-            # scale_fill_viridis_b(option = "D", 
+            
+            theme(axis.text.x = element_blank(),
+                  axis.text.y = element_blank(),
+                  axis.title.x=element_blank(),
+                  axis.title.y=element_blank(),
+                  axis.ticks = element_blank())+
+            # scale_fill_viridis_b(option = "D",
             #                      limits=limits,
             #                      breaks=breaks,
             #                      name="EEC")+
-            #theme(legend.position="none")+
+            theme(legend.position="none")+
             ggtitle(paste0(ondf$date[ondf$Day == day][1]))+
-                                 
-          facet_wrap(~Media, ncol = 2,nrow=2)
+            facet_wrap(~Media, ncol = 2,nrow=2)
           
           print(paste0("saving plot ", day))
-          ggsave(filename = paste0(root_data_out,"/animations/",day+1000,".png"),
+          ggsave(filename = paste0(root_data_out,"/animations/gif/",day+1000,".png"),
                  width = 8,height=8,dpi = 150)             
 
         }
           
           
           
-          seq(from = 187, to=197, by=1) %>% 
+          seq(from = 100, to=170, by=1) %>% 
             map_df(conc_map)
-    
-          
-          
-          
-list.files(path = paste0(root_data_out,"/animations/"), pattern = "*.png", full.names = T) %>% 
+  
+list.files(path = paste0(root_data_out,"/animations/gif"), pattern = "*.png", full.names = T) %>% 
   map(image_read) %>% # reads each path file
   image_join() %>% # joins image
-  image_animate(fps=10) %>% # animates, can opt for number of loops
-  image_write(paste0(root_data_out,"/animations/gif", "conc_clothianidin_fastest.gif")) # write to current dir
+  image_animate(fps=5) %>% # animates, can opt for number of loops
+  image_write(paste0(root_data_out,"/animations/gif/", "conc_clothianidin_fastest_final.gif")) # write to current dir
 

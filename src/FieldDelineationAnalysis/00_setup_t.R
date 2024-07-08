@@ -15,8 +15,6 @@ R.Version()$version.string
 library(sp)
 library(sf)
 library(stars)
-library(rgeos)
-library(rgdal)
 library(terra)
 library(raster)
 library(stars)
@@ -52,8 +50,12 @@ who_is_running<-'eap'
 #who_is_running<-'stp'
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
   root_dir <- file.path("c:", "git", "pollinator_probabilistic_loading")
-}else if (Sys.info()[4]=="LZ26EPAULUKO"){
+}else if(Sys.info()[4]=="LZ26TPURUCKE-2"){
+  root_dir <- file.path("c:", "Users", "tpurucke", "git", "pollinator_probabilistic_loading")
+  PWC_dir <-  file.path("c:", "Users", "tpurucke", "git", "pollinator_probabilistic_loading", "data_in", "PWCdata", "pesticide runs")
+}else if(Sys.info()[4]=="LZ26EPAULUKO-2"){
   root_dir <- 'C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/GitHub/pollinator_probabilistic_loading'
+  PWC_dir<-"C:/Users/EPAULUKO/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/apps/pwc_2.001/pesticide runs"
 }else{
   root_dir <- file.path("/work", "HONEYBEE", who_is_running, "pollinator_probabilistic_loading")
 }

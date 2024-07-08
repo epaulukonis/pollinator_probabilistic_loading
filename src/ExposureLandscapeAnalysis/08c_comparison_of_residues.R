@@ -111,6 +111,7 @@ by_commodity<-split(combine_all, list(combine_all$Commodity), drop=T)
 #x<-by_commodity[[2]]
 plot_all_applications_by_timeseries<-function(x){
   
+
   x<-na.omit(x)
  # x<-x[!x$Value < 3e-5,] #set level of detection of 0.03 ng/g
   x<-x[x$MediaSub == "Pollen" | x$MediaSub == "Nectar"| x$MediaSub == "Soil", ]
@@ -149,14 +150,11 @@ plot_all_applications_by_timeseries<-function(x){
   #value = ug/g OR ug/m2 if deposition
   
   x<- x%>% mutate(EEC = case_when(MediaSub == "Soil" ~ Value,
-                         MediaSub == "Air" || MediaSub == "Dust"~ (Value/10000)*SA,
+                         MediaSub == "Air" | MediaSub == "Dust"~ (Value/10000)*SA,
                          MediaSub == "Nectar" ~ Value * 0.400, #ingestion rate foraging bee
                          TRUE ~ Value*0.030))
   
   
-  
-  
-
 
   split_by_commodity<-split(x,list(x$Compound), drop=T)
   all<-seq(0,150,by=25)
@@ -181,7 +179,8 @@ plot_all_applications_by_timeseries<-function(x){
     theme_bw()+
     theme(legend.position="none",axis.text.y = element_text(size=12,face="bold"),
           axis.text.x = element_text(size=12,face="bold", angle=45, vjust=0.9),  
-          axis.title=element_text(size=14,face="bold"))+
+          axis.title=element_text(size=14,face="bold"),
+          strip.text = element_text(size = 16))+
           # plot.background = element_rect(color = "black"))+
     ggtitle(paste0(str_to_title(crop$Compound))) +
     colScale +
@@ -190,20 +189,44 @@ plot_all_applications_by_timeseries<-function(x){
   output
   }
   
-  # c<-seq(67,150, by=10)
-  # s<-seq(56,140, by=10)
-  # all<-seq(0,80,by=10)
-  
- # output<-output + facetted_pos_scales(
- #    x = list(
- #      ID =="Off-field" ~ scale_x_continuous(limits=c(0, 80), breaks=all,labels =c("0","10","20","30","40","50","60","70","80")),
- #      MediaSub =="Soil" ~ scale_x_continuous(limits=c(0, 80), breaks=all,labels =c("0","10","20","30","40","50","60","70","80")),
- #      Commodity == "CORN" & ID == "On-field" &  MediaSub == "Pollen"  ~ scale_x_continuous(limits=c(67, 150), breaks=c,labels =c("0","10","20","30","40","50","60","70","80")),
- #      Commodity == "SOYBEANS" & ID == "On-field" &  MediaSub == "Pollen"~ scale_x_continuous(limits=c(56, 140),breaks=s,labels =c("0","10","20","30","40","50","60","70","80")),
- #      Commodity == "SOYBEANS" & ID == "On-field" &  MediaSub == "Nectar"~ scale_x_continuous(limits=c(56, 140),breaks=s,labels =c("0","10","20","30","40","50","60","70","80"))
- #      
- #    ) ) +
  
+ ##example for dissertation defense
+ # x<-x[x$Compound == "IMIDACLOPRID",]
+ # all<-seq(0,150,by=25)
+ # 
+ # output<- ggplot(x) +
+ #   geom_line(aes(day, (Value), linetype=ID, color=ApplicationType),size=1.2)+
+ #  #facet_nested_wrap(~MediaSub, scales="free",nrow=1)+
+ #  facet_grid(~MediaSub,scales="free")+
+ #   scale_x_continuous(limits=c(0, 150),breaks=all)+
+ #   #scale_x_continuous(limits=c(0, 80), breaks=all,labels =c("0","10","20","30","40","50","60","70","80"))+
+ #   #facet_grid(rows = vars(ID), cols = vars(Commodity), scales="free_y")+
+ #   ylab("Residue Concentrations [ug/g]")+
+ #   xlab("Days Post-Planting")+
+ #   # xlab(ifelse(crop$Commodity == "SOYBEANS","Days After Planting",""))+
+ #   # geom_hline(yintercept = crop$Contact_LD50_ug_bee, col="red", linetype="longdash")+
+ #   # geom_hline(yintercept = crop$Oral_LD50_ug_bee, col="darkred", linetype="longdash")+
+ #   # geom_label(aes(x = 60, y = crop$Contact_LD50_ug_bee, label = paste0("Contact LD50")), size= 3, col='black')+
+ #   # geom_label(aes(x = 20, y = crop$Oral_LD50_ug_bee, label = paste0("Oral LD50")), size= 3, col='black')+
+ #   theme_bw()+
+ #   theme(axis.text.y = element_text(size=12,face="bold", margin = margin(t = 0, r = 5, b = 0, l = 10)),
+ #         axis.text.x = element_text(size=12,face="bold", angle=45, vjust=0.9, margin = margin(t = 5, r = 0, b = 0, l = 0)),
+ #         axis.title=element_text(size=14,face="bold"),
+ #         strip.text = element_text(size = 16))+
+ # 
+ # 
+ #   # plot.background = element_rect(color = "black"))+
+ #   ggtitle(paste0(str_to_title(x$Compound), " - Soybean Crop")) +
+ #   colScale +
+ #   lineScale
+ # 
+ # 
+ # output
+ 
+ 
+ 
+ 
+
   
 
 
@@ -395,9 +418,11 @@ names(myColors) <- unique(combine_all$MediaSub)
 colScale <- scale_colour_manual(name = "MediaSub",values = myColors)
 fillScale <- scale_fill_manual(name = "MediaSub",values = myColors)
 
+combine_all<-combine_all[,c(1:11,13)]
+
 #split according to application type first
 split_datasets_for_HQ<-split(combine_all, list(combine_all$ApplicationType), drop=T) 
-#x<-split_datasets_for_HQ[[1]]
+x<-split_datasets_for_HQ[[1]]
 
 create_plot_of_rq<-function(x){
   df<-x
@@ -432,20 +457,18 @@ df<- df %>% mutate(EEC = Value * case_when(
   
   #split by crop
   df_list<-split(df, list(df$Commodity), drop=T)
-  #crop<-df_list[[2]]
-
   plot_by_crop<-function(crop){
     
     # ticks <- (seq(-35,15, by=10))
     # logticks <- exp(ticks)
     
-   crop<-crop[,c(1:10,14,11:13)]
+   crop<-crop[,c(1:10,13,11:12)]
    crop<-gather(crop, "Comparison", "Endpoint", 12:ncol(crop))
    
   
-   crop$Comparison<-ifelse(crop$Comparison == "Endpoint","LC50/LD50",crop$Comparison)
+   crop$Comparison<-ifelse(crop$Comparison == "Endpoint","LD50",crop$Comparison)
    crop$Comparison<-ifelse(crop$Comparison == "HC5","HC5",crop$Comparison)
-   crop$Comparison<-ifelse(crop$Comparison == "EPA","EPA Tier I Dose",crop$Comparison)
+  # crop$Comparison<-ifelse(crop$Comparison == "EPA","EPA Tier I Dose",crop$Comparison)
    
 
    #crop$col <-myColors[match(crop$MediaSub, names(myColors))]
@@ -465,8 +488,8 @@ df<- df %>% mutate(EEC = Value * case_when(
 
     
     facet_nested_wrap(~Compound +ID,nrow=1)+
-    scale_colour_manual(values=c('darkblue','darkgreen',"firebrick"))+
-    scale_shape_manual(values = c(4,16,17))+
+    scale_colour_manual(values=c('darkgreen',"firebrick"))+
+    scale_shape_manual(values = c(16,17))+
     # colScale+
     # fillScale+
     
@@ -485,15 +508,115 @@ df<- df %>% mutate(EEC = Value * case_when(
                                      
                                      ),
           axis.title.y=element_blank(), axis.title.x=element_blank())
+  strip.text = element_text(size = 16)
+  out
+  
+  # outl<-ggplot(crop, aes(x=MediaSub)) +
+  #   geom_boxplot(aes(y=EEC), fill="lightgrey", show.legend = FALSE)+
+  #   geom_point(aes(y=Endpoint, shape=Comparison, colour=Comparison, fill=Comparison), size=3)+
+  #   
+  #   # geom_point(aes(x=MediaSub, y=(Endpoint), colour=Endpoint), pch=4,size=3,shape=4, fill="darkred")+
+  #   # geom_point(aes(x=MediaSub, y=(EPA), colour=EPA),pch=21,size=3,shape=1,fill="darkblue")+
+  #   # geom_point(aes(x=MediaSub, y=(HC5), colour=HC5), size=3,shape=5, fill="lightgreen")+
+  #   
+  #   scale_y_continuous(trans=scales::log_trans(),
+  #                      labels = scales::format_format(digits=3))+
+  #   
+  #   
+  #   facet_nested_wrap(~Compound +ID,nrow=1)+
+  #   scale_colour_manual(values=c('darkgreen',"firebrick"))+
+  #   scale_shape_manual(values = c(16,17))+
+  #   # colScale+
+  #   # fillScale+
+  #   
+  #   #ylab(ifelse(df$ApplicationType == "Foliar","Hazard Quotient", ""))+
+  #   theme_bw()+
+  #   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+  #   ggtitle(paste0(crop$ApplicationType,"-", crop$Commodity)) +
+  #   theme(
+  #         axis.title=element_text(size=14,face="bold"),
+  #         axis.text.y = element_text(size=12,face="bold"),
+  #         axis.text.x = element_text(size=12,face="bold", colour=
+  #                                      
+  #                                      ifelse(crop$ApplicationType=="Soil",
+  #                                             c("#66A61E","#7570B3","#D95F02"),
+  #                                             c("#E6AB02","#66A61E","#7570B3","#D95F02"))
+  #                                    
+  #         ),
+  #         axis.title.y=element_blank(), axis.title.x=element_blank())
+  # outl
+  # 
+  # legend<-get_only_legend(outl)
+  # 
+  
+  
+  }
+  output_by_crop<-lapply(df_list, plot_by_crop)
+  final_plots<-ggpubr::ggarrange(plotlist = output_by_crop, ncol=1)
+  
+  
+  
+  
+  
+  ##example for dissertation defense
+  crop<-df_list[[2]]
+  
+  crop<-df
+  crop<-crop[,c(1:10,13,11:12)]
+  crop<-gather(crop, "Comparison", "Endpoint", 12:ncol(crop))
+  
+  crop$Comparison<-ifelse(crop$Comparison == "Endpoint","LD50",crop$Comparison)
+  crop$Comparison<-ifelse(crop$Comparison == "HC5","HC5",crop$Comparison)
+  
+  
+  results<- crop%>% group_by(Commodity, Compound, ApplicationType, MediaSub) %>% filter(EEC >= Endpoint)
+  results<- results%>% group_by(Commodity, Compound, ApplicationType, MediaSub,Comparison) %>% summarize(maxi=max(EEC))
+  
+ # results<-results[order(-results$maxi),]
+  
+  crop<-crop[crop$ApplicationType== "Soil" & crop$Compound == "IMIDACLOPRID",]
+
+  #create plot
+  out<-ggplot(crop, aes(x=MediaSub)) +
+    geom_boxplot(aes(y=EEC), fill="lightgrey", show.legend = FALSE)+
+    geom_point(aes(y=Endpoint, shape=Comparison, colour=Comparison, fill=Comparison), size=3)+
+    
+    # geom_point(aes(x=MediaSub, y=(Endpoint), colour=Endpoint), pch=4,size=3,shape=4, fill="darkred")+
+    # geom_point(aes(x=MediaSub, y=(EPA), colour=EPA),pch=21,size=3,shape=1,fill="darkblue")+
+    # geom_point(aes(x=MediaSub, y=(HC5), colour=HC5), size=3,shape=5, fill="lightgreen")+
+    
+    scale_y_continuous(trans=scales::log_trans(),
+                       labels = scales::format_format(digits=3))+
+    
+    #facet_nested_wrap(~Compound +ID,nrow=1)+
+    facet_nested_wrap(~ID,nrow=1)+
+    scale_colour_manual(values=c('darkgreen',"firebrick"))+
+    scale_shape_manual(values = c(16,17))+
+    ylab("Rate-Adjusted Environmmental Exposure Dose [ug/bee;ug/g]")+
+    xlab("Media Type")+
+    
+    #ylab(ifelse(df$ApplicationType == "Foliar","Hazard Quotient", ""))+
+    theme_bw()+
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+    ggtitle(paste0(crop$ApplicationType,"- Soybeans")) +
+    theme(
+          axis.title=element_text(size=14,face="bold"),
+          axis.text.y = element_text(size=12,face="bold",  margin = margin(t = 5, r = 0, b = 0, l = 0)),
+          axis.text.x = element_text(size=12,face="bold",  margin = margin(t = 5, r = 0, b = 0, l = 0), colour=
+                                       
+                                       ifelse(crop$ApplicationType=="Soil",
+                                              c("#66A61E","#7570B3","#D95F02"),
+                                              c("#E6AB02","#66A61E","#7570B3","#D95F02"))),
+          strip.text = element_text(size = 20),
+          legend.text = element_text(size=18),
+          legend.title= element_text(size=16)
+          )
   out
   
   
   
-  }
+
   
-  output_by_crop<-lapply(df_list, plot_by_crop)
-  
-  final_plots<-ggpubr::ggarrange(plotlist = output_by_crop, ncol=1)
   
  
   # all_plot_legend <-
@@ -537,7 +660,7 @@ compare_risk_bottom<-plot_grid(
   hjust=0, vjust=0, align= "h",  label_x = 0.01, nrow=1, rel_widths = c(3,1.8))
 compare_risk_bottom
 
-final<-plot_grid(compare_risk_top,compare_risk_bottom, hjust=0, vjust=0,  align= "h",nrow=2)
+#final<-plot_grid(compare_risk_top,compare_risk_bottom, hjust=0, vjust=0,  align= "h",nrow=2)
 
 
 
@@ -557,8 +680,8 @@ grid.arrange(arrangeGrob(compare_risk_bottom, left = y.grob, bottom = x.grob))
 #   geom_boxplot() +
 #   #geom_point( size=3.2, aes(shape=MediaSub))+
 #   # scale_y_continuous(limits=c(-30,5), breaks=seq(-30,5, by=10))+
-#   
-#   facet_wrap(Commodity ~ Compound, 
+# 
+#   facet_wrap(Commodity ~ Compound,
 #              scales="free_y",nrow=2)+
 #   #facet_wrap(~Compound, scales = "free", nrow=1)+
 #   ylab("Risk Quotient")+
@@ -589,9 +712,9 @@ grid.arrange(arrangeGrob(compare_risk_bottom, left = y.grob, bottom = x.grob))
 #   ggtitle(paste0(crop$ApplicationType,"-", crop$Commodity)) +
 #   theme(axis.title=element_text(size=14,face="bold"),axis.text.y = element_text(size=12,face="bold"), axis.text.x = element_text(size=12,face="bold"), axis.title.x=element_blank())
 # legend_plot
-# 
-# 
-# legend<-get_only_legend(legend_plot)
+
+
+legend<-get_only_legend(legend_plot)
 # 
 # compare_RQ<-plot_grid(compare_RQ, legend,nrow=1, rel_widths = c(6.5,0.5))
 # compare_RQ

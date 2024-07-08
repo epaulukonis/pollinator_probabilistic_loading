@@ -120,6 +120,42 @@ threshold_box<-
 threshold_box
 
 
+###dissertation defense snippet
+
+ch<-final_all[final_all$State == "Illinois",]
+nass_datch<-nass_dat[nass_dat$State == "Illinois",]
+percentsch<-percents[percents$State == "Illinois",]
+percentlch<-percentl[percentl$State == "Illinois",]
+
+#ch$thresh <- factor(ch$thresh , levels=c("1", "2", "3","4","5","6","7","8","9","10","11","12","13","14"))
+
+threshold_box<-
+  ggplot(ch, aes(x = as.factor(thresh), y = sum_field,group = interaction(type,thresh)))+
+  geom_boxplot()+
+  geom_line(nass_datch, mapping=aes(x=as.factor(thresh), y=avgnass, group=1),size=1,color="black")+
+  geom_line(nass_datch, mapping=aes(x=as.factor(thresh), y=avgcdl, group=1),size=1,color="darkgrey")+
+  geom_line(percentsch, mapping=aes(x=as.factor(thresh), y=avgfield, group=1),size=1.5, alpha=0.4, color=c("#8c510a"))+
+  geom_line(percentlch, mapping=aes(x=as.factor(thresh), y=avgfield, group=1),size=1.5, alpha=0.4, color=c("#01665e"))+
+  geom_text(data=nass_datch[nass_datch$type == "Small",], mapping=aes(x = 15, y = avgnass, label = paste0("NASS")), size= 5, col='black', stat = "identity")+
+  geom_text(data=nass_datch[nass_datch$type == "Small",], mapping=aes(x = 0.5, y = avgcdl, label = paste0("CDL")),  size= 5, col='darkgrey',  stat = "identity")+
+  facet_wrap(.~Label, scales = "free_y")+
+  scale_y_continuous(n.breaks=5,expand = expansion(mult = c(0, 0.1)))+
+  scale_x_discrete(expand = expansion(add = c(2,2)))+
+  xlab("Threshold (N Years or More Included)") +
+  ylab("Sum of Crop Acreages")+
+  theme(panel.background = element_blank(),
+        panel.spacing.x= unit(2.5, "lines"),
+        axis.line = element_line(colour = "black"),
+        axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14, face='bold'),
+        axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14, face='bold'),
+        axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5, size=14),
+        legend.position = "none",
+        strip.text = element_text(size=16))
+
+threshold_box
+
+
+
 
 
 ### output Table 2

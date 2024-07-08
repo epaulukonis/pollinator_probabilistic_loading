@@ -88,11 +88,11 @@ for (county in 1:length(sub_by_county_list)){
     
     #start with 7, then do 3; 7 is 10 acres
     #focal window: 3 pixels (why? because 8100 m2 = 2 acres, lowest fw possible that allowed for small plots within the function
-    #focal window: 10 pixels (why? bc that's the minimum average field size from the LACIE paper)
+    #focal window: 10 acres (why? bc that's the minimum average field size from the LACIE paper)
     
     #5 is 5 acres
     r<-terra::rast(fw_s)
-    fw_s<- terra::focal(r, w = 5, fun = "modal", na.policy='omit', fillvalue=NA)%>%
+    fw_s<- terra::focal(r, w = 7, fun = "modal", na.policy='omit', fillvalue=NA)%>%
       terra::mask(mask = r)
     fw_s<-raster(fw_s) #convert back to raster object
     #plot(fw_s)

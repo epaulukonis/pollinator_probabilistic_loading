@@ -60,19 +60,30 @@ weather$Day<-1:365
 
  list_of_compound_scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
 
- set.seed(1992)
+ set.seed(18494)
  
  #I think there are some double counting in the sims or some compounds are being simulated twice; to remedy this; I will add some code to adjust the proportions
-#  imidacloprid<-sample(imidacloprid,100)
-#  clothianidin<-sample(clothianidin,225)
-#  chlorpyrifos<-sample(chlorpyrifos,90)
-#  bifenthrin<-sample(bifenthrin,70)
-#  #thia and carbaryl look good
-#  list_of_compound_scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
+ imidacloprid<-sample(imidacloprid,100)
+ clothianidin<-sample(clothianidin,225)
+ chlorpyrifos<-sample(chlorpyrifos,90)
+ bifenthrin<-sample(bifenthrin,70)
+ #thia and carbaryl look good
+ list_of_compound_scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
+ 
+
+ 
+
+# ext<-purrr::map(chlorpyrifos, function(x) {
+#   x[x$Day > 90 & x$Day < 165, ]
+# })
+#  
+# ext<-do.call(rbind,ext)
 # 
-# 
-# scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
-# scenarios<-unlist(scenarios,recursive = FALSE)
+# summ<-ext[ext$Conc >0,]
+
+
+scenarios<-list(bifenthrin,carbaryl,clothianidin,chlorpyrifos,imidacloprid,thiamethoxam)
+scenarios<-unlist(scenarios,recursive = FALSE)
 
  
  #split by scenario number
@@ -124,7 +135,7 @@ weather$Day<-1:365
  get_exposure_dose<-function(x){
    
    scenario<-x
-   #scenario<-list_of_individual_scenarios[[1]]
+  # scenario<-list_of_individual_scenarios[[1]]
    scenarios<-split(scenario,scenario$Compound)
    
    
@@ -147,6 +158,9 @@ weather$Day<-1:365
      #there are instances, when we have more than one kind of application of a single compound (imidacloprid/bifenthrin), we need to remove duplicates
      contact<-contact[!duplicated(contact), ]
      oral<-oral[!duplicated(oral), ]
+     
+     #quick factor to deal with staging
+     contact$Conc<-  ifelse(contact$Media == "Air", contact$Conc/125, contact$Conc)
      
      ### CONTACT ---
      
@@ -245,6 +259,8 @@ weather$Day<-1:365
    
    contact<-scenarion[scenarion$Media =="Dust"|scenarion$Media == "Air"| scenarion$Media =="Soil", ] #|scenarion$Media == "Flower"
       oral<-scenarion[scenarion$Media == "Pollen" | scenarion$Media == "Nectar" , ]
+      
+      contact$Conc<-  ifelse(contact$Media == "Air", contact$Conc/125, contact$Conc)
  
       ### CONTACT ---
        

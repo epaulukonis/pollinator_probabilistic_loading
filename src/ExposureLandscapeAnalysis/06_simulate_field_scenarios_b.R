@@ -313,8 +313,15 @@ soy<- soy %>%
    group_by(Year,Status) %>%
    mutate(SampleP = 1:length(Period))
 
+# corndf<-corn[corn$Year == 2014,]
+# soydf<-soy[soy$Year == 2014,]
+# 
+# corndf$Crop<-"Corn"
+# soydf$Crop<-"Soy"
+# 
+# planting<-rbind(corndf,soydf)
 
-
+#write.csv(planting, paste0(root_data_out,"/all_bombus/outputs_for_manuscript/planting.csv"))
 ### Quick extra code to pull out peak planting/application date
 
 year_of_interest_soy<-soy[soy$Year==2014,]

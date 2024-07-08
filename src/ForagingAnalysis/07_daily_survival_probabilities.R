@@ -138,7 +138,7 @@ dr<-rbind(dro,drd)
 
 
 get_daily_and_event_prob<-function(compounds){
-#compounds<-sim[[1]]
+ #compounds<-sim[[1]]
   ind_scene<-compounds
  # ind_scene<-merge(x = ind_scene, y = apprates[ , c("Compound",  "k_values")], by = "Compound", all.x=TRUE)
   
@@ -431,18 +431,23 @@ get_daily_and_event_prob<-function(compounds){
   
   #what are the top pathways?
   
-  cont<-daily_probcontf
-  oral<-daily_proboralf
+  # cont<-daily_probcontf
+  # oral<-daily_proboralf
   
   
-  pathwayscontd<-cont %>% group_by(Media) %>% summarise(across(c(Dose,Survival,Conc), list(mean)))
-  pathwaysorald<-oral %>% group_by(Media) %>% summarise(across(c(Dose,Survival,Conc), list(mean)))
+  # summarize(
+  #   quant5 = quantile((Value), probs = 0.95),
+  #   quant50 = quantile((Value), probs = 0.50),
+  #   quant95 = quantile((Value), probs = 0.05))
   
-  pathwayscontmin<-cont %>% group_by(Media) %>% summarise(across(c(Dose,Survival,Conc), list(min)))
-  pathwaysoralmin<-oral %>% group_by(Media) %>% summarise(across(c(Dose,Survival,Conc), list(min)))
-  
-  pathwayscontmax<-cont %>% group_by(Media) %>% summarise(across(c(Dose,Survival,Conc), list(max)))
-  pathwaysoralmax<-oral %>% group_by(Media) %>% summarise(across(c(Dose,Survival,Conc), list(max)))
+  # pathwayscontd<-cont %>% group_by(Media) %>% summarise(across(c(Dose,Survival,Conc), list(median)))
+  # pathwaysorald<-oral %>% group_by(Media) %>% summarise(across(c(Dose,Survival,Conc), list(median)))
+  # 
+  # pathwayscontmin<-cont %>% group_by(Media) %>% summarise(across(c(Dose,Survival,Conc), list(min)))
+  # pathwaysoralmin<-oral %>% group_by(Media) %>% summarise(across(c(Dose,Survival,Conc), list(min)))
+  # 
+  # pathwayscontmax<-cont %>% group_by(Media) %>% summarise(across(c(Dose,Survival,Conc), list(max)))
+  # pathwaysoralmax<-oral %>% group_by(Media) %>% summarise(across(c(Dose,Survival,Conc), list(max)))
   
   
   # pathwayscontd<-  pathwayscontd[,c( 1,3,4,10)]
@@ -454,34 +459,34 @@ get_daily_and_event_prob<-function(compounds){
   # pathwayscontmax<-  pathwayscontmax[,c( 1,3,4,10)]
   # pathwaysoralmax<-  pathwaysoralmax[,c( 1,3,4,10)]
   
-  names(pathwayscontd)[2:4]<-c("Dose","Survival","Conc")
-  names(pathwaysorald)[2:4]<-c("Dose","Survival","Conc")
-  
-  names(pathwayscontmax)[2:4]<-c("Dose","Survival","Conc")
-  names(pathwaysoralmax)[2:4]<-c("Dose","Survival","Conc")
-  
-  names(pathwayscontmin)[2:4]<-c("Dose","Survival","Conc")
-  names(pathwaysoralmin)[2:4]<-c("Dose","Survival","Conc")
-  
-  
-  pathwaysoral<-gather(pathwaysorald, "Type","Value",2:4)
-  pathwayscont<-gather(pathwayscontd, "Type","Value",2:4)
-  
-  pathwaysoralmax<-gather(pathwaysoralmax, "Type","Value",2:4)
-  pathwayscontmax<-gather(pathwayscontmax, "Type","Value",2:4)
-  
-  pathwaysoralmin<-gather(pathwaysoralmin, "Type","Value",2:4)
-  pathwayscontmin<-gather(pathwayscontmin, "Type","Value",2:4)
-  
-  
-  pathways<-rbind(pathwaysoral,pathwayscont)
-  pathways$Result<-"Mean"
-  pathwaysmax<-rbind(pathwaysoralmax,pathwayscontmax)
-  pathwaysmax$Result<-"Maximum"
-  pathwaysmin<-rbind(pathwaysoralmin,pathwayscontmin)
-  pathwaysmin$Result<-"Min"
-  
-  pathways<-rbind(pathways,pathwaysmax,pathwaysmin)
+  # names(pathwayscontd)[2:4]<-c("Dose","Survival","Conc")
+  # names(pathwaysorald)[2:4]<-c("Dose","Survival","Conc")
+  # 
+  # names(pathwayscontmax)[2:4]<-c("Dose","Survival","Conc")
+  # names(pathwaysoralmax)[2:4]<-c("Dose","Survival","Conc")
+  # 
+  # names(pathwayscontmin)[2:4]<-c("Dose","Survival","Conc")
+  # names(pathwaysoralmin)[2:4]<-c("Dose","Survival","Conc")
+  # 
+  # 
+  # pathwaysoral<-gather(pathwaysorald, "Type","Value",2:4)
+  # pathwayscont<-gather(pathwayscontd, "Type","Value",2:4)
+  # 
+  # pathwaysoralmax<-gather(pathwaysoralmax, "Type","Value",2:4)
+  # pathwayscontmax<-gather(pathwayscontmax, "Type","Value",2:4)
+  # 
+  # pathwaysoralmin<-gather(pathwaysoralmin, "Type","Value",2:4)
+  # pathwayscontmin<-gather(pathwayscontmin, "Type","Value",2:4)
+  # 
+  # 
+  # pathways<-rbind(pathwaysoral,pathwayscont)
+  # pathways$Result<-"Mean"
+  # pathwaysmax<-rbind(pathwaysoralmax,pathwayscontmax)
+  # pathwaysmax$Result<-"Maximum"
+  # pathwaysmin<-rbind(pathwaysoralmin,pathwayscontmin)
+  # pathwaysmin$Result<-"Min"
+  # 
+  # pathways<-rbind(pathways,pathwaysmax,pathwaysmin)
   # pathways$Type<-NA
   # pathways[1:4,4]<-"Dose"
   # pathways[5:8,4]<-"Survival"
@@ -490,12 +495,14 @@ get_daily_and_event_prob<-function(compounds){
   
 
   #what are the actualy daily doses?
-  contactf<-daily_probcontf[,c(2,5,7,10)]
-  oralf<-daily_proboralf[,c(2,5,7,10)]
-  finaldoses<-rbind(contactf,oralf)
+  contactf<-daily_probcontf[,c(1:3,7:10)]
+  oralf<-daily_proboralf[,c(1:3,7:10)]
+  pathways<-rbind(contactf,oralf)
   
 
-  return(list(daily_prob, probability_of_events, pathways, finaldoses))
+  
+
+  return(list(daily_prob, probability_of_events, pathways ))
   
 } #function to estimate the individual events and daily survival probability
 
@@ -509,7 +516,7 @@ evaluate_by_scenario<-function(x){
  daily_prob_compound<- lapply(output,`[[`, 1)
  probability_of_events_data<-lapply(output,`[[`, 2)
  pathways<-lapply(output,`[[`, 3)
- doses<-lapply(output,`[[`, 4)
+ #doses<-lapply(output,`[[`, 4)
  
  
  ## Daily prob
@@ -534,18 +541,16 @@ evaluate_by_scenario<-function(x){
   
   ##pathways
   pathways<-do.call(rbind, pathways)
-  pathways$compound<-row.names(pathways)
+  #pathways$compound<-row.names(pathways)
   
   ##doses
-  doses<-dplyr::bind_rows(doses, .id = "Compound")
+ # doses<-dplyr::bind_rows(doses, .id = "Compound")
   
 
  
-  return(list(cumulativesurvival, probability_of_events, pathways, doses))
+  return(list(cumulativesurvival, probability_of_events, pathways))
   
 }
-
-
 
 start.time<-Sys.time()
 final_results<-lapply(exp_dose_output, evaluate_by_scenario)
@@ -613,57 +618,82 @@ dailyprob<-do.call(rbind,dailyprob)
 #   theme(legend.position = "none")
 # daily_prob_plot
 
+test<-dailyprob[dailyprob$Day == 163,]
 
 dailyprob$Mortality<-1-dailyprob$Survival
 mean_scenarios<-dailyprob%>%
   group_by(Day) %>%
-  summarize(quant1 = quantile(Mortality, probs = 0.99), 
-            quant5 = quantile(Mortality, probs = 0.95),
-            quant16 = quantile(Mortality, probs = 0.84),
+  summarize(
+            quant1 = quantile(Mortality, probs = 0.01), 
+            quant25 = quantile(Mortality, probs = 0.25),
             quant50 = quantile(Mortality, probs = 0.50),
-            quant84 = quantile(Mortality, probs = 0.16),
-            quant95 = quantile(Mortality, probs = 0.05),
-            quant99 = quantile(Mortality, probs = 0.01),)
-
-
+            quant75 = quantile(Mortality, probs = 0.75),
+            quant99 = quantile(Mortality, probs = 1),)
 
 mean_scenarios$Date<-as.Date(1:365, origin = '2014-01-01')
-mean_scenarios<-mean_scenarios[mean_scenarios$Day >= 95 & mean_scenarios$Day <= 150,]
+mean_scenarios<-mean_scenarios[mean_scenarios$Day >= 90 & mean_scenarios$Day <= 165,]
+mean_scenarios<-mean_scenarios[,c(1,7,2:6)]
+
+
+mean_scenarios<-gather(mean_scenarios,"Result","Value",3:7)
+#mean_scenarios<-na.omit(mean_scenarios)
+
+
+
+mean_scenarios$Result <- factor(mean_scenarios$Result, levels=c("quant1", "quant25", "quant50","quant75","quant99"))  # setting level order
+
 
 daily_prob_plot<-  ggplot(mean_scenarios, aes(x = as.Date(Date))) +
-  annotate("rect", xmin=as.Date('2014-04-01'), xmax=as.Date('2014-04-20'), ymin=0, ymax=0.5,alpha=0.2, fill="darkgreen") +
-  annotate("rect", xmin=as.Date('2014-04-21'), xmax=as.Date('2014-05-11'), ymin=0, ymax=0.5,alpha=0.2, fill="darkblue") +
-  annotate("rect", xmin=as.Date('2014-05-16'), xmax=as.Date('2014-05-30'), ymin=0, ymax=0.5,alpha=0.2, fill="plum4") +
+  annotate("rect", xmin=as.Date('2014-04-01'), xmax=as.Date('2014-04-20'), ymin=0, ymax=1,alpha=0.2, fill="darkgreen") +
+  annotate("rect", xmin=as.Date('2014-04-21'), xmax=as.Date('2014-05-11'), ymin=0, ymax=1,alpha=0.2, fill="darkblue") +
+  annotate("rect", xmin=as.Date('2014-05-16'), xmax=as.Date('2014-06-14'), ymin=0, ymax=1,alpha=0.2, fill="plum4") +
   
-  geom_ribbon(aes(ymin = 0, ymax = quant5, color="95th percentile"), fill = "brown3", alpha=0.8) +
-  geom_ribbon(aes(ymin = 0, ymax = quant16, color="84th percentile"), fill = "orange1", alpha=0.8) +
-  geom_ribbon(aes(ymin = 0, ymax = quant50, color="50th percentile"), fill = "grey", alpha=0.8) +
-  geom_ribbon(aes(ymin = 0, ymax = quant84, color="16th percentile"), fill = "goldenrod", alpha=0.8) +
+  geom_ribbon(aes(ymin = 0, ymax = Value, fill = Result, color=Result, alpha=Result)) +
+  
+  scale_alpha_manual(values=c(1,0.8,0.3,0.2,0.1),guide = FALSE)+
+  
+  scale_color_manual(name="Quantiles",
+                     labels=c("Minimum","25th Quantile","50th Quantile", "75th Quantile","Maximum"),
+                     values=c("darkgreen","seagreen","goldenrod","orange1", "brown3"))+
+  
+  scale_fill_manual(name="Quantiles",
+                     labels=c("Minimum","25th Quantile","50th Quantile", "75th Quantile","Maximum"),
+                     values=c("darkgreen","seagreen","goldenrod","orange1", "brown3"))+
+  
+  #scale_alpha_manual(values = c(1,0.8,0.6,0.5,0.4), guide = FALSE)+
+
+  # geom_ribbon(aes(ymin = 0, ymax = quant99,fill = "brown3"), alpha=1) +
+  # geom_ribbon(aes(ymin = 0, ymax = quant75, fill = "orange1"), alpha=1) +
+  # geom_ribbon(aes(ymin = 0, ymax = quant50, fill = "goldenrod"), alpha=1) +
+  # geom_ribbon(aes(ymin = 0, ymax = quant25, fill = "grey"), alpha=1) +
+  # geom_ribbon(aes(ymin = 0, ymax = quant1, fill = "darkgreen"), alpha=1) +
+ 
   #geom_line(aes(y = quant50), size=1, alpha=1,color="black") +
-  guides(color = guide_legend(override.aes = list(color = "white"))) +
+
   
  geom_vline(xintercept = as.Date('2014-04-10'),col="darkgreen")+
  geom_vline(xintercept = as.Date('2014-05-01'),col="darkblue")+
- geom_vline(xintercept = as.Date('2014-05-23'),col="plum4")+
+ geom_vline(xintercept = as.Date('2014-05-30'),col="plum4")+
  #geom_vline(xintercept = as.Date('2014-06-10'),col="darkred")+
 
   
-  scale_y_continuous(limits = c(0, 0.50))+
+  scale_y_continuous(limits = c(0, 1), breaks=c(0,0.25,0.50,0.75,1))+
   scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day",
                date_labels = "%b %d")+
   
   geom_text(aes(x=as.Date('2014-04-11'), label="Emergence", y=0.25), colour="darkgreen", angle=90, text=element_text(size=11)) +
   geom_text(aes(x=as.Date('2014-05-02'), label="Nest Initiation", y=0.25), colour="darkblue", angle=90, text=element_text(size=11))+
-  geom_text(aes(x=as.Date('2014-05-24'), label="Queen Ends Foraging", y=0.25), colour="plum4", angle=90, text=element_text(size=11))+
+  geom_text(aes(x=as.Date('2014-05-31'), label="Queen Ends Foraging", y=0.25), colour="plum4", angle=90, text=element_text(size=11))+
   #geom_text(aes(x=as.Date('2014-06-11'), label="First Gynes/Drones Laid", y=0.27), colour="darkred", angle=90, text=element_text(size=11))+
   
   xlab("") +
   ylab("Daily Mortality") +
-  # scale_x_continuous(trans=scales::log_trans(),
-  #                    labels = scales::format_format(digits=3))+
+  # scale_y_continuous(trans=scales::log_trans(),
+  #                    labels = scales::format_format(digits=3), breaks=c(0,0.25,0.50,0.75,1))+
   theme_bw() +
   theme(
     legend.title=element_blank(),
+    legend.position = "top",
         axis.text.x = element_text(color = "grey20", size = 14, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, hjust = .5, vjust = .5, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, hjust = .5, vjust = .5, face = "plain"),
@@ -685,8 +715,8 @@ set.seed(7585)
 ###Just pesticides
 indqueens<-spread(dailyprob,key="index",value="Survival")
 # indqueens[1:365,ncol(indqueens):251]<-1
-simulation<-matrix(runif(365*250),nrow=365,ncol=250)
-output<-matrix(NA, nrow=365,ncol=250)
+simulation<-matrix(runif(365*239),nrow=365,ncol=239)
+output<-matrix(NA, nrow=365,ncol=239)
        #rowise and columnwise
               for(row in 1:nrow(indqueens)){
                 for(col in 2:ncol(indqueens)){
@@ -705,22 +735,22 @@ output<-matrix(NA, nrow=365,ncol=250)
 anyNA(output)
 
 
-final<-as.data.frame(rowSums(output)/250)
+final<-as.data.frame(rowSums(output)/239)
 final<-cbind(final,1:365)
 names(final)<-c("Pesticide","Day")
 final$Date<-as.Date(1:365, origin = '2014-01-01')
-final<-final[final$Day >= 95 & final$Day <= 150,]
+final<-final[final$Day >= 90 & final$Day <= 165,]
 
 
 ###Natural mortality
-indqueens<-matrix(1, nrow=365,ncol=250)
-indqueens[(emergence-7):initation,1:250]<-indqueens[(emergence-7):initation,1:250]*0.9985
-indqueens[initation:workerbrood,1:250]<-indqueens[initation:workerbrood,1:250]*0.9985
+indqueens<-matrix(1, nrow=365,ncol=239)
+indqueens[100:121,1:239]<-indqueens[100:121,1:239]*0.96
+indqueens[122:165,1:239]<-indqueens[122:165,1:239]*0.9985
 
 #indqueens[(emergence-7):workerbrood,2:250]<-indqueens[(emergence-7):workerbrood,2:250]*0.99
 #indqueens[1:365,ncol(indqueens):251]<-1
-simulation<-matrix(runif(365*250),nrow=365,ncol=250)
-output<-matrix(NA, nrow=365,ncol=250)
+simulation<-matrix(runif(365*239),nrow=365,ncol=239)
+output<-matrix(NA, nrow=365,ncol=239)
 #rowise and columnwise
 for(row in 1:nrow(indqueens)){
   for(col in 1:ncol(indqueens)){
@@ -738,21 +768,21 @@ for(col in 1:ncol(output)){
 
 anyNA(output)
 
-finalnat<-as.data.frame(rowSums(output)/250)
+finalnat<-as.data.frame(rowSums(output)/239)
 finalnat<-cbind(finalnat,1:365)
 names(finalnat)<-c("Natural","Day")
 finalnat$Date<-as.Date(1:365, origin = '2014-01-01')
-finalnat<-finalnat[finalnat$Day >= 95 & finalnat$Day <= 150,]
+finalnat<-finalnat[finalnat$Day >= 90 & finalnat$Day <= 165,]
 
 ### Combined
 indqueens<-spread(dailyprob,key="index",value="Survival")
-indqueens[(emergence-7):initation,2:251]<-indqueens[(emergence-7):initation,2:251]*0.9985
-indqueens[initation:workerbrood,2:251]<-indqueens[initation:workerbrood,2:251]*0.9985
+indqueens[100:121,2:240]<-indqueens[100:121,2:240]*0.96
+indqueens[122:165,2:240]<-indqueens[122:165,2:240]*0.9985
 
 #indqueens[(emergence-7):workerbrood,2:251]<-indqueens[(emergence-7):workerbrood,2:251]*0.99
 # indqueens[1:365,ncol(indqueens):251]<-1
-simulation<-matrix(runif(365*250),nrow=365,ncol=250)
-output<-matrix(NA, nrow=365,ncol=250)
+simulation<-matrix(runif(365*239),nrow=365,ncol=239)
+output<-matrix(NA, nrow=365,ncol=239)
 #rowise and columnwise
 for(row in 1:nrow(indqueens)){
   for(col in 2:ncol(indqueens)){
@@ -770,14 +800,28 @@ for(col in 1:ncol(output)){
 
 anyNA(output)
 
-finalall<-as.data.frame(rowSums(output)/250)
+finalall<-as.data.frame(rowSums(output)/239)
 finalall<-cbind(finalall,1:365)
 names(finalall)<-c("All","Day")
 finalall$Date<-as.Date(1:365, origin = '2014-01-01')
-finalall<-finalall[finalall$Day >= 95 & finalall$Day <= 150,]
+finalall<-finalall[finalall$Day >= 90 & finalall$Day <= 165,]
 
 
+prob_nest_initation<- apply(as.matrix(final[90:109,]), 2, prod) 
 
+#### Probability of queen making it throughout nest establishment and larvae development 
+prob_nest_establish<- apply(as.matrix(daily_prob[initation:endqueenforaging,2]), 2, prod) 
+
+#### Probability of queen dying before she can fully care for and produce the first workers
+prob_nest_queen_produces_workers<- apply(as.matrix(daily_prob[endqueenforaging-7:endqueenforaging+7,2]), 2, prod)
+
+#### Probability of queen dying before she can produce the first gynes/males
+#prob_nest_queen_produces_gynes<- apply(as.matrix(daily_prob[endqueenforaging:queenreproduction,2]), 2, prod)
+
+survival_to<-c("Initation","Establishment","Workers")
+probs<-c(prob_nest_initation, prob_nest_establish, prob_nest_queen_produces_workers)
+Compound<-unique(daily_prob$Compound)
+probability_of_events<-data.frame(survival_to,probs, Compound)
 
 
 founds<-cbind(final,finalnat,finalall)
@@ -787,13 +831,18 @@ founds<-founds[,c(2:3,1,4,7)]
 str(founds)
 
 
+prob_nest_initationpest<- apply(as.matrix(founds[founds$Day >=90 & founds$Day <=109,3]), 2, prod) 
+prob_nest_initationnat<- apply(as.matrix(founds[founds$Day >=90 & founds$Day <=109,4]), 2, prod) 
+prob_nest_initationall<- apply(as.matrix(founds[founds$Day >=90 & founds$Day <=109,5]), 2, prod) 
+
+
 
 
 daily_survival_plot<-  ggplot(founds, aes(x = as.Date(Date))) +
   
   annotate("rect", xmin=as.Date('2014-04-01'), xmax=as.Date('2014-04-20'), ymin=0, ymax=1,alpha=0.2, fill="darkgreen") +
   annotate("rect", xmin=as.Date('2014-04-21'), xmax=as.Date('2014-05-11'), ymin=0, ymax=1,alpha=0.2, fill="darkblue") +
-  annotate("rect", xmin=as.Date('2014-05-16'), xmax=as.Date('2014-05-30'), ymin=0, ymax=1,alpha=0.2, fill="plum4") +
+  annotate("rect", xmin=as.Date('2014-05-16'), xmax=as.Date('2014-06-14'), ymin=0, ymax=1,alpha=0.2, fill="plum4") +
   
   geom_line(aes(y = All), lientype=1,size=1, alpha=1,color="black") +
   geom_line(aes(y = Natural), linetype=2,size=1, alpha=1,color="black") +
@@ -801,23 +850,21 @@ daily_survival_plot<-  ggplot(founds, aes(x = as.Date(Date))) +
   
   geom_vline(xintercept = as.Date('2014-04-10'),col="darkgreen")+
   geom_vline(xintercept = as.Date('2014-05-01'),col="darkblue")+
-  geom_vline(xintercept = as.Date('2014-05-23'),col="plum4")+
+  geom_vline(xintercept = as.Date('2014-05-30'),col="plum4")+
   #geom_vline(xintercept = as.Date('2014-06-10'),col="darkred")+
   scale_x_date(date_breaks = "1 weeks",
                date_labels = "%b %d")+
   scale_y_continuous(limits = c(0,1))+
   
   
-  geom_text(aes(x=as.Date('2014-06-01'), label="All", y=0.24), colour="black", angle=0, text=element_text(size=12)) +
-  geom_text(aes(x=as.Date('2014-06-01'), label="Natural", y=0.28), colour="black", angle=0, text=element_text(size=12))+
-  geom_text(aes(x=as.Date('2014-06-01'), label="Pesticide", y=0.83), colour="black", angle=0, text=element_text(size=12))+
-  #
-  
-  
+  geom_text(aes(x=as.Date('2014-06-15'), label="Combined", y=0.35), colour="black", angle=0, text=element_text(size=12)) +
+  geom_text(aes(x=as.Date('2014-06-15'), label="Natural", y=0.43), colour="black", angle=0, text=element_text(size=12))+
+  geom_text(aes(x=as.Date('2014-06-15'), label="Pesticide", y=0.86), colour="black", angle=0, text=element_text(size=12))+
+ 
   
   geom_text(aes(x=as.Date('2014-04-12'), label="Emergence", y=0.25), colour="darkgreen", angle=90, text=element_text(size=16)) +
   geom_text(aes(x=as.Date('2014-05-03'), label="Nest Initiation", y=0.25), colour="darkblue", angle=90, text=element_text(size=16))+
-  geom_text(aes(x=as.Date('2014-05-25'), label="Queen Ends Foraging", y=0.25), colour="plum4", angle=90, text=element_text(size=16))+
+  geom_text(aes(x=as.Date('2014-05-31'), label="Queen Ends Foraging", y=0.25), colour="plum4", angle=90, text=element_text(size=16))+
  # geom_text(aes(x=as.Date('2014-06-12'), label="First Gynes/Drones Laid", y=0.728), colour="darkred", angle=90, text=element_text(size=11))+
 
   xlab("") +
@@ -921,6 +968,9 @@ eventssum<-events %>% group_by(survival_to) %>% summarise(med = median(event_cum
 
 
 ##### Table 2 ----
+library(ggh4x)
+library(cowplot)
+
 paths <- lapply(final_results,`[[`, 3)
 paths<- Map(cbind, paths, index = seq_along(paths))
 paths<-do.call(rbind,paths)
@@ -928,33 +978,50 @@ paths$compound<-gsub("\\..*","",paths$compound)
 names(paths)
 
 
-max<-paths[paths$Result == "Maximum",]
-min<-paths[paths$Result == "Min",]
-med<-paths[paths$Result == "Mean",]
+paths<-paths[,c(1,4,5,7,8,2,3,6)]
+
+paths<-gather(paths,"Type","Result",6:8)
+paths<-paths[!paths$Result == 0,]
+
+#paths<-paths[paths$Day >= 90 & paths$Day <= 165,] ###do it so that only days between emergence and colony are evaluated
+pathways<-paths %>% group_by(Media,Type,Compound) %>%
+  summarize( min=min(Result),
+             max=max(Result),
+            quant5 = quantile((Result), probs = 0.95),
+            quant50 = quantile((Result), probs = 0.50),
+            quant95 = quantile((Result), probs = 0.05))
 
 
 
 
-med<-med %>% group_by(Media, Type, compound) %>%
-  summarize(
-            quant5 = quantile((Value), probs = 0.95),
-            quant50 = quantile((Value), probs = 0.50),
-            quant95 = quantile((Value), probs = 0.05))
 
-min<-min %>% group_by(Media, Type, compound) %>%
-  summarize(min=min(Value))
+# max<-paths[paths$Result == "Maximum",]
+# min<-paths[paths$Result == "Min",]
+# med<-paths[paths$Result == "Mean",]
+# 
+# med<-med %>% group_by(Media, Type, compound) %>%
+#   summarize(
+#             quant5 = quantile((Value), probs = 0.95),
+#             quant50 = quantile((Value), probs = 0.50),
+#             quant95 = quantile((Value), probs = 0.05))
+# 
+# # med<-med %>% group_by(Media, Type, compound) %>%
+# #   summarize(Median = quantile((Value), probs = 0.50))
+# 
+# min<-min %>% group_by(Media, Type, compound) %>%
+#   summarize(Minimum=min(Value))
+# 
+# max<-max %>% group_by(Media, Type, compound) %>%
+#   summarize(Maximum=max(Value))
+# 
+# pathways<-cbind(med, min[,4],max[,4])
+#pathways<-gather(pathways,"Result","Value",4:8)
+#pathways<-spread(pathways,Type,Value)
+# 
+#write.csv(pathways, paste0(root_data_out,"/all_bombus/outputs_for_manuscript/pathways.csv"))
 
 
-max<-max %>% group_by(Media, Type, compound) %>%
-  summarize(max=max(Value))
 
-
-pathways<-cbind(med, min[,4],max[,4])
-
-write.csv(pathways, paste0(root_data_out,"/all_bombus/outputs_for_manuscript/pathways.csv"))
-
-
-library(ggh4x)
 
 # conc<-filter(pathways, Type=="Conc")
 # dose<-filter(pathways, Type=="Dose")
@@ -962,33 +1029,61 @@ library(ggh4x)
 
 scales_y <- list(
   `Conc` =   scale_y_continuous(trans=scales::log_trans(), 
-                                labels = scales::format_format(digits=3),expand=c(0.05,0)),
+                                labels = scales::format_format(digits=3)),
   
   `Dose` =   scale_y_continuous(trans=scales::log_trans(),
-                                labels = scales::format_format(digits=3),expand=c(0.05,0)),
+                                labels = scales::format_format(digits=3)),
   
-  `Survival` = scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25), expand=c(0.05,0))
+  `Survival` = scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25))
 )
 
 
-pathways<-gather(pathways,"Result","Value",4:8)
+pathways[ pathways < 1E-06 ] <-  1E-06
+
+#pathways$Value<-ifelse(pathways$Value < 1E-06, 1E-06,pathways$Value)
+
+pathways$Type = factor(pathways$Type, labels = c(
+ # "Concentration~(ug/m^{2})~(ug/g)", 
+  "Concentration", 
+  "Dose~(ug/bee)", 
+  "Survival"))
+
+pathways$Media = factor(pathways$Media, labels = c(
+  "Air~(ug/m^{2})", 
+  "Dust~(ug/m^{2})", 
+  "Nectar~(ug/g)", 
+  "Pollen~(ug/g)", 
+  "Soil~(ug/g)" ))
 
 
 
-
-out<- ggplot(pathways, aes(x=compound,)) +
+out<- ggplot(pathways, aes(x=Compound,fill=Compound), stat = "identity") +
   
-  geom_boxplot(aes(y=Value, fill=compound), show.legend = FALSE)+
+  geom_boxplot(aes(ymin = min, 
+                   lower = quant5, 
+                   middle = quant50, 
+                   upper = quant95, 
+                   ymax = max),
+
+               stat = "identity", show.legend = F)+
+  
+  # geom_boxplot(aes(fill=Compound), show.legend = FALSE)+
+  
+  # geom_point(aes(color=Result, shape=Result),size=3, alpha=0.8,position=position_jitter(h=0.05,w=0.05))+  #position=position_jitter(h=0.05,w=0.05))
+  #  scale_shape_manual(values=c(2,16,16,16,6))+
+  #  scale_color_brewer(palette="Dark2")+
+  
   # geom_point(aes(y=min), color="lightblue", size=3,show.legend = FALSE)+
   # geom_point(aes(y=max), color="darkblue", size=3,show.legend = FALSE)+
   # geom_point(aes(y=quant5), color="brown3", size=3,show.legend = FALSE)+
   # geom_point(aes(y=quant50), color="grey", size=3,show.legend = FALSE)+
   # geom_point(aes(y=quant95), color="goldenrod",size=3, show.legend = FALSE)+
  # facet_nested_wrap(~ Type + Media, scales="free",nrow=1)+
-  facet_grid(cols=vars(Media), rows=vars(Type), scales='free')+
-  # scale_y_continuous(trans=scales::log_trans(),
-  #                    labels = scales::format_format(digits=3))+
-
+  facet_grid(cols=vars(Media), rows=vars(Type), scales='free',
+             labeller = label_parsed )+
+#   scale_y_continuous(trans=scales::log_trans(),
+#                      labels = scales::format_format(digits=3))+
+# # 
   ggh4x::facetted_pos_scales(
     y = scales_y
   )+
@@ -997,18 +1092,12 @@ out<- ggplot(pathways, aes(x=compound,)) +
   ylab("") +
   theme_bw()+
   theme(legend.title=element_blank(),
-        strip.text = element_text(size = 16),
+        strip.text = element_text(size = 14),
         axis.text.x = element_text(color = "grey20", size = 14, angle = 90, vjust = 0.5, hjust=1, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, hjust = .5, vjust = .5, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 18, hjust = .5, vjust = .5, face = "plain"),
         axis.title.y = element_text(color = "grey20", size = 18, hjust = .5, vjust = .5, face = "plain"))
 out
-
-
-
-
-
-
 
 
 
@@ -1023,9 +1112,9 @@ doses<-do.call(rbind,doses)
 doses$compound<-gsub("\\..*","",doses$compound)
 
 doses<- doses %>% group_by(Day,Compound,Media) %>% summarize(AverageDose =  mean(Dose))
-test<-doses[doses$Compound == "IMIDACLOPRID" & doses$Media == "Pollen",]
+#test<-doses[doses$Compound == "IMIDACLOPRID" & doses$Media == "Pollen",]
 
-doses$date<-as.Date(1:365, origin = '2014-01-01')
+#doses$date<-as.Date(1:365, origin = '2014-01-01')
 
 library(ggh4x)
 doses<-doses[doses$AverageDose != 0,]
