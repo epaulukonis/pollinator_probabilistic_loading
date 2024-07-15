@@ -87,8 +87,8 @@ if(Sys.info()[4]=="LZ2626UTPURUCKE"){
 print(root_dir)
 
 # memory.limit() is no longert supported and handled by R internally
-#memory.limit()
-#memory.limit(size=56000)
+# memory.limit()
+# memory.limit(size=56000)
 
 root_data_in <- file.path(root_dir, "data_in")
 print(root_data_in)
