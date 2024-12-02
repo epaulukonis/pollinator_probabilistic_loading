@@ -1,6 +1,6 @@
 ### Probabilistic Crop Loading 
 
-### 07 process data for model estimations
+### 07 process data for PWC model estimates
 
 # Edited by E. Paulukonis September 2023
 
@@ -33,8 +33,8 @@ for(scenario in 1:length(PWC_runsf)){
   
   df<-PWC_runsf[[scenario]]
   
-  #subset and use 2021 for now
-  df<-df[df$YYYY ==2021,]
+  #subset and use 2014 for now
+  df<-df[df$YYYY ==2014,]
   df$n<-1:365
  
   #first get days at day of application 

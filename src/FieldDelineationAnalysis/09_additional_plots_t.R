@@ -5,7 +5,46 @@
 # Edited by E. Paulukonis December 2022
 options(scipen = 999)
 
+
+
+ill_coa<-read.csv(paste0(coa_dir,"/all_CoA//CoA_ILL.csv"))
+mi_coa<-read.csv(paste0(coa_dir,"/all_CoA/CoA_MI.csv"))
+wi_coa<-read.csv(paste0(coa_dir,"/all_CoA/CoA_WIS.csv"))
+
+
+#sub the years for 2008 to be 2007, the last census prior to CDL
+ill_coa$Year[ill_coa$Year ==2007 ] <- 2008
+mi_coa$Year[mi_coa$Year ==2007 ] <- 2008
+wi_coa$Year[wi_coa$Year ==2007 ] <- 2008
+
+ill_nass<-ill_coa
+mi_nass<-mi_coa
+wi_nass<-wi_coa
+
+ill_nass<-ill_nass[order(ill_nass$Year),]
+mi_nass<-mi_nass[order(mi_nass$Year),]
+wi_nass<-wi_nass[order(wi_nass$Year),]
+
+
+years<-2008:2021
+
+extracted_cdl_dataI<-readRDS(paste0(root_data_out,"/extracted_cdl_dataI.RData"))
+extracted_cdl_dataM<-readRDS(paste0(root_data_out,"/extracted_cdl_dataM.RData"))
+extracted_cdl_dataW<-readRDS(paste0(root_data_out,"/extracted_cdl_dataW.RData"))
+
+
+field_list_ill_f<-list(1,2,3)
+names(field_list_ill_f)<-c("Champaign","DuPage","McHenry")
+
+field_list_mi_f<-list(1,2,3)
+names(field_list_mi_f)<-c("Huron", "Oceana", "VanBuren")
+
+field_list_wi_f<-list(1,2,3)
+names(field_list_wi_f)<-c("Langlade","Rock","Waushara")
+
+
 #### Prepare data for threshold 1 year-acreage line plots - Large ----
+
 
 #Illinois
 acreages_by_countyI<-readRDS(paste0(root_data_out,"/acreages_by_countyI.RData"))
@@ -353,22 +392,28 @@ final_Ix$Combo[final_Ix$Category == 'CDL Acreage']<-5
 final_Ix$Combo <- factor(final_Ix$Combo , levels = c(1,3,2,4,5))
 #this is where this is going wrong!
 
+
 ref1 = 4
 ref2 = 5
 myColors <- brewer.pal(length(levels(final_Ix$Combo)),"Set1")
 names(myColors) <- levels(final_Ix$Combo)
 myColors[grepl(ref1, names(myColors))] <- "black"
 myColors[grepl(ref2, names(myColors))] <- "darkgrey"
-colScale <- scale_colour_manual(labels=c("Champaign Fields","McHenry Fields","DuPage Fields","NASS","CDL"),name = "Acreages",values = myColors)
+colScale <- scale_colour_manual(labels=c("Champaign Fields","McHenry Fields","DuPage Fields","NASS","CDL"),name = "Legend",values = myColors)
 
+myShapes<-c(19,17,15,4,0)
+shapeScale <- scale_shape_manual(labels=c("Champaign Fields","McHenry Fields","DuPage Fields","NASS","CDL"),name = "Legend",values = myShapes)
 
 scales::show_col(myColors)
 final_Ix<-na.omit(final_Ix)
 
-line_plotI<-ggplot(final_Ix, aes(x=(year), y=log(n),group=interaction(Category,County), color =Combo, shape=County)) + 
-  geom_line()+
-  geom_point()+
+
+line_plotI<-ggplot(final_Ix, aes(x=(year), y=log(n),group=interaction(Category,County), color =Combo, shape=Combo)) + 
+  geom_line(size=1)+
+  geom_point(size=2)+
+  # guides(shape = "none")+
   colScale+
+  shapeScale+
   scale_x_discrete(name ="Year", 
                    limits=c(2008:2021))+
   scale_y_continuous(n.breaks=8, expand = expansion(mult = c(0.1, 0.1)))+
@@ -401,14 +446,18 @@ myColors <- brewer.pal(length(levels(final_Mx$Combo)),"Set1")
 names(myColors) <- levels(final_Mx$Combo)
 myColors[grepl(ref1, names(myColors))] <- "black"
 myColors[grepl(ref2, names(myColors))] <- "darkgrey"
-colScale <- scale_colour_manual(labels=c("Huron Fields","Oceana Fields","Van Buren Fields","NASS","CDL"), name = "Acreages",values = myColors)
+colScale <- scale_colour_manual(labels=c("Huron Fields","Oceana Fields","Van Buren Fields","NASS","CDL"), name = "Legend",values = myColors)
+
+myShapes<-c(19,17,15,4,0)
+shapeScale <- scale_shape_manual(labels=c("Huron Fields","Oceana Fields","Van Buren Fields","NASS","CDL"),name = "Legend",values = myShapes)
 
 final_Mx<-na.omit(final_Mx)
 
-line_plotM<-ggplot(final_Mx, aes(x=year, y=log(n),group=interaction(Category,County), color =Combo, shape=County)) + 
-  geom_point()+
-  geom_line()+
+line_plotM<-ggplot(final_Mx, aes(x=year, y=log(n),group=interaction(Category,County), color =Combo, shape=Combo)) + 
+  geom_line(size=1)+
+  geom_point(size=2)+
   colScale+
+  shapeScale+
   ylab("Log(Sum of Crop Acreages)")+
   scale_x_discrete(name ="Year", 
                    limits=c(2008:2021))+
@@ -442,14 +491,19 @@ myColors <- brewer.pal(length(levels(final_Wx$Combo)),"Set1")
 names(myColors) <- levels(final_Wx$Combo)
 myColors[grepl(ref1, names(myColors))] <- "black"
 myColors[grepl(ref2, names(myColors))] <- "darkgrey"
-colScale <- scale_colour_manual(labels=c("Rock Fields","Waushara Fields","Langlade Fields","NASS","CDL"), name = "Acreages",values = myColors)
+colScale <- scale_colour_manual(labels=c("Rock Fields","Waushara Fields","Langlade Fields","NASS","CDL"), name = "Legend",values = myColors)
+
+myShapes<-c(19,17,15,4,0)
+shapeScale <- scale_shape_manual(labels=c("Rock Fields","Waushara Fields","Langlade Fields","NASS","CDL"),name = "Legend",values = myShapes)
+
 
 final_Wx<-na.omit(final_Wx)
 
-line_plotW<-ggplot(final_Wx, aes(x=year, y=log(n),group=interaction(Category,County), color =Combo, shape=County)) + 
-  geom_point()+
-  geom_line()+
+line_plotW<-ggplot(final_Wx, aes(x=year, y=log(n),group=interaction(Category,County), color =Combo, shape=Combo)) + 
+  geom_line(size=1)+
+  geom_point(size=2)+
   colScale+
+  shapeScale+
   xlab("Year") +
   scale_x_discrete(name ="Year", 
                    limits=c(2008:2021))+
@@ -833,16 +887,20 @@ myColors <- brewer.pal(length(levels(final_Ix$Combo)),"Set1")
 names(myColors) <- levels(final_Ix$Combo)
 myColors[grepl(ref1, names(myColors))] <- "black"
 myColors[grepl(ref2, names(myColors))] <- "darkgrey"
-colScale <- scale_colour_manual(labels=c("Champaign Fields","McHenry Fields","DuPage Fields","NASS","CDL"),name = "Acreages",values = myColors)
+colScale <- scale_colour_manual(labels=c("Champaign Fields","McHenry Fields","DuPage Fields","NASS","CDL"),name = "Legend",values = myColors)
+
+myShapes<-c(19,17,15,4,0)
+shapeScale <- scale_shape_manual(labels=c("Champaign Fields","McHenry Fields","DuPage Fields","NASS","CDL"),name = "Legend",values = myShapes)
 
 
 scales::show_col(myColors)
 final_Ix<-na.omit(final_Ix)
 
-line_plotI<-ggplot(final_Ix, aes(x=(year), y=log(n),group=interaction(Category,County), color =Combo, shape=County)) + 
-  geom_line()+
-  geom_point()+
+line_plotI<-ggplot(final_Ix, aes(x=(year), y=log(n),group=interaction(Category,County), color =Combo, shape=Combo)) + 
+  geom_line(size=1)+
+  geom_point(size=2)+
   colScale+
+  shapeScale+
   scale_x_discrete(name ="Year", 
                    limits=c(2008:2021))+
   scale_y_continuous(n.breaks=8, expand = expansion(mult = c(0.1, 0.1)))+
@@ -875,14 +933,18 @@ myColors <- brewer.pal(length(levels(final_Mx$Combo)),"Set1")
 names(myColors) <- levels(final_Mx$Combo)
 myColors[grepl(ref1, names(myColors))] <- "black"
 myColors[grepl(ref2, names(myColors))] <- "darkgrey"
-colScale <- scale_colour_manual(labels=c("Huron Fields","Oceana Fields","Van Buren Fields","NASS","CDL"), name = "Acreages",values = myColors)
+colScale <- scale_colour_manual(labels=c("Huron Fields","Oceana Fields","Van Buren Fields","NASS","CDL"), name = "Legend",values = myColors)
+
+myShapes<-c(19,17,15,4,0)
+shapeScale <- scale_shape_manual(labels=c("Huron Fields","Oceana Fields","Van Buren Fields","NASS","CDL"),name = "Legend",values = myShapes)
 
 final_Mx<-na.omit(final_Mx)
 
-line_plotM<-ggplot(final_Mx, aes(x=year, y=log(n),group=interaction(Category,County), color =Combo, shape=County)) + 
-  geom_point()+
-  geom_line()+
+line_plotM<-ggplot(final_Mx, aes(x=year, y=log(n),group=interaction(Category,County), color =Combo, shape=Combo)) + 
+  geom_line(size=1)+
+  geom_point(size=2)+
   colScale+
+  shapeScale+
   ylab("Log(Sum of Crop Acreages)")+
   scale_x_discrete(name ="Year", 
                    limits=c(2008:2021))+
@@ -916,14 +978,18 @@ myColors <- brewer.pal(length(levels(final_Wx$Combo)),"Set1")
 names(myColors) <- levels(final_Wx$Combo)
 myColors[grepl(ref1, names(myColors))] <- "black"
 myColors[grepl(ref2, names(myColors))] <- "darkgrey"
-colScale <- scale_colour_manual(labels=c("Rock Fields","Waushara Fields","Langlade Fields","NASS","CDL"), name = "Acreages",values = myColors)
+colScale <- scale_colour_manual(labels=c("Rock Fields","Waushara Fields","Langlade Fields","NASS","CDL"), name = "Legend",values = myColors)
+
+myShapes<-c(19,17,15,4,0)
+shapeScale <- scale_shape_manual(labels=c("Rock Fields","Waushara Fields","Langlade Fields","NASS","CDL"),name = "Legend",values = myShapes)
 
 final_Wx<-na.omit(final_Wx)
 
-line_plotW<-ggplot(final_Wx, aes(x=year, y=log(n),group=interaction(Category,County), color =Combo, shape=County)) + 
-  geom_point()+
-  geom_line()+
+line_plotW<-ggplot(final_Wx, aes(x=year, y=log(n),group=interaction(Category,County), color =Combo, shape=Combo)) + 
+  geom_line(size=1)+
+  geom_point(size=2)+
   colScale+
+  shapeScale+
   xlab("Year") +
   scale_x_discrete(name ="Year", 
                    limits=c(2008:2021))+
@@ -945,6 +1011,13 @@ ggpubr::ggarrange(line_plotI, line_plotM, line_plotW, # list of plots
                   #legend = "right", # legend position
                   align = "hv", # Align them both, horizontal and vertical
                   ncol = 1)  # number of rows
+
+
+
+
+
+
+
 
 
 

@@ -1134,6 +1134,8 @@ off_field_residue_list<-lapply(off_field_residue_list,set_names_in_list)
 
 
 
+
+
 ######## Plots ###########
 #### Daily outputs by application type----
 

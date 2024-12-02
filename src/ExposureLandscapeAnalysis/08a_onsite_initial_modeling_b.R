@@ -942,6 +942,12 @@ on_field_residue_list<-lapply(on_field_residue_list,set_names_in_list)
 
 
 
+
+
+
+
+
+
 ######## Plots ###########
 #### Daily outputs by application type----
 
@@ -1289,22 +1295,49 @@ seed_data$MediaSub<- sub("_.*", "", seed_data$Media)
 #combine all 3 types
 combine_all<-rbind(foliar_data,soil_data,seed_data)
 
-#ingestion rate for oral
-IR<-0.292 #g/day
-
 #surface area of a bumblebee
-SA<-2.216 #cm2
+SA<-5 #cm2/bee
 
 
-# ###max points
-# get_max_eec<-combine_all %>% 
-#   group_by(Compound,Commodity,ApplicationType,MediaSub) %>%
-#   slice(which.max(Value)) %>%
-#   arrange(Compound,Commodity,ApplicationType,MediaSub)
-# 
-# 
-#  get_max_eec$units<-ifelse(get_max_eec$MediaSub == "Dust" | get_max_eec$MediaSub == "Air", "ug/m2","ug/g" )
-#  eec_df<-merge(get_max_eec,beetox,by="Compound")
+#value = ug/g OR ug/m2 if deposition
+
+combine_all<- combine_all%>% mutate(EEC = case_when(MediaSub == "Soil" ~ Value,
+                                MediaSub == "Air" | MediaSub == "Dust"~ (Value/10000)*SA,
+                                MediaSub == "Nectar" ~ Value * 0.400, #ingestion rate foraging bee
+                                TRUE ~ Value*0.030))
+
+
+get_max_eec<-combine_all %>%
+  group_by(Compound,Commodity,ApplicationType,MediaSub) %>%
+  slice(which.max(Value)) %>%
+  arrange(Compound,Commodity,ApplicationType,MediaSub)
+
+
+ get_max_eec$units<-ifelse(get_max_eec$MediaSub == "Dust" | get_max_eec$MediaSub == "Air", "ug/m2","ug/g" )
+ eec_df<-merge(get_max_eec,beetox,by="Compound")
+ 
+ 
+oralhc<-0.064
+contacthc<-0.015
+matc<-0.0018
+
+epa_endpoints<-as.data.frame(rbind(oralhc,contacthc,matc))
+names(epa_endpoints)<-"Values"
+epa_endpoints$Endpoints<-row.names(epa_endpoints)
+
+
+get_max_eec$units<-ifelse(get_max_eec$MediaSub == "Dust" | get_max_eec$MediaSub == "Air", "ug/m2","ug/g" )
+
+
+
+
+
+
+
+
+
+
+ 
 #  split_datasets<-split(eec_df, list(eec_df$ApplicationType, eec_df$Commodity), drop=T) 
 #  
 #  x<-split_datasets[[5]]

@@ -7,6 +7,8 @@ library(stringdist)
 library(cowplot)
 library(tidyverse)
 library(ggh4x)
+library(tidyr)
+
 ##### Read in data for models ----
 #### App rates and timing:
 apprates <-read.csv(paste0(pest_dir, "/AppRates.csv"))
@@ -15,7 +17,6 @@ apprates$k_values<-log((apprates$AvgRate/2)/apprates$AvgRate)/-(apprates$k_value
 
 
 ## Because we're dealing with off-field plants that have both nectar and pollen, here, we'll impute 'pollen and nectar' for each combo of compounds
-library(tidyr)
 apprates<-crossing(apprates, type=c("Pollen","Nectar"))
 
 ## It's important to remember that offsite, we are basically assuming wildflower/foraging habitat
@@ -1216,9 +1217,11 @@ set_names_in_list<-function(x){
 off_field_residue_list<-lapply(off_field_residue_list,set_names_in_list)
 
 
+
+
 ######## Extract Quantiles ###########----
 
-off_field_subset<- off_field_residue_list[grep(c("IMIDACLOPRID|BIFENTHRIN|CARBARYL|GLYPHOSATE|CHLORPYRIFOS|THIAMETHOXAM"), names(off_field_residue_list))]
+off_field_subset<- off_field_residue_list[grep(c("IMIDACLOPRID|BIFENTHRIN|CARBARYL|CLOTHIANIDIN|GLYPHOSATE|CHLORPYRIFOS|THIAMETHOXAM"), names(off_field_residue_list))]
 
 gather_distance_dataset<-function(x){
   x<-gather(x, "Media", "Value", 6:ncol(x))
@@ -1266,6 +1269,8 @@ beetox$Compound<-toupper(beetox$Compound)
 
 
 get_quantiles<-function(x){
+  
+  x<-list_by_application_type[[3]]
 
   #subset to first 30 days
   #x<-x[x$day<=30,] 
@@ -1290,8 +1295,12 @@ get_quantiles<-function(x){
     group_by(Compound, Commodity, MediaSub,distance) %>%
     summarize(quant5 = quantile(EEC, probs = 0.95), 
               quant50 = quantile(EEC, probs = 0.50),
-              quant95 = quantile(EEC, probs = 0.05))
+              quant95 = quantile(EEC, probs = 0.05)) 
+  
   #%>%gather("percentile","value",3:5)
+  
+  #quantile_distances[,c(5:7)]<-ifelse(quantile_distances[,c(5:7)] < 1E10-6 , 1E10-6 , quantile_distances[,c(5:7)])
+  
   
   #join with beetox data
   quantile_distances<-left_join(quantile_distances,beetox[,c(1:3)])
@@ -1307,17 +1316,17 @@ get_quantiles<-function(x){
                quantile_distances$MediaSub == "Nectar" & quantile_distances$ExposureLevel == "Contact_LD50_ug_bee"|
                quantile_distances$MediaSub == "Pollen" & quantile_distances$ExposureLevel == "Contact_LD50_ug_bee") ,]
   
-  list_by_compound<-split(quantile_distances,list(quantile_distances$MediaSub))
-  # compound<-list_by_compound[[3]]
+  list_by_media<-split(quantile_distances,list(quantile_distances$MediaSub))
+
   library(scales)
-  options(scipen=0)
+  options(scipen=0, digits=2)
   
-  plot_by_compound<-function(compound){
+  plot_by_compound<-function(media){
+
     
     # ticks <-seq(from=min(compound$quant50), to=max(compound$quant50), length.out=10)
     # logticks <- log(ticks)
-    
-    by_comp<- ggplot(compound, aes(distance,(quant50)))+
+    by_comp<- ggplot(media, aes(distance,(quant50)))+
       geom_ribbon(aes(ymin=(quant5),ymax=(quant95)), fill='grey', alpha=.5)+
       geom_line(aes(color="darkblue"))+
       # scale_y_continuous(
@@ -1330,10 +1339,10 @@ get_quantiles<-function(x){
       #facet_grid(.~ Compound + Commodity + MediaSub, scales="free_y")+
       facet_nested_wrap(.~Commodity + Compound,  nrow=ifelse(length(unique(compound$Commodity))==2, 2, 1), scales="free_y")+
       scale_y_continuous(trans=log_trans(),
-                         labels = format_format(scientific=T))+
+                         labels = function(x) format(x, scientific = TRUE))+
       ylab("")+
       xlab("")+
-      ggtitle(paste0(str_to_title(compound$MediaSub))) +
+      ggtitle(paste0(str_to_title(media$MediaSub))) +
       theme_minimal()+
       theme(legend.position="none")
     by_comp
@@ -1348,13 +1357,13 @@ get_quantiles<-function(x){
     #   ))
   }
   
-  plots<-lapply(list_by_compound, plot_by_compound)
+  plots<-lapply(list_by_media, plot_by_compound)
   n <- length(plots)
   nrow <- floor(sqrt(n))
   compare_distance<-do.call("grid.arrange", c(plots, nrow=n))
   
   
-  y.grob <- textGrob("Environmental Exposure Concentration [ug/g]", 
+  y.grob <- textGrob("Residues [ug/g]", 
                      gp=gpar(fontface="bold", col="black", fontsize=15), rot=90)
   
   x.grob <- textGrob("Distance [m]", 
@@ -1369,9 +1378,9 @@ get_quantiles<-function(x){
 
 plots<-lapply(list_by_application_type,get_quantiles)
 
-# plots[[1]]
-# plots[[2]]
-# plots[[3]]
+plots[[1]]
+plots[[2]]
+plots[[3]]
 
 
 #### AgDRIFT curves as a plot 
