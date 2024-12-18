@@ -135,24 +135,27 @@ scenarios<-unlist(scenarios,recursive = FALSE)
  get_exposure_dose<-function(x){
    
    scenario<-x
-  # scenario<-list_of_individual_scenarios[[1]]
+   scenario<-list_of_individual_scenarios[[1]]
+   
    scenarios<-split(scenario,scenario$Compound)
    
    
    daily_exposure_list<-list()
    for(n in 1:length(scenarios)){
+     n<-1
+
      scenario<-scenarios[[n]]
      scenarion<-merge(x = scenario, y = endp[ , c("Compound",  "Contact_LD50_ug_bee", "Oral_LD50_ug_bee","k_values")], by = "Compound", all.x=TRUE)
      
      # add in a new media for 'flower' for contact
-     # flower<-scenarion[scenarion$Media =="Dust"|scenarion$Media == "Air",]
-     # flower$Media<-"Flower"
-     # scenarion<-rbind(scenarion, flower)
-     
+     flower<-scenarion[scenarion$Media =="Dust"|scenarion$Media == "Air",]
+     flower$Media<-"Flower"
+     scenarion<-rbind(scenarion, flower)
+
      
      #scenarion<-distinct(scenarion)
      
-     contact<-scenarion[scenarion$Media =="Dust"|scenarion$Media == "Air"| scenarion$Media =="Soil", ] #|scenarion$Media == "Flower"
+     contact<-scenarion[scenarion$Media =="Dust"|scenarion$Media == "Air"| scenarion$Media =="Soil"|scenarion$Media == "Flower", ] #|scenarion$Media == "Flower"
      oral<-scenarion[scenarion$Media == "Pollen" | scenarion$Media == "Nectar" , ]
      
      #there are instances, when we have more than one kind of application of a single compound (imidacloprid/bifenthrin), we need to remove duplicates
@@ -160,7 +163,7 @@ scenarios<-unlist(scenarios,recursive = FALSE)
      oral<-oral[!duplicated(oral), ]
      
      #quick factor to deal with staging
-     contact$Conc<-  ifelse(contact$Media == "Air", contact$Conc/125, contact$Conc)
+     contact$Conc<-  ifelse(contact$Media == "Air", contact$Conc/125, contact$Conc) #note 12.10.24 I'm not sure what this does
      
      ### CONTACT ---
      
@@ -171,20 +174,23 @@ scenarios<-unlist(scenarios,recursive = FALSE)
      #testy<-aerial[aerial$Conc > 0,]
     
      # #daily dose for flower contact from deposition
-     # flower<-contact[contact$Media == "Flower",]
-     # 
-     # flower<-flower %>%
-     # group_by(id = cumsum(!Conc==0)) %>%
-     #   mutate(Concf = ifelse(Conc==0, first(Conc), Conc)) %>%
-     #   mutate(dayn = ifelse(Conc>0, Day - first(Day)+1, Day))
-     # 
-     #   ind <- which(flower$Concf != lag(flower$Concf))
-     #   flower$Concf[ind] <- sapply(ind, function(i) with(flower, sum(c(Concf[i-1], Concf[i+1]))))
-     #   ind <- which(flower$Concf > lag(flower$Concf))
-     #   flower$Concf[ind:nrow(flower)] <- sapply(ind, function(i) with(flower, Concf[ind-1]))
-     # 
-     #  flower$exp_dose<-(flower$Concf * 1e-04 * 6.5)* 90 * exp(-(flower$k_values*flower$Day))#calculated as the dose experienced from contact with deposition on flowers, assuming a visit of 90 repeat events, degrades over time
-     #  flower<-subset(flower, select=-c(id,dayn,Concf))
+     flower<-contact[contact$Media == "Flower",]
+
+     flower<-flower %>%
+     group_by(id = cumsum(!Conc==0)) %>%
+       mutate(Concf = ifelse(Conc==0, first(Conc), Conc)) %>%
+       mutate(dayn = ifelse(Concf>0, Day - first(Day)+1, Day))
+
+       ind <- which(flower$Concf != lag(flower$Concf))
+       flower$Concf[ind] <- sapply(ind, function(i) with(flower, sum(c(Concf[i-1], Concf[i+1]))))
+       ind <- which(flower$Concf > lag(flower$Concf))
+       flower$Concf[ind:nrow(flower)] <- sapply(ind, function(i) with(flower, Concf[ind-1]))
+
+      flower$exp_dose<-(flower$Concf * 1e-04 * 6.5)* 32 * exp(-(flower$k_values*flower$Day))#calculated as the dose experienced from contact with deposition on flowers, assuming a visit of 32 repeat events, degrades over time
+      flower<-subset(flower, select=-c(id,dayn,Concf))
+
+     
+     
      
      #daily dose for soil exposures; #soil conc in ug/m2 needs to be converted to cm2
      soil<-contact[contact$Media == "Soil",]

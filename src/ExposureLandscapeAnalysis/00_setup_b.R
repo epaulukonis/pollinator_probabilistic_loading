@@ -53,7 +53,7 @@ library(ggpubr)
 #webshot2::install_chromote()
 
 library(tidyverse)
-#library(beecoSp)
+library(beecoSp)
 # library(cdlTools)
 #library(janitor)
 # library(TraMineR)
