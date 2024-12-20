@@ -142,7 +142,7 @@ scenarios<-unlist(scenarios,recursive = FALSE)
    
    daily_exposure_list<-list()
    for(n in 1:length(scenarios)){
-     n<-1
+     n<-2
 
      scenario<-scenarios[[n]]
      scenarion<-merge(x = scenario, y = endp[ , c("Compound",  "Contact_LD50_ug_bee", "Oral_LD50_ug_bee","k_values")], by = "Compound", all.x=TRUE)
@@ -169,7 +169,7 @@ scenarios<-unlist(scenarios,recursive = FALSE)
      
      #daily dose for aerial deposition
      aerial<-contact[contact$Media == "Dust"| contact$Media == "Air",]
-     aerial$exp_dose<- (aerial$Conc/2) *1.6E-4*(730) #calculated as the dose experienced from single-day contact with aerial deposition within a hypothetical 'flight tube'; assume one flight through cloud 991
+     aerial$exp_dose<- (aerial$Conc/2) *1.6E-4*(530) #calculated as the dose experienced from single-day contact with aerial deposition within a hypothetical 'flight tube'; assume one flight through cloud
      
      #testy<-aerial[aerial$Conc > 0,]
     
@@ -183,10 +183,11 @@ scenarios<-unlist(scenarios,recursive = FALSE)
 
        ind <- which(flower$Concf != lag(flower$Concf))
        flower$Concf[ind] <- sapply(ind, function(i) with(flower, sum(c(Concf[i-1], Concf[i+1]))))
+       
        ind <- which(flower$Concf > lag(flower$Concf))
        flower$Concf[ind:nrow(flower)] <- sapply(ind, function(i) with(flower, Concf[ind-1]))
 
-      flower$exp_dose<-(flower$Concf * 1e-04 * 6.5)* 32 * exp(-(flower$k_values*flower$Day))#calculated as the dose experienced from contact with deposition on flowers, assuming a visit of 32 repeat events, degrades over time
+      flower$exp_dose<-(flower$Concf * 1e-04 * 6.5)* 32 * exp(-(flower$k_values*flower$Dayn)) #calculated as the dose experienced from contact with deposition on flowers, assuming a visit of 32 repeat events, degrades over time
       flower<-subset(flower, select=-c(id,dayn,Concf))
 
      
